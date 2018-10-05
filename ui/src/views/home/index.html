@@ -6,10 +6,10 @@
 <div class="flex items-center border-b border-b-2 border-teal py-2">
     <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
 </div>
-<div class="my-4">
-    <span class="rounded-full mr-2 py-2 px-4 bg-teal text-white" *ngFor="let f of filters" (click)="removeFilter(f)">
+<div class="my-4 overflow-auto">
+    <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 bg-teal text-white" *ngFor="let f of filters" (click)="removeFilter(f)">
         {{ f }} &times;
-    </span>
+    </div>
 </div>
 <div class="list mt-6">
     <div class="item" *ngFor="let recipe of filtered">
