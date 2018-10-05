@@ -39,7 +39,7 @@ export class AppComponent {
     }
 
     logout() {
-    	this.loggedIn = false;
+        this.loggedIn = false;
         this.authService.logout();
         this.router.navigateByUrl('/login');
     }
