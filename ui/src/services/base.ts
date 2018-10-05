@@ -31,7 +31,7 @@ export class BaseService {
 
     getCache(): any[] {
         if (this.cached && this.expire > Date.now()) {
-        	return _.cloneDeep(this.cached);
+            return _.cloneDeep(this.cached);
         }
     }
 
@@ -41,7 +41,7 @@ export class BaseService {
     }
 
     getList(): Promise<any[]> {
-        const cached = this.getCached();
+        const cached = this.getCache();
         if (cached) {
             return new Promise((res) => res(cached));
         }
@@ -51,13 +51,13 @@ export class BaseService {
             .toPromise()
             .then((resp: any[]) => {
                 const result = resp.map(a => new this.model(a));
-        		this.setCache(result);
+                this.setCache(result);
                 return result;
             });
     }
 
     getById(id: string): Promise<any> {
-    	const cached = this.getCache();
+        const cached = this.getCache();
         if (cached) {
             const r = cached.filter(a => a.id == parseInt(id, 10));
             if (r.length) {
