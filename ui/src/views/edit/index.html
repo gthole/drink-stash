@@ -1,0 +1,84 @@
+<form class="w-full max-w-md" *ngIf="!loading">
+  <div class="flex flex-wrap -mx-3 mb-1">
+    <div class="w-full md:w-1/2 px-3 mb-2">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
+        Name
+      </label>
+      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" type="text" name="name" [(ngModel)]="recipe.name">
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3 mb-3">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
+        Source
+      </label>
+      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" type="text" name="source" [(ngModel)]="recipe.source">
+    </div>
+  </div>
+
+
+  <div class="flex flex-wrap -mx-3 mb-1">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+        Ingredients
+      </label>
+    </div>
+  </div>
+  <div class="mb-6">
+      <div class="flex" *ngFor="let q of recipe.quantities; let i = index">
+         <div class="w-1/5 mb-6">
+             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="number" placeholder="1" name="amount-{{i}}" [(ngModel)]="q.amount">
+        </div>
+
+        <div class="w-1/5 px-2 mb-6">
+            <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" name="unit-{{i}}" [(ngModel)]="q.unit">
+                  <option value="1">oz</option>
+                  <option value="2">dash</option>
+                  <option value="3">barspoon</option>
+                  <option value="4">pinch</option>
+            </select>
+        </div>
+        <div class="w-3/5 mb-6">
+            <div class="flex">
+             <input class="appearance-none w-5/6 block bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-2 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="text" name="ingredient-{{i}}" [(ngModel)]="q.ingredient">
+             <p class="py-3 px-2 pl-4 w-1/6 text-grey" (click)="removeQuantity(q.id)">X</p>
+            </div>
+        </div>
+  </div>
+        <button class="bg-transparent hover:bg-purple text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded mb-4" (click)="addQuantity()">
+            &#x2b;
+        </button>
+
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-12">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="directions">
+        Directions
+      </label>
+      <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="directions" name="directions" [(ngModel)]="recipe.directions"></textarea>
+      <p class="text-grey-dark text-xs italic">Shaken or stirred? Glassware? Garnish?</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-12">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="directions">
+        Description
+      </label>
+      <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="directions" name="description" [(ngModel)]="recipe.description"></textarea>
+      <p class="text-grey-dark text-xs italic">Tasting notes, cocktail type, whatever you want.</p>
+    </div>
+  </div>
+
+</form>
+
+<div *ngIf="!loading">
+<button class="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded mb-6" (click)="save()">
+    Save
+</button>
+
+<button class="bg-red-dark hover:bg-red-darker text-white font-bold py-2 px-4 rounded float-right" (click)="delete()" *ngIf="recipe.id">
+    Delete
+</button>
+</div>

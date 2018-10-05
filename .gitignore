@@ -1,0 +1,6 @@
+.data
+api/.env
+api/app-build
+__pycache__
+*.pyc
+ui/node_modules

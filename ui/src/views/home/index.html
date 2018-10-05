@@ -1,0 +1,25 @@
+<a routerLink="/recipes/new" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded float-right">
+    New
+</a>
+
+<h1>Recipes</h1>
+<div class="flex items-center border-b border-b-2 border-teal py-2">
+    <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
+</div>
+<div class="my-4">
+    <span class="rounded-full mr-2 py-2 px-4 bg-teal text-white" *ngFor="let f of filters" (click)="removeFilter(f)">
+        {{ f }} &times;
+    </span>
+</div>
+<div class="list mt-6">
+    <div class="item" *ngFor="let recipe of filtered">
+        <p class="font-bold text-xl">
+            <a routerLink="/recipes/{{ recipe.id }}">{{ recipe.name }}</a>
+        </p>
+        <div class="text-grey quantities">
+            <span *ngFor="let q of recipe.quantities" class="mr-2">
+                {{ q.ingredient }}
+            </span>
+        </div>
+    </div>
+</div>
