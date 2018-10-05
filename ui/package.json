@@ -26,8 +26,6 @@
     "lodash": "4.17.5",
     "angular2-moment": "^1.7.0",
     "core-js": "^2.4.1",
-    "ng2-datepicker": "^3.0.0",
-    "ng2-mqtt": "0.1.2",
     "object-hash": "1.2.0",
     "rxjs": "^6.2.0",
     "tailwindcss": "0.6.6",
