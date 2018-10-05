@@ -33,10 +33,7 @@
 
         <div class="w-1/5 px-2 mb-6">
             <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" name="unit-{{i}}" [(ngModel)]="q.unit">
-                  <option value="1">oz</option>
-                  <option value="2">dash</option>
-                  <option value="3">barspoon</option>
-                  <option value="4">pinch</option>
+                <option *ngFor="let key of objectKeys(units)" value="{{ key }}">{{ units[key] }}</option>
             </select>
         </div>
         <div class="w-3/5 mb-6">
@@ -46,7 +43,7 @@
             </div>
         </div>
   </div>
-        <button class="bg-transparent hover:bg-purple text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded mb-4" (click)="addQuantity()">
+        <button class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent rounded mb-4" (click)="addQuantity()">
             &#x2b;
         </button>
 
@@ -74,7 +71,7 @@
 </form>
 
 <div *ngIf="!loading">
-<button class="bg-purple hover:bg-purple-dark text-white font-bold py-2 px-4 rounded mb-6" (click)="save()">
+<button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6" (click)="save()">
     Save
 </button>
 

@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe, RecipeService } from '../../services/recipes';
 // import { Ingredient, IngredientService } from '../../../services/ingredients';
 import { Router } from '@angular/router';
+import { units } from '../../constants';
 
 @Component({
     selector: 'recipe-edit',
@@ -20,6 +21,8 @@ export class RecipeEditComponent {
     ) {}
 
     recipe: Recipe;
+    units = units;
+    objectKeys = Object.keys;
     // ingredients: Ingredient[];
 
     error: string;

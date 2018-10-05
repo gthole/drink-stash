@@ -2,14 +2,9 @@ import _ from 'lodash';
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe, RecipeService } from '../../services/recipes';
+import { units } from '../../constants';
 // import { Ingredient, IngredientService } from '../../../services/ingredients';
 //
-const units = {
-    1: 'oz',
-    2: 'dash',
-    3: 'barspoon',
-    4: 'pinch'
-}
 
 @Component({
     selector: 'recipe-detail',
