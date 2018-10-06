@@ -5,10 +5,12 @@ from django.views.generic import TemplateView
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 
-from drinks.views import index, RecipeViewSet
+from drinks.views import index, IngredientViewSet, RecipeViewSet, UserViewSet
 
 router = routers.DefaultRouter()
+router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipes', RecipeViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^api/v1/auth/', obtain_jwt_token),

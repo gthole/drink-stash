@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Model, CharField, DateField, FloatField, \
-    IntegerField, BooleanField, ForeignKey, ManyToManyField, TextField
+    IntegerField, BooleanField, ForeignKey, ManyToManyField, TextField, \
+    DateTimeField
 
 
 class Ingredient(Model):
@@ -40,5 +41,13 @@ class Recipe(Model):
     description = TextField(blank=True, null=True)
     notes = TextField(blank=True, null=True)
 
+    created = DateTimeField(auto_now_add=True, blank=True)
+    added_by = ForeignKey(User, blank=True, null=True)
+
     def __unicode__(self):
         return '%s (%s)' % (self.name, self.id)
+
+
+class UserIngredient(Model):
+    user = ForeignKey(User, related_name='ingredient_set')
+    ingredient = ForeignKey(Ingredient)

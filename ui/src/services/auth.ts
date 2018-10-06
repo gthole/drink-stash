@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+const helper = new JwtHelperService();
 
 @Injectable()
 export class AuthService {
@@ -12,11 +15,16 @@ export class AuthService {
     authUpdates = this.loggedInState.asObservable();
 
     isLoggedIn(): boolean {
-        return !!this.getToken();
+        const token = this.getToken();
+        return token && !helper.isTokenExpired(token);
     }
 
     getToken(): string {
         return localStorage.getItem('token');
+    }
+
+    getUserData(): any {
+        return helper.decodeToken(this.getToken());
     }
 
     logout(): void {

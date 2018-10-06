@@ -5,13 +5,19 @@ import { BaseModel, BaseService } from './base';
 import { AuthService } from './auth';
 
 class User extends BaseModel {
-    id: string;
+    id: number;
+    username: string;
     first_name: string;
+    last_name: string;
+    ingredient_set: {ingredient: string}[];
 
     constructor(payload) {
         super();
         this.id = payload.id;
+        this.username = payload.username;
         this.first_name = payload.first_name;
+        this.last_name = payload.last_name;
+        this.ingredient_set = payload.ingredient_set;
 
         this.setHash();
     }
@@ -19,7 +25,10 @@ class User extends BaseModel {
     toPayload() {
         return {
             id: this.id,
-            first_name: this.first_name
+            username: this.username,
+            first_name: this.first_name,
+            last_name: this.last_name,
+            ingredient_set: this.ingredient_set,
         }
     }
 }

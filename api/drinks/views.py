@@ -2,8 +2,9 @@ from rest_framework.viewsets import ModelViewSet
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import render
 
-from .models import Recipe
-from .serializers import RecipeSerializer
+from django.contrib.auth.models import User
+from .models import Recipe, Ingredient
+from .serializers import RecipeSerializer, UserSerializer, IngredientSerializer
 
 
 class RecipeViewSet(ModelViewSet):
@@ -12,6 +13,17 @@ class RecipeViewSet(ModelViewSet):
     filter_fields = (
         'name',
     )
+
+
+class IngredientViewSet(ModelViewSet):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientSerializer
+
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 
 @ensure_csrf_cookie
 def index(request):

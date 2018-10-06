@@ -1,21 +1,34 @@
-from rest_framework.serializers import ModelSerializer, ValidationError, BaseSerializer
+from rest_framework.serializers import ModelSerializer, ValidationError, \
+    BaseSerializer, PrimaryKeyRelatedField, CurrentUserDefault
 
-from .models import Recipe, Quantity, Ingredient
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from .models import Recipe, Quantity, Ingredient, UserIngredient
 
 import sys
 sys.stdout = sys.stderr
 
 
+def get_or_create_ingredient(name):
+    try:
+        ingredient = Ingredient.objects.get(
+            name__iexact=name.lower().strip()
+        )
+    except:
+        ingredient = Ingredient(name=name)
+        ingredient.save()
+    return ingredient
+
+
+class IngredientSerializer(ModelSerializer):
+    class Meta:
+        model = Ingredient
+        fields = ('name', 'substitutions')
+
+
 class NestedIngredientSerializer(BaseSerializer):
     def to_internal_value(self, data):
-        try:
-            ingredient = Ingredient.objects.get(
-                name__iexact=data.lower().strip()
-            )
-        except:
-            ingredient = Ingredient(name=data)
-            ingredient.save()
-        return ingredient
+        return get_or_create_ingredient(data)
 
     def to_representation(self, obj):
         return obj.name
@@ -31,6 +44,10 @@ class QuantitySerializer(ModelSerializer):
 
 class RecipeSerializer(ModelSerializer):
     quantity_set = QuantitySerializer(many=True)
+    added_by = PrimaryKeyRelatedField(
+        read_only=True,
+        default=CurrentUserDefault()
+    )
 
     class Meta:
         model = Recipe
@@ -42,6 +59,8 @@ class RecipeSerializer(ModelSerializer):
             'description',
             'notes',
             'quantity_set',
+            'created',
+            'added_by',
         )
 
     def add_quantities(self, recipe, quantity_data):
@@ -67,3 +86,36 @@ class RecipeSerializer(ModelSerializer):
 
         recipe.quantity_set.all().delete()
         return self.add_quantities(recipe, quantity_data)
+
+
+class UserIngredientSerializer(BaseSerializer):
+    def to_internal_value(self, data):
+        return data
+
+    def to_representation(self, obj):
+        return obj.ingredient.name
+
+
+class UserSerializer(ModelSerializer):
+    ingredient_set = UserIngredientSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'ingredient_set',
+        )
+
+    def add_user_ingredients(self, user, ingredients):
+        for ingredient_name in ingredients:
+            ingredient = get_object_or_404(Ingredient, name=ingredient_name)
+            UserIngredient(user=user, ingredient=ingredient).save()
+        return user
+
+    def update(self, user, validated_data):
+        ingredients = validated_data.pop('ingredient_set')
+        user.ingredient_set.all().delete()
+        return self.add_user_ingredients(user, ingredients)

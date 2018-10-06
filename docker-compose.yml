@@ -1,13 +1,5 @@
 version: '2'
 services:
-    # Development environment extension of production yaml
-    # mDNS machine discovery
-    avahi:
-        image: 'enernoclabs/avahi:latest'
-        network_mode: 'host'
-        logging:
-            driver: 'none'
-        restart: 'on-failure'
     # API
     api:
         build: '.'
