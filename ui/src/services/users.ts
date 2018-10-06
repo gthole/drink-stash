@@ -9,7 +9,7 @@ class User extends BaseModel {
     username: string;
     first_name: string;
     last_name: string;
-    ingredient_set: {ingredient: string}[];
+    ingredient_set: string[];
 
     constructor(payload) {
         super();
