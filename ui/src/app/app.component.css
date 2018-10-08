@@ -6,6 +6,10 @@
     z-index: 100000;
 }
 
+.minwidth {
+    min-width: 80px;
+}
+
 .cursive {
     font-family: cursive;
 }

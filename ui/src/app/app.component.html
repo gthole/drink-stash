@@ -1,15 +1,15 @@
 <div class="navbar w-full pin-t pin-l px-4 py-3 font-serif text-white bg-purple-darker">
     <ul class="list-reset flex justify-between">
-      <li class="mr-3">
+      <li class="mr-3 minwidth">
           <p class="inline-block rounded py-2 px-4" >
               <span (click)="goBack()" *ngIf="hasHistory()">&#8592;</span>
-              <span *ngIf="!hasHistory()">&nbsp;&nbsp;</span>
+              &nbsp;
           </p>
       </li>
       <li class="mr-3 text-xl cursive">
         <p class="inline-block py-2">{{ title }}</p>
       </li>
-      <li class="mr-3">
+      <li class="mr-3 minwidth text-right">
           <p class="inline-block py-2 text-grey-light" *ngIf="loggedIn" (click)="logout()">logout</p>
       </li>
     </ul>
