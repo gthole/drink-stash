@@ -1,24 +1,3 @@
-.item {
-    border-color: #ddd;
-    position: relative;
-    z-index: 2;
-    display: block;
-    margin-left: -16px;
-    margin-right: -16px;
-    margin-bottom: -1px;
-    padding: 16px;
-    border-width: 1px;
-    border-style: solid;
-    font-size: 16px;
-}
-
-.item a {
-    color: #382b5f;
-}
-.item a:visited {
-    color: #382b5f;
-}
-
 .quantities span:not(:first-child)::before {
     content: "•";
     font-weight: bold;

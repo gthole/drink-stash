@@ -21,20 +21,36 @@ class Recipe extends BaseModel {
         this.directions = payload.directions;
         this.quantities = payload.quantity_set;
 
+        this.quantities.forEach((q) => q.name = this.quantityName());
+
         this.setHash();
     }
 
-    static createNew() {
-        return new Recipe({
+    static createNew(): Recipe {
+        const r = new Recipe({
             id: null,
             name: '',
             description: '',
             notes: '',
             directions: '',
-            quantity_set: [
-                {amount: 1, unit: 1, ingredient: '', hidden: false}
-            ]
+            quantity_set: []
         });
+        r.addQuantity();
+        return r;
+    }
+
+    addQuantity() {
+        this.quantities.push({
+            amount: 1,
+            unit: 1,
+            ingredient: '',
+            name: this.quantityName(),
+            hidden: false
+        });
+    }
+
+    quantityName() {
+        return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
     }
 
     toPayload() {

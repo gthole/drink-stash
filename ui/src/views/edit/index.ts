@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe, RecipeService } from '../../services/recipes';
-// import { Ingredient, IngredientService } from '../../../services/ingredients';
+import { Ingredient, IngredientService } from '../../services/ingredients';
 import { Router } from '@angular/router';
 import { units } from '../../constants';
 
@@ -15,12 +15,13 @@ export class RecipeEditComponent {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        // private ingredientService: IngredientService,
+        private ingredientService: IngredientService,
         private recipeService: RecipeService,
         private _elementRef: ElementRef
     ) {}
 
     recipe: Recipe;
+    ingredients: string[];
     units = units;
     objectKeys = Object.keys;
     // ingredients: Ingredient[];
@@ -31,12 +32,15 @@ export class RecipeEditComponent {
     ngOnInit() {
         this.loading = true;
         this.route.params.subscribe((params: {id}) => {
-            if (params.id) {
-                this.fetchId(params.id);
-            } else {
-                this.recipe = Recipe.createNew();
-                this.doneLoading();
-            }
+            this.ingredientService.getList().then((ingredients) => {
+                this.ingredients = ingredients.map(i => i.name);
+                if (params.id) {
+                    this.fetchId(params.id);
+                } else {
+                    this.recipe = Recipe.createNew();
+                    this.doneLoading();
+                }
+            });
         });
     }
 
@@ -57,17 +61,12 @@ export class RecipeEditComponent {
         this._elementRef.nativeElement.querySelector('#name').focus();
     }
 
-    removeQuantity(id: number) {
-        this.recipe.quantities = this.recipe.quantities.filter((q) => q.id !== id);
+    removeQuantity(name: string) {
+        this.recipe.quantities = this.recipe.quantities.filter((q) => name !== q.name);
     }
 
     addQuantity() {
-        this.recipe.quantities.push({
-            amount: 1,
-            unit: 1,
-            ingredient: '',
-            hidden: false
-        });
+        this.recipe.addQuantity();
     }
 
     delete(): void {

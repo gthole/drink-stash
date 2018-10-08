@@ -1,10 +1,11 @@
 <div *ngIf="recipe">
     <h1>{{ recipe.name }}</h1>
     <div><i>{{ recipe.source }}</i></div>
-    <table class="m-6">
+    <table class="my-6 mx-2">
         <tr *ngFor="let q of recipe.quantities">
             <td style="text-align: right" class="mr-2">{{ q.amount }} {{ units[q.unit] }}</td>
-            <td class="pl-2"> - {{ q.ingredient }}</td>
+            <td class="mx-1">-</td>
+            <td>{{ q.ingredient }}</td>
         </tr>
     </table>
     <div class="mb-6 text-sm">{{ recipe.directions }}</div>

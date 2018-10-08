@@ -26,20 +26,31 @@
     </div>
   </div>
   <div class="mb-6">
-      <div class="flex" *ngFor="let q of recipe.quantities; let i = index">
+      <div class="flex" *ngFor="let q of recipe.quantities">
          <div class="w-1/5 mb-6">
-             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="number" placeholder="1" name="amount-{{i}}" [(ngModel)]="q.amount">
+             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="number" placeholder="1" [(ngModel)]="q.amount" name="amount-{{q.name}}">
         </div>
 
         <div class="w-1/5 px-2 mb-6">
-            <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" name="unit-{{i}}" [(ngModel)]="q.unit">
+            <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" [(ngModel)]="q.unit" name="unit-{{q.name}}">
                 <option *ngFor="let key of objectKeys(units)" value="{{ key }}">{{ units[key] }}</option>
             </select>
         </div>
         <div class="w-3/5 mb-6">
             <div class="flex">
-             <input class="appearance-none w-5/6 block bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-2 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="text" name="ingredient-{{i}}" [(ngModel)]="q.ingredient">
-             <p class="py-3 px-2 pl-4 w-1/6 text-grey" (click)="removeQuantity(q.id)">X</p>
+                <ng2-completer
+                    [(ngModel)]="q.ingredient"
+                    [datasource]="ingredients"
+                    [minSearchLength]="0"
+                    [clearUnselected]="true"
+                    [overrideSuggested]="true"
+                    [initialValue]="q.ingredient"
+                    [inputName]="'ingredient-' + q.name"
+                    [inputClass]="'appearance-none w-full block bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-2 leading-tight focus:outline-none focus:bg-white focus:border-grey'"
+                    name="ingredient-{{q.name}}"
+                    class="w-5/6">
+                </ng2-completer>
+             <p class="py-3 px-2 pl-4 w-1/6 text-grey" (click)="removeQuantity(q.name)">X</p>
             </div>
         </div>
   </div>

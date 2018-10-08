@@ -20,7 +20,7 @@ export class RecipeListComponent implements OnInit {
 
     ngOnInit() {
         this.recipeService.getList().then((recipes) => {
-            this.recipes = recipes;
+            this.recipes = _.sortBy(recipes, 'name');
             this.applyFilters();
         });
     }

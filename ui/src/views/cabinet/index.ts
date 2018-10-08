@@ -7,7 +7,8 @@ import { Ingredient, IngredientService } from '../../services/ingredients';
 
 @Component({
     selector: 'user-detail',
-    templateUrl: './index.html'
+    templateUrl: './index.html',
+    styleUrls: ['./style.css']
 })
 export class UserCabinetComponent {
     constructor(
@@ -47,7 +48,6 @@ export class UserCabinetComponent {
             });
             this.save();
         }
-        this.ingredient = '';
     }
 
     removeIngredient(name) {
