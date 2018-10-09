@@ -15,6 +15,7 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     url(r'^api/v1/auth/', obtain_jwt_token),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'', index),  # Angular routing
     url(r'^$', index),  # Angular routing
 ]

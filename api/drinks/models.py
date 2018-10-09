@@ -9,7 +9,7 @@ class Ingredient(Model):
     description = CharField(max_length=255, blank=True, null=True)
     substitutions = ManyToManyField('Ingredient')
 
-    def __unicode(self):
+    def __str__(self):
         return self.name
 
 
@@ -29,7 +29,7 @@ class Quantity(Model):
     hidden = BooleanField(default=False)
     recipe = ForeignKey('Recipe')
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s %s' % (self.amount, self.ingredient)
 
 
@@ -44,7 +44,7 @@ class Recipe(Model):
     created = DateTimeField(auto_now_add=True, blank=True)
     added_by = ForeignKey(User, blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s (%s)' % (self.name, self.id)
 
 
