@@ -16,9 +16,9 @@ a {
     font-size: 16px;
 }
 
-.item a {
+a {
     color: #382b5f;
 }
-.item a:visited {
+a:visited {
     color: #382b5f;
 }

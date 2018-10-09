@@ -2,9 +2,7 @@ import _ from 'lodash';
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe, RecipeService } from '../../services/recipes';
-import { units } from '../../constants';
-// import { Ingredient, IngredientService } from '../../../services/ingredients';
-//
+
 
 @Component({
     selector: 'recipe-detail',
@@ -13,14 +11,10 @@ import { units } from '../../constants';
 export class RecipeDetailComponent {
     constructor(
         private route: ActivatedRoute,
-        // private ingredientService: IngredientService,
         private recipeService: RecipeService,
     ) {}
 
     recipe: Recipe;
-    units = units;
-    // ingredients: Ingredient[];
-
     error: string;
     loading: boolean;
 

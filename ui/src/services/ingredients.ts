@@ -6,16 +6,19 @@ import { AuthService } from './auth';
 
 class Ingredient extends BaseModel {
     name: string;
+    substitutions: string[];
 
     constructor(payload) {
         super();
         this.name = payload.name;
+        this.substitutions = payload.substitutions;
         this.setHash();
     }
 
     toPayload() {
         return {
             name: this.name,
+            substitutions: this.substitutions
         }
     }
 }

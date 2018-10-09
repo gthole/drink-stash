@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RecipeEditComponent } from '../views/edit';
 import { RecipeDetailComponent } from '../views/detail';
 import { RecipeListComponent } from '../views/recipes';
+import { RandomRecipeComponent } from '../views/random';
 import { HomeViewComponent } from '../views/home';
 import { UserCabinetComponent } from '../views/cabinet';
 import { LoginViewComponent } from '../views/login';
@@ -11,10 +12,11 @@ import { LoginViewComponent } from '../views/login';
 const routes: Routes = [
     {path: '', component: HomeViewComponent},
     {path: 'recipes/:id/edit', component: RecipeEditComponent},
-    {path: 'recipes/new', component: RecipeEditComponent},
     {path: 'recipes/:id', component: RecipeDetailComponent},
     {path: 'recipes', component: RecipeListComponent},
+    {path: 'random', component: RandomRecipeComponent},
     {path: 'cabinet', component: UserCabinetComponent},
+    {path: 'new', component: RecipeEditComponent},
     {path: 'login', component: LoginViewComponent}
 ];
 

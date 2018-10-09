@@ -43,6 +43,23 @@ class UserService extends BaseService {
 
     baseUrl = '/api/v1/users/';
     model = User;
+    _self: User;
+
+    getSelf() {
+        if (this._self) {
+            return new Promise((r) => r(this._self));
+        }
+        return this.getById(`${this.authService.getUserData().user_id}`)
+            .then((user) => {
+                this._self = user;
+                return user;
+            });
+    }
+
+    updateSelf(user: User) {
+        this._self = user;
+        return this.update(user);
+    }
 }
 
 export { User, UserService };

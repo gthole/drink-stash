@@ -13,7 +13,6 @@ import { Ingredient, IngredientService } from '../../services/ingredients';
 export class UserCabinetComponent {
     constructor(
         private ingredientService: IngredientService,
-        private authService: AuthService,
         private userService: UserService,
     ) {}
 
@@ -28,7 +27,7 @@ export class UserCabinetComponent {
         this.loading = true;
 
         Promise.all([
-            this.userService.getById(`${this.authService.getUserData().user_id}`),
+            this.userService.getSelf(),
             this.ingredientService.getList()
         ]).then(([user, ingredients]) => {
             this.loading = false;
@@ -56,6 +55,6 @@ export class UserCabinetComponent {
     }
 
     save() {
-        this.userService.update(this.user);
+        this.userService.updateSelf(this.user);
     }
 }

@@ -1,0 +1,7 @@
+<div *ngIf="recipe">
+    <button class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent text-sm rounded mb-4 float-right" (click)="shuffle()">
+        Shuffle
+    </button>
+
+    <recipe-detail-view [recipe]="recipe"></recipe-detail-view>
+</div>

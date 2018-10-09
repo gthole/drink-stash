@@ -15,7 +15,9 @@ import { UserService } from '../services/users';
 import { AppComponent } from './app.component';
 import { RecipeEditComponent } from '../views/edit';
 import { RecipeDetailComponent } from '../views/detail';
+import { RecipeDetailViewComponent } from '../views/detail/detail-view';
 import { RecipeListComponent } from '../views/recipes';
+import { RandomRecipeComponent } from '../views/random';
 import { HomeViewComponent } from '../views/home';
 import { UserCabinetComponent } from '../views/cabinet';
 import { LoginViewComponent } from '../views/login';
@@ -24,8 +26,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
     declarations: [
         AppComponent,
+        RandomRecipeComponent,
         RecipeEditComponent,
         RecipeDetailComponent,
+        RecipeDetailViewComponent,
         RecipeListComponent,
         HomeViewComponent,
         UserCabinetComponent,

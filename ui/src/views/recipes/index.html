@@ -1,6 +1,8 @@
-<a routerLink="/recipes/new" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded float-right">
-    New
-</a>
+<button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+    [ngClass]="{'bg-teal-dark text-white': filterByCabinet, 'text-teal-dark': !filterByCabinet}"
+    (click)="toggleCabinet()">
+    Cabinet
+</button>
 
 <h1>Recipes</h1>
 <div class="flex items-center border-b border-b-2 border-teal py-2">
