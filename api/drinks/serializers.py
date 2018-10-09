@@ -4,6 +4,7 @@ from rest_framework.serializers import ModelSerializer, ValidationError, \
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import Recipe, Quantity, Ingredient, UserIngredient
+from .constants import base_substitutions
 
 import sys
 sys.stdout = sys.stderr
@@ -17,6 +18,14 @@ def get_or_create_ingredient(name):
     except:
         ingredient = Ingredient(name=name)
         ingredient.save()
+
+        if name not in base_substitutions.values():
+            # Check for base liquor substitutions to add
+            for key, val in base_substitutions.items():
+                if name.lower().endswith(' %s' % key):
+                    sub = Ingredient.objects.get(name=val)
+                    ingredient.substitutions.add(sub)
+                    break
     return ingredient
 
 
@@ -97,6 +106,7 @@ class UserIngredientSerializer(BaseSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    # TODO: Block unused methods, add permissions check to update
     ingredient_set = UserIngredientSerializer(many=True)
 
     class Meta:
