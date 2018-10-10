@@ -7,7 +7,7 @@ from django.db.models import Model, CharField, DateField, FloatField, \
 class Ingredient(Model):
     name = CharField(max_length=255, primary_key=True)
     description = CharField(max_length=255, blank=True, null=True)
-    substitutions = ManyToManyField('Ingredient')
+    substitutions = ManyToManyField('Ingredient', blank=True)
 
     def __str__(self):
         return self.name

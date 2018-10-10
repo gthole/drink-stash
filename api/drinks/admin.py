@@ -4,6 +4,6 @@ from .models import Ingredient
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-        pass
+    search_fields = ['name']
 
 admin.site.site_header = 'Drink Stash Admin'
