@@ -40,6 +40,11 @@ export class BaseService {
         this.expire = Date.now() + (60 * 60 * 1000);
     }
 
+    clearCache() {
+        this.cached = null;
+        this.expire = 0;
+    }
+
     getList(): Promise<any[]> {
         const cached = this.getCache();
         if (cached) {

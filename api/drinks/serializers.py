@@ -29,18 +29,19 @@ def get_or_create_ingredient(name):
     return ingredient
 
 
-class IngredientSerializer(ModelSerializer):
-    class Meta:
-        model = Ingredient
-        fields = ('name', 'substitutions')
-
-
 class NestedIngredientSerializer(BaseSerializer):
     def to_internal_value(self, data):
         return get_or_create_ingredient(data)
 
     def to_representation(self, obj):
         return obj.name
+
+
+class IngredientSerializer(ModelSerializer):
+    substitutions = NestedIngredientSerializer(many=True)
+    class Meta:
+        model = Ingredient
+        fields = ('name', 'substitutions')
 
 
 class QuantitySerializer(ModelSerializer):

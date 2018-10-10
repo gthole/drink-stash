@@ -24,7 +24,6 @@ export class RecipeEditComponent {
     ingredients: string[];
     units = units;
     objectKeys = Object.keys;
-    // ingredients: Ingredient[];
 
     error: string;
     loading: boolean;
@@ -91,7 +90,10 @@ export class RecipeEditComponent {
         }
 
         promise.then(
-            (saved) => this.router.navigateByUrl(`/recipes/${saved.id}`),
+            (saved) => {
+                this.ingredientService.clearCache();
+                this.router.navigateByUrl(`/recipes/${saved.id}`);
+            },
             (err) => {
                 this.loading = false;
                 this.error = 'Whoops - something went wrong';

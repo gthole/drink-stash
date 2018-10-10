@@ -5,7 +5,7 @@ from django.db.models import Model, CharField, DateField, FloatField, \
 
 
 class Ingredient(Model):
-    name = CharField(max_length=255, primary_key=True)
+    name = CharField(max_length=255, db_index=True, unique=True)
     description = CharField(max_length=255, blank=True, null=True)
     substitutions = ManyToManyField('Ingredient', blank=True)
 
@@ -24,6 +24,7 @@ class Quantity(Model):
         (5, 'teaspoon'),
         (6, 'tablespoon'),
         (7, 'sprig'),
+        (8, 'leaf'),
     ), null=True, blank=True)
     ingredient = ForeignKey('Ingredient')
     hidden = BooleanField(default=False)
@@ -34,7 +35,7 @@ class Quantity(Model):
 
 
 class Recipe(Model):
-    name = CharField(max_length=255)
+    name = CharField(max_length=255, db_index=True)
     source = CharField(max_length=255)
 
     directions = TextField(blank=True, null=True)
