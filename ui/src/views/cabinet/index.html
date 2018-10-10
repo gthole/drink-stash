@@ -14,6 +14,9 @@
         </ng2-completer>
     </div>
 
+    <div class="py-6 text-center text-grey" *ngIf="user.ingredient_set.length === 0">
+        Nothing here yet!
+    </div>
     <div class="list mt-6">
         <div class="item clearfix" *ngFor="let i of user.ingredient_set">
             {{ i }} <span class="text-grey float-right" (click)="removeIngredient(i)">&times;</span>

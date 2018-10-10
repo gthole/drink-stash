@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
-import { AuthService } from './auth';
 
 class Recipe extends BaseModel {
     id: number;
@@ -70,7 +69,6 @@ class RecipeService extends BaseService {
 
     constructor(
         public http: HttpClient,
-        public authService: AuthService,
     ) { super(); }
 
     baseUrl = '/api/v1/recipes/';

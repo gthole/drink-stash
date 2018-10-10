@@ -39,7 +39,14 @@ class UserService extends BaseService {
     constructor(
         public http: HttpClient,
         public authService: AuthService,
-    ) { super(); }
+    ) {
+        super();
+        this.authService.authUpdates.subscribe((state) => {
+            if (!this.loggedIn) {
+                this._self = null;
+            }
+        });
+    }
 
     baseUrl = '/api/v1/users/';
     model = User;

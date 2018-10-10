@@ -13,6 +13,9 @@
         {{ f }} &times;
     </div>
 </div>
+<div class="text-center text-grey" *ngIf="filtered && filtered.length === 0">
+    No matches
+</div>
 <div class="list mt-6">
     <div class="item" *ngFor="let recipe of filtered">
         <p class="font-bold text-xl">

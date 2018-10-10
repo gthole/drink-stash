@@ -59,6 +59,11 @@ export class RandomRecipeComponent {
 
     shuffle() {
         const index = Math.floor(Math.random() * 1000) % this.recipes.length;
+        const shuffled = this.recipes[index];
+
+        if (this.recipe && shuffled.id === this.recipe.id && this.recipes.length > 1) {
+            return this.shuffle();
+        }
         this.recipe = this.recipes[index];
     }
 }

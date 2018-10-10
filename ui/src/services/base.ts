@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { AuthService } from './auth';
 import 'rxjs/add/operator/toPromise';
 import hash from 'object-hash';
 
@@ -22,7 +21,6 @@ export class BaseModel {
 
 export class BaseService {
 
-    authService: AuthService;
     http: HttpClient;
     baseUrl: string;
     model: any;
