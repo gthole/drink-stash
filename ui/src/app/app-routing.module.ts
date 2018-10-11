@@ -18,7 +18,7 @@ const routes: Routes = [
     {path: 'random', component: RandomRecipeComponent},
     {path: 'cabinet', component: UserCabinetComponent},
     {path: 'new', component: RecipeEditComponent},
-    {path: 'settings', component: SettingsViewComponent}
+    {path: 'settings', component: SettingsViewComponent},
     {path: 'login', component: LoginViewComponent}
 ];
 
