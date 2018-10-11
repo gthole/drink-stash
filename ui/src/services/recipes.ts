@@ -39,9 +39,15 @@ class Recipe extends BaseModel {
     }
 
     addQuantity() {
+        let amount = 1,
+            unit = 1;
+        if (this.quantities.length) {
+            amount = this.quantities.slice(-1)[0].amount;
+            unit = this.quantities.slice(-1)[0].unit;
+        }
         this.quantities.push({
-            amount: 1,
-            unit: 1,
+            amount: amount,
+            unit: unit,
             ingredient: '',
             name: this.quantityName(),
             hidden: false

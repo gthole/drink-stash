@@ -1,10 +1,12 @@
 <div *ngIf="user">
     <h1>Liquor Cabinet</h1>
-    <div class="flex items-center border-b border-b-2 border-teal py-2">
+    <div class="flex items-center border-b border-b-2 border-teal py-2 w-full">
         <ng2-completer
             [(ngModel)]="ingredient"
             [datasource]="ingredients"
             [minSearchLength]="0"
+            [textSearching]="''"
+            [textNoResults]="''"
             [clearSelected]="true"
             [clearUnselected]="true"
             [inputClass]="'appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none'"

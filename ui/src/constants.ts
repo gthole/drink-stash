@@ -7,4 +7,6 @@ export const units = {
     5: 'teaspoon',
     6: 'tablespoon',
     7: 'sprig',
+    8: 'leaf',
+    9: 'spritz'
 };

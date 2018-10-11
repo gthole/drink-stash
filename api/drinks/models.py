@@ -25,6 +25,7 @@ class Quantity(Model):
         (6, 'tablespoon'),
         (7, 'sprig'),
         (8, 'leaf'),
+        (9, 'spritz'),
     ), null=True, blank=True)
     ingredient = ForeignKey('Ingredient')
     hidden = BooleanField(default=False)

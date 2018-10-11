@@ -43,6 +43,8 @@
                     [datasource]="ingredients"
                     [minSearchLength]="0"
                     [clearUnselected]="true"
+                    [textNoResults]="''"
+                    [textSearching]="''"
                     [overrideSuggested]="true"
                     [initialValue]="q.ingredient"
                     [inputName]="'ingredient-' + q.name"

@@ -33,7 +33,7 @@ export class RecipeListComponent implements OnInit {
             this.ingredientService.getList(),
             this.userService.getSelf(),
         ]).then(([recipes, ingredients, user]) => {
-            this.recipes = _.sortBy(recipes, 'name');
+            this.recipes = _.sortBy(recipes, (r) => r.name.replace(/^the /i, ''));
 
             ingredients.forEach((i) => this.substitutions[i.name] = i.substitutions);
             user.ingredient_set.forEach((i) => {

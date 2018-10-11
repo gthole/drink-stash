@@ -42,7 +42,7 @@ class UserService extends BaseService {
     ) {
         super();
         this.authService.authUpdates.subscribe((state) => {
-            if (!this.loggedIn) {
+            if (!state) {
                 this._self = null;
             }
         });
