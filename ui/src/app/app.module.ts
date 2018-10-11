@@ -21,6 +21,7 @@ import { RandomRecipeComponent } from '../views/random';
 import { HomeViewComponent } from '../views/home';
 import { UserCabinetComponent } from '../views/cabinet';
 import { LoginViewComponent } from '../views/login';
+import { SettingsViewComponent } from '../views/settings';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -33,7 +34,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         RecipeListComponent,
         HomeViewComponent,
         UserCabinetComponent,
-        LoginViewComponent
+        LoginViewComponent,
+        SettingsViewComponent
     ],
     imports: [
         BrowserModule,

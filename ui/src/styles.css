@@ -19,6 +19,11 @@ a {
 a {
     color: #382b5f;
 }
+
 a:visited {
     color: #382b5f;
+}
+
+a.text-white {
+    color: #fff;
 }

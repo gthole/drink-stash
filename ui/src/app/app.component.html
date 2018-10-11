@@ -10,7 +10,7 @@
         <p class="inline-block py-2">{{ title }}</p>
       </li>
       <li class="mr-3 minwidth text-right">
-          <p class="inline-block py-2 text-grey-light" *ngIf="loggedIn" (click)="logout()">logout</p>
+          <a *ngIf="loggedIn" class="text-white text-3xl" routerLink="/settings">&#9776;</a>
       </li>
     </ul>
 </div>

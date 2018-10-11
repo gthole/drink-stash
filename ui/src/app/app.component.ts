@@ -36,10 +36,4 @@ export class AppComponent {
     goBack() {
         this.router.navigateByUrl(this.location.path().split('/').slice(0, -1).join('/'));
     }
-
-    logout() {
-        this.loggedIn = false;
-        this.authService.logout();
-        this.router.navigateByUrl('/login');
-    }
 }
