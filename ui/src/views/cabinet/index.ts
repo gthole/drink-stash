@@ -17,7 +17,7 @@ export class UserCabinetComponent {
     ) {}
 
     user: User;
-    ingredients: Ingredient[];
+    ingredients: string[];
     ingredient: string;
 
     error: string;
@@ -46,7 +46,15 @@ export class UserCabinetComponent {
                 return i.toLowerCase();
             });
             this.save();
+
+            // If it's a new ingredient, add it to the view locally and clear
+            // the cache for later fetching
+            if (!this.ingredients.contains(ev.title)) {
+                this.ingredients.push(ev.title);
+                this.ingredientService.clearCache();
+            }
         }
+
     }
 
     removeIngredient(name) {

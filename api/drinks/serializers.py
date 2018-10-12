@@ -122,7 +122,7 @@ class UserSerializer(ModelSerializer):
 
     def add_user_ingredients(self, user, ingredients):
         for ingredient_name in ingredients:
-            ingredient = get_object_or_404(Ingredient, name=ingredient_name)
+            ingredient = get_or_create_ingredient(ingredient_name)
             UserIngredient(user=user, ingredient=ingredient).save()
         return user
 
