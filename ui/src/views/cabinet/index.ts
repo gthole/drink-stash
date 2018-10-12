@@ -49,7 +49,7 @@ export class UserCabinetComponent {
 
             // If it's a new ingredient, add it to the view locally and clear
             // the cache for later fetching
-            if (!this.ingredients.contains(ev.title)) {
+            if (!this.ingredients.includes(ev.title)) {
                 this.ingredients.push(ev.title);
                 this.ingredientService.clearCache();
             }
