@@ -67,11 +67,24 @@ class RecipeSerializer(ModelSerializer):
             'source',
             'directions',
             'description',
-            'notes',
             'quantity_set',
             'created',
             'added_by',
         )
+
+    @staticmethod
+    def setup_eager_loading(queryset):
+        """ Perform necessary eager loading of data. """
+        # select_related for "to-one" relationships
+        queryset = queryset.select_related('added_by')
+
+        # prefetch_related for "to-many" relationships
+        queryset = queryset.prefetch_related(
+            'quantity_set',
+            'quantity_set__ingredient'
+        )
+
+        return queryset
 
     def add_quantities(self, recipe, quantity_data):
         for qdata in quantity_data:
