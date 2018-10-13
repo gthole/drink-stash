@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng build --watch --poll 1000 --deploy-url /static/",
-    "build": "ng build --prod --deploy-url /static/",
-    "compile": "ng build --deploy-url /static/",
+    "build": "ng build --deploy-url /static/",
+    "compile": "ng build --prod --deploy-url /static/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
