@@ -36,7 +36,7 @@ class Quantity(Model):
 
 
 class Recipe(Model):
-    name = CharField(max_length=255, db_index=True)
+    name = CharField(max_length=255, unique=True, db_index=True)
     source = CharField(max_length=255)
 
     directions = TextField(blank=True, null=True)
