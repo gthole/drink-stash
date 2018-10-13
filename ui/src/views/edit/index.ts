@@ -81,6 +81,12 @@ export class RecipeEditComponent {
     }
 
     save(): void {
+        // Make sure quantities exist and all have ingredient values
+        this.recipe.quantities = this.recipe.quantities.filter((q) => {
+            return q.ingredient.trim();
+        });
+        if (this.recipe.quantities.length === 0) return;
+
         this.loading = true;
         let promise;
         if (this.recipe.id) {

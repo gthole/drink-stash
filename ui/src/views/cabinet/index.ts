@@ -38,10 +38,11 @@ export class UserCabinetComponent {
     }
 
     addIngredient(ev: {title: string}): void {
-        if (!ev) return;
+        if (!ev || !ev.title || !ev.title.trim()) return;
+        const name = ev.title.trim();
 
-        if (!this.user.ingredient_set.includes(ev.title)) {
-            this.user.ingredient_set.push(ev.title);
+        if (!this.user.ingredient_set.includes(name)) {
+            this.user.ingredient_set.push(name);
             this.user.ingredient_set = _.sortBy(this.user.ingredient_set, (i) => {
                 return i.toLowerCase();
             });
@@ -49,8 +50,8 @@ export class UserCabinetComponent {
 
             // If it's a new ingredient, add it to the view locally and clear
             // the cache for later fetching
-            if (!this.ingredients.includes(ev.title)) {
-                this.ingredients.push(ev.title);
+            if (!this.ingredients.includes(name)) {
+                this.ingredients.push(name);
                 this.ingredientService.clearCache();
             }
         }

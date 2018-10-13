@@ -127,6 +127,10 @@ class UserSerializer(ModelSerializer):
         return user
 
     def update(self, user, validated_data):
-        ingredients = validated_data.pop('ingredient_set')
+        ingredients = [
+            ingredient for ingredient in
+            validated_data.pop('ingredient_set')
+            if ingredient
+        ]
         user.ingredient_set.all().delete()
         return self.add_user_ingredients(user, ingredients)
