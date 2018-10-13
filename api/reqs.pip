@@ -2,6 +2,6 @@ django==1.11
 djangorestframework==3.7.3
 djangorestframework-jwt==1.11.0
 python-dateutil
-dj-static===0.0.6
 django_filter
 jsonschema==2.6.0
+whitenoise==4.1

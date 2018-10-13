@@ -15,16 +15,7 @@ RUN npm run build
 # API
 FROM python:3.6-alpine
 
-RUN apk add --update --no-cache \
-    curl \
-    linux-headers \
-    musl-dev \
-    g++ \
-    gcc \
-    libxslt-dev \
-    libffi-dev \
-    openssl-dev \
-    dumb-init
+RUN apk add --update --no-cache dumb-init
 
 ADD ./api/reqs.pip /tmp
 WORKDIR /tmp
@@ -36,4 +27,4 @@ COPY --from=0 /api/app-build ./app-build
 
 RUN ./manage.py collectstatic --no-input
 
-CMD ["sh", "./run.sh"]
+CMD ["dumb-init", "sh", "./run.sh"]
