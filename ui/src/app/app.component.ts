@@ -34,6 +34,7 @@ export class AppComponent {
     }
 
     goBack() {
-        this.router.navigateByUrl(this.location.path().split('/').slice(0, -1).join('/'));
+        this.location.back();
+        // this.router.navigateByUrl(this.location.path().split('/').slice(0, -1).join('/'));
     }
 }

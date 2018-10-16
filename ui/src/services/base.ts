@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import 'rxjs/add/operator/toPromise';
 import hash from 'object-hash';
+import { stringify } from 'querystring';
+
 
 export class BaseModel {
     _hash: string;
@@ -41,6 +43,14 @@ export class BaseService {
     clearCache() {
         this.cached = null;
         this.expire = 0;
+    }
+
+    getFiltered(query: {[k: string]: string}): Promise<any[]> {
+        const qs = stringify(query);
+        return this.http
+            .get(`${this.baseUrl}?${qs}`)
+            .toPromise()
+            .then((resp: any[]) => resp.map(a => new this.model(a)));
     }
 
     getList(): Promise<any[]> {

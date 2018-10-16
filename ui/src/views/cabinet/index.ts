@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AuthService } from '../../services/auth';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 

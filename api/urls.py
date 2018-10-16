@@ -5,11 +5,13 @@ from django.views.generic import TemplateView
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 
-from drinks.views import index, IngredientViewSet, RecipeViewSet, UserViewSet
+from drinks.views import index, IngredientViewSet, RecipeViewSet, \
+    UserViewSet, CommentViewSet
 
 router = routers.DefaultRouter()
 router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipes', RecipeViewSet)
+router.register(r'comments', CommentViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [

@@ -8,12 +8,14 @@ import { Ng2CompleterModule } from "ng2-completer";
 
 import { httpInterceptorProviders } from '../http-interceptors/';
 import { AuthService } from '../services/auth';
+import { CommentService } from '../services/comments';
 import { IngredientService } from '../services/ingredients';
 import { RecipeService } from '../services/recipes';
 import { UserService } from '../services/users';
 
 import { AppComponent } from './app.component';
 import { RecipeEditComponent } from '../views/edit';
+import { CommentEditComponent } from '../views/comment-edit';
 import { RecipeDetailComponent } from '../views/detail';
 import { RecipeDetailViewComponent } from '../views/detail/detail-view';
 import { RecipeListComponent } from '../views/recipes';
@@ -28,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     declarations: [
         AppComponent,
         RandomRecipeComponent,
+        CommentEditComponent,
         RecipeEditComponent,
         RecipeDetailComponent,
         RecipeDetailViewComponent,
@@ -49,6 +52,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     providers: [
         httpInterceptorProviders,
         AuthService,
+        CommentService,
         IngredientService,
         RecipeService,
         UserService

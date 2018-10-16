@@ -1,0 +1,14 @@
+<div class="text-lg mb-6">Update Comment</div>
+<div *ngIf="comment">
+    <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="text" name="text" [(ngModel)]="comment.text"></textarea>
+
+    <button class="bg-red-dark hover:bg-red-darker text-white font-bold py-2 px-4 rounded float-right mt-3" (click)="delete()">
+        Delete
+    </button>
+
+    <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 mt-3" (click)="save()">
+        Save
+    </button>
+</div>
+
+

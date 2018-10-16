@@ -10,11 +10,35 @@
     </table>
     <div class="mb-6 text-sm">{{ recipe.directions }}</div>
 
-    <div *ngIf="recipe.description" class="bg-grey-lighter -mx-12 px-12 py-6">{{ recipe.description }}</div>
+    <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 px-4 py-6">{{ recipe.description }}</div>
 
     <div class="mt-6">
     <a routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded">
         Edit
     </a>
+    </div>
+
+    <div class="mt-12 text-lg" *ngIf="comments">
+        Comments
+    </div>
+
+    <div class="mt-6" *ngIf="canComment">
+        <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="text" name="text" [(ngModel)]="commentText"></textarea>
+        <p class="text-grey-dark text-xs italic">Have you made this?  Tell us what you think!</p>
+
+        <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 mt-3" (click)="addComment()">
+            Post
+        </button>
+    </div>
+
+    <div *ngIf="comments" class="mb-12">
+        <div class="flex items-center mt-6" *ngFor="let comment of comments">
+            <img class="w-10 h-10 rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ comment.user.user_hash }}.jpg?d=mp&size=64">
+            <div class="text-sm">
+                <p class="text-black leading-none">{{ comment.user.first_name }} {{ comment.user.last_name }} <span class="text-grey-light" *ngIf="comment.user.id === user.id"><a routerLink="/comments/{{ comment.id }}">&#9998;</a></span></p>
+            <p class="text-grey-dark">{{ comment.text }}</p>
+            <p class="text-grey-light">{{ comment.updated | amTimeAgo }}</p>
+            </div>
+        </div>
     </div>
 </div>

@@ -41,7 +41,6 @@ class Recipe(Model):
 
     directions = TextField(blank=True, null=True)
     description = TextField(blank=True, null=True)
-    notes = TextField(blank=True, null=True)
 
     created = DateTimeField(auto_now_add=True, blank=True)
     added_by = ForeignKey(User, blank=True, null=True)
@@ -53,3 +52,19 @@ class Recipe(Model):
 class UserIngredient(Model):
     user = ForeignKey(User, related_name='ingredient_set')
     ingredient = ForeignKey(Ingredient)
+
+
+class Comment(Model):
+    created = DateTimeField(auto_now_add=True, blank=True)
+    updated = DateTimeField(auto_now=True, blank=True)
+    user = ForeignKey(User, related_name='comments')
+    recipe = ForeignKey(Recipe, related_name='recipes')
+    rating = IntegerField(choices=(
+        (0, '0'),
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    ), blank=True, null=True)
+    text = TextField()

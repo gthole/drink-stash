@@ -1,11 +1,13 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, \
-    BaseSerializer, PrimaryKeyRelatedField, CurrentUserDefault
+    BaseSerializer, PrimaryKeyRelatedField, CurrentUserDefault, \
+    SerializerMethodField
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from .models import Recipe, Quantity, Ingredient, UserIngredient
+from .models import Recipe, Quantity, Ingredient, UserIngredient, Comment
 from .constants import base_substitutions
 
+import hashlib
 import sys
 sys.stdout = sys.stderr
 
@@ -74,11 +76,9 @@ class RecipeSerializer(ModelSerializer):
 
     @staticmethod
     def setup_eager_loading(queryset):
-        """ Perform necessary eager loading of data. """
-        # select_related for "to-one" relationships
-        queryset = queryset.select_related('added_by')
-
-        # prefetch_related for "to-many" relationships
+        """
+        Perform necessary eager loading of data.
+        """
         queryset = queryset.prefetch_related(
             'quantity_set',
             'quantity_set__ingredient'
@@ -109,6 +109,42 @@ class RecipeSerializer(ModelSerializer):
 
         recipe.quantity_set.all().delete()
         return self.add_quantities(recipe, quantity_data)
+
+
+class NestedUserSerializer(ModelSerializer):
+    user_hash = SerializerMethodField(read_only=True)
+
+    def get_user_hash(self, user):
+        m = hashlib.md5()
+        m.update(user.email.encode())
+        return m.hexdigest()
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'user_hash',
+            'first_name',
+            'last_name',
+        )
+
+
+class CommentSerializer(ModelSerializer):
+    user = NestedUserSerializer(
+        read_only=True,
+        default=CurrentUserDefault()
+    )
+
+    class Meta:
+        model = Comment
+        fields = (
+            'id',
+            'user',
+            'recipe',
+            'rating',
+            'text',
+            'updated',
+        )
 
 
 class UserIngredientSerializer(BaseSerializer):
