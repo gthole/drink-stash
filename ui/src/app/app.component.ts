@@ -34,7 +34,11 @@ export class AppComponent {
     }
 
     goBack() {
-        this.location.back();
-        // this.router.navigateByUrl(this.location.path().split('/').slice(0, -1).join('/'));
+        // TODO: Fix this
+        if (this.location.path().startsWith('/comments')) {
+            this.location.back();
+        } else {
+            this.router.navigateByUrl(this.location.path().split('/').slice(0, -1).join('/'));
+        }
     }
 }
