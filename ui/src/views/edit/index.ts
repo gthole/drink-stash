@@ -66,6 +66,12 @@ export class RecipeEditComponent {
 
     addQuantity() {
         this.recipe.addQuantity();
+        const name = this.recipe.quantities.slice(-1)[0].name;
+        setTimeout(() => {
+            this._elementRef.nativeElement
+                .querySelector(`#amount-${name}`)
+                .focus();
+        }, 100);
     }
 
     delete(): void {
@@ -80,7 +86,7 @@ export class RecipeEditComponent {
         );
     }
 
-    save(): void {
+    save(createNew): void {
         // Make sure quantities exist and all have ingredient values
         this.recipe.quantities = this.recipe.quantities.filter((q) => {
             return q.ingredient.trim();
@@ -98,7 +104,9 @@ export class RecipeEditComponent {
         promise.then(
             (saved) => {
                 this.ingredientService.clearCache();
-                this.router.navigateByUrl(`/recipes/${saved.id}`);
+
+                const dest = createNew ? '/new' : `/recipes/${saved.id}`;
+                this.router.navigateByUrl(dest);
             },
             (err) => {
                 this.loading = false;

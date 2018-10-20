@@ -28,7 +28,7 @@
   <div class="mb-6">
       <div class="flex" *ngFor="let q of recipe.quantities">
          <div class="w-1/5 mb-6">
-             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="number" placeholder="1" [(ngModel)]="q.amount" name="amount-{{q.name}}">
+             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="number" [(ngModel)]="q.amount" id="amount-{{q.name}}" name="amount-{{q.name}}">
         </div>
 
         <div class="w-1/5 px-2 mb-6">
@@ -91,4 +91,9 @@
 <button class="bg-red-dark hover:bg-red-darker text-white font-bold py-2 px-4 rounded float-right" (click)="delete()" *ngIf="recipe.id">
     Delete
 </button>
+
+<button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded float-right" *ngIf="!recipe.id" (click)="save(true)">
+    &#43; Save and New
+</button>
+
 </div>
