@@ -104,7 +104,6 @@ class RecipeSerializer(ModelSerializer):
         recipe.source = validated_data.get('source', recipe.source)
         recipe.directions = validated_data.get('directions', recipe.directions)
         recipe.description = validated_data.get('description', recipe.description)
-        recipe.notes = validated_data.get('notes', recipe.notes)
         recipe.save()
 
         recipe.quantity_set.all().delete()
