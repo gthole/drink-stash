@@ -105,8 +105,12 @@ export class RecipeEditComponent {
             (saved) => {
                 this.ingredientService.clearCache();
 
-                const dest = createNew ? '/new' : `/recipes/${saved.id}`;
-                this.router.navigateByUrl(dest);
+                if (!createNew) {
+                    this.router.navigateByUrl(`/recipes/${saved.id}`);
+                } else {
+                    this.recipe = Recipe.createNew();
+                    this.doneLoading();
+                }
             },
             (err) => {
                 this.loading = false;
