@@ -2,9 +2,15 @@ import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { AuthService } from '../../services/auth';
+import { ViewMetaService } from '../../services/view-meta';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 
+
+interface RecipeViewMeta {
+    filters: string[];
+    filterByCabinet: boolean;
+}
 
 @Component({
     selector: 'recipe-list',
@@ -16,6 +22,7 @@ export class RecipeListComponent implements OnInit {
         private recipeService: RecipeService,
         private ingredientService: IngredientService,
         private userService: UserService,
+        private viewMetaService: ViewMetaService,
     ) {}
 
     recipes: Recipe[];
@@ -23,11 +30,21 @@ export class RecipeListComponent implements OnInit {
     substitutions: {[k: string]: string[]} = {};
     userCabinet: Set<string> = new Set<string>();
 
-    filterByCabinet: boolean = false;
     filter: string;
-    filters: string[] = [];
+    meta: RecipeViewMeta;
 
     ngOnInit() {
+        // Restore previous position and filters from meta service
+        const meta = this.viewMetaService.getMeta('recipes');
+        if (meta) {
+            this.meta = meta;
+        } else {
+            this.meta = {
+                filters: [],
+                filterByCabinet: false
+            };
+        }
+
         Promise.all([
             this.recipeService.getList(),
             this.ingredientService.getList(),
@@ -46,13 +63,13 @@ export class RecipeListComponent implements OnInit {
     }
 
     toggleCabinet() {
-        this.filterByCabinet = !this.filterByCabinet;
+        this.meta.filterByCabinet = !this.meta.filterByCabinet;
         this.applyFilters();
     }
 
     applyFilters() {
         this.filtered = this.recipes.filter((r) => {
-            return _.every(this.filters, (f) => {
+            return _.every(this.meta.filters, (f) => {
                 const nameMatch = r.name.toLowerCase().includes(f);
                 const quanMatch = _.some(r.quantities, (q) => {
                     return q.ingredient.toLowerCase().includes(f);
@@ -61,30 +78,32 @@ export class RecipeListComponent implements OnInit {
             });
         });
 
-        if (!this.filterByCabinet) return;
-
-        this.filtered = this.filtered.filter((r) => {
-            return _.every(r.quantities, (q) => {
-                // Either the ingredient itself is in the user cabinet
-                return this.userCabinet.has(q.ingredient) ||
-                    // Or one of its substitutions is
-                    _.some(
-                        this.substitutions[q.ingredient] || [],
-                        (s) => this.userCabinet.has(s)
-                    );
+        if (this.meta.filterByCabinet) {
+            this.filtered = this.filtered.filter((r) => {
+                return _.every(r.quantities, (q) => {
+                    // Either the ingredient itself is in the user cabinet
+                    return this.userCabinet.has(q.ingredient) ||
+                        // Or one of its substitutions is
+                        _.some(
+                            this.substitutions[q.ingredient] || [],
+                            (s) => this.userCabinet.has(s)
+                        );
+                });
             });
-        });
+        }
+
+        this.viewMetaService.setMeta('recipes', this.meta);
     }
 
     addFilter() {
         if (!this.filter) return;
-        this.filters.push(this.filter.toLowerCase());
+        this.meta.filters.push(this.filter.toLowerCase());
         this.filter = '';
         this.applyFilters();
     }
 
     removeFilter(f: string) {
-        this.filters = this.filters.filter((g) => g != f);
+        this.meta.filters = this.meta.filters.filter((g) => g != f);
         this.applyFilters();
     }
 }

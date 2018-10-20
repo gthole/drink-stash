@@ -1,30 +1,32 @@
-<button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
-    [ngClass]="{'bg-teal-dark text-white': filterByCabinet, 'text-teal-dark': !filterByCabinet}"
-    (click)="toggleCabinet()">
-    Cabinet
-</button>
+<div id="wrapper" class="meta">
+    <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+        [ngClass]="{'bg-teal-dark text-white': meta.filterByCabinet, 'text-teal-dark': !meta.filterByCabinet}"
+        (click)="toggleCabinet()">
+        Cabinet
+    </button>
 
-<h1>Recipes</h1>
-<div class="flex items-center border-b border-b-2 border-teal py-2">
-    <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
-</div>
-<div class="my-4 overflow-auto">
-    <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 bg-teal text-white" *ngFor="let f of filters" (click)="removeFilter(f)">
-        {{ f }} &times;
+    <h1>Recipes</h1>
+    <div class="flex items-center border-b border-b-2 border-teal py-2" (scroll)="onScroll($event)">
+        <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
     </div>
-</div>
-<div class="text-center text-grey" *ngIf="filtered && filtered.length === 0">
-    No matches
-</div>
-<div class="list mt-6">
-    <div class="item" *ngFor="let recipe of filtered">
-        <p class="font-bold text-xl">
-            <a routerLink="/recipes/{{ recipe.id }}">{{ recipe.name }}</a>
-        </p>
-        <div class="text-grey quantities">
-            <span *ngFor="let q of recipe.quantities" class="mr-2">
-                {{ q.ingredient }}
-            </span>
+    <div class="my-4 overflow-auto">
+        <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 bg-teal text-white" *ngFor="let f of meta.filters" (click)="removeFilter(f)">
+            {{ f }} &times;
+        </div>
+    </div>
+    <div class="text-center text-grey" *ngIf="filtered && filtered.length === 0">
+        No matches
+    </div>
+    <div class="list mt-6">
+        <div class="item" *ngFor="let recipe of filtered">
+            <p class="font-bold text-xl">
+                <a routerLink="/recipes/{{ recipe.id }}">{{ recipe.name }}</a>
+            </p>
+            <div class="text-grey quantities">
+                <span *ngFor="let q of recipe.quantities" class="mr-2">
+                    {{ q.ingredient }}
+                </span>
+            </div>
         </div>
     </div>
 </div>

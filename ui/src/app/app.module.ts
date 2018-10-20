@@ -8,6 +8,7 @@ import { Ng2CompleterModule } from "ng2-completer";
 
 import { httpInterceptorProviders } from '../http-interceptors/';
 import { AuthService } from '../services/auth';
+import { ViewMetaService } from '../services/view-meta';
 import { CommentService } from '../services/comments';
 import { IngredientService } from '../services/ingredients';
 import { RecipeService } from '../services/recipes';
@@ -52,6 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     providers: [
         httpInterceptorProviders,
         AuthService,
+        ViewMetaService,
         CommentService,
         IngredientService,
         RecipeService,
