@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ViewMetaService } from './view-meta';
 
 const helper = new JwtHelperService();
 
@@ -9,6 +10,7 @@ const helper = new JwtHelperService();
 export class AuthService {
     constructor(
         private http: HttpClient,
+        private viewMetaService: ViewMetaService,
     ) { }
 
     private loggedInState = new Subject<boolean>();
@@ -29,6 +31,7 @@ export class AuthService {
 
     logout(): void {
         localStorage.clear();
+        this.viewMetaService.clear();
         this.loggedInState.next(false);
     }
 

@@ -7,6 +7,10 @@ export class ViewMetaService {
 
     private registry: {[view: string]: any} = {};
 
+    clear(): void {
+        this.registry = {};
+    }
+
     setMeta(view: string, meta: any): void {
         this.registry[view] = meta;
     }
