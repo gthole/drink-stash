@@ -1,29 +1,53 @@
-<div class="mb-6">
-    <div>
-        <a class="text-xl" routerLink="/recipes">All Drink Recipes</a>
-    </div>
-    <div class="text-grey">Find recipes to make, filtering by name or
-        ingredient.</div>
-</div>
-<div class="mb-6">
-    <div>
-        <a class="text-xl" routerLink="/cabinet">Your Liquor Cabinet</a>
-    </div>
-    <div class="text-grey">Create an inventory of what you have in stock so
-        you can find great cocktails to try more easily.</div>
-</div>
+<div>
+    <div class="flex flex-wrap">
+        <div class="mb-6 w-1/2 md:w-1/4">
+            <a class="text-xl text-center" routerLink="/recipes">
+                <div><fa-icon [icon]="faGlassMartiniAlt"></fa-icon></div>
+                <div>Recipes</div>
+            </a>
+        </div>
 
-<div class="mb-6">
-    <div>
-        <a class="text-xl" routerLink="/new">Add a Recipe</a>
-    </div>
-    <div class="text-grey">Add to the library of intoxication.</div>
-</div>
+        <div class="mb-6 w-1/2 md:w-1/4">
+            <a class="text-xl text-center" routerLink="/cabinet">
+                <div><fa-icon [icon]="faWineBottle"></fa-icon></div>
+                <div>Liquor Cabinet</div>
+            </a>
+        </div>
 
-<div class="mb-6">
-    <div>
-        <a class="text-xl" routerLink="/random">Random Recipe</a>
+        <div class="mb-6 w-1/2 md:w-1/4">
+            <a class="text-xl text-center" routerLink="/new">
+                <div><fa-icon [icon]="faPlus"></fa-icon></div>
+                <div>New</div>
+            </a>
+        </div>
+
+        <div class="mb-6 w-1/2 md:w-1/4">
+            <a class="text-xl text-center" routerLink="/random">
+                <div><fa-icon [icon]="faRandom"></fa-icon></div>
+                <div>Random</div>
+            </a>
+        </div>
     </div>
-    <div class="text-grey">Try a random cocktail recipe from the list, from
-        only what's in your liquor cabinet.</div>
+
+
+    <p class="mt-12 mb-3 text-lg text-center">Activity Feed</p>
+    <div *ngIf="!activityFeed" class="text-sm text-center text-grey-light">loading ...</div>
+    <div *ngIf="activityFeed" class="mt-3 bg-grey-lighter -mx-4 px-4 py-3 mt-3">
+
+        <div class="mt-6 flex items-center bg-white p-3" *ngFor="let a of activityFeed">
+            <img class="w-10 h-10 rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ a.user_hash }}.jpg?d=mp&size=64">
+            <div class="text-sm">
+                <p class="leading-none mb-1">
+                    <span class="text-black">{{ a.name }}</span>
+                    <span class="text-grey" *ngIf="a.type === 'recipe'"> added a recipe </span>
+                    <span class="text-grey" *ngIf="a.type === 'comment'"> made a comment </span>
+                </p>
+                <p>
+                    <a routerLink="/recipes/{{ a.recipe.id }}">{{ a.recipe.name }}</a>
+                </p>
+                <p class="text-grey"> {{ a.when | amTimeAgo }}</p>
+            </div>
+        </div>
+        <div class="mb-3">&nbsp;</div>
+    </div>
 </div>

@@ -9,6 +9,8 @@ class Recipe extends BaseModel {
     source: string;
     directions: string;
     description: string;
+    created: Date;
+    added_by: any;
     quantities: any[];
 
     constructor(payload) {
@@ -18,6 +20,8 @@ class Recipe extends BaseModel {
         this.source = payload.source;
         this.description = payload.description;
         this.directions = payload.directions;
+        this.added_by = payload.added_by;
+        this.created = new Date(payload.created);
         this.quantities = payload.quantity_set;
 
         this.quantities.forEach((q) => q.name = this.quantityName());

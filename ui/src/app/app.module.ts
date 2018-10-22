@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { MomentModule } from 'angular2-moment';
 import { Ng2CompleterModule } from "ng2-completer";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { httpInterceptorProviders } from '../http-interceptors/';
 import { AuthService } from '../services/auth';
@@ -19,6 +20,7 @@ import { RecipeEditComponent } from '../views/edit';
 import { CommentEditComponent } from '../views/comment-edit';
 import { RecipeDetailComponent } from '../views/detail';
 import { RecipeDetailViewComponent } from '../views/detail/detail-view';
+import { CommentComponent } from '../views/detail/comment';
 import { RecipeListComponent } from '../views/recipes';
 import { RandomRecipeComponent } from '../views/random';
 import { HomeViewComponent } from '../views/home';
@@ -35,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         RecipeEditComponent,
         RecipeDetailComponent,
         RecipeDetailViewComponent,
+        CommentComponent,
         RecipeListComponent,
         HomeViewComponent,
         UserCabinetComponent,
@@ -44,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        FontAwesomeModule,
         FormsModule,
         MomentModule,
         Ng2CompleterModule,

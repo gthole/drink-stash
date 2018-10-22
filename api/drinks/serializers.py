@@ -54,9 +54,27 @@ class QuantitySerializer(ModelSerializer):
         fields = ('id', 'amount', 'unit', 'ingredient')
 
 
+class NestedUserSerializer(ModelSerializer):
+    user_hash = SerializerMethodField(read_only=True)
+
+    def get_user_hash(self, user):
+        m = hashlib.md5()
+        m.update(user.email.encode())
+        return m.hexdigest()
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'user_hash',
+            'first_name',
+            'last_name',
+        )
+
+
 class RecipeSerializer(ModelSerializer):
     quantity_set = QuantitySerializer(many=True)
-    added_by = PrimaryKeyRelatedField(
+    added_by = NestedUserSerializer(
         read_only=True,
         default=CurrentUserDefault()
     )
@@ -79,6 +97,7 @@ class RecipeSerializer(ModelSerializer):
         """
         Perform necessary eager loading of data.
         """
+        queryset = queryset.select_related('added_by')
         queryset = queryset.prefetch_related(
             'quantity_set',
             'quantity_set__ingredient'
@@ -110,24 +129,6 @@ class RecipeSerializer(ModelSerializer):
         return self.add_quantities(recipe, quantity_data)
 
 
-class NestedUserSerializer(ModelSerializer):
-    user_hash = SerializerMethodField(read_only=True)
-
-    def get_user_hash(self, user):
-        m = hashlib.md5()
-        m.update(user.email.encode())
-        return m.hexdigest()
-
-    class Meta:
-        model = User
-        fields = (
-            'id',
-            'user_hash',
-            'first_name',
-            'last_name',
-        )
-
-
 class CommentSerializer(ModelSerializer):
     user = NestedUserSerializer(
         read_only=True,
@@ -143,6 +144,7 @@ class CommentSerializer(ModelSerializer):
             'rating',
             'text',
             'updated',
+            'created',
         )
 
 

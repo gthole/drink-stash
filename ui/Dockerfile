@@ -3,7 +3,7 @@ FROM node:8
 ENV PATH ./node_modules/.bin:$PATH
 
 WORKDIR /app
-ADD ./package.json /app/package.json
+ADD ./package.json ./package-lock.json /app/
 RUN npm install
 
 ENV PATH ./node_modules/.bin:$PATH

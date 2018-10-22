@@ -11,9 +11,6 @@ from .serializers import RecipeSerializer, UserSerializer, \
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all().order_by('id')
     serializer_class = RecipeSerializer
-    filter_fields = (
-        'name',
-    )
 
     def get_queryset(self):
         queryset = Recipe.objects.all()
@@ -30,9 +27,17 @@ class IngredientViewSet(ModelViewSet):
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    ordering_fields = ('id',)
     filter_fields = {
-        'recipe': ['exact']
+        'recipe': ['exact'],
     }
+
+    def filter_queryset(self, *args, **kwargs):
+        "Custom filtering to for exclude negations of users"
+        qs = super().filter_queryset(*args, **kwargs)
+        if self.request.GET.get('user!'):
+            qs = qs.exclude(user__id=self.request.GET.get('user!'))
+        return qs
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()

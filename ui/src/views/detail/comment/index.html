@@ -1,0 +1,13 @@
+<div class="flex items-center mt-6">
+    <img class="w-10 h-10 rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ comment.user.user_hash }}.jpg?d=mp&size=64">
+    <div class="text-sm">
+        <p class="text-black leading-none mb-1">
+            {{ comment.user.first_name }} {{ comment.user.last_name }}
+            <span class="text-grey-light" *ngIf="comment.user.id === user.id">
+                <a routerLink="/comments/{{ comment.id }}">&#9998;</a>
+            </span>
+        </p>
+        <p class="text-grey-dark">{{ comment.text }}</p>
+        <p class="text-grey-light">{{ comment.updated | amTimeAgo }}</p>
+    </div>
+</div>

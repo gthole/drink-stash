@@ -23,7 +23,10 @@ export class RecipeDetailViewComponent {
     canComment: boolean = false;
     commentText: string = '';
 
-    ngOnInit() {
+    ngOnChanges() {
+        this.comments = null;
+        this.canComment = false;
+        this.commentText = '';
         Promise.all([
             this.commentService.getFiltered({recipe: `${this.recipe.id}`}),
             this.userService.getSelf()

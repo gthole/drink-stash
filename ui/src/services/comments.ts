@@ -9,6 +9,7 @@ class Comment extends BaseModel {
     recipe: number;
     rating: number;
     text: string;
+    created: Date;
     updated?: Date;
 
     constructor(payload) {
@@ -21,6 +22,7 @@ class Comment extends BaseModel {
         if (payload.updated) {
             this.updated = new Date(payload.updated);
         }
+        this.created = new Date(payload.created);
 
         this.setHash();
     }
