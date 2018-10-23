@@ -27,3 +27,11 @@ a:visited {
 a.text-white {
     color: #fff;
 }
+
+.quantities span:not(:first-child)::before {
+    content: "•";
+    font-weight: bold;
+    line-height: 14px;
+    vertical-align: middle;
+    margin-right: 7px;
+}

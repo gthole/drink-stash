@@ -12,6 +12,7 @@ interface Activity {
     type: string;
     when: Date;
     recipe: Recipe;
+    text?: string;
 }
 
 @Component({
@@ -77,6 +78,7 @@ export class HomeViewComponent implements OnInit {
                 name: `${c.user.first_name} ${c.user.last_name}`,
                 type: 'comment',
                 when: c.created,
+                text: c.text,
                 recipe: recipes.filter((r) => r.id === c.recipe)[0]
             };
         });
