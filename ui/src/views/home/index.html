@@ -52,7 +52,7 @@
                         {{ q.ingredient }}
                     </span>
                 </div>
-                <div *ngIf="a.type === 'comment'" class="text-grey">
+                <div *ngIf="a.type === 'comment'" class="text-grey text-xs">
                     {{ (a.text.length>120)? (a.text | slice:0:120)+' ...':(a.text) }}
                 </div>
             </div>

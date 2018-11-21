@@ -5,11 +5,13 @@ import { BaseModel, BaseService } from './base';
 
 class Ingredient extends BaseModel {
     name: string;
+    category: number;
     substitutions: string[];
 
     constructor(payload) {
         super();
         this.name = payload.name;
+        this.category = payload.category;
         this.substitutions = payload.substitutions;
         this.setHash();
     }
@@ -17,6 +19,7 @@ class Ingredient extends BaseModel {
     toPayload() {
         return {
             name: this.name,
+            category: this.category,
             substitutions: this.substitutions
         }
     }

@@ -19,15 +19,11 @@ def get_or_create_ingredient(name):
         )
     except:
         ingredient = Ingredient(name=name)
+        ingredient.guess_category()  # Don't have quantity info for context here
         ingredient.save()
 
         if name not in base_substitutions.values():
-            # Check for base liquor substitutions to add
-            for key, val in base_substitutions.items():
-                if name.lower().endswith(' %s' % key):
-                    sub = Ingredient.objects.get(name=val)
-                    ingredient.substitutions.add(sub)
-                    break
+            ingredient.guess_substitutions()
     return ingredient
 
 
@@ -43,7 +39,7 @@ class IngredientSerializer(ModelSerializer):
     substitutions = NestedIngredientSerializer(many=True)
     class Meta:
         model = Ingredient
-        fields = ('name', 'substitutions')
+        fields = ('name', 'substitutions', 'category')
 
 
 class QuantitySerializer(ModelSerializer):

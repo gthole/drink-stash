@@ -21,28 +21,38 @@ export class BaseModel {
     }
 }
 
+
+const CACHE_TTL = 60 * 60 * 1000;
+
+
+interface CacheContent {
+    values: any[];
+    date: number;
+}
+
 export class BaseService {
 
     http: HttpClient;
     baseUrl: string;
     model: any;
-    cached: any[];
-    expire: number = 0;
+    cached: CacheContent;
 
-    getCache(): any[] {
-        if (this.cached && this.expire > Date.now()) {
-            return _.cloneDeep(this.cached);
+    getCache(): CacheContent {
+        if (this.cached) return this.cached;
+        const cached = localStorage.getItem(this.baseUrl);
+        if (cached) {
+            this.cached = JSON.parse(cached);
+            return this.cached;
         }
     }
 
-    setCache(cache: any[]) {
-        this.cached = cache;
-        this.expire = Date.now() + (60 * 60 * 1000);
+    setCache(date: number, values: any[]) {
+        this.cached = {date, values};
+        localStorage.setItem(this.baseUrl, JSON.stringify(this.cached));
     }
 
     clearCache() {
-        this.cached = null;
-        this.expire = 0;
+        localStorage.removeItem(this.baseUrl);
     }
 
     getFiltered(query: {[k: string]: string}): Promise<any[]> {
@@ -54,30 +64,44 @@ export class BaseService {
     }
 
     getList(): Promise<any[]> {
+        // Take a look at our live cache
         const cached = this.getCache();
+        if (cached && Date.now() < cached.date + CACHE_TTL) {
+            return new Promise((r) => r(cached.values.map(a => new this.model(a))));
+        }
+
+        // If the cache doesn't exist or isn't fresh enough,
+        const headers: {[header: string]: string} = {};
         if (cached) {
-            return new Promise((res) => res(cached));
+            headers['If-Modified-Since'] = new Date(cached.date).toISOString();
         }
 
         return this.http
-            .get(this.baseUrl)
+            .get(this.baseUrl, {headers})
             .toPromise()
             .then((resp: any[]) => {
                 const result = resp.map(a => new this.model(a));
-                this.setCache(result);
+                // TODO: Use Date header from response
+                this.setCache(Date.now(), resp);
                 return result;
+            })
+            .catch((response) => {
+                // TODO: Throw error if not 304
+                if (response.status === 304) {
+                    this.cached.date = Date.now();
+                    return cached.values.map(a => new this.model(a));
+                }
             });
     }
 
     getById(id: string): Promise<any> {
         const cached = this.getCache();
-        if (cached) {
-            const r = cached.filter(a => a.id == parseInt(id, 10));
+        if (cached && Date.now() < cached.date + CACHE_TTL) {
+            const r = cached.values.filter(a => a.id == parseInt(id, 10));
             if (r.length) {
-                return new Promise((res) => res(r[0]));
+                return new Promise((res) => res(new this.model(r[0])));
             }
         }
-
         return this.http
             .get(this.baseUrl + id + '/')
             .toPromise()
