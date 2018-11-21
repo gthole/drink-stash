@@ -4,7 +4,8 @@ from .models import Ingredient, Quantity, Recipe
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'generic')
+    list_display = ('name', 'category')
+    exclude = ('description', 'generic')
     search_fields = ['name']
     ordering = ['name']
 
@@ -17,6 +18,7 @@ class QuantityInline(admin.TabularInline):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id', 'added_by')
     inlines = [
         QuantityInline,
     ]
@@ -25,7 +27,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     def save_model(self, request, instance, form, change):
         if not change:
-            self.added_by = request.user
+            instance.added_by = request.user
         super(RecipeAdmin, self).save_model(request, instance, form, change)
 
 

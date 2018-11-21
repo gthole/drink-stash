@@ -16,6 +16,8 @@ export class RecipeDetailViewComponent {
     ) {}
 
     @Input() recipe: Recipe;
+
+    showQuantities: any[] = [];
     units = units;
 
     user: User;
@@ -24,6 +26,7 @@ export class RecipeDetailViewComponent {
     commentText: string = '';
 
     ngOnChanges() {
+        this.showQuantities = this.recipe.quantities.filter(q => !q.hidden);
         this.comments = null;
         this.canComment = false;
         this.commentText = '';

@@ -47,7 +47,7 @@ class QuantitySerializer(ModelSerializer):
 
     class Meta:
         model = Quantity
-        fields = ('id', 'amount', 'unit', 'ingredient')
+        fields = ('id', 'amount', 'unit', 'ingredient', 'hidden')
 
 
 class NestedUserSerializer(ModelSerializer):
