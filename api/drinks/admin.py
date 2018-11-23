@@ -6,8 +6,8 @@ from .models import Ingredient, Quantity, Recipe
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'category')
     exclude = ('description', 'generic')
-    search_fields = ['name']
-    ordering = ['name']
+    search_fields = ('name',)
+    ordering = ('name',)
 
 
 class QuantityInline(admin.TabularInline):
@@ -18,6 +18,8 @@ class QuantityInline(admin.TabularInline):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    ordering = ('name',)
     list_display = ('name', 'id', 'added_by')
     inlines = [
         QuantityInline,
