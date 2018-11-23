@@ -52,6 +52,7 @@ export class BaseService {
     }
 
     clearCache() {
+        this.cached = null;
         localStorage.removeItem(this.baseUrl);
     }
 
@@ -114,7 +115,10 @@ export class BaseService {
         return this.http
             .post(this.baseUrl, payload)
             .toPromise()
-            .then((res) => new this.model(res));
+            .then((res) => {
+                this.clearCache();
+                return new this.model(res);
+            });
     }
 
     update(obj: any): Promise<any> {
@@ -123,13 +127,17 @@ export class BaseService {
         return this.http
             .put(this.baseUrl + obj.id + '/', payload)
             .toPromise()
-            .then((res) => new this.model(res));
+            .then((res) => {
+                this.clearCache();
+                return new this.model(res);
+            });
     }
 
     remove(obj: any): Promise<any> {
         this.cached = null;
         return this.http
             .delete(this.baseUrl + obj.id + '/')
-            .toPromise();
+            .toPromise()
+            .then(() => this.clearCache());
     }
 }
