@@ -9,7 +9,7 @@ ENV PATH ./node_modules/.bin:$PATH
 WORKDIR /app
 ADD ./ui /app
 RUN npm install
-RUN npm run build
+RUN npm run compile
 
 
 # API
