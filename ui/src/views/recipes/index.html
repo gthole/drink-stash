@@ -6,7 +6,7 @@
     </button>
 
     <h1>Recipes</h1>
-    <div class="flex items-center border-b border-b-2 border-teal py-2" (scroll)="onScroll($event)">
+    <div class="flex items-center border-b border-b-2 border-teal py-2">
         <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
     </div>
     <div class="my-4 overflow-auto">
