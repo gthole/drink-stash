@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../services/auth';
+import { AlertService } from '../services/alerts';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,9 +13,11 @@ import { Router } from '@angular/router';
 export class AppComponent {
     title = 'Drink Stash';
     loggedIn: boolean = false;
+    alerts: Alert[] = [];
 
     constructor(
         private authService: AuthService,
+        private alertService: AlertService,
         private location: Location,
         private router: Router,
     ) {
@@ -24,6 +27,7 @@ export class AppComponent {
             this.loggedIn = true;
         }
 
+        this.alertService.alertTopic.subscribe(alrt => this.alerts.push(alrt));
         this.authService.authUpdates.subscribe(state => this.loggedIn = state);
     }
 

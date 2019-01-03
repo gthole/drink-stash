@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { httpInterceptorProviders } from '../http-interceptors/';
 import { AuthService } from '../services/auth';
+import { AlertService } from '../services/alerts';
 import { ViewMetaService } from '../services/view-meta';
 import { CommentService } from '../services/comments';
 import { IngredientService } from '../services/ingredients';
@@ -57,6 +58,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     providers: [
         httpInterceptorProviders,
         AuthService,
+        AlertService,
         ViewMetaService,
         CommentService,
         IngredientService,

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { AuthService } from '../../services/auth';
+import { AlertService } from '../../services/alerts';
 import { ViewMetaService } from '../../services/view-meta';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
@@ -19,6 +20,7 @@ interface RecipeViewMeta {
 })
 export class RecipeListComponent implements OnInit {
     constructor(
+        private alertService: AlertService,
         private recipeService: RecipeService,
         private ingredientService: IngredientService,
         private userService: UserService,
@@ -59,6 +61,9 @@ export class RecipeListComponent implements OnInit {
             });
 
             this.applyFilters();
+        })
+        .catch(() => {
+            this.alertService.error('Something went wrong, please reload or try again.');
         });
     }
 

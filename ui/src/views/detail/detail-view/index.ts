@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AlertService } from '../../../services/alerts';
 import { Recipe } from '../../../services/recipes';
 import { Comment, CommentService } from '../../../services/comments';
 import { units } from '../../../constants';
@@ -11,6 +12,7 @@ import { User, UserService } from '../../../services/users';
 })
 export class RecipeDetailViewComponent {
     constructor(
+        private alertService: AlertService,
         private commentService: CommentService,
         private userService: UserService,
     ) {}
@@ -41,13 +43,16 @@ export class RecipeDetailViewComponent {
     }
 
     addComment(): void {
+        this.canComment = false;
         const payload = new Comment({
             text: this.commentText,
             recipe: this.recipe.id
         });
-        this.commentService.create(payload).then((res: Comment) => {
-            this.comments.push(res);
-            this.canComment = false;
-        });
+        this.commentService.create(payload)
+            .then((res: Comment) => this.comments.push(res))
+            .catch(() => {
+                this.alertService.error('There was an error posting your comment. ' +
+                                        'Please try again later.')
+            });
     }
 }
