@@ -1,8 +1,20 @@
 <div *ngIf="user">
     <div class="mb-6">
         <p class="text-xl">{{ user.first_name }} {{ user.last_name }}</p>
-        <p class="text-grey">Not much to see here yet.</p>
+        <div class="mt-3">
+            <p *ngIf="!user.is_staff" class="text-grey">Not much to see here yet.</p>
+            <p *ngIf="user.is_staff" class="text-grey">
+                Log into the <a href="/admin/">admin portal</a> to manage the site.
+            </p>
+        </div>
     </div>
 
-    <button class="text-grey text-xs bg-transparent font-semibold py-2 px-4 border border-grey-dark rounded" (click)="logout()">Log out</button>
+
+    <button class="
+        text-grey text-xs bg-transparent
+        font-semibold py-2 px-4
+        border border-grey-dark rounded"
+        (click)="logout()">
+            Log out
+    </button>
 </div>

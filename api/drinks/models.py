@@ -70,6 +70,7 @@ class Quantity(Model):
         (7, 'sprig'),
         (8, 'leaf'),
         (9, 'spritz'),
+        (10, 'wedge'),
     ), null=True, blank=True)
     ingredient = ForeignKey('Ingredient')
     hidden = BooleanField(default=False)

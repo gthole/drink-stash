@@ -8,5 +8,6 @@ export const units = {
     6: 'tablespoon',
     7: 'sprig',
     8: 'leaf',
-    9: 'spritz'
+    9: 'spritz',
+    10: 'wedge',
 };

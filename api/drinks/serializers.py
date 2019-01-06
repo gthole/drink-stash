@@ -164,6 +164,7 @@ class UserSerializer(ModelSerializer):
             'first_name',
             'last_name',
             'ingredient_set',
+            'is_staff',
         )
 
     def add_user_ingredients(self, user, ingredients):
