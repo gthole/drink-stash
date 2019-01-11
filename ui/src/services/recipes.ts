@@ -11,6 +11,7 @@ class Recipe extends BaseModel {
     description: string;
     created: Date;
     added_by: any;
+    comment_count: number;
     quantities: any[];
 
     constructor(payload) {
@@ -22,6 +23,7 @@ class Recipe extends BaseModel {
         this.directions = payload.directions;
         this.added_by = payload.added_by;
         this.created = new Date(payload.created);
+        this.comment_count = payload.comment_count;
         this.quantities = payload.quantity_set;
 
         this.quantities.forEach((q) => q.name = this.quantityName());

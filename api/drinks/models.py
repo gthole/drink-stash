@@ -103,7 +103,7 @@ class Comment(Model):
     created = DateTimeField(auto_now_add=True, blank=True)
     updated = DateTimeField(auto_now=True, blank=True)
     user = ForeignKey(User, related_name='comments')
-    recipe = ForeignKey(Recipe, related_name='recipes')
+    recipe = ForeignKey(Recipe, related_name='comments')
     rating = IntegerField(choices=(
         (0, '0'),
         (1, '1'),

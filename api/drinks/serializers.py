@@ -74,6 +74,7 @@ class RecipeSerializer(ModelSerializer):
         read_only=True,
         default=CurrentUserDefault()
     )
+    comment_count = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Recipe
@@ -86,6 +87,7 @@ class RecipeSerializer(ModelSerializer):
             'quantity_set',
             'created',
             'added_by',
+            'comment_count',
         )
 
     @staticmethod
@@ -95,11 +97,15 @@ class RecipeSerializer(ModelSerializer):
         """
         queryset = queryset.select_related('added_by')
         queryset = queryset.prefetch_related(
+            'comments',
             'quantity_set',
             'quantity_set__ingredient'
         )
 
         return queryset
+
+    def get_comment_count(self, recipe):
+        return recipe.comments.count()
 
     def add_quantities(self, recipe, quantity_data):
         for qdata in quantity_data:
