@@ -21,6 +21,10 @@
     font-family: cursive;
 }
 
+.back {
+    font-size: 20px;
+}
+
 @media (max-width: 320px) {
     .text-title {
         font-size: 1rem;
