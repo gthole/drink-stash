@@ -7,7 +7,7 @@
                 <a routerLink="/comments/{{ comment.id }}">&#9998;</a>
             </span>
         </p>
-        <p class="text-black">{{ comment.text }}</p>
+        <p class="text-black" style="white-space:pre-wrap;">{{ comment.text }}</p>
         <p class="mt-1 text-grey-light">{{ comment.updated | amTimeAgo }}</p>
     </div>
 </div>

@@ -28,6 +28,8 @@ export class HomeViewComponent implements OnInit {
     ) {}
 
     activityFeed: Activity[];
+    allActivities: Activity[];
+    hasMore: boolean = false;
 
     // Icons
     faGlassMartiniAlt = faGlassMartiniAlt;
@@ -48,7 +50,7 @@ export class HomeViewComponent implements OnInit {
 
         const auth = this.authService.getUserData();
         const commentParams = {
-            'user!': auth.user_id,
+            // 'user!': auth.user_id,
             'ordering': '-id'
         };
         Promise.all([
@@ -57,6 +59,13 @@ export class HomeViewComponent implements OnInit {
         ]).then(([recipes, comments]) => {
             this.processActivities(auth, recipes, comments)
         });
+    }
+
+    loadMore() {
+        const len = this.activityFeed.length;
+        const nextPage = this.allActivities.slice(len, len + 10);
+        this.activityFeed = this.activityFeed.concat(nextPage);
+        this.hasMore = this.activityFeed.length < this.allActivities.length;
     }
 
     processActivities(auth: any, recipes: Recipe[], comments: Comment[]): void {
@@ -83,9 +92,11 @@ export class HomeViewComponent implements OnInit {
             };
         });
 
-        this.activityFeed = _.sortBy(recipeActivities.concat(commentActivities), 'when')
-            .reverse()
-            .slice(0, 10);
+        this.allActivities = _.sortBy(recipeActivities.concat(commentActivities), 'when')
+            .reverse();
+
+        this.activityFeed = this.allActivities.slice(0, 10);
+        this.hasMore = this.activityFeed.length < this.allActivities.length;
 
         // Cache the activity feed for an hour
         this.viewMetaService.setMeta('home', {
