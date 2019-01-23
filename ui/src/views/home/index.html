@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="text-center text-sm mt-6 mb-6">
-            <a *ngIf="hasMore" class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent rounded" (click)="loadMore()">Load more</a>
+            <a *ngIf="activityFeed.length < allActivities.length" class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent rounded" (click)="loadMore()">Load more</a>
         </div>
     </div>
 </div>

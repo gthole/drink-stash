@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { ViewMetaService } from '../../services/view-meta';
 import { Comment, CommentService } from '../../services/comments';
@@ -21,7 +20,6 @@ interface Activity {
 })
 export class HomeViewComponent implements OnInit {
     constructor(
-        private authService: AuthService,
         private recipeService: RecipeService,
         private commentService: CommentService,
         private viewMetaService: ViewMetaService,
@@ -29,7 +27,6 @@ export class HomeViewComponent implements OnInit {
 
     activityFeed: Activity[];
     allActivities: Activity[];
-    hasMore: boolean = false;
 
     // Icons
     faGlassMartiniAlt = faGlassMartiniAlt;
@@ -44,20 +41,19 @@ export class HomeViewComponent implements OnInit {
     fetchActivityFeed() {
         const meta = this.viewMetaService.getMeta('home');
         if (meta && meta.activities && Date.now() < meta.expire) {
-            this.activityFeed = meta.activities;
+            this.allActivities = meta.activities;
+            this.setFeed();
             return;
         }
 
-        const auth = this.authService.getUserData();
         const commentParams = {
-            // 'user!': auth.user_id,
             'ordering': '-id'
         };
         Promise.all([
             this.recipeService.getList(), // filter client-side
             this.commentService.getFiltered(commentParams)
         ]).then(([recipes, comments]) => {
-            this.processActivities(auth, recipes, comments)
+            this.processActivities(recipes, comments)
         });
     }
 
@@ -65,12 +61,14 @@ export class HomeViewComponent implements OnInit {
         const len = this.activityFeed.length;
         const nextPage = this.allActivities.slice(len, len + 10);
         this.activityFeed = this.activityFeed.concat(nextPage);
-        this.hasMore = this.activityFeed.length < this.allActivities.length;
     }
 
-    processActivities(auth: any, recipes: Recipe[], comments: Comment[]): void {
+    setFeed() {
+        this.activityFeed = this.allActivities.slice(0, 10);
+    }
+
+    processActivities(recipes: Recipe[], comments: Comment[]): void {
         const recipeActivities: Activity[] = recipes
-            .filter((r) => r.added_by.id !== auth.user_id)
             .map((r) => {
                 return {
                     user_hash: r.added_by.user_hash,
@@ -95,13 +93,11 @@ export class HomeViewComponent implements OnInit {
         this.allActivities = _.sortBy(recipeActivities.concat(commentActivities), 'when')
             .reverse();
 
-        this.activityFeed = this.allActivities.slice(0, 10);
-        this.hasMore = this.activityFeed.length < this.allActivities.length;
-
         // Cache the activity feed for an hour
         this.viewMetaService.setMeta('home', {
             expire: Date.now() + (60 * 60 * 1000),
-            activities: this.activityFeed
+            activities: this.allActivities
         });
+        this.setFeed();
     }
 }
