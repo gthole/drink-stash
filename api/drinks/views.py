@@ -7,7 +7,8 @@ from django.db.models import Q, Count
 from django.contrib.auth.models import User
 from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient
 from .serializers import RecipeSerializer, RecipeListSerializer, \
-    UserSerializer, IngredientSerializer, CommentSerializer
+    UserSerializer, IngredientSerializer, CommentSerializer, \
+    PostCommentSerializer
 from dateutil import parser as date_parser
 
 
@@ -38,7 +39,7 @@ class RecipeViewSet(LazyViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.request.path == '/api/v1/recipes/':
+        if self.request.path == '/api/v1/recipes/' and self.request.method == 'GET':
             return self.list_serializer_class
         return self.serializer_class
 
@@ -99,14 +100,21 @@ class IngredientViewSet(LazyViewSet):
 class CommentViewSet(LazyViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    post_serializer_class = PostCommentSerializer
     filter_fields = {
         'recipe': ['exact'],
     }
 
+    def get_serializer_class(self):
+        if self.request.method in ('POST', 'PUT'):
+            return self.post_serializer_class
+        return self.serializer_class
+
     def get_queryset(self):
         queryset = super(CommentViewSet, self).get_queryset()
         # Set up eager loading to avoid N+1 selects
-        queryset = self.get_serializer_class().setup_eager_loading(queryset)
+        if self.request.method == 'GET':
+            queryset = self.get_serializer_class().setup_eager_loading(queryset)
         return queryset
 
     def filter_queryset(self, *args, **kwargs):

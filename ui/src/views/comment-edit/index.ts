@@ -37,7 +37,7 @@ export class CommentEditComponent {
     delete(): void {
         this.loading = true;
         this.commentService.remove(this.comment).then(
-            () => this.router.navigateByUrl(`/recipes/${this.comment.recipe}`),
+            () => this.router.navigateByUrl(`/recipes/${this.comment.recipe.id}`),
             (err) => {
                 this.loading = false;
                 this.error = 'Whoops - something went wrong';
@@ -48,7 +48,7 @@ export class CommentEditComponent {
 
     save(): void {
         this.commentService.update(this.comment).then((saved) => {
-            this.router.navigateByUrl(`/recipes/${this.comment.recipe}`);
+            this.router.navigateByUrl(`/recipes/${this.comment.recipe.id}`);
         }, (err) => {
             this.loading = false;
             this.error = 'Whoops - something went wrong';

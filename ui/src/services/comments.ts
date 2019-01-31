@@ -31,7 +31,7 @@ class Comment extends BaseModel {
     toPayload() {
         return {
             id: this.id,
-            recipe: this.recipe,
+            recipe: this.recipe.id,
             rating: this.rating,
             text: this.text
         }

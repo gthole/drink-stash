@@ -46,7 +46,7 @@ export class RecipeDetailViewComponent {
         this.canComment = false;
         const payload = new Comment({
             text: this.commentText,
-            recipe: this.recipe.id
+            recipe: {id: this.recipe.id}
         });
         this.commentService.create(payload)
             .then((res: Comment) => this.comments.push(res))

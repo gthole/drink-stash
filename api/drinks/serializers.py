@@ -80,6 +80,7 @@ class RecipeListSerializer(ModelSerializer):
         many=True,
         read_only=True
     )
+    added_by = NestedUserSerializer(read_only=True)
 
     class Meta:
        model = Recipe
@@ -89,6 +90,7 @@ class RecipeListSerializer(ModelSerializer):
            'created',
            'ingredients',
            'comment_count',
+           'added_by',
        )
 
     @staticmethod
@@ -139,11 +141,18 @@ class NestedRecipeListSerializer(ModelSerializer):
 
         return queryset
 
+    def create(self, validated_data):
+        recipe_id = validated_data.pop('id')
+        return Recipe.objects.get(recipe_id)
+
+    def update(self, validated_data):
+        recipe_id = validated_data.pop('id')
+        return Recipe.objects.get(recipe_id)
 
 
 class RecipeSerializer(ModelSerializer):
     quantity_set = QuantitySerializer(many=True)
-    comment_count = IntegerField()
+    comment_count = IntegerField(read_only=True)
     added_by = NestedUserSerializer(
         read_only=True,
         default=CurrentUserDefault()
@@ -200,12 +209,35 @@ class RecipeSerializer(ModelSerializer):
         return self.add_quantities(recipe, quantity_data)
 
 
+class PostCommentSerializer(ModelSerializer):
+    """
+    This is a hack serializer allow easier posting of comments while still
+    getting the full block of recipe data for the activity feed.
+    """
+    user = NestedUserSerializer(
+        read_only=True,
+        default=CurrentUserDefault()
+    )
+
+    class Meta:
+        model = Comment
+        fields = (
+            'id',
+            'user',
+            'recipe',
+            'rating',
+            'text',
+            'updated',
+            'created',
+        )
+
+
 class CommentSerializer(ModelSerializer):
     user = NestedUserSerializer(
         read_only=True,
         default=CurrentUserDefault()
     )
-    recipe = NestedRecipeListSerializer(read_only=True)
+    recipe = NestedRecipeListSerializer()
 
     class Meta:
         model = Comment
