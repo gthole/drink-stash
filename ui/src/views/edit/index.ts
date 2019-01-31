@@ -31,8 +31,8 @@ export class RecipeEditComponent {
     ngOnInit() {
         this.loading = true;
         this.route.params.subscribe((params: {id}) => {
-            this.ingredientService.getList().then((ingredients) => {
-                this.ingredients = ingredients.map(i => i.name);
+            this.ingredientService.getPage().then((resp) => {
+                this.ingredients = resp.results.map(i => i.name);
                 if (params.id) {
                     this.fetchId(params.id);
                 } else {
@@ -43,7 +43,7 @@ export class RecipeEditComponent {
         });
     }
 
-    fetchId(id: string) {
+    fetchId(id: number) {
         this.recipeService.getById(id).then((recipe) => {
             this.recipe = recipe;
             this.doneLoading();
@@ -103,8 +103,6 @@ export class RecipeEditComponent {
 
         promise.then(
             (saved) => {
-                this.ingredientService.clearCache();
-
                 if (!createNew) {
                     this.router.navigateByUrl(`/recipes/${saved.id}`);
                 } else {

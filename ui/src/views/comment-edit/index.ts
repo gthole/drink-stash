@@ -27,7 +27,7 @@ export class CommentEditComponent {
         });
     }
 
-    fetchId(id: string) {
+    fetchId(id: number) {
         this.commentService.getById(id).then((comment) => {
             this.comment = comment;
             this.loading = false;

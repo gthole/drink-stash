@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
-import { Recipe, RecipeService } from '../../services/recipes';
+import { RecipeStub, RecipeService } from '../../services/recipes';
 import { ViewMetaService } from '../../services/view-meta';
 import { Comment, CommentService } from '../../services/comments';
 import { faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ interface Activity {
     name: string;
     type: string;
     when: Date;
-    recipe: Recipe;
+    recipe: RecipeStub;
     text?: string;
 }
 
@@ -47,13 +47,14 @@ export class HomeViewComponent implements OnInit {
         }
 
         const commentParams = {
-            'ordering': '-id'
+            per_page: 30,
+            ordering: '-id'
         };
         Promise.all([
-            this.recipeService.getList(), // filter client-side
-            this.commentService.getFiltered(commentParams)
-        ]).then(([recipes, comments]) => {
-            this.processActivities(recipes, comments)
+            this.recipeService.getPage({per_page: 30, ordering: '-created'}),
+            this.commentService.getPage(commentParams)
+        ]).then(([recipeResp, commentResp]) => {
+            this.processActivities(recipeResp.results, commentResp.results)
         });
     }
 
@@ -67,7 +68,7 @@ export class HomeViewComponent implements OnInit {
         this.activityFeed = this.allActivities.slice(0, 10);
     }
 
-    processActivities(recipes: Recipe[], comments: Comment[]): void {
+    processActivities(recipes: RecipeStub[], comments: Comment[]): void {
         const recipeActivities: Activity[] = recipes
             .map((r) => {
                 return {
@@ -86,7 +87,7 @@ export class HomeViewComponent implements OnInit {
                 type: 'comment',
                 when: c.created,
                 text: c.text,
-                recipe: recipes.filter((r) => r.id === c.recipe)[0]
+                recipe: c.recipe
             };
         });
 

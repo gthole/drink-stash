@@ -59,7 +59,7 @@ class UserService extends BaseService {
         if (this._self) {
             return new Promise((r) => r(this._self));
         }
-        return this.getById(`${this.authService.getUserData().user_id}`)
+        return this.getById(this.authService.getUserData().user_id)
             .then((user) => {
                 this._self = user;
                 return user;

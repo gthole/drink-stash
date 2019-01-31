@@ -27,12 +27,12 @@ export class UserCabinetComponent {
 
         Promise.all([
             this.userService.getSelf(),
-            this.ingredientService.getList()
-        ]).then(([user, ingredients]) => {
+            this.ingredientService.getPage()
+        ]).then(([user, ingredientResp]) => {
             this.loading = false;
 
             this.user = user;
-            this.ingredients = ingredients.map(i => i.name);
+            this.ingredients = ingredientResp.results.map(i => i.name);
         });
     }
 
@@ -47,11 +47,9 @@ export class UserCabinetComponent {
             });
             this.save();
 
-            // If it's a new ingredient, add it to the view locally and clear
-            // the cache for later fetching
+            // If it's a new ingredient, add it to the view locally
             if (!this.ingredients.includes(name)) {
                 this.ingredients.push(name);
-                this.ingredientService.clearCache();
             }
         }
 

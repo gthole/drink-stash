@@ -1,16 +1,19 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
-import { Recipe, RecipeService } from '../../services/recipes';
+import { RecipeStub, RecipeService } from '../../services/recipes';
 import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { ViewMetaService } from '../../services/view-meta';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
+import { faWineBottle, faComment } from '@fortawesome/free-solid-svg-icons';
 
 
 interface RecipeViewMeta {
+    page: number;
     filters: string[];
     filterByCabinet: boolean;
+    filterByComments: boolean;
 }
 
 @Component({
@@ -27,10 +30,13 @@ export class RecipeListComponent implements OnInit {
         private viewMetaService: ViewMetaService,
     ) {}
 
-    recipes: Recipe[];
-    filtered: Recipe[];
-    substitutions: {[k: string]: string[]} = {};
-    userCabinet: Set<string> = new Set<string>();
+    faWineBottle = faWineBottle;
+    faComment = faComment;
+
+    recipes: RecipeStub[];
+    count: number;
+    per_page: number = window.innerWidth > 500 ? 2000 : 100;
+    loading: boolean = true;
 
     filter: string;
     meta: RecipeViewMeta;
@@ -42,73 +48,69 @@ export class RecipeListComponent implements OnInit {
             this.meta = meta;
         } else {
             this.meta = {
+                page: 1,
                 filters: [],
-                filterByCabinet: false
+                filterByCabinet: false,
+                filterByComments: false
             };
         }
+        this.loadPage();
+    }
 
-        Promise.all([
-            this.recipeService.getList(),
-            this.ingredientService.getList(),
-            this.userService.getSelf(),
-        ]).then(([recipes, ingredients, user]) => {
-            this.recipes = _.sortBy(recipes, (r) => r.name.replace(/^the /i, ''));
+    loadPage() {
+        const meta = this.viewMetaService.setMeta('recipes', this.meta);
+        this.loading = true;
+        const query = {
+            per_page: this.per_page,
+            page: this.meta.page,
+            search: this.meta.filters.join(','),
+            cabinet: '' + this.meta.filterByCabinet,
+            comments: '' + this.meta.filterByComments
+        };
 
-            ingredients.forEach((i) => this.substitutions[i.name] = i.substitutions);
-            user.ingredient_set.forEach((i) => {
-                this.userCabinet.add(i);
-                (this.substitutions[i] || []).forEach((s) => this.userCabinet.add(s));
-            });
+        this.recipeService.getPage(query).then(
+            (resp: {count: number, results: RecipeStub[]}) => {
+                this.count = resp.count;
+                this.recipes = resp.results;
+                this.loading = false;
+            },
+            (err) => {
+                this.alertService.error('Something went wrong, please reload or try again.');
+                this.recipes = [];
+                this.loading = false;
+            }
+        );
+    }
 
-            this.applyFilters();
-        })
-        .catch(() => {
-            this.alertService.error('Something went wrong, please reload or try again.');
-        });
+    paginate(inc: number) {
+        window.scroll(0,0);
+        this.meta.page += inc;
+        this.loadPage();
     }
 
     toggleCabinet() {
+        this.meta.page = 1;
         this.meta.filterByCabinet = !this.meta.filterByCabinet;
-        this.applyFilters();
+        this.loadPage();
     }
 
-    applyFilters() {
-        this.filtered = this.recipes.filter((r) => {
-            return _.every(this.meta.filters, (f) => {
-                const nameMatch = r.name.toLowerCase().includes(f);
-                const quanMatch = _.some(r.quantities, (q) => {
-                    return q.ingredient.toLowerCase().includes(f);
-                });
-                return nameMatch || quanMatch;
-            });
-        });
-
-        if (this.meta.filterByCabinet) {
-            this.filtered = this.filtered.filter((r) => {
-                return _.every(r.quantities, (q) => {
-                    // Either the ingredient itself is in the user cabinet
-                    return this.userCabinet.has(q.ingredient) ||
-                        // Or one of its substitutions is
-                        _.some(
-                            this.substitutions[q.ingredient] || [],
-                            (s) => this.userCabinet.has(s)
-                        );
-                });
-            });
-        }
-
-        this.viewMetaService.setMeta('recipes', this.meta);
+    toggleComments() {
+        this.meta.page = 1;
+        this.meta.filterByComments = !this.meta.filterByComments;
+        this.loadPage();
     }
 
     addFilter() {
         if (!this.filter) return;
+        this.meta.page = 1;
         this.meta.filters.push(this.filter.toLowerCase());
         this.filter = '';
-        this.applyFilters();
+        this.loadPage();
     }
 
     removeFilter(f: string) {
+        this.meta.page = 1;
         this.meta.filters = this.meta.filters.filter((g) => g != f);
-        this.applyFilters();
+        this.loadPage();
     }
 }

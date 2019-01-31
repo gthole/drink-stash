@@ -1,12 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
+import { RecipeStub } from './recipes';
 import { BaseModel, BaseService } from './base';
 
 class Comment extends BaseModel {
     id: number;
     user: any;
-    recipe: number;
+    recipe: RecipeStub;
     rating: number;
     text: string;
     created: Date;
@@ -16,7 +17,7 @@ class Comment extends BaseModel {
         super();
         this.id = payload.id;
         this.user = payload.user;
-        this.recipe = payload.recipe;
+        this.recipe = new RecipeStub(payload.recipe);
         this.rating = payload.rating;
         this.text = payload.text;
         if (payload.updated) {

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Component } from '@angular/core';
-import { Recipe, RecipeService } from '../../services/recipes';
+import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 
@@ -16,7 +16,7 @@ export class RandomRecipeComponent {
         private userService: UserService,
     ) {}
 
-    recipes: Recipe[];
+    recipes: RecipeStub[];
     recipe: Recipe;
 
     error: string;
@@ -25,45 +25,23 @@ export class RandomRecipeComponent {
     ngOnInit() {
         this.loading = true;
 
-        Promise.all([
-            this.recipeService.getList(),
-            this.ingredientService.getList(),
-            this.userService.getSelf(),
-        ]).then(([recipes, ingredients, user]) => {
-
-            // TODO: Dry up this cabinet filtering with the recipes list component
-            const substitutions = {};
-            const userCabinet: Set<string> = new Set();
-
-            ingredients.forEach((i) => substitutions[i.name] = i.substitutions);
-            user.ingredient_set.forEach((i) => {
-                userCabinet.add(i);
-                (substitutions[i] || []).forEach((s) => userCabinet.add(s));
-            });
-
-            this.recipes = recipes.filter((r) => {
-                return _.every(r.quantities, (q) => {
-                    // Either the ingredient itself is in the user cabinet
-                    return userCabinet.has(q.ingredient) ||
-                        // Or one of its substitutions is
-                        _.some(
-                            substitutions[q.ingredient] || [],
-                            (s) => userCabinet.has(s)
-                        );
-                });
-            });
-
+        this.recipeService.getPage({cabinet: 'true', per_page: 1000}).then((resp) => {
+            this.recipes = resp.results;
             this.shuffle();
         })
     }
 
     shuffle() {
+        this.loading = true;
         const index = Math.floor(Math.random() * 1000) % this.recipes.length;
         const shuffled = this.recipes[index];
 
         if (this.recipe && shuffled.id === this.recipe.id && this.recipes.length > 1) {
             return this.shuffle();
         }
-        this.recipe = this.recipes[index];
+        this.recipeService.getById(shuffled.id).then((recipe) => {
+            this.loading = false;
+            this.recipe = recipe;
+        });
     }
 }

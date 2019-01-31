@@ -2,6 +2,29 @@ import { HttpClient } from "@angular/common/http";
 import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
+import { stringify } from 'querystring';
+
+
+class RecipeStub extends BaseModel {
+    id: number;
+    name: string;
+    comment_count: number;
+    ingredients: string[];
+    created: Date;
+    added_by: any;
+
+    constructor(payload) {
+        super();
+        this.id = payload.id;
+        this.name = payload.name;
+        this.comment_count = payload.comment_count;
+        this.ingredients = payload.ingredients;
+        this.added_by = payload.added_by;
+        this.created = new Date(payload.created);
+    }
+}
+
+
 
 class Recipe extends BaseModel {
     id: number;
@@ -84,6 +107,7 @@ class RecipeService extends BaseService {
 
     baseUrl = '/api/v1/recipes/';
     model = Recipe;
+    listModel = RecipeStub;
 }
 
-export { Recipe, RecipeService };
+export { Recipe, RecipeStub, RecipeService };

@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, \
     BaseSerializer, PrimaryKeyRelatedField, CurrentUserDefault, \
-    SerializerMethodField
+    SerializerMethodField, IntegerField
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -68,13 +68,86 @@ class NestedUserSerializer(ModelSerializer):
         )
 
 
-class RecipeSerializer(ModelSerializer):
-    quantity_set = QuantitySerializer(many=True)
+class QuantityIngredientSerializer(BaseSerializer):
+    def to_representation(self, obj):
+        return obj.ingredient.name
+
+
+class RecipeListSerializer(ModelSerializer):
+    comment_count = IntegerField()
+    ingredients = QuantityIngredientSerializer(
+        source='quantity_set',
+        many=True,
+        read_only=True
+    )
+
+    class Meta:
+       model = Recipe
+       fields = (
+           'id',
+           'name',
+           'created',
+           'ingredients',
+           'comment_count',
+       )
+
+    @staticmethod
+    def setup_eager_loading(queryset):
+        """
+        Perform necessary eager loading of data.
+        """
+        queryset = queryset.select_related('added_by')
+        queryset = queryset.prefetch_related(
+            'quantity_set',
+            'quantity_set__ingredient'
+        )
+
+        return queryset
+
+
+class NestedRecipeListSerializer(ModelSerializer):
     added_by = NestedUserSerializer(
         read_only=True,
         default=CurrentUserDefault()
     )
-    comment_count = SerializerMethodField(read_only=True)
+    ingredients = QuantityIngredientSerializer(
+        source='quantity_set',
+        many=True,
+        read_only=True
+    )
+
+    class Meta:
+       model = Recipe
+       fields = (
+           'id',
+           'name',
+           'created',
+           'added_by',
+           'ingredients',
+       )
+
+    @staticmethod
+    def setup_eager_loading(queryset):
+        """
+        Perform necessary eager loading of data.
+        """
+        queryset = queryset.select_related('added_by')
+        queryset = queryset.prefetch_related(
+            'quantity_set',
+            'quantity_set__ingredient'
+        )
+
+        return queryset
+
+
+
+class RecipeSerializer(ModelSerializer):
+    quantity_set = QuantitySerializer(many=True)
+    comment_count = IntegerField()
+    added_by = NestedUserSerializer(
+        read_only=True,
+        default=CurrentUserDefault()
+    )
 
     class Meta:
         model = Recipe
@@ -97,15 +170,11 @@ class RecipeSerializer(ModelSerializer):
         """
         queryset = queryset.select_related('added_by')
         queryset = queryset.prefetch_related(
-            'comments',
             'quantity_set',
             'quantity_set__ingredient'
         )
 
         return queryset
-
-    def get_comment_count(self, recipe):
-        return recipe.comments.count()
 
     def add_quantities(self, recipe, quantity_data):
         for qdata in quantity_data:
@@ -136,6 +205,7 @@ class CommentSerializer(ModelSerializer):
         read_only=True,
         default=CurrentUserDefault()
     )
+    recipe = NestedRecipeListSerializer(read_only=True)
 
     class Meta:
         model = Comment
@@ -148,6 +218,19 @@ class CommentSerializer(ModelSerializer):
             'updated',
             'created',
         )
+
+    @staticmethod
+    def setup_eager_loading(queryset):
+        """
+        Perform necessary eager loading of data.
+        """
+        queryset = queryset.select_related('recipe', 'recipe__added_by')
+        queryset = queryset.prefetch_related(
+            'recipe__quantity_set',
+            'recipe__quantity_set__ingredient'
+        )
+
+        return queryset
 
 
 class UserIngredientSerializer(BaseSerializer):

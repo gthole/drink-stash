@@ -47,8 +47,8 @@
                     <a routerLink="/recipes/{{ a.recipe.id }}">{{ a.recipe.name }}</a>
                 </p>
                 <div *ngIf="a.type === 'recipe'" class="text-grey-dark quantities text-xs">
-                    <span *ngFor="let q of a.recipe.quantities" class="mr-2">
-                        {{ q.ingredient }}
+                    <span *ngFor="let ingredient of a.recipe.ingredients" class="mr-2">
+                        {{ ingredient }}
                     </span>
                 </div>
                 <div *ngIf="a.type === 'comment'" class="text-grey-dark text-xs">

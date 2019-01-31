@@ -33,12 +33,12 @@ export class RecipeDetailViewComponent {
         this.canComment = false;
         this.commentText = '';
         Promise.all([
-            this.commentService.getFiltered({recipe: `${this.recipe.id}`}),
+            this.commentService.getPage({recipe: `${this.recipe.id}`}),
             this.userService.getSelf()
-        ]).then(([comments, user]) => {
+        ]).then(([commentResp, user]) => {
             this.user = user;
-            this.canComment = !comments.filter((c) => c.user.id === user.id).length;
-            this.comments = comments
+            this.canComment = !commentResp.results.filter((c) => c.user.id === user.id).length;
+            this.comments = commentResp.results;
         });
     }
 

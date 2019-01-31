@@ -33,8 +33,8 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     ),
-    # 'DEFAULT_PAGINATION_CLASS': 'main.pagination.PerPagePagination',
-    # 'PAGE_SIZE': 1000,
+    'DEFAULT_PAGINATION_CLASS': 'drinks.pagination.PerPagePagination',
+    'PAGE_SIZE': 5000,
 }
 
 JWT_AUTH = {
