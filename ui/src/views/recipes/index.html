@@ -24,8 +24,8 @@
     <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
         No matches
     </div>
-    <div class="list mt-6" *ngIf="recipes && recipes.length && !loading"
-        [ngClass]="{'text-grey': loading}">
+    <div class="list mt-6" *ngIf="recipes && recipes.length"
+        [ngClass]="{'loading-color': loading}">
         <div class="item" *ngFor="let recipe of recipes">
             <div *ngIf="recipe.comment_count > 0" class="float-right rounded-full text-sm py-1 px-3 bg-grey text-white">
                 {{ recipe.comment_count }}

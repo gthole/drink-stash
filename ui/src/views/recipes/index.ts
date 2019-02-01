@@ -58,8 +58,8 @@ export class RecipeListComponent implements OnInit {
     }
 
     loadPage() {
-        const meta = this.viewMetaService.setMeta('recipes', this.meta);
         this.loading = true;
+        const meta = this.viewMetaService.setMeta('recipes', this.meta);
         const query = {
             per_page: this.per_page,
             page: this.meta.page,

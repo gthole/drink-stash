@@ -2,3 +2,8 @@
     font-size: 30px;
     margin-right: 7px;
 }
+
+.loading-color {
+    opacity: 0.4;
+    -webkit-transition: opacity 0.2s;
+}
