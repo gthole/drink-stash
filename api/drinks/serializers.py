@@ -74,6 +74,9 @@ class QuantityIngredientSerializer(BaseSerializer):
 
 
 class RecipeListSerializer(ModelSerializer):
+    """
+    Main GET LIST Serializer for Recipes without all the details
+    """
     comment_count = IntegerField()
     ingredients = QuantityIngredientSerializer(
         source='quantity_set',
@@ -88,16 +91,14 @@ class RecipeListSerializer(ModelSerializer):
            'id',
            'name',
            'created',
+           'added_by',
            'ingredients',
            'comment_count',
-           'added_by',
        )
 
     @staticmethod
     def setup_eager_loading(queryset):
-        """
-        Perform necessary eager loading of data.
-        """
+        "Perform necessary eager loading of data."
         queryset = queryset.select_related('added_by')
         queryset = queryset.prefetch_related(
             'quantity_set',
@@ -107,17 +108,10 @@ class RecipeListSerializer(ModelSerializer):
         return queryset
 
 
-class NestedRecipeListSerializer(ModelSerializer):
-    added_by = NestedUserSerializer(
-        read_only=True,
-        default=CurrentUserDefault()
-    )
-    ingredients = QuantityIngredientSerializer(
-        source='quantity_set',
-        many=True,
-        read_only=True
-    )
-
+class NestedRecipeListSerializer(RecipeListSerializer):
+    """
+    Used by CommentSerializer to get Recipes without comment_count
+    """
     class Meta:
        model = Recipe
        fields = (
@@ -128,35 +122,15 @@ class NestedRecipeListSerializer(ModelSerializer):
            'ingredients',
        )
 
-    @staticmethod
-    def setup_eager_loading(queryset):
-        """
-        Perform necessary eager loading of data.
-        """
-        queryset = queryset.select_related('added_by')
-        queryset = queryset.prefetch_related(
-            'quantity_set',
-            'quantity_set__ingredient'
-        )
-
-        return queryset
-
-    def create(self, validated_data):
-        recipe_id = validated_data.pop('id')
-        return Recipe.objects.get(recipe_id)
-
-    def update(self, validated_data):
-        recipe_id = validated_data.pop('id')
-        return Recipe.objects.get(recipe_id)
+    def to_internal_value(self, data):
+        return get_object_or_404(Recipe, pk=data)
 
 
-class RecipeSerializer(ModelSerializer):
+class RecipeSerializer(RecipeListSerializer):
+    """
+    Recipe details plus POST/PUT processing
+    """
     quantity_set = QuantitySerializer(many=True)
-    comment_count = IntegerField(read_only=True)
-    added_by = NestedUserSerializer(
-        read_only=True,
-        default=CurrentUserDefault()
-    )
 
     class Meta:
         model = Recipe
@@ -171,19 +145,6 @@ class RecipeSerializer(ModelSerializer):
             'added_by',
             'comment_count',
         )
-
-    @staticmethod
-    def setup_eager_loading(queryset):
-        """
-        Perform necessary eager loading of data.
-        """
-        queryset = queryset.select_related('added_by')
-        queryset = queryset.prefetch_related(
-            'quantity_set',
-            'quantity_set__ingredient'
-        )
-
-        return queryset
 
     def add_quantities(self, recipe, quantity_data):
         for qdata in quantity_data:
@@ -209,29 +170,6 @@ class RecipeSerializer(ModelSerializer):
         return self.add_quantities(recipe, quantity_data)
 
 
-class PostCommentSerializer(ModelSerializer):
-    """
-    This is a hack serializer allow easier posting of comments while still
-    getting the full block of recipe data for the activity feed.
-    """
-    user = NestedUserSerializer(
-        read_only=True,
-        default=CurrentUserDefault()
-    )
-
-    class Meta:
-        model = Comment
-        fields = (
-            'id',
-            'user',
-            'recipe',
-            'rating',
-            'text',
-            'updated',
-            'created',
-        )
-
-
 class CommentSerializer(ModelSerializer):
     user = NestedUserSerializer(
         read_only=True,
@@ -253,9 +191,7 @@ class CommentSerializer(ModelSerializer):
 
     @staticmethod
     def setup_eager_loading(queryset):
-        """
-        Perform necessary eager loading of data.
-        """
+        "Perform necessary eager loading of data."
         queryset = queryset.select_related('recipe', 'recipe__added_by')
         queryset = queryset.prefetch_related(
             'recipe__quantity_set',

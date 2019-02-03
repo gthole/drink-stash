@@ -7,8 +7,7 @@ from django.db.models import Q, Count
 from django.contrib.auth.models import User
 from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient
 from .serializers import RecipeSerializer, RecipeListSerializer, \
-    UserSerializer, IngredientSerializer, CommentSerializer, \
-    PostCommentSerializer
+    UserSerializer, IngredientSerializer, CommentSerializer
 from dateutil import parser as date_parser
 
 
@@ -47,46 +46,58 @@ class RecipeViewSet(LazyViewSet):
         qs = super().filter_queryset(*args, **kwargs)
         qs = qs.annotate(comment_count=Count('comments'))
 
+        # Whether there are comments or not
         if self.request.GET.get('comments') == 'true':
-            qs = qs.filter(comment_count__gt=0)
+            qs = self.filter_by_comments(qs)
 
+        # User ingredient cabinet
         if self.request.GET.get('cabinet') == 'true':
-            # Build out the user cabinet with substitutions in two directions
-            user_ingredients = Ingredient.objects.filter(
-                id__in=UserIngredient.objects.filter(
-                    user=self.request.user
-                ).values('ingredient')
-            )
-            subs = Ingredient.objects.filter(substitutions__in=user_ingredients)
-            rsubs = Ingredient.objects.filter(
-                id__in=user_ingredients.values('substitutions')
-            )
-            rsubsplusone = Ingredient.objects.filter(substitutions__in=rsubs)
-
-            # Load the ids into memory, since we run into operational errors
-            # without evaluating at this point
-            cabinet = [
-                i for i in
-                user_ingredients.union(
-                    subs, rsubs, rsubsplusone
-                ).values_list('id', flat=True)
-            ]
-
-            # Find all the quantities that require an ingredient the user
-            # doesn't have, and get all the recipes that don't have one of those
-            lacking = Quantity.objects.exclude(ingredient__in=cabinet)
-            qs = qs.exclude(quantity__in=lacking)
+            qs = self.filter_by_cabinet(qs)
 
         # Searching names and ingredients
         if self.request.GET.get('search'):
-            terms = self.request.GET.get('search').split(',')
-            for term in terms:
-                qs = qs.filter(
-                    Q(quantity__ingredient__name__icontains=term) |
-                    Q(name__icontains=term)
-                )
-            qs = qs.distinct()
+            qs = self.filter_by_search_terms(qs)
+
         return qs
+
+    def filter_by_comments(self, qs):
+        return qs.filter(comment_count__gt=0)
+
+    def filter_by_cabinet(self, qs):
+        # Build out the user cabinet with substitutions in two directions
+        user_ingredients = Ingredient.objects.filter(
+            id__in=UserIngredient.objects.filter(
+                user=self.request.user
+            ).values('ingredient')
+        )
+        subs = Ingredient.objects.filter(substitutions__in=user_ingredients)
+        rsubs = Ingredient.objects.filter(
+            id__in=user_ingredients.values('substitutions')
+        )
+        rsubsplusone = Ingredient.objects.filter(substitutions__in=rsubs)
+
+        # Load the ids into memory, since we run into operational errors
+        # without evaluating at this point
+        cabinet = [
+            i for i in
+            user_ingredients.union(
+                subs, rsubs, rsubsplusone
+            ).values_list('id', flat=True)
+        ]
+
+        # Find all the quantities that require an ingredient the user
+        # doesn't have, and get all the recipes that don't have one of those
+        lacking = Quantity.objects.exclude(ingredient__in=cabinet)
+        return qs.exclude(quantity__in=lacking)
+
+    def filter_by_search_terms(self, qs):
+        terms = self.request.GET.get('search').split(',')
+        for term in terms:
+            qs = qs.filter(
+                Q(quantity__ingredient__name__icontains=term) |
+                Q(name__icontains=term)
+            )
+        return qs.distinct()
 
 
 class IngredientViewSet(LazyViewSet):
@@ -100,15 +111,9 @@ class IngredientViewSet(LazyViewSet):
 class CommentViewSet(LazyViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    post_serializer_class = PostCommentSerializer
     filter_fields = {
         'recipe': ['exact'],
     }
-
-    def get_serializer_class(self):
-        if self.request.method in ('POST', 'PUT'):
-            return self.post_serializer_class
-        return self.serializer_class
 
     def get_queryset(self):
         queryset = super(CommentViewSet, self).get_queryset()

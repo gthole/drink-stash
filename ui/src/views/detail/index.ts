@@ -32,7 +32,8 @@ export class RecipeDetailComponent {
             this.recipe = recipe;
             this.loading = false;
         })
-        .catch(() => {
+        .catch((err) => {
+            console.log(err);
             this.alertService.error('Could not fetch recipe');
         });
     }
