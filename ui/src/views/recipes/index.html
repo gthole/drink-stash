@@ -11,6 +11,11 @@
         <fa-icon [icon]="faComment"></fa-icon>
     </button>
 
+    <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+        [ngClass]="{'bg-teal-dark text-white': meta.filterByFavorites, 'text-teal-dark': !meta.filterByFavorites}"
+        (click)="toggleFavorites()">
+        <fa-icon [icon]="faHeart"></fa-icon>
+    </button>
 
     <h1>Recipes</h1>
     <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
@@ -30,6 +35,10 @@
             <div *ngIf="recipe.comment_count > 0" class="float-right rounded-full text-sm py-1 px-3 bg-grey text-white">
                 {{ recipe.comment_count }}
             </div>
+            <div *ngIf="recipe.favorite" class="float-right mt-1 mr-2 text-purple">
+                <fa-icon [icon]="faHeart"></fa-icon>
+            </div>
+
             <p class="font-bold text-xl">
                 <a routerLink="/recipes/{{ recipe.id }}">{{ recipe.name }}</a>
             </p>

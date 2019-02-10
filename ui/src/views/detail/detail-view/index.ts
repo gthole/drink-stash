@@ -2,8 +2,10 @@ import { Component, Input } from '@angular/core';
 import { AlertService } from '../../../services/alerts';
 import { Recipe } from '../../../services/recipes';
 import { Comment, CommentService } from '../../../services/comments';
+import { Favorite, FavoriteService } from '../../../services/favorites';
 import { units } from '../../../constants';
 import { User, UserService } from '../../../services/users';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -14,6 +16,7 @@ export class RecipeDetailViewComponent {
     constructor(
         private alertService: AlertService,
         private commentService: CommentService,
+        private favoriteService: FavoriteService,
         private userService: UserService,
     ) {}
 
@@ -21,9 +24,12 @@ export class RecipeDetailViewComponent {
 
     showQuantities: any[] = [];
     units = units;
+    faHeart = faHeart;
 
     user: User;
     comments: Comment[];
+    favorites: Favorite[];
+    userFavorite: Favorite;
     canComment: boolean = false;
     commentText: string = '';
 
@@ -34,11 +40,31 @@ export class RecipeDetailViewComponent {
         this.commentText = '';
         Promise.all([
             this.commentService.getPage({recipe: `${this.recipe.id}`}),
+            this.favoriteService.getPage({recipe: `${this.recipe.id}`}),
             this.userService.getSelf()
-        ]).then(([commentResp, user]) => {
+        ]).then(([commentResp, favoriteResp, user]) => {
             this.user = user;
             this.canComment = !commentResp.results.filter((c) => c.user.id === user.id).length;
             this.comments = commentResp.results;
+
+            this.userFavorite = favoriteResp.results.filter((f) => f.user.id === user.id)[0];
+            this.favorites = favoriteResp.results;
+        });
+    }
+
+    toggleFavorite(): void {
+        let promise;
+        if (this.userFavorite) {
+            promise = this.favoriteService.remove(this.userFavorite)
+                .then(() => this.userFavorite = null);
+        } else {
+            const payload = new Favorite({recipe: {id: this.recipe.id}});
+            promise = this.favoriteService.create(payload)
+                .then((favorite) => this.userFavorite = favorite);
+        }
+        promise.catch(() => {
+            this.alertService.error('There was an error posting your favorite. ' +
+                                    'Please try again later.');
         });
     }
 
@@ -52,7 +78,7 @@ export class RecipeDetailViewComponent {
             .then((res: Comment) => this.comments.push(res))
             .catch(() => {
                 this.alertService.error('There was an error posting your comment. ' +
-                                        'Please try again later.')
+                                        'Please try again later.');
             });
     }
 }

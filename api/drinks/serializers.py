@@ -1,10 +1,11 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, \
     BaseSerializer, PrimaryKeyRelatedField, CurrentUserDefault, \
-    SerializerMethodField, IntegerField
+    SerializerMethodField, IntegerField, BooleanField
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from .models import Recipe, Quantity, Ingredient, UserIngredient, Comment
+from .models import Recipe, Quantity, Ingredient, UserIngredient, Comment, \
+    UserFavorite
 from .constants import base_substitutions
 
 import hashlib
@@ -77,13 +78,18 @@ class RecipeListSerializer(ModelSerializer):
     """
     Main GET LIST Serializer for Recipes without all the details
     """
-    comment_count = IntegerField()
+    comment_count = IntegerField(read_only=True)
+    favorite_count = IntegerField(read_only=True)
+    favorite = BooleanField(read_only=True)
     ingredients = QuantityIngredientSerializer(
         source='quantity_set',
         many=True,
         read_only=True
     )
-    added_by = NestedUserSerializer(read_only=True)
+    added_by = NestedUserSerializer(
+        read_only=True,
+        default=CurrentUserDefault()
+    )
 
     class Meta:
        model = Recipe
@@ -91,9 +97,11 @@ class RecipeListSerializer(ModelSerializer):
            'id',
            'name',
            'created',
+           'favorite',
            'added_by',
            'ingredients',
            'comment_count',
+           'favorite_count',
        )
 
     @staticmethod
@@ -138,12 +146,14 @@ class RecipeSerializer(RecipeListSerializer):
             'id',
             'name',
             'source',
+            'favorite',
             'directions',
             'description',
             'quantity_set',
             'created',
             'added_by',
             'comment_count',
+            'favorite_count',
         )
 
     def add_quantities(self, recipe, quantity_data):
@@ -183,7 +193,6 @@ class CommentSerializer(ModelSerializer):
             'id',
             'user',
             'recipe',
-            'rating',
             'text',
             'updated',
             'created',
@@ -199,6 +208,23 @@ class CommentSerializer(ModelSerializer):
         )
 
         return queryset
+
+
+class UserFavoriteSerializer(ModelSerializer):
+    user = NestedUserSerializer(
+        read_only=True,
+        default=CurrentUserDefault()
+    )
+    recipe = NestedRecipeListSerializer()
+
+    class Meta:
+        model = UserFavorite
+        fields = (
+            'id',
+            'user',
+            'recipe',
+            'created',
+        )
 
 
 class UserIngredientSerializer(BaseSerializer):

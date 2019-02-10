@@ -10,6 +10,7 @@ class RecipeStub extends BaseModel {
     name: string;
     comment_count: number;
     ingredients: string[];
+    favorite: boolean;
     created: Date;
     added_by: any;
 
@@ -20,6 +21,8 @@ class RecipeStub extends BaseModel {
         this.comment_count = payload.comment_count;
         this.ingredients = payload.ingredients;
         this.added_by = payload.added_by;
+        this.favorite = payload.favorite;
+
         this.created = new Date(payload.created);
     }
 }
@@ -35,6 +38,7 @@ class Recipe extends BaseModel {
     created: Date;
     added_by: any;
     comment_count: number;
+    favorite: boolean;
     quantities: any[];
 
     constructor(payload) {
@@ -47,6 +51,7 @@ class Recipe extends BaseModel {
         this.added_by = payload.added_by;
         this.created = new Date(payload.created);
         this.comment_count = payload.comment_count;
+        this.favorite = payload.favorite;
         this.quantities = payload.quantity_set;
 
         this.quantities.forEach((q) => q.name = this.quantityName());

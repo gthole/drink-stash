@@ -6,7 +6,7 @@ import { AlertService } from '../../services/alerts';
 import { ViewMetaService } from '../../services/view-meta';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
-import { faWineBottle, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faWineBottle, faComment } from '@fortawesome/free-solid-svg-icons';
 
 
 interface RecipeViewMeta {
@@ -14,6 +14,7 @@ interface RecipeViewMeta {
     filters: string[];
     filterByCabinet: boolean;
     filterByComments: boolean;
+    filterByFavorites: boolean;
 }
 
 @Component({
@@ -30,6 +31,7 @@ export class RecipeListComponent implements OnInit {
         private viewMetaService: ViewMetaService,
     ) {}
 
+    faHeart = faHeart;
     faWineBottle = faWineBottle;
     faComment = faComment;
 
@@ -51,7 +53,8 @@ export class RecipeListComponent implements OnInit {
                 page: 1,
                 filters: [],
                 filterByCabinet: false,
-                filterByComments: false
+                filterByComments: false,
+                filterByFavorites: false
             };
         }
         this.loadPage();
@@ -65,7 +68,8 @@ export class RecipeListComponent implements OnInit {
             page: this.meta.page,
             search: this.meta.filters.join(','),
             cabinet: '' + this.meta.filterByCabinet,
-            comments: '' + this.meta.filterByComments
+            comments: '' + this.meta.filterByComments,
+            favorites: '' + this.meta.filterByFavorites
         };
 
         this.recipeService.getPage(query).then(
@@ -97,6 +101,12 @@ export class RecipeListComponent implements OnInit {
     toggleComments() {
         this.meta.page = 1;
         this.meta.filterByComments = !this.meta.filterByComments;
+        this.loadPage();
+    }
+
+    toggleFavorites() {
+        this.meta.page = 1;
+        this.meta.filterByFavorites = !this.meta.filterByFavorites;
         this.loadPage();
     }
 

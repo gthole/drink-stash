@@ -13,9 +13,17 @@
     <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 px-4 py-6">{{ recipe.description }}</div>
 
     <div class="mt-6">
-    <a routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded">
-        Edit
-    </a>
+        <button *ngIf="favorites" class="mr-2 -mt-2 bg-transparent font-semibold py-2 px-4 border border-purple-dark rounded float-right"
+            [ngClass]="{
+                'bg-purple-dark text-white': userFavorite,
+                'text-purple-dark': !userFavorite}"
+            (click)="toggleFavorite()">
+            <fa-icon [icon]="faHeart"></fa-icon>
+        </button>
+
+        <a routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded">
+            Edit
+        </a>
     </div>
 
     <div class="mt-12 text-lg" *ngIf="comments">

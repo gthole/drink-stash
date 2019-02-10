@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { RecipeStub, RecipeService } from '../../services/recipes';
 import { ViewMetaService } from '../../services/view-meta';
 import { Comment, CommentService } from '../../services/comments';
-import { faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { Favorite, FavoriteService } from '../../services/favorites';
+import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
 
 interface Activity {
     user_hash: string;
@@ -22,6 +23,7 @@ export class HomeViewComponent implements OnInit {
     constructor(
         private recipeService: RecipeService,
         private commentService: CommentService,
+        private favoriteService: FavoriteService,
         private viewMetaService: ViewMetaService,
     ) {}
 
@@ -29,6 +31,7 @@ export class HomeViewComponent implements OnInit {
     allActivities: Activity[];
 
     // Icons
+    faHeart = faHeart;
     faGlassMartiniAlt = faGlassMartiniAlt;
     faWineBottle = faWineBottle;
     faPlus = faPlus;
@@ -46,15 +49,20 @@ export class HomeViewComponent implements OnInit {
             return;
         }
 
-        const commentParams = {
+        const params = {
             per_page: 30,
-            ordering: '-id'
+            ordering: '-created'
         };
         Promise.all([
-            this.recipeService.getPage({per_page: 30, ordering: '-created'}),
-            this.commentService.getPage(commentParams)
-        ]).then(([recipeResp, commentResp]) => {
-            this.processActivities(recipeResp.results, commentResp.results)
+            this.recipeService.getPage(params),
+            this.commentService.getPage(params),
+            this.favoriteService.getPage(params)
+        ]).then(([recipeResp, commentResp, favoriteResp]) => {
+            this.processActivities(
+                recipeResp.results,
+                commentResp.results,
+                favoriteResp.results
+            )
         });
     }
 
@@ -68,7 +76,7 @@ export class HomeViewComponent implements OnInit {
         this.activityFeed = this.allActivities.slice(0, 10);
     }
 
-    processActivities(recipes: RecipeStub[], comments: Comment[]): void {
+    processActivities(recipes: RecipeStub[], comments: Comment[], favorites: Favorite[]): void {
         const recipeActivities: Activity[] = recipes
             .map((r) => {
                 return {
@@ -91,7 +99,18 @@ export class HomeViewComponent implements OnInit {
             };
         });
 
-        this.allActivities = _.sortBy(recipeActivities.concat(commentActivities), 'when')
+        const favoriteActivities: Activity[] = favorites.map((f) => {
+            return {
+                user_hash: f.user.user_hash,
+                name: `${f.user.first_name} ${f.user.last_name}`,
+                type: 'favorite',
+                when: f.created,
+                text: '',
+                recipe: f.recipe
+            };
+        });
+
+        this.allActivities = _.sortBy(recipeActivities.concat(commentActivities).concat(favoriteActivities), 'when')
             .reverse();
 
         // Cache the activity feed for an hour

@@ -38,6 +38,8 @@
             <div class="text-sm">
                 <p class="leading-none mb-1" class="text-grey-dark">
                     <span class="text-black">{{ a.name }}</span>
+                    <span *ngIf="a.type === 'favorite'">
+                    <fa-icon *ngIf="a.type === 'favorite'" class="ml-1 text-purple-dark" [icon]="faHeart"></fa-icon> a recipe </span>
                     <span *ngIf="a.type === 'recipe'"> added a recipe </span>
                     <span *ngIf="a.type === 'comment'"> made a comment </span>
                 </p>
@@ -46,7 +48,7 @@
                 <p class="mt-3 font-bold">
                     <a routerLink="/recipes/{{ a.recipe.id }}">{{ a.recipe.name }}</a>
                 </p>
-                <div *ngIf="a.type === 'recipe'" class="text-grey-dark quantities text-xs">
+                <div *ngIf="a.type === 'recipe' || a.type === 'favorite'" class="text-grey-dark quantities text-xs">
                     <span *ngFor="let ingredient of a.recipe.ingredients" class="mr-2">
                         {{ ingredient }}
                     </span>

@@ -94,6 +94,12 @@ class Recipe(Model):
         return '%s (%s)' % (self.name, self.id)
 
 
+class UserFavorite(Model):
+    user = ForeignKey(User, related_name='favorites')
+    recipe = ForeignKey(Recipe, related_name='favorites')
+    created = DateTimeField(auto_now_add=True, blank=True)
+
+
 class UserIngredient(Model):
     user = ForeignKey(User, related_name='ingredient_set')
     ingredient = ForeignKey(Ingredient)
@@ -104,12 +110,4 @@ class Comment(Model):
     updated = DateTimeField(auto_now=True, blank=True)
     user = ForeignKey(User, related_name='comments')
     recipe = ForeignKey(Recipe, related_name='comments')
-    rating = IntegerField(choices=(
-        (0, '0'),
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-    ), blank=True, null=True)
     text = TextField()

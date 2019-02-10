@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth';
 import { AlertService } from '../services/alerts';
 import { ViewMetaService } from '../services/view-meta';
 import { CommentService } from '../services/comments';
+import { FavoriteService } from '../services/favorites';
 import { IngredientService } from '../services/ingredients';
 import { RecipeService } from '../services/recipes';
 import { UserService } from '../services/users';
@@ -61,6 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AlertService,
         ViewMetaService,
         CommentService,
+        FavoriteService,
         IngredientService,
         RecipeService,
         UserService

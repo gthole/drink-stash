@@ -8,13 +8,14 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 
 from drinks.views import index, IngredientViewSet, RecipeViewSet, \
-    UserViewSet, CommentViewSet
+    UserViewSet, CommentViewSet, UserFavoriteViewSet
 
 router = routers.DefaultRouter()
 router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipes', RecipeViewSet)
 router.register(r'comments', CommentViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'favorites', UserFavoriteViewSet)
 
 urlpatterns = [
     url(r'^api/v1/auth/', obtain_jwt_token),

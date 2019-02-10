@@ -3,11 +3,13 @@ from rest_framework.exceptions import APIException
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import render
 
-from django.db.models import Q, Count
+from django.db.models import Q, Count, OuterRef, Exists
 from django.contrib.auth.models import User
-from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient
+from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient, \
+    UserFavorite
 from .serializers import RecipeSerializer, RecipeListSerializer, \
-    UserSerializer, IngredientSerializer, CommentSerializer
+    UserSerializer, IngredientSerializer, CommentSerializer, \
+    UserFavoriteSerializer
 from dateutil import parser as date_parser
 
 
@@ -45,10 +47,20 @@ class RecipeViewSet(LazyViewSet):
     def filter_queryset(self, *args, **kwargs):
         qs = super().filter_queryset(*args, **kwargs)
         qs = qs.annotate(comment_count=Count('comments'))
+        qs = qs.annotate(favorite_count=Count('favorites'))
+        has_favorite = UserFavorite.objects.filter(
+            recipe=OuterRef('pk'),
+            user=self.request.user
+        )
+        qs = qs.annotate(favorite=Exists(has_favorite))
 
         # Whether there are comments or not
         if self.request.GET.get('comments') == 'true':
             qs = self.filter_by_comments(qs)
+
+        # Whether the user has favorited
+        if self.request.GET.get('favorites') == 'true':
+            qs = self.filter_by_favorites(qs)
 
         # User ingredient cabinet
         if self.request.GET.get('cabinet') == 'true':
@@ -62,6 +74,9 @@ class RecipeViewSet(LazyViewSet):
 
     def filter_by_comments(self, qs):
         return qs.filter(comment_count__gt=0)
+
+    def filter_by_favorites(self, qs):
+        return qs.filter(favorite=True)
 
     def filter_by_cabinet(self, qs):
         # Build out the user cabinet with substitutions in two directions
@@ -128,6 +143,14 @@ class CommentViewSet(LazyViewSet):
         if self.request.GET.get('user!'):
             qs = qs.exclude(user__id=self.request.GET.get('user!'))
         return qs
+
+
+class UserFavoriteViewSet(LazyViewSet):
+    queryset = UserFavorite.objects.all()
+    serializer_class = UserFavoriteSerializer
+    filter_fields = {
+        'recipe': ['exact'],
+    }
 
 
 class UserViewSet(LazyViewSet):
