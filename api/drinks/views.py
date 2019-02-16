@@ -141,6 +141,7 @@ class CommentViewSet(LazyViewSet):
     serializer_class = CommentSerializer
     filter_fields = {
         'recipe': ['exact'],
+        'user': ['exact'],
     }
 
     def get_queryset(self):

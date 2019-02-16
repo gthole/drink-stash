@@ -1,8 +1,16 @@
-<div class="flex mt-6">
-    <img class="w-10 h-10 rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ comment.user.user_hash }}.jpg?d=mp&size=64">
+<div class="flex">
+    <img *ngIf="includeImage" class="w-10 h-10 rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ comment.user.user_hash }}.jpg?d=mp&size=64">
     <div class="text-sm">
+
         <p class="text-black font-bold leading-none mb-1">
-            {{ comment.user.first_name }} {{ comment.user.last_name }}
+            <span *ngIf="!recipeTitle">
+                <a routerLink="/users/{{ comment.user.id }}">
+                    {{ comment.user.first_name }} {{ comment.user.last_name }}
+                </a>
+            </span>
+            <span *ngIf="recipeTitle"><a routerLink="/recipes/{{ comment.recipe.id }}">
+                    {{ comment.recipe.name }}
+                </a></span>
             <span class="text-grey-light" *ngIf="comment.user.id === user.id">
                 <a routerLink="/comments/{{ comment.id }}">&#9998;</a>
             </span>

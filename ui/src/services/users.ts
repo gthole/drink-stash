@@ -7,6 +7,7 @@ import { AuthService } from './auth';
 class User extends BaseModel {
     id: number;
     username: string;
+    user_hash: string;
     first_name: string;
     last_name: string;
     ingredient_set: string[];
@@ -16,6 +17,7 @@ class User extends BaseModel {
         super();
         this.id = payload.id;
         this.username = payload.username;
+        this.user_hash = payload.user_hash;
         this.first_name = payload.first_name;
         this.last_name = payload.last_name;
         this.ingredient_set = payload.ingredient_set;

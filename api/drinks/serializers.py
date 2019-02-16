@@ -238,12 +238,19 @@ class UserIngredientSerializer(BaseSerializer):
 class UserSerializer(ModelSerializer):
     # TODO: Block unused methods, add permissions check to update
     ingredient_set = UserIngredientSerializer(many=True)
+    user_hash = SerializerMethodField(read_only=True)
+
+    def get_user_hash(self, user):
+        m = hashlib.md5()
+        m.update(user.email.encode())
+        return m.hexdigest()
 
     class Meta:
         model = User
         fields = (
             'id',
             'username',
+            'user_hash',
             'first_name',
             'last_name',
             'ingredient_set',

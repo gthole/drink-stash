@@ -8,6 +8,7 @@ import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@for
 
 interface Activity {
     user_hash: string;
+    user_id: number;
     name: string;
     type: string;
     when: Date;
@@ -81,6 +82,7 @@ export class HomeViewComponent implements OnInit {
             .map((r) => {
                 return {
                     user_hash: r.added_by.user_hash,
+                    user_id: r.added_by.id,
                     name: `${r.added_by.first_name} ${r.added_by.last_name}`,
                     type: 'recipe',
                     when: r.created,
@@ -91,6 +93,7 @@ export class HomeViewComponent implements OnInit {
         const commentActivities: Activity[] = comments.map((c) => {
             return {
                 user_hash: c.user.user_hash,
+                user_id: c.user.id,
                 name: `${c.user.first_name} ${c.user.last_name}`,
                 type: 'comment',
                 when: c.created,

@@ -40,6 +40,8 @@
     </div>
 
     <div *ngIf="comments" class="mb-12">
-        <comment *ngFor="let comment of comments" [comment]="comment" [user]="user"></comment>
+        <div *ngFor="let comment of comments" class="mt-6">
+            <comment [comment]="comment" [user]="user"></comment>
+        </div>
     </div>
 </div>

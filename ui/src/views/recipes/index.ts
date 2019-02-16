@@ -42,7 +42,7 @@ export class RecipeListComponent implements OnInit {
     recipe: Recipe;
     count: number;
     side_display: boolean = window.innerWidth >= 1060;
-    per_page: number = window.innerWidth >= 1060 ? 2000 : 100;
+    per_page: number = window.innerWidth >= 1060 ? 200 : 100;
     loading: boolean = true;
     recipeLoading: boolean = false;
 

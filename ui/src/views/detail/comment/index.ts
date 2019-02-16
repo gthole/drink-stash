@@ -12,4 +12,6 @@ export class CommentComponent {
 
     @Input() comment: Comment;
     @Input() user: User;
+    @Input() recipeTitle: boolean = false;
+    @Input() includeImage: boolean = true;
 }

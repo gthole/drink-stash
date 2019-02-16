@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
     title = 'Drink Stash';
     loggedIn: boolean = false;
+    userId: number;
     alerts: Alert[] = [];
 
     constructor(
@@ -24,6 +25,8 @@ export class AppComponent {
         if (!this.authService.isLoggedIn()) {
             this.router.navigateByUrl('/login');
         } else {
+            const data = this.authService.getUserData();
+            this.userId = data.user_id;
             this.loggedIn = true;
         }
 
