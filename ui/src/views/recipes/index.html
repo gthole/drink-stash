@@ -1,67 +1,76 @@
-<div id="wrapper" class="meta">
-    <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
-        [ngClass]="{'bg-teal-dark text-white': meta.filterByCabinet, 'text-teal-dark': !meta.filterByCabinet}"
-        (click)="toggleCabinet()">
-        <fa-icon [icon]="faWineBottle"></fa-icon>
-    </button>
-
-    <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
-        [ngClass]="{'bg-teal-dark text-white': meta.filterByComments, 'text-teal-dark': !meta.filterByComments}"
-        (click)="toggleComments()">
-        <fa-icon [icon]="faComment"></fa-icon>
-    </button>
-
-    <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
-        [ngClass]="{'bg-teal-dark text-white': meta.filterByFavorites, 'text-teal-dark': !meta.filterByFavorites}"
-        (click)="toggleFavorites()">
-        <fa-icon [icon]="faHeart"></fa-icon>
-    </button>
-
-    <h1>Recipes</h1>
-    <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
-        <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
+<div class="row">
+    <div class="detail-view" *ngIf="side_display && recipe">
+        <recipe-detail-view [recipe]="recipe"></recipe-detail-view>
     </div>
-    <div class="my-4 overflow-auto">
-        <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 bg-teal text-white" *ngFor="let f of meta.filters" (click)="removeFilter(f)">
-            {{ f }} &times;
-        </div>
-    </div>
-    <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
-        No matches
-    </div>
-    <div class="list mt-6" *ngIf="recipes && recipes.length"
-        [ngClass]="{'loading-color': loading}">
-        <div class="item" *ngFor="let recipe of recipes">
-            <div *ngIf="recipe.comment_count > 0" class="float-right rounded-full text-sm py-1 px-3 bg-grey text-white">
-                {{ recipe.comment_count }}
-            </div>
-            <div *ngIf="recipe.favorite" class="float-right mt-1 mr-2 text-purple">
-                <fa-icon [icon]="faHeart"></fa-icon>
-            </div>
-
-            <p class="font-bold text-xl">
-                <a routerLink="/recipes/{{ recipe.id }}">{{ recipe.name }}</a>
-            </p>
-            <div class="text-grey-dark quantities">
-                <span *ngFor="let ingredient of recipe.ingredients" class="mr-2">
-                    {{ ingredient }}
-                </span>
-            </div>
-        </div>
-        <div class="mt-6 mb-12">
-            <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded"
-                [disabled]="loading"
-                *ngIf="meta.page > 1"
-                (click)="paginate(-1)">
-                Prev
-            </button>&nbsp;
-
-            <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded float-right"
-                [disabled]="loading"
-                *ngIf="meta.page * per_page < count"
-                (click)="paginate(1)">
-                Next
+    <div class="recipe-sidebar">
+        <div id="wrapper" class="meta">
+            <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+                [ngClass]="{'bg-teal-dark text-white': meta.filterByCabinet, 'text-teal-dark': !meta.filterByCabinet}"
+                (click)="toggleCabinet()">
+                <fa-icon [icon]="faWineBottle"></fa-icon>
             </button>
+
+            <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+                [ngClass]="{'bg-teal-dark text-white': meta.filterByComments, 'text-teal-dark': !meta.filterByComments}"
+                (click)="toggleComments()">
+                <fa-icon [icon]="faComment"></fa-icon>
+            </button>
+
+            <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+                [ngClass]="{'bg-teal-dark text-white': meta.filterByFavorites, 'text-teal-dark': !meta.filterByFavorites}"
+                (click)="toggleFavorites()">
+                <fa-icon [icon]="faHeart"></fa-icon>
+            </button>
+
+            <h1>Recipes</h1>
+            <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
+                <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter" [(ngModel)]="filter" (change)="addFilter()">
+            </div>
+            <div class="my-4 overflow-auto">
+                <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 bg-teal text-white" *ngFor="let f of meta.filters" (click)="removeFilter(f)">
+                    {{ f }} &times;
+                </div>
+            </div>
+            <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
+                No matches
+            </div>
+            <div class="list mt-6" *ngIf="recipes && recipes.length"
+                [ngClass]="{'loading-color': loading}">
+                <div class="item" *ngFor="let r of recipes"
+                     (click)="routeRecipe($event, r.id)"
+                     [ngClass]="{'selected': recipe && recipe.id === r.id}">
+                    <div *ngIf="r.comment_count > 0" class="float-right rounded-full text-sm -mt-1 py-1 px-3 bg-grey text-white">
+                        {{ r.comment_count }}
+                    </div>
+                    <div *ngIf="r.favorite" class="float-right mr-2 text-purple">
+                        <fa-icon [icon]="faHeart"></fa-icon>
+                    </div>
+
+                    <p class="font-bold text-xl">
+                        <a href="#">{{ r.name }}</a>
+                    </p>
+                    <div class="text-grey-dark quantities">
+                        <span *ngFor="let ingredient of r.ingredients" class="mr-2">
+                            {{ ingredient }}
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="meta.page > 1 || meta.page * per_page < count" class="mt-6 mb-12">
+                    <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded"
+                        [disabled]="loading"
+                        *ngIf="meta.page > 1"
+                        (click)="paginate(-1)">
+                        Prev
+                    </button>&nbsp;
+
+                    <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded float-right"
+                        [disabled]="loading"
+                        *ngIf="meta.page * per_page < count"
+                        (click)="paginate(1)">
+                        Next
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

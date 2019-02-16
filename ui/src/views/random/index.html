@@ -1,11 +1,11 @@
-<div *ngIf="recipe">
+<div class="width-container" *ngIf="recipe">
     <button class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent text-sm rounded mb-4 float-right" (click)="shuffle()">
         Shuffle
     </button>
 
     <recipe-detail-view [recipe]="recipe"></recipe-detail-view>
 </div>
-<div *ngIf="loading === false && !recipe" class="text-center text-grey px-12">
+<div *ngIf="loading === false && !recipe" class="width-container text-center text-grey px-12">
     <p>Whoops - doesn't look like your liquor cabinet supports any drink
     recipes yet!</p>
     <p class="mt-3">Add some <a routerLink="/cabinet">here.</a></p>

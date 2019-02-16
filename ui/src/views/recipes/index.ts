@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
-import { RecipeStub, RecipeService } from '../../services/recipes';
+import { Router } from '@angular/router';
+import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
 import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { ViewMetaService } from '../../services/view-meta';
@@ -15,6 +16,7 @@ interface RecipeViewMeta {
     filterByCabinet: boolean;
     filterByComments: boolean;
     filterByFavorites: boolean;
+    recipeId?: number;
 }
 
 @Component({
@@ -24,6 +26,7 @@ interface RecipeViewMeta {
 })
 export class RecipeListComponent implements OnInit {
     constructor(
+        private router: Router,
         private alertService: AlertService,
         private recipeService: RecipeService,
         private ingredientService: IngredientService,
@@ -36,8 +39,10 @@ export class RecipeListComponent implements OnInit {
     faComment = faComment;
 
     recipes: RecipeStub[];
+    recipe: Recipe;
     count: number;
-    per_page: number = window.innerWidth > 500 ? 2000 : 100;
+    side_display: boolean = window.innerWidth >= 1060;
+    per_page: number = window.innerWidth >= 1060 ? 2000 : 100;
     loading: boolean = true;
 
     filter: string;
@@ -84,6 +89,10 @@ export class RecipeListComponent implements OnInit {
                 this.loading = false;
             }
         );
+
+        if (this.side_display && this.meta.recipeId) {
+            this.routeRecipe(null, this.meta.recipeId);
+        }
     }
 
     paginate(inc: number) {
@@ -122,5 +131,18 @@ export class RecipeListComponent implements OnInit {
         this.meta.page = 1;
         this.meta.filters = this.meta.filters.filter((g) => g != f);
         this.loadPage();
+    }
+
+    routeRecipe(ev: any, id: number) {
+        if (ev) ev.preventDefault();
+        if (this.side_display) {
+            this.recipeService.getById(id).then((recipe) => {
+                this.recipe = recipe;
+                this.meta.recipeId = id;
+                this.viewMetaService.setMeta('recipes', this.meta);
+            });
+        } else {
+            this.router.navigateByUrl(`/recipes/${id}`);
+        }
     }
 }

@@ -1,4 +1,4 @@
-<form class="w-full max-w-md" *ngIf="!loading">
+<form class="width-container w-full max-w-md" *ngIf="!loading">
   <div class="flex flex-wrap -mx-3 mb-1">
     <div class="w-full md:w-1/2 px-3 mb-2">
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
@@ -84,7 +84,7 @@
 
 </form>
 
-<div *ngIf="!loading">
+<div class="width-container" *ngIf="!loading">
 <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6" (click)="save()">
     Save
 </button>
