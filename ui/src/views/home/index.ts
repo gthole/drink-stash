@@ -105,6 +105,7 @@ export class HomeViewComponent implements OnInit {
         const favoriteActivities: Activity[] = favorites.map((f) => {
             return {
                 user_hash: f.user.user_hash,
+                user_id: f.user.id,
                 name: `${f.user.first_name} ${f.user.last_name}`,
                 type: 'favorite',
                 when: f.created,
