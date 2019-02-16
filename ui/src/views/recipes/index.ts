@@ -44,6 +44,7 @@ export class RecipeListComponent implements OnInit {
     side_display: boolean = window.innerWidth >= 1060;
     per_page: number = window.innerWidth >= 1060 ? 2000 : 100;
     loading: boolean = true;
+    recipeLoading: boolean = false;
 
     filter: string;
     meta: RecipeViewMeta;
@@ -122,7 +123,11 @@ export class RecipeListComponent implements OnInit {
     addFilter() {
         if (!this.filter) return;
         this.meta.page = 1;
-        this.meta.filters.push(this.filter.toLowerCase());
+        let term = this.filter.toLowerCase();
+        if (this.filter.slice(0, 4) === 'NOT ') {
+            term = 'NOT ' + term.slice(4);
+        }
+        this.meta.filters.push(term);
         this.filter = '';
         this.loadPage();
     }
@@ -136,7 +141,9 @@ export class RecipeListComponent implements OnInit {
     routeRecipe(ev: any, id: number) {
         if (ev) ev.preventDefault();
         if (this.side_display) {
+            this.recipeLoading = true;
             this.recipeService.getById(id).then((recipe) => {
+                this.recipeLoading = false;
                 this.recipe = recipe;
                 this.meta.recipeId = id;
                 this.viewMetaService.setMeta('recipes', this.meta);

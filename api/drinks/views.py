@@ -108,10 +108,23 @@ class RecipeViewSet(LazyViewSet):
     def filter_by_search_terms(self, qs):
         terms = self.request.GET.get('search').split(',')
         for term in terms:
-            qs = qs.filter(
-                Q(quantity__ingredient__name__icontains=term) |
+            # Strip whitespace
+            term = term.strip(' ')
+
+            # Check for negations
+            exclude = False
+            if term.startswith('NOT '):
+                term = term[4:]
+                exclude = True
+
+            q = Q(quantity__ingredient__name__icontains=term) | \
                 Q(name__icontains=term)
-            )
+
+            if exclude:
+                qs = qs.exclude(q)
+            else:
+                qs = qs.filter(q)
+
         return qs.distinct()
 
 
