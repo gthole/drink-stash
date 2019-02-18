@@ -6,12 +6,14 @@ import { BaseModel, BaseService } from './base';
 class Ingredient extends BaseModel {
     name: string;
     category: number;
+    usage: number;
     substitutions: string[];
 
     constructor(payload) {
         super();
         this.name = payload.name;
         this.category = payload.category;
+        this.usage = payload.usage;
         this.substitutions = payload.substitutions;
         this.setHash();
     }

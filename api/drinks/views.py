@@ -133,7 +133,9 @@ class IngredientViewSet(LazyViewSet):
     serializer_class = IngredientSerializer
 
     def get_queryset(self):
-        return super(IngredientViewSet, self).get_queryset().order_by('name')
+        qs = super(IngredientViewSet, self).get_queryset()
+        qs = qs.annotate(usage=Count('quantity'))
+        return qs.order_by('name')
 
 
 class CommentViewSet(LazyViewSet):

@@ -38,9 +38,11 @@ class NestedIngredientSerializer(BaseSerializer):
 
 class IngredientSerializer(ModelSerializer):
     substitutions = NestedIngredientSerializer(many=True)
+    usage = IntegerField(read_only=True)
+
     class Meta:
         model = Ingredient
-        fields = ('name', 'substitutions', 'category')
+        fields = ('name', 'usage', 'substitutions', 'category')
 
 
 class QuantitySerializer(ModelSerializer):
