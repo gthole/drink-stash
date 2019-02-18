@@ -31,6 +31,10 @@
     font-size: 20px;
 }
 
+.text-title a {
+    color: #fff;
+}
+
 @media (max-width: 320px) {
     .text-title {
         font-size: 1rem;

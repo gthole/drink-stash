@@ -8,7 +8,9 @@
               </p>
           </li>
           <li class="mr-3 text-xl cursive">
-            <p class="inline-block py-2 text-title">{{ title }}</p>
+            <p class="inline-block py-2 text-title">
+                <a routerLink="/">{{ title }}</a>
+            </p>
           </li>
           <li class="mr-3 minwidth text-right">
               <a *ngIf="loggedIn && userId" class="text-white text-3xl" routerLink="/users/{{ userId }}">&#9776;</a>
