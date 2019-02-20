@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { AlertService } from '../../../services/alerts';
-import { Recipe } from '../../../services/recipes';
-import { Comment, CommentService } from '../../../services/comments';
-import { Favorite, FavoriteService } from '../../../services/favorites';
-import { units } from '../../../constants';
-import { User, UserService } from '../../../services/users';
+import { AlertService } from '../../services/alerts';
+import { Recipe } from '../../services/recipes';
+import { Comment, CommentService } from '../../services/comments';
+import { Favorite, FavoriteService } from '../../services/favorites';
+import { units } from '../../constants';
+import { User, UserService } from '../../services/users';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 

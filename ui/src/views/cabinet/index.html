@@ -1,21 +1,16 @@
 <div class="width-container" *ngIf="user">
     <h1>Liquor Cabinet</h1>
     <div class="flex items-center border-b border-b-2 border-teal py-2 w-full">
-        <ng2-completer
+        <autocomplete
             [(ngModel)]="ingredient"
-            [datasource]="ingredients"
-            [minSearchLength]="0"
-            [textSearching]="''"
-            [textNoResults]="''"
-            [fillHighlighted]="false"
-            [clearSelected]="true"
-            [clearUnselected]="true"
-            [overrideSuggested]="true"
+            [dataSource]="ingredients"
             [inputClass]="'appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none'"
-            class="w-full"
+            [clearOnSelect]="true"
+            [placeholder]="Add"
+            [displayCount]="10"
             (selected)="addIngredient($event)"
-            placeholder="Add">
-        </ng2-completer>
+            class="w-full">
+        </autocomplete>
     </div>
 
     <div class="py-6 text-center text-grey" *ngIf="user.ingredient_set.length === 0">

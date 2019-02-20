@@ -32,13 +32,14 @@ export class UserCabinetComponent {
             this.loading = false;
 
             this.user = user;
-            this.ingredients = ingredientResp.results.map(i => i.name);
+            this.ingredients = _.reverse(_.sortBy(ingredientResp.results, 'usage'))
+                .map(i => i.name);
         });
     }
 
-    addIngredient(ev: {title: string}): void {
-        if (!ev || !ev.title || !ev.title.trim()) return;
-        const name = ev.title.trim();
+    addIngredient(ev: string): void {
+        if (!ev || !ev.trim()) return;
+        const name = ev.trim();
 
         if (!this.user.ingredient_set.includes(name)) {
             this.user.ingredient_set.push(name);

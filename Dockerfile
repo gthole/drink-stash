@@ -2,7 +2,7 @@
 # multi-stage build that has all required assets
 
 # Client app build
-FROM node:8
+FROM node:8-alpine
 
 ENV PATH ./node_modules/.bin:$PATH
 

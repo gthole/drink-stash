@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:8-alpine
 
 ENV PATH ./node_modules/.bin:$PATH
 

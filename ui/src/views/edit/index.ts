@@ -34,7 +34,6 @@ export class RecipeEditComponent {
             this.ingredientService.getPage().then((resp) => {
                 this.ingredients = _.reverse(_.sortBy(resp.results, 'usage'))
                     .map(i => i.name);
-                console.log(this.ingredients);
                 if (params.id) {
                     this.fetchId(params.id);
                 } else {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Comment } from '../../../services/comments';
-import { User } from '../../../services/users';
+import { Comment } from '../../services/comments';
+import { User } from '../../services/users';
 
 
 @Component({
