@@ -91,13 +91,15 @@ export class RecipeListComponent implements OnInit {
             }
         );
 
-        if (this.side_display && this.meta.recipeId) {
+        if (this.side_display && !this.recipe && this.meta.recipeId) {
             this.routeRecipe(null, this.meta.recipeId);
         }
     }
 
     paginate(inc: number) {
-        window.scroll(0,0);
+        // Scroll to the top of the recipe sidebar
+        const el = document.getElementById('recipe-sidebar');
+        el.scrollTop = 0;
         this.meta.page += inc;
         this.loadPage();
     }

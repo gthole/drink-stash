@@ -18,6 +18,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
             [(ngModel)]="value"
             (keydown)="onKeydown($event)"
             (input)="onInput($event)"
+            (blur)="onBlur($event)"
             class="{{ inputClass }}"
             placeholder="{{ placeholder }}"
         />
@@ -130,6 +131,11 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
         if (this.clearOnSelect) {
             this.value = '';
         }
+    }
+
+    onBlur(e: any) {
+        this.selectedItem = 0;
+        this.suggestions = [];
     }
 
     onKeydown(e) {

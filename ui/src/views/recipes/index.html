@@ -3,7 +3,7 @@
          [ngClass]="{'loading-color': recipeLoading}">
         <recipe-detail-view [recipe]="recipe"></recipe-detail-view>
     </div>
-    <div class="recipe-sidebar">
+    <div class="recipe-sidebar" id="recipe-sidebar">
         <div id="wrapper" class="meta">
             <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
                 [ngClass]="{'bg-teal-dark text-white': meta.filterByCabinet, 'text-teal-dark': !meta.filterByCabinet}"
