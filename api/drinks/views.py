@@ -13,6 +13,15 @@ from .serializers import RecipeSerializer, RecipeListSerializer, \
 from dateutil import parser as date_parser
 
 
+OPS = {
+    '>': 'gt',
+    '=': 'exact',
+    '<': 'lt',
+    '>=': 'gte',
+    '<=': 'lte'
+}
+
+
 class NotModified(APIException):
     status_code = 304
     default_detail = None
@@ -109,7 +118,7 @@ class RecipeViewSet(LazyViewSet):
         terms = self.request.GET.get('search').split(',')
         for term in terms:
             # Strip whitespace
-            term = term.strip(' ')
+            term = term.strip()
 
             # Check for negations
             exclude = False
@@ -117,15 +126,68 @@ class RecipeViewSet(LazyViewSet):
                 term = term[4:]
                 exclude = True
 
-            q = Q(quantity__ingredient__name__icontains=term) | \
-                Q(name__icontains=term)
+            qargs = []
+            qkwargs = {}
+            if '>' in term or '=' in term or '<' in term:
+                parsed = self.parse_complex_term(term)
+                if not parsed:
+                    continue
+
+                # Build the filter from parsed terms
+                qkwargs = {
+                    'quantity__ingredient__name__icontains': parsed['search'],
+                    'quantity__unit': parsed['unit']
+                }
+                qkwargs['quantity__amount__%s' % parsed['op']] = parsed['amount']
+            else:
+                # TODO: restrict description regex to terms that match \w+
+                qargs = [
+                    Q(quantity__ingredient__name__icontains=term) | \
+                    Q(name__icontains=term) | \
+                    Q(description__iregex='\\b%s\\b' % term)
+                ]
 
             if exclude:
-                qs = qs.exclude(q)
+                qs = qs.exclude(*qargs, **qkwargs)
             else:
-                qs = qs.filter(q)
+                qs = qs.filter(*qargs, **qkwargs)
 
         return qs.distinct()
+
+    def parse_complex_term(self, term):
+        # Pick out the operator
+        for op in ('<=', '>=', '=', '<', '>'):
+            split_terms = term.split(op)
+            if len(split_terms) > 1:
+                break
+
+        # Grab the search term
+        search = split_terms[0].strip()
+
+        # Parse unit, default to "oz"
+        unit = 1
+        has_unit = False
+        for (i, uname) in Quantity._meta.get_field('unit').choices:
+            if not uname:
+                continue
+            if split_terms[1].lower().endswith(uname):
+                has_unit = True
+                unit = i
+                break
+
+        # Get the filter amount, strip off the unit name
+        trim = -1 * len(uname) if has_unit else len(split_terms[0])
+        try:
+            amount = float(split_terms[1][0:trim].strip())
+        except ValueError:
+            return None
+
+        return {
+            'search': search,
+            'unit': unit,
+            'op': OPS[op],
+            'amount': amount
+        }
 
 
 class IngredientViewSet(LazyViewSet):

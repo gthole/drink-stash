@@ -40,6 +40,11 @@ export class AppComponent {
                !this.location.isCurrentPathEqualTo('/login');
     }
 
+    dismiss(ev, i) {
+        ev.preventDefault();
+        this.alerts.splice(i, 1);
+    }
+
     goBack() {
         this.location.back();
     }

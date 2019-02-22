@@ -49,6 +49,15 @@ export class RecipeListComponent implements OnInit {
     filter: string;
     meta: RecipeViewMeta;
 
+    example: string = '';
+    exampleQueries: string[] = [
+        'cynar',
+        'tiki',
+        'yellow chartreuse',
+        'NOT juice',
+        'orgeat >= .5 oz',
+    ];
+
     ngOnInit() {
         // Restore previous position and filters from meta service
         const meta = this.viewMetaService.getMeta('recipes');
@@ -67,6 +76,10 @@ export class RecipeListComponent implements OnInit {
     }
 
     loadPage() {
+        this.example = this.exampleQueries[
+            Math.floor(Math.random() * this.exampleQueries.length)
+        ];
+
         this.loading = true;
         const meta = this.viewMetaService.setMeta('recipes', this.meta);
         const query = {

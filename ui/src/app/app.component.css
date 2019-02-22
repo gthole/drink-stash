@@ -1,3 +1,10 @@
+.alert {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    z-index: 100000;
+}
+
 .navbar {
     overflow: hidden;
     position: fixed; /* Set the navbar to fixed position */
