@@ -52,10 +52,12 @@ export class RecipeListComponent implements OnInit {
     example: string = '';
     exampleQueries: string[] = [
         'cynar',
-        'tiki',
+        'description=tiki',
+        'last word',
         'yellow chartreuse',
         'NOT juice',
-        'orgeat >= .5 oz',
+        'lemon > .5 oz',
+        'orgeat <= .25',
     ];
 
     ngOnInit() {

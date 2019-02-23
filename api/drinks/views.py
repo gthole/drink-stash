@@ -11,7 +11,32 @@ from .serializers import RecipeSerializer, RecipeListSerializer, \
     UserSerializer, IngredientSerializer, CommentSerializer, \
     UserFavoriteSerializer
 from dateutil import parser as date_parser
+from lark import Lark
 
+
+grammar = Lark('''
+// Top level grammar rules
+query: SEARCH_TERM OPERATOR NUMBER [UNIT] -> constraint
+      | SEARCH_TERM -> search_term
+      | ATTR "=" SEARCH_TERM -> attr_search
+      | "NOT" SEARCH_TERM -> exclude
+
+// Tokens
+COMBINER: ("AND" | "OR")
+ATTR.2: ("name" | "description" | "directions")
+SEARCH_TERM: /((?!AND|OR|NOT)\w)+(\s((?!AND|OR|NOT)\w)+)*/
+OPERATOR: ("<="|">="|"="|"<"|">")
+UNIT: ("oz"i|"dash"i|"barspoon"i|"leaf"i|"wedge"i|"sprig"i)
+WHITESPACE: (" " | "\\n")+
+NUMBER: (INT+["."INT+] | "."INT+)
+
+// Imports and configs
+%import common.INT -> INT
+%ignore WHITESPACE
+''', start='query')
+
+
+UNITS = dict([(v,k) for k, v in Quantity._meta.get_field('unit').choices])
 
 OPS = {
     '>': 'gt',
@@ -77,7 +102,11 @@ class RecipeViewSet(LazyViewSet):
 
         # Searching names and ingredients
         if self.request.GET.get('search'):
-            qs = self.filter_by_search_terms(qs)
+            try:
+                qs = self.filter_by_search_terms(qs)
+            except Exception as e:
+                print(e)
+                qs = qs.none()
 
         return qs
 
@@ -117,77 +146,48 @@ class RecipeViewSet(LazyViewSet):
     def filter_by_search_terms(self, qs):
         terms = self.request.GET.get('search').split(',')
         for term in terms:
-            # Strip whitespace
-            term = term.strip()
-
-            # Check for negations
-            exclude = False
-            if term.startswith('NOT '):
-                term = term[4:]
-                exclude = True
-
-            qargs = []
-            qkwargs = {}
-            if '>' in term or '=' in term or '<' in term:
-                parsed = self.parse_complex_term(term)
-                if not parsed:
-                    continue
-
-                # Build the filter from parsed terms
-                qkwargs = {
-                    'quantity__ingredient__name__icontains': parsed['search'],
-                    'quantity__unit': parsed['unit']
-                }
-                qkwargs['quantity__amount__%s' % parsed['op']] = parsed['amount']
-            else:
-                # TODO: restrict description regex to terms that match \w+
-                qargs = [
-                    Q(quantity__ingredient__name__icontains=term) | \
-                    Q(name__icontains=term) | \
-                    Q(description__iregex='\\b%s\\b' % term)
-                ]
-
-            if exclude:
-                qs = qs.exclude(*qargs, **qkwargs)
-            else:
-                qs = qs.filter(*qargs, **qkwargs)
-
+            tree = grammar.parse(term)
+            qs = self.build_query_from_tree(tree, qs)
         return qs.distinct()
 
-    def parse_complex_term(self, term):
-        # Pick out the operator
-        for op in ('<=', '>=', '=', '<', '>'):
-            split_terms = term.split(op)
-            if len(split_terms) > 1:
-                break
+    def build_query_from_tree(self, tree, qs):
+        if tree.data == 'search_term':
+            term = '%s' % tree.children[0]
+            return qs.filter(
+                Q(quantity__ingredient__name__icontains=term) | \
+                Q(name__icontains=term) | \
+                Q(description__iregex='\\b%s\\b' % term)
+            )
 
-        # Grab the search term
-        search = split_terms[0].strip()
+        if tree.data == 'exclude':
+            term = '%s' % tree.children[0]
+            return qs.exclude(
+                Q(quantity__ingredient__name__icontains=term) | \
+                Q(name__icontains=term) | \
+                Q(description__iregex='\\b%s\\b' % term)
+            )
 
-        # Parse unit, default to "oz"
-        unit = 1
-        has_unit = False
-        for (i, uname) in Quantity._meta.get_field('unit').choices:
-            if not uname:
-                continue
-            if split_terms[1].lower().endswith(uname):
-                has_unit = True
-                unit = i
-                break
+        if tree.data == 'constraint':
+            search = '%s' % tree.children[0]
+            op = OPS['%s' % tree.children[1]]
+            amount = float(tree.children[2])
+            if len(tree.children) == 4:
+                unit = UNITS[tree.children[3].lower()]
+            else:
+                unit = 1
+            kwargs = {
+                'quantity__ingredient__name__icontains': search,
+                'quantity__unit': unit
+            }
+            kwargs['quantity__amount__%s' % op] = amount
 
-        # Get the filter amount, strip off the unit name
-        trim = -1 * len(uname) if has_unit else len(split_terms[0])
-        try:
-            amount = float(split_terms[1][0:trim].strip())
-        except ValueError:
-            return None
+            return qs.filter(**kwargs)
 
-        return {
-            'search': search,
-            'unit': unit,
-            'op': OPS[op],
-            'amount': amount
-        }
+        if tree.data == 'attr_search':
+            kwargs = {}
+            kwargs['%s__icontains' % tree.children[0]] = '%s' % tree.children[1]
+            return qs.filter(**kwargs)
+
 
 
 class IngredientViewSet(LazyViewSet):
