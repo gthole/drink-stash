@@ -42,3 +42,7 @@ a.text-white {
     margin-right: auto;
     display: block;
 }
+
+.min-img {
+    min-width: 40px;
+}
