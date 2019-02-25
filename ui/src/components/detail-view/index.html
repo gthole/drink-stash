@@ -21,7 +21,7 @@
             <fa-icon [icon]="faHeart"></fa-icon>
         </button>
 
-        <a routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded">
+        <a *ngIf="user.is_staff || user.id === recipe.added_by.id" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded">
             Edit
         </a>
     </div>
