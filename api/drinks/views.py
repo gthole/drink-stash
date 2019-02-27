@@ -5,46 +5,13 @@ from django.shortcuts import render
 
 from django.db.models import Q, Count, OuterRef, Exists
 from django.contrib.auth.models import User
+from .grammar import parse_search_and_filter
 from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient, \
     UserFavorite
 from .serializers import RecipeSerializer, RecipeListSerializer, \
     UserSerializer, IngredientSerializer, CommentSerializer, \
     UserFavoriteSerializer
 from dateutil import parser as date_parser
-from lark import Lark
-
-
-grammar = Lark('''
-// Top level grammar rules
-query: SEARCH_TERM OPERATOR NUMBER [UNIT] -> constraint
-      | SEARCH_TERM -> search_term
-      | ATTR "=" SEARCH_TERM -> attr_search
-      | "NOT" SEARCH_TERM -> exclude
-
-// Tokens
-COMBINER: ("AND" | "OR")
-ATTR.2: ("name" | "description" | "directions")
-SEARCH_TERM: /((?!AND|OR|NOT)\w)+(\s((?!AND|OR|NOT)\w)+)*/
-OPERATOR: ("<="|">="|"="|"<"|">")
-UNIT: ("oz"i|"dash"i|"barspoon"i|"leaf"i|"wedge"i|"sprig"i)
-WHITESPACE: (" " | "\\n")+
-NUMBER: (INT+["."INT+] | "."INT+)
-
-// Imports and configs
-%import common.INT -> INT
-%ignore WHITESPACE
-''', start='query')
-
-
-UNITS = dict([(v,k) for k, v in Quantity._meta.get_field('unit').choices])
-
-OPS = {
-    '>': 'gt',
-    '=': 'exact',
-    '<': 'lt',
-    '>=': 'gte',
-    '<=': 'lte'
-}
 
 
 class NotModified(APIException):
@@ -102,11 +69,7 @@ class RecipeViewSet(LazyViewSet):
 
         # Searching names and ingredients
         if self.request.GET.get('search'):
-            try:
-                qs = self.filter_by_search_terms(qs)
-            except Exception as e:
-                print(e)
-                qs = qs.none()
+            qs = self.filter_by_search_terms(qs)
 
         return qs
 
@@ -146,47 +109,8 @@ class RecipeViewSet(LazyViewSet):
     def filter_by_search_terms(self, qs):
         terms = self.request.GET.get('search').split(',')
         for term in terms:
-            tree = grammar.parse(term)
-            qs = self.build_query_from_tree(tree, qs)
+            qs = parse_search_and_filter(term, qs)
         return qs.distinct()
-
-    def build_query_from_tree(self, tree, qs):
-        if tree.data == 'search_term':
-            term = '%s' % tree.children[0]
-            return qs.filter(
-                Q(quantity__ingredient__name__icontains=term) | \
-                Q(name__icontains=term) | \
-                Q(description__iregex='\\b%s\\b' % term)
-            )
-
-        if tree.data == 'exclude':
-            term = '%s' % tree.children[0]
-            return qs.exclude(
-                Q(quantity__ingredient__name__icontains=term) | \
-                Q(name__icontains=term) | \
-                Q(description__iregex='\\b%s\\b' % term)
-            )
-
-        if tree.data == 'constraint':
-            search = '%s' % tree.children[0]
-            op = OPS['%s' % tree.children[1]]
-            amount = float(tree.children[2])
-            if len(tree.children) == 4:
-                unit = UNITS[tree.children[3].lower()]
-            else:
-                unit = 1
-            kwargs = {
-                'quantity__ingredient__name__icontains': search,
-                'quantity__unit': unit
-            }
-            kwargs['quantity__amount__%s' % op] = amount
-
-            return qs.filter(**kwargs)
-
-        if tree.data == 'attr_search':
-            kwargs = {}
-            kwargs['%s__icontains' % tree.children[0]] = '%s' % tree.children[1]
-            return qs.filter(**kwargs)
 
 
 
