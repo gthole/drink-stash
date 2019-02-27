@@ -77,6 +77,11 @@ export class RecipeListComponent implements OnInit {
         this.loadPage();
     }
 
+    onResize() {
+        this.side_display = window.innerWidth >= 1060;
+        this.per_page = window.innerWidth >= 1060 ? 200 : 100;
+    }
+
     loadPage() {
         this.example = this.exampleQueries[
             Math.floor(Math.random() * this.exampleQueries.length)
