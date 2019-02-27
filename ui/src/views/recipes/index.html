@@ -25,7 +25,7 @@
 
             <h1>Recipes</h1>
             <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
-                <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter (e.g. {{ example }})" [(ngModel)]="filter" (change)="addFilter()">
+                <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter (e.g. {{ example }})" [(ngModel)]="filter" (change)="addFilter()" id="searchbar">
             </div>
             <div class="my-4 overflow-auto">
                 <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white" *ngFor="let f of meta.filters" (click)="removeFilter(f)" [ngClass]="{

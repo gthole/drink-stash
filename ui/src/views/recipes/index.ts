@@ -152,12 +152,14 @@ export class RecipeListComponent implements OnInit {
         this.meta.filters.push(term);
         this.filter = '';
         this.loadPage();
+        document.getElementById('searchbar').focus();
     }
 
     removeFilter(f: string) {
         this.meta.page = 1;
         this.meta.filters = this.meta.filters.filter((g) => g != f);
         this.loadPage();
+        document.getElementById('searchbar').focus();
     }
 
     routeRecipe(ev: any, id: number) {
