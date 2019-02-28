@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { RecipeStub, RecipeService } from '../../services/recipes';
+import { AlertService } from '../../services/alerts';
 import { ViewMetaService } from '../../services/view-meta';
 import { Comment, CommentService } from '../../services/comments';
 import { Favorite, FavoriteService } from '../../services/favorites';
@@ -22,6 +23,7 @@ interface Activity {
 })
 export class HomeViewComponent implements OnInit {
     constructor(
+        private alertService: AlertService,
         private recipeService: RecipeService,
         private commentService: CommentService,
         private favoriteService: FavoriteService,
@@ -58,13 +60,20 @@ export class HomeViewComponent implements OnInit {
             this.recipeService.getPage(params),
             this.commentService.getPage(params),
             this.favoriteService.getPage(params)
-        ]).then(([recipeResp, commentResp, favoriteResp]) => {
-            this.processActivities(
-                recipeResp.results,
-                commentResp.results,
-                favoriteResp.results
-            )
-        });
+        ]).then(
+            ([recipeResp, commentResp, favoriteResp]) => {
+                this.processActivities(
+                    recipeResp.results,
+                    commentResp.results,
+                    favoriteResp.results
+                )
+            },
+            (err) => {
+                this.alertService.error('Something went wrong, please reload or try again.');
+                this.activityFeed = [];
+                this.allActivities = [];
+            }
+        );
     }
 
     loadMore() {
