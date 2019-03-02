@@ -80,6 +80,13 @@ class Quantity(Model):
         return '%s %s' % (self.amount, self.ingredient)
 
 
+class Tag(Model):
+    name = CharField(max_length=255, unique=True, db_index=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Recipe(Model):
     name = CharField(max_length=255, unique=True, db_index=True)
     source = CharField(max_length=255)
@@ -89,6 +96,8 @@ class Recipe(Model):
 
     created = DateTimeField(auto_now_add=True, blank=True)
     added_by = ForeignKey(User, blank=True, null=True)
+
+    tags = ManyToManyField(Tag, related_name='recipes')
 
     def __str__(self):
         return '%s (%s)' % (self.name, self.id)

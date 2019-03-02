@@ -109,6 +109,12 @@ class RecipeViewSet(LazyViewSet):
         lacking = Quantity.objects.exclude(ingredient__in=cabinet)
         return qs.exclude(quantity__in=lacking)
 
+    def filter_by_tags(self, qs):
+        tags = self.request.GET.get('tags').split(',')
+        for tag in tags:
+            qs = qs.filter(tags__name=tag)
+        return qs
+
     def filter_by_search_terms(self, qs):
         terms = self.request.GET.get('search').split(',')
         for term in terms:

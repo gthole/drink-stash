@@ -77,6 +77,14 @@ class QuantityIngredientSerializer(BaseSerializer):
         return obj.ingredient.name
 
 
+class TagSerializer(BaseSerializer):
+    def to_internal_value(self, data):
+        return Tag.objects.get(name=data)
+
+    def to_representation(self, obj):
+        return obj.name
+
+
 class RecipeListSerializer(ModelSerializer):
     """
     Main GET LIST Serializer for Recipes without all the details
@@ -89,6 +97,7 @@ class RecipeListSerializer(ModelSerializer):
         many=True,
         read_only=True
     )
+    tags = TagSerializer(many=True)
     added_by = NestedUserSerializer(
         read_only=True,
         default=CurrentUserDefault()
@@ -105,6 +114,7 @@ class RecipeListSerializer(ModelSerializer):
            'ingredients',
            'comment_count',
            'favorite_count',
+           'tags',
        )
 
     @staticmethod
@@ -155,6 +165,7 @@ class RecipeSerializer(RecipeListSerializer):
             'quantity_set',
             'created',
             'added_by',
+            'tags',
             'comment_count',
             'favorite_count',
         )
