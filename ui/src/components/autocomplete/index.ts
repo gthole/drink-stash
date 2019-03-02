@@ -16,6 +16,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     <div class="autocomplete">
         <input
             [(ngModel)]="value"
+            id="{{name}}"
             (keydown)="onKeydown($event)"
             (input)="onInput($event)"
             (blur)="onBlur($event)"
@@ -26,7 +27,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
             <div
                 *ngFor="let s of suggestions; let i = index"
                 [ngClass]="{'autocomplete-active': i === selectedItem}"
-                (click)="select(i)">
+                (mousedown)="select(i)">
                 {{ s }}
             </div>
         </div>
@@ -70,6 +71,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
 })
 export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
     @Input() dataSource: string[];
+    @Input() name: string = '';
     @Input() inputClass: string = '';
     @Input() placeholder: string = '';
     @Input() disableInput = false;
@@ -131,6 +133,9 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
         if (this.clearOnSelect) {
             this.value = '';
         }
+
+        // Selecting with mouse should not remove focus from input
+        setTimeout(() => document.getElementById(this.name).focus(), 0);
     }
 
     onBlur(e: any) {
@@ -139,7 +144,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
     }
 
     onKeydown(e) {
-        switch (e.keyCode) {
+        switch (e.which || e.keyCode) {
             case 40:
                 this.selectedItem += 1;
                 break;
@@ -148,7 +153,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
                 break;
             case 13:
                 e.preventDefault();
-                this.select(this.selectedItem);
+                if (this.suggestions.length) this.select(this.selectedItem);
                 break;
         }
     }
