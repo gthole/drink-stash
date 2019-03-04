@@ -3,6 +3,7 @@ import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { stringify } from 'querystring';
+import * as n2f from 'num2fraction';
 
 
 class RecipeStub extends BaseModel {
@@ -54,7 +55,10 @@ class Recipe extends BaseModel {
         this.favorite = payload.favorite;
         this.quantities = payload.quantity_set;
 
-        this.quantities.forEach((q) => q.name = this.quantityName());
+        this.quantities.forEach((q) => {
+            q.name = this.quantityName();
+            q.display_amount = this.displayAmount(q.amount);
+        });
 
         this.setHash();
     }
@@ -89,6 +93,19 @@ class Recipe extends BaseModel {
 
     quantityName() {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+    }
+
+    displayAmount(amount: number): string {
+        const whole = Math.floor(amount);
+        const part = amount - whole;
+        if (part > 0.01) {
+            let prefix = '';
+            if (whole > 0) {
+                prefix = whole + ' ';
+            }
+            return prefix + n2f(part);
+        }
+        return '' + amount;
     }
 
     toPayload() {

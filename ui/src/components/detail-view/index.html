@@ -3,7 +3,7 @@
     <div><i>{{ recipe.source }}</i></div>
     <table class="my-6 mx-2">
         <tr *ngFor="let q of showQuantities">
-            <td style="text-align: right" class="mr-2">{{ q.amount }} {{ units[q.unit] }}</td>
+            <td style="text-align: right" class="mr-2">{{ q.display_amount }} {{ units[q.unit] }}</td>
             <td class="mx-1">-</td>
             <td>{{ q.ingredient }}</td>
         </tr>
