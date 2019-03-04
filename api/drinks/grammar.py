@@ -12,7 +12,6 @@ OPS = {
     '<=': 'lte'
 }
 unit_keys = '"i|"'.join([k for k in UNITS.keys() if k])
-print(unit_keys)
 
 grammar = Lark('''
     // Top level grammar rules
