@@ -56,7 +56,7 @@ export class RecipeListComponent implements OnInit {
         'last word',
         'yellow chartreuse',
         'NOT juice',
-        'lemon > .5 oz',
+        'lemon > 1/2 oz',
         'orgeat <= .25',
     ];
 

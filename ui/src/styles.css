@@ -1,3 +1,12 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.title {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: bold;
+}
+
 a {
     text-decoration: none;
 }

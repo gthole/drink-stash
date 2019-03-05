@@ -25,7 +25,8 @@
 }
 
 .cursive {
-    font-family: cursive;
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
 }
 
 .back {
