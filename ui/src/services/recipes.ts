@@ -3,6 +3,7 @@ import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { stringify } from 'querystring';
+import { fracCodes } from '../constants';
 import * as n2f from 'num2fraction';
 
 
@@ -103,7 +104,12 @@ class Recipe extends BaseModel {
             if (whole > 0) {
                 prefix = whole + ' ';
             }
-            return prefix + n2f(part);
+            const frac = n2f(part);
+            if (fracCodes[frac]) {
+                return `${prefix} <span class="text-2xl">${fracCodes[frac]}</span>`;
+            }
+            const [num, denom] = n2f(part).split('/');
+            return `${prefix} <sup>${num}</sup>/<sub>${denom}</sub>`;
         }
         return '' + amount;
     }

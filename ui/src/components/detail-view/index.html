@@ -1,14 +1,16 @@
 <div *ngIf="recipe">
-    <h1>{{ recipe.name }}</h1>
-    <div><i>{{ recipe.source }}</i></div>
+    <h1 class="title">{{ recipe.name }}</h1>
+    <div class="mt-2 text-grey-darker"><i>{{ recipe.source }}</i></div>
     <table class="my-6 mx-2">
-        <tr *ngFor="let q of showQuantities">
-            <td style="text-align: right" class="mr-2">{{ q.display_amount }} {{ units[q.unit] }}</td>
-            <td class="mx-1">-</td>
-            <td>{{ q.ingredient }}</td>
+        <tr *ngFor="let q of showQuantities" class="mb-3">
+            <td style="text-align: right; padding: 3px 8px 3px 0; border-right: 1px solid #999" class="mr-2">
+                <span class="title" style="font-weight: normal" [innerHTML]="q.display_amount"></span>
+                <span class="text-grey-darker text-xs">&nbsp;{{ units[q.unit] }}</span>
+            </td>
+            <td class="align-middle leading-loose" style="padding: 0 0 0 8px;">{{ q.ingredient }}</td>
         </tr>
     </table>
-    <div class="mb-6 text-sm">{{ recipe.directions }}</div>
+    <div class="mb-12 text-sm">{{ recipe.directions }}</div>
 
     <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
 

@@ -27,7 +27,7 @@ grammar = Lark('''
     OPERATOR: ("<="|">="|"="|"<"|">")
     UNIT: ("%s"i)
     WHITESPACE: (" " | "\\n")+
-    NUMBER: (INT+["."INT+] | "."INT+)
+    NUMBER: (INT"/"INT | INT+["."INT+] | "."INT+ )
 
     // Imports and configs
     %%import common.INT -> INT
@@ -60,7 +60,14 @@ def parse_search_and_filter(term, qs):
     if tree.data == 'constraint':
         search = '%s' % tree.children[0]
         op = OPS['%s' % tree.children[1]]
-        amount = float(tree.children[2])
+
+        amount_str = tree.children[2]
+        if "/" in amount_str:
+            [num, den] = amount_str.split("/")
+            amount = float(num) / float(den)
+        else:
+            amount = float(tree.children[2])
+
         if len(tree.children) == 4:
             unit = UNITS[tree.children[3].lower()]
         else:
