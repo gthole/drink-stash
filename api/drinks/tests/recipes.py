@@ -1,6 +1,7 @@
 from rest_framework.test import APIClient
 from drinks.models import Recipe, Comment, UserFavorite
 from .base import BaseTestCase
+import time
 
 """
 Special Counsel: 1oz Rye, .75oz Strega, .75oz Sfumato, .75oz Lemon Juice
@@ -103,6 +104,51 @@ class RecipeTestCase(BaseTestCase):
             [r['name'] for r in resp.json()['results']],
             ['End of Childcare Day', 'Last Word', 'Special Counsel']
         )
+
+    def test_fetch_recipes_by_source(self):
+        """
+        Constrain a specific attribute
+        """
+        comment = Comment(user_id=1, recipe_id=2, text='Delicious!')
+        comment.save()
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'source = greg'}
+        )
+        self.assertEqual(len(resp.json()['results']), 2)
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['End of Childcare Day', 'Special Counsel']
+        )
+
+    def test_fetch_recipes_with_special_characters(self):
+        """
+        Constrain a specific attribute
+        """
+        comment = Comment(user_id=1, recipe_id=2, text='Delicious!')
+        comment.save()
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'K\u00fcmmel'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual(
+            resp.json()['results'][0]['name'],
+            'End of Childcare Day'
+        )
+
+    def test_fetch_recipes_with_attr_constraint(self):
+        """
+        Constrain a specific attribute
+        """
+        comment = Comment(user_id=1, recipe_id=2, text='Delicious!')
+        comment.save()
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'comments > 0'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual(resp.json()['results'][0]['id'], 2)
 
     def test_fetch_recipes_search_negation(self):
         """
@@ -228,6 +274,36 @@ class RecipeTestCase(BaseTestCase):
         recipe = Recipe.objects.get(name='Special Counsel')
         self.assertEqual(recipe.source, 'Greg, August 2018')
         self.assertEqual(recipe.quantity_set.count(), 4)
+
+    def test_nonadmin_cannot_update_recipe_not_owned(self):
+        token = self.get_user_token('user')
+        client = APIClient(HTTP_AUTHORIZATION=token)
+
+        recipe = Recipe.objects.get(name='Special Counsel')
+        resp = client.put(
+            '/api/v1/recipes/%s/' % recipe.id,
+            {
+                'name': 'Special Counsel',
+                'source': 'Greg, August 2018',
+                'directions': recipe.directions,
+                'description': recipe.description,
+                'quantity_set': [
+                    {'amount': 1, 'unit': 1, 'ingredient': 'Rye'},
+                    {'amount': .75, 'unit': 1, 'ingredient': 'Strega'},
+                    {'amount': .75, 'unit': 1, 'ingredient': 'Gin'}
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 403)
+
+        recipe = Recipe.objects.get(name='Special Counsel')
+        self.assertEqual(recipe.source, 'Greg')
+        self.assertEqual(recipe.quantity_set.count(), 4)
+        self.assertEqual(
+            [q.ingredient.name for q in recipe.quantity_set.iterator()],
+            ['Rye', 'Strega', 'Sfumato', 'Lemon Juice']
+        )
 
     def test_fetch_recipe(self):
         self.maxDiff = None

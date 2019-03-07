@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, \
     BaseSerializer, PrimaryKeyRelatedField, CurrentUserDefault, \
     SerializerMethodField, IntegerField, BooleanField
+from rest_framework.validators import UniqueTogetherValidator
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
@@ -199,6 +200,12 @@ class CommentSerializer(ModelSerializer):
             'updated',
             'created',
         )
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Comment.objects.all(),
+                fields=('user', 'recipe')
+            )
+        ]
 
     @staticmethod
     def setup_eager_loading(queryset):
@@ -227,6 +234,12 @@ class UserFavoriteSerializer(ModelSerializer):
             'recipe',
             'created',
         )
+        validators = [
+            UniqueTogetherValidator(
+                queryset=UserFavorite.objects.all(),
+                fields=('user', 'recipe')
+            )
+        ]
 
 
 class UserIngredientSerializer(BaseSerializer):
@@ -238,9 +251,9 @@ class UserIngredientSerializer(BaseSerializer):
 
 
 class UserSerializer(ModelSerializer):
-    # TODO: Block unused methods, add permissions check to update
     ingredient_set = UserIngredientSerializer(many=True)
     user_hash = SerializerMethodField(read_only=True)
+    is_staff = BooleanField(read_only=True)
 
     def get_user_hash(self, user):
         m = hashlib.md5()

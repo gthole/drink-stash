@@ -1,10 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.exceptions import APIException
+from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import render
 
 from django.db.models import Q, Count, OuterRef, Exists
 from django.contrib.auth.models import User
+from .permissions import ObjectOwnerPermissions
 from .grammar import parse_search_and_filter
 from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient, \
     UserFavorite
@@ -30,6 +32,7 @@ class LazyViewSet(ModelViewSet):
 
 
 class RecipeViewSet(LazyViewSet):
+    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = Recipe.objects.all().order_by('name')
     serializer_class = RecipeSerializer
     list_serializer_class = RecipeListSerializer
@@ -113,8 +116,9 @@ class RecipeViewSet(LazyViewSet):
         return qs.distinct()
 
 
-
 class IngredientViewSet(LazyViewSet):
+    http_method_names = ['get', 'head']
+    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
@@ -125,6 +129,7 @@ class IngredientViewSet(LazyViewSet):
 
 
 class CommentViewSet(LazyViewSet):
+    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = Comment.objects.all().order_by('-created')
     serializer_class = CommentSerializer
     filter_fields = {
@@ -148,6 +153,7 @@ class CommentViewSet(LazyViewSet):
 
 
 class UserFavoriteViewSet(LazyViewSet):
+    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = UserFavorite.objects.all().order_by('-created')
     serializer_class = UserFavoriteSerializer
     filter_fields = {
@@ -157,7 +163,9 @@ class UserFavoriteViewSet(LazyViewSet):
 
 
 class UserViewSet(LazyViewSet):
-    queryset = User.objects.all()
+    http_method_names = ['get', 'put', 'head']
+    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
 

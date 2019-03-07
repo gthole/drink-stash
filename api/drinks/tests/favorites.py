@@ -3,7 +3,7 @@ from .base import BaseTestCase
 
 
 class UserFavoriteTestCase(BaseTestCase):
-    fixtures = ['auth', 'recipes', 'favorites']
+    fixtures = ['users', 'recipes', 'favorites']
 
     def test_list_favorites(self):
         resp = self.client.get('/api/v1/favorites/')
@@ -32,9 +32,14 @@ class UserFavoriteTestCase(BaseTestCase):
         self.assertEqual(UserFavorite.objects.filter(pk=1).count(), 0)
 
     def test_user_authorized_for_self_only(self):
-        "TODO"
-        pass
+        resp = self.client.delete('/api/v1/favorites/2/')
+        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(UserFavorite.objects.filter(pk=2).count(), 1)
 
     def test_user_can_favorite_recipe_only_once(self):
-        "TODO"
-        pass
+        resp = self.client.post(
+            '/api/v1/favorites/',
+            {'recipe': 1},
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 400)

@@ -17,7 +17,7 @@
         "fields": {
             "first_name": "Tertius",
             "last_name": "Lydgate",
-            "username": "lydgate",
+            "username": "user",
             "password": "password",
             "is_superuser": false,
             "is_staff": false
