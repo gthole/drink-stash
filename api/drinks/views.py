@@ -47,8 +47,8 @@ class RecipeViewSet(LazyViewSet):
 
     def filter_queryset(self, *args, **kwargs):
         qs = super().filter_queryset(*args, **kwargs)
-        qs = qs.annotate(comment_count=Count('comments'))
-        qs = qs.annotate(favorite_count=Count('favorites'))
+        qs = qs.annotate(comment_count=Count('comments', distinct=True))
+        qs = qs.annotate(favorite_count=Count('favorites', distince=True))
         has_favorite = UserFavorite.objects.filter(
             recipe=OuterRef('pk'),
             user=self.request.user
@@ -125,7 +125,7 @@ class IngredientViewSet(LazyViewSet):
 
 
 class CommentViewSet(LazyViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('-created')
     serializer_class = CommentSerializer
     filter_fields = {
         'recipe': ['exact'],
@@ -148,10 +148,11 @@ class CommentViewSet(LazyViewSet):
 
 
 class UserFavoriteViewSet(LazyViewSet):
-    queryset = UserFavorite.objects.all()
+    queryset = UserFavorite.objects.all().order_by('-created')
     serializer_class = UserFavoriteSerializer
     filter_fields = {
         'recipe': ['exact'],
+        'user': ['exact'],
     }
 
 

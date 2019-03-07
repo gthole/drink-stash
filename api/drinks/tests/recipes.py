@@ -1,7 +1,6 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
 from rest_framework.test import APIClient
-from drinks.models import Recipe, Quantity
+from drinks.models import Recipe, Comment, UserFavorite
+from .base import BaseTestCase
 
 """
 Special Counsel: 1oz Rye, .75oz Strega, .75oz Sfumato, .75oz Lemon Juice
@@ -13,25 +12,7 @@ End of Childcare Day: 1.5oz Rye, 1oz St.Germain, 1oz Lemon Juice
 """
 
 
-class RecipeTestCase(TestCase):
-    fixtures = ['auth.json', 'recipes.json']
-    client = None
-
-    @classmethod
-    def setUpTestData(cls):
-        u = User.objects.get(pk=1)
-        u.set_password('negroni')
-        u.save()
-
-    def setUp(self):
-        client = APIClient()
-        resp = client.post(
-            '/api/v1/auth/',
-            {'username': 'admin', 'password': 'negroni'}
-        )
-        auth = 'JWT %s' % resp.json()['token']
-        self.client = APIClient(HTTP_AUTHORIZATION=auth)
-
+class RecipeTestCase(BaseTestCase):
     def test_requires_login(self):
         client = APIClient()
         resp = client.get('/api/v1/recipes/')
@@ -56,7 +37,7 @@ class RecipeTestCase(TestCase):
                 'created': '2019-02-09T23:56:01.918000Z',
                 'favorite': False,
                 'favorite_count': 0,
-                'id': 433,
+                'id': 6,
                 'ingredients': ['Old Overholt Rye', 'St. Germain', 'Lemon Juice'],
                 'name': 'End of Childcare Day'
             }
@@ -75,7 +56,7 @@ class RecipeTestCase(TestCase):
 
     def test_fetch_recipes_search_ingredient(self):
         """
-        Search finds a recipe by name
+        Search finds a recipe by ingredient
         """
         resp = self.client.get(
             '/api/v1/recipes/',
@@ -86,7 +67,7 @@ class RecipeTestCase(TestCase):
 
     def test_fetch_recipes_search_constraint(self):
         """
-        Search finds a recipe by name
+        Search finds a recipe with an ingredient constraint
         """
         resp = self.client.get(
             '/api/v1/recipes/',
@@ -97,6 +78,17 @@ class RecipeTestCase(TestCase):
             [r['name'] for r in resp.json()['results']],
             ['Manhattan', 'Sazerac', 'Toronto']
         )
+
+    def test_fetch_recipes_search_fractional_constraint(self):
+        """
+        Search finds a recipe with ingredient constraints in fractional form
+        """
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'rye < 3/2 oz'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual(resp.json()['results'][0]['name'], 'Special Counsel')
 
     def test_fetch_recipes_search_attribute(self):
         """
@@ -114,7 +106,7 @@ class RecipeTestCase(TestCase):
 
     def test_fetch_recipes_search_negation(self):
         """
-        Search a specific attribute
+        Search with a negative
         """
         resp = self.client.get(
             '/api/v1/recipes/',
@@ -122,6 +114,68 @@ class RecipeTestCase(TestCase):
         )
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['name'], 'Last Word')
+
+    def test_fetch_recipes_comment_counts(self):
+        """
+        Comment counts should be returned
+        """
+        recipe = Recipe.objects.get(name='Last Word')
+        comment = Comment(
+            user_id=1,
+            recipe_id=recipe.id,
+            text='Delicious!'
+        )
+        comment.save()
+        recipe.comments.add(comment)
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'last word'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        result = resp.json()['results'][0]
+        self.assertEqual(result['name'], 'Last Word')
+        self.assertEqual(result['comment_count'], 1)
+
+    def test_fetch_recipes_filter_by_comments(self):
+        """
+        Return only recipes with comments
+        """
+        recipe = Recipe.objects.get(name='Last Word')
+        comment = Comment(
+            user_id=1,
+            recipe_id=recipe.id,
+            text='Delicious!'
+        )
+        comment.save()
+        recipe.comments.add(comment)
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'comments': 'true'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        result = resp.json()['results'][0]
+        self.assertEqual(result['name'], 'Last Word')
+        self.assertEqual(result['comment_count'], 1)
+
+    def test_fetch_recipes_filter_by_favorites(self):
+        """
+        Return only recipes with favorites
+        """
+        recipe = Recipe.objects.get(name='Manhattan')
+        fav = UserFavorite(
+            user_id=1,
+            recipe_id=recipe.id
+        )
+        fav.save()
+        recipe.favorites.add(fav)
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'favorites': 'true'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        result = resp.json()['results'][0]
+        self.assertEqual(result['name'], 'Manhattan')
+        self.assertEqual(result['favorite_count'], 1)
 
     def test_create_recipe(self):
         resp = self.client.post(
@@ -191,7 +245,7 @@ class RecipeTestCase(TestCase):
                 },
                 'comment_count': 0,
                 'created': '2018-10-10T14:14:40.019000Z',
-                'id': 15,
+                'id': recipe.id,
                 'name': 'Special Counsel',
                 'source': 'Greg',
                 'directions': recipe.directions,

@@ -39,8 +39,8 @@ export class RecipeDetailViewComponent {
         this.canComment = false;
         this.commentText = '';
         Promise.all([
-            this.commentService.getPage({recipe: `${this.recipe.id}`}),
-            this.favoriteService.getPage({recipe: `${this.recipe.id}`}),
+            this.getComments(),
+            this.getFavorites(),
             this.userService.getSelf()
         ]).then(([commentResp, favoriteResp, user]) => {
             this.user = user;
@@ -51,6 +51,24 @@ export class RecipeDetailViewComponent {
             this.favorites = favoriteResp.results;
         });
     }
+
+    /*
+     * Lazy content loaders
+     */
+
+    getComments(): Promise<Comment[]> {
+        if (this.recipe.comment_count === 0) return Promise.resolve([]);
+        return this.commentService.getPage({recipe: `${this.recipe.id}`}),
+    }
+
+    getFavorites(): Promise<Favorite[]> {
+        if (this.recipe.favorite_count === 0) return Promise.resolve([]);
+        return this.favoriteService.getPage({recipe: `${this.recipe.id}`}),
+    }
+
+    /*
+     * User interactions
+     */
 
     toggleFavorite(): void {
         let promise;

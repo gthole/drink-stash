@@ -9,7 +9,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 4
+        "pk": 1
     },
     {
         "fields": {
@@ -21,7 +21,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 7
+        "pk": 2
     },
     {
         "fields": {
@@ -33,7 +33,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 11
+        "pk": 3
     },
     {
         "fields": {
@@ -45,7 +45,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 17
+        "pk": 4
     },
     {
         "fields": {
@@ -57,7 +57,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 21
+        "pk": 5
     },
     {
         "fields": {
@@ -69,7 +69,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 22
+        "pk": 6
     },
     {
         "fields": {
@@ -81,7 +81,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 23
+        "pk": 7
     },
     {
         "fields": {
@@ -93,7 +93,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 30
+        "pk": 8
     },
     {
         "fields": {
@@ -102,12 +102,10 @@
             "description": null,
             "generic": false,
             "name": "Strega",
-            "substitutions": [
-                13
-            ]
+            "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 34
+        "pk": 9
     },
     {
         "fields": {
@@ -119,7 +117,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 37
+        "pk": 10
     },
     {
         "fields": {
@@ -131,7 +129,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 38
+        "pk": 11
     },
     {
         "fields": {
@@ -143,7 +141,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 39
+        "pk": 12
     },
     {
         "fields": {
@@ -153,11 +151,11 @@
             "generic": false,
             "name": "Old Overholt Rye",
             "substitutions": [
-                7
+                2
             ]
         },
         "model": "drinks.ingredient",
-        "pk": 55
+        "pk": 13
     },
     {
         "fields": {
@@ -169,7 +167,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 56
+        "pk": 14
     },
     {
         "fields": {
@@ -181,7 +179,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 60
+        "pk": 15
     },
     {
         "fields": {
@@ -193,7 +191,7 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 61
+        "pk": 16
     },
     {
         "fields": {
@@ -205,249 +203,249 @@
             "substitutions": []
         },
         "model": "drinks.ingredient",
-        "pk": 221
+        "pk": 17
     },
     {
         "fields": {
             "amount": 1.0,
             "hidden": false,
-            "ingredient": 7,
-            "recipe": 15,
+            "ingredient": 2,
+            "recipe": 1,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 56
+        "pk": 1
     },
     {
         "fields": {
             "amount": 0.75,
             "hidden": false,
-            "ingredient": 34,
-            "recipe": 15,
+            "ingredient": 9,
+            "recipe": 1,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 57
+        "pk": 2
     },
     {
         "fields": {
             "amount": 0.75,
             "hidden": false,
-            "ingredient": 38,
-            "recipe": 15,
+            "ingredient": 11,
+            "recipe": 1,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 58
-    },
-    {
-        "fields": {
-            "amount": 0.75,
-            "hidden": false,
-            "ingredient": 17,
-            "recipe": 15,
-            "unit": 1
-        },
-        "model": "drinks.quantity",
-        "pk": 59
+        "pk": 3
     },
     {
         "fields": {
             "amount": 0.75,
             "hidden": false,
             "ingredient": 4,
-            "recipe": 27,
+            "recipe": 1,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 118
+        "pk": 4
     },
     {
         "fields": {
             "amount": 0.75,
             "hidden": false,
-            "ingredient": 21,
-            "recipe": 27,
+            "ingredient": 1,
+            "recipe": 2,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 119
+        "pk": 5
     },
     {
         "fields": {
             "amount": 0.75,
             "hidden": false,
-            "ingredient": 39,
-            "recipe": 27,
+            "ingredient": 5,
+            "recipe": 2,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 120
+        "pk": 6
     },
     {
         "fields": {
             "amount": 0.75,
             "hidden": false,
-            "ingredient": 22,
-            "recipe": 27,
+            "ingredient": 12,
+            "recipe": 2,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 121
+        "pk": 7
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 6,
+            "recipe": 2,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 8
     },
     {
         "fields": {
             "amount": 2.0,
             "hidden": false,
-            "ingredient": 7,
-            "recipe": 28,
+            "ingredient": 2,
+            "recipe": 3,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 122
+        "pk": 9
     },
     {
         "fields": {
             "amount": 1.0,
             "hidden": false,
-            "ingredient": 11,
-            "recipe": 28,
+            "ingredient": 3,
+            "recipe": 3,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 123
+        "pk": 10
     },
     {
         "fields": {
             "amount": 2.0,
             "hidden": false,
-            "ingredient": 56,
-            "recipe": 28,
+            "ingredient": 14,
+            "recipe": 3,
             "unit": 2
         },
         "model": "drinks.quantity",
-        "pk": 124
+        "pk": 11
     },
     {
         "fields": {
             "amount": 2.0,
             "hidden": false,
-            "ingredient": 7,
-            "recipe": 30,
+            "ingredient": 2,
+            "recipe": 4,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 130
+        "pk": 12
     },
     {
         "fields": {
             "amount": 1.0,
             "hidden": false,
-            "ingredient": 23,
-            "recipe": 30,
+            "ingredient": 7,
+            "recipe": 4,
             "unit": 5
         },
         "model": "drinks.quantity",
-        "pk": 131
+        "pk": 13
     },
     {
         "fields": {
             "amount": 4.0,
             "hidden": false,
-            "ingredient": 60,
-            "recipe": 30,
+            "ingredient": 15,
+            "recipe": 4,
             "unit": 2
         },
         "model": "drinks.quantity",
-        "pk": 132
+        "pk": 14
     },
     {
         "fields": {
             "amount": 0.25,
             "hidden": false,
-            "ingredient": 61,
-            "recipe": 30,
+            "ingredient": 16,
+            "recipe": 4,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 133
+        "pk": 15
     },
     {
         "fields": {
             "amount": 2.0,
             "hidden": false,
-            "ingredient": 7,
-            "recipe": 126,
+            "ingredient": 2,
+            "recipe": 5,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 616
+        "pk": 16
     },
     {
         "fields": {
             "amount": 0.25,
             "hidden": false,
-            "ingredient": 37,
-            "recipe": 126,
+            "ingredient": 10,
+            "recipe": 5,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 617
+        "pk": 17
     },
     {
         "fields": {
             "amount": 0.25,
             "hidden": false,
-            "ingredient": 221,
-            "recipe": 126,
+            "ingredient": 17,
+            "recipe": 5,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 618
+        "pk": 18
     },
     {
         "fields": {
             "amount": 2.0,
             "hidden": false,
-            "ingredient": 56,
-            "recipe": 126,
+            "ingredient": 14,
+            "recipe": 5,
             "unit": 2
         },
         "model": "drinks.quantity",
-        "pk": 619
+        "pk": 19
     },
     {
         "fields": {
             "amount": 1.5,
             "hidden": false,
-            "ingredient": 55,
-            "recipe": 433,
+            "ingredient": 13,
+            "recipe": 6,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 2138
+        "pk": 20
     },
     {
         "fields": {
             "amount": 1.0,
             "hidden": false,
-            "ingredient": 30,
-            "recipe": 433,
+            "ingredient": 8,
+            "recipe": 6,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 2139
+        "pk": 21
     },
     {
         "fields": {
             "amount": 1.0,
             "hidden": false,
-            "ingredient": 17,
-            "recipe": 433,
+            "ingredient": 4,
+            "recipe": 6,
             "unit": 1
         },
         "model": "drinks.quantity",
-        "pk": 2140
+        "pk": 22
     },
     {
         "fields": {
@@ -459,7 +457,7 @@
             "source": "Greg"
         },
         "model": "drinks.recipe",
-        "pk": 15
+        "pk": 1
     },
     {
         "fields": {
@@ -471,7 +469,7 @@
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
-        "pk": 27
+        "pk": 2
     },
     {
         "fields": {
@@ -483,7 +481,7 @@
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
-        "pk": 28
+        "pk": 3
     },
     {
         "fields": {
@@ -495,7 +493,7 @@
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
-        "pk": 30
+        "pk": 4
     },
     {
         "fields": {
@@ -507,7 +505,7 @@
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
-        "pk": 126
+        "pk": 5
     },
     {
         "fields": {
@@ -519,6 +517,6 @@
             "source": "Greg"
         },
         "model": "drinks.recipe",
-        "pk": 433
+        "pk": 6
     }
 ]

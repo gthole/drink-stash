@@ -1,0 +1,24 @@
+[
+    {
+        "model": "drinks.comment",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "recipe": 1,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "text": "Delightful!"
+        }
+    },
+    {
+        "model": "drinks.comment",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "recipe": 3,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "text": "Mediocre!"
+        }
+    }
+]
