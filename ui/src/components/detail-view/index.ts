@@ -56,14 +56,14 @@ export class RecipeDetailViewComponent {
      * Lazy content loaders
      */
 
-    getComments(): Promise<Comment[]> {
-        if (this.recipe.comment_count === 0) return Promise.resolve([]);
-        return this.commentService.getPage({recipe: `${this.recipe.id}`}),
+    getComments(): Promise<{results: Comment[]}> {
+        if (this.recipe.comment_count === 0) return Promise.resolve({results: []});
+        return this.commentService.getPage({recipe: `${this.recipe.id}`});
     }
 
-    getFavorites(): Promise<Favorite[]> {
-        if (this.recipe.favorite_count === 0) return Promise.resolve([]);
-        return this.favoriteService.getPage({recipe: `${this.recipe.id}`}),
+    getFavorites(): Promise<{results: Favorite[]}> {
+        if (this.recipe.favorite_count === 0) return Promise.resolve({results: []});
+        return this.favoriteService.getPage({recipe: `${this.recipe.id}`});
     }
 
     /*

@@ -3,9 +3,6 @@ import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { stringify } from 'querystring';
-import { fracCodes } from '../constants';
-import * as n2f from 'num2fraction';
-
 
 class RecipeStub extends BaseModel {
     id: number;
@@ -13,6 +10,7 @@ class RecipeStub extends BaseModel {
     comment_count: number;
     ingredients: string[];
     favorite: boolean;
+    favorite_count: number;
     created: Date;
     added_by: any;
 
@@ -24,6 +22,7 @@ class RecipeStub extends BaseModel {
         this.ingredients = payload.ingredients;
         this.added_by = payload.added_by;
         this.favorite = payload.favorite;
+        this.favorite_count = payload.favorite_count;
 
         this.created = new Date(payload.created);
     }
@@ -41,6 +40,7 @@ class Recipe extends BaseModel {
     added_by: any;
     comment_count: number;
     favorite: boolean;
+    favorite_count: number;
     quantities: any[];
 
     constructor(payload) {
@@ -54,12 +54,10 @@ class Recipe extends BaseModel {
         this.created = new Date(payload.created);
         this.comment_count = payload.comment_count;
         this.favorite = payload.favorite;
+        this.favorite_count = payload.favorite_count;
         this.quantities = payload.quantity_set;
 
-        this.quantities.forEach((q) => {
-            q.name = this.quantityName();
-            q.display_amount = this.displayAmount(q.amount);
-        });
+        this.quantities.forEach((q) => q.name = this.quantityName());
 
         this.setHash();
     }
@@ -94,24 +92,6 @@ class Recipe extends BaseModel {
 
     quantityName() {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-    }
-
-    displayAmount(amount: number): string {
-        const whole = Math.floor(amount);
-        const part = amount - whole;
-        if (part > 0.01) {
-            let prefix = '';
-            if (whole > 0) {
-                prefix = whole + ' ';
-            }
-            const frac = n2f(part);
-            if (fracCodes[frac]) {
-                return `${prefix} <span class="text-2xl">${fracCodes[frac]}</span>`;
-            }
-            const [num, denom] = n2f(part).split('/');
-            return `${prefix} <sup>${num}</sup>/<sub>${denom}</sub>`;
-        }
-        return '' + amount;
     }
 
     toPayload() {

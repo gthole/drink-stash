@@ -4,8 +4,8 @@
     <table class="my-6 mx-2">
         <tr *ngFor="let q of showQuantities" class="mb-3">
             <td style="text-align: right; padding: 3px 8px 3px 0; border-right: 1px solid #999" class="mr-2">
-                <span class="title" style="font-weight: normal" [innerHTML]="q.display_amount"></span>
-                <span class="text-grey-darker text-xs">&nbsp;{{ units[q.unit] }}</span>
+                <span class="font-bold" [innerHTML]="q.amount | fractions"></span>
+                <span class="text-grey-darker text-s">&nbsp;{{ units[q.unit] }}</span>
             </td>
             <td class="align-middle leading-loose" style="padding: 0 0 0 8px;">{{ q.ingredient }}</td>
         </tr>

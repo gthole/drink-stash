@@ -83,7 +83,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
     _value: string = '';
     cleanData: {[k: string]: string} = {};
     suggestions: string[] = [];
-    selectedItem: number = 0;
+    selectedItem: number = -1;
 
     private _onTouchedCallback: () => void = () => {};
     private _onChangeCallback: (_: any) => void = () => {};
@@ -130,7 +130,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
             return;
         }
         this.value = this.suggestions[i];
-        this.selectedItem = 0;
+        this.selectedItem = -1;
         this.suggestions = [];
         this.selected.emit(this.value);
         if (this.clearOnSelect) {
@@ -145,7 +145,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor{
     }
 
     onBlur(e: any) {
-        this.selectedItem = 0;
+        this.selectedItem = -1;
         this.suggestions = [];
     }
 

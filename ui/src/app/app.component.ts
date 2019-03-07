@@ -35,7 +35,6 @@ export class AppComponent {
     }
 
     hasHistory(): boolean {
-        // TODO: Fix this
         return !this.location.isCurrentPathEqualTo('/') &&
                !this.location.isCurrentPathEqualTo('/login');
     }

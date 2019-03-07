@@ -16,6 +16,8 @@ import { IngredientService } from '../services/ingredients';
 import { RecipeService } from '../services/recipes';
 import { UserService } from '../services/users';
 
+import { FractionPipe } from '../pipes/fractions';
+
 import { AppComponent } from './app.component';
 import { AutoCompleteComponent } from '../components/autocomplete';
 import { CommentComponent } from '../components/comment';
@@ -45,7 +47,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         HomeViewComponent,
         UserCabinetComponent,
         LoginViewComponent,
-        UserDetailsViewComponent
+        UserDetailsViewComponent,
+        FractionPipe,
     ],
     imports: [
         BrowserModule,
