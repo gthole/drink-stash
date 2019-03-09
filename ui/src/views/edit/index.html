@@ -77,16 +77,18 @@
 </form>
 
 <div class="width-container" *ngIf="!loading">
-<button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6" (click)="save()">
-    Save
+<button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded" *ngIf="!recipe.id" (click)="save(true)">
+    &#43; Save and New
 </button>
 
-<button class="bg-red-dark hover:bg-red-darker text-white font-bold py-2 px-4 rounded float-right" (click)="delete()" *ngIf="recipe.id">
+<button class="bg-transparent text-red hover:bg-red hover:text-white border border-red hover:border-transparent font-bold py-2 px-4 rounded mt-3" (click)="delete()" *ngIf="recipe.id">
     Delete
 </button>
 
-<button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded float-right" *ngIf="!recipe.id" (click)="save(true)">
-    &#43; Save and New
+<button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 float-right" (click)="save()">
+    Save
 </button>
+
+
 
 </div>

@@ -9,7 +9,7 @@ services:
             - './.data:/data'
         env_file: './api/.env'
         environment:
-            DEBUG: 'true'
+            DEBUG: 'True'
         ports:
             - '80:8000'
     # Development watch & compile
