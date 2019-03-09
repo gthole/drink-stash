@@ -51,7 +51,7 @@ class RecipeViewSet(LazyViewSet):
     def filter_queryset(self, *args, **kwargs):
         qs = super().filter_queryset(*args, **kwargs)
         qs = qs.annotate(comment_count=Count('comments', distinct=True))
-        qs = qs.annotate(favorite_count=Count('favorites', distince=True))
+        qs = qs.annotate(favorite_count=Count('favorites', distinct=True))
         has_favorite = UserFavorite.objects.filter(
             recipe=OuterRef('pk'),
             user=self.request.user
