@@ -2,13 +2,11 @@
 <div class="width-container" *ngIf="comment">
     <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="text" name="text" [(ngModel)]="comment.text"></textarea>
 
-    <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded float-right mb-6 mt-3" (click)="save()">
-        Save
-    </button>
-
-    <button class="bg-transparent text-red hover:bg-red hover:text-white border border-red hover:border-transparent font-bold py-2 px-4 rounded mt-3" (click)="delete()">
+    <button class="bg-transparent text-red hover:bg-red hover:text-white border border-red hover:border-transparent font-bold py-2 px-4 rounded mt-3 focus:bg-red focus:text-white focus:border-transparent" (click)="delete()">
         Delete
     </button>
+
+    <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded float-right mb-6 mt-3 focus:bg-purple-darker" (click)="save()">
+        Save
+    </button>
 </div>
-
-

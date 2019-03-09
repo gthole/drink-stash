@@ -23,7 +23,7 @@
             <fa-icon [icon]="faHeart"></fa-icon>
         </button>
 
-        <a *ngIf="user.is_staff || user.id === recipe.added_by.id" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded">
+        <a *ngIf="user.is_staff || user.id === recipe.added_by.id" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump">
             Edit
         </a>
     </div>
@@ -36,7 +36,7 @@
         <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="text" name="text" [(ngModel)]="commentText"></textarea>
         <p class="text-grey-dark text-xs italic">Have you made this?  Tell us what you think!</p>
 
-        <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 mt-3" (click)="addComment()">
+        <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 mt-3 focus:bg-purple-darker" (click)="addComment()">
             Post
         </button>
     </div>

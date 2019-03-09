@@ -5,19 +5,19 @@
     </div>
     <div class="recipe-sidebar" id="recipe-sidebar">
         <div id="wrapper" class="meta">
-            <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+            <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right no-bump"
                 [ngClass]="{'bg-teal-dark text-white': meta.filterByCabinet, 'text-teal-dark': !meta.filterByCabinet}"
                 (click)="toggleCabinet()">
                 <fa-icon [icon]="faWineBottle"></fa-icon>
             </button>
 
-            <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+            <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right no-bump"
                 [ngClass]="{'bg-teal-dark text-white': meta.filterByComments, 'text-teal-dark': !meta.filterByComments}"
                 (click)="toggleComments()">
                 <fa-icon [icon]="faComment"></fa-icon>
             </button>
 
-            <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right"
+            <button class="mr-2 bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right no-bump"
                 [ngClass]="{'bg-teal-dark text-white': meta.filterByFavorites, 'text-teal-dark': !meta.filterByFavorites}"
                 (click)="toggleFavorites()">
                 <fa-icon [icon]="faHeart"></fa-icon>
