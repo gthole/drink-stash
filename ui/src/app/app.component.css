@@ -25,7 +25,8 @@
 }
 
 .cursive {
-    font-family: 'Libre Baskerville', serif;
+    font-family: "Libre Baskerville script=all rev=1";
+    font-weight: 400;
     font-style: italic;
 }
 

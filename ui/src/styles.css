@@ -1,5 +1,5 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto script=all rev=1', sans-serif;
 }
 
 button:focus,button:hover {
@@ -17,7 +17,7 @@ button.no-bump:focus,button.no-bump:hover {
 }
 
 .title {
-    font-family: 'Libre Baskerville', serif;
+    font-family: 'Libre Baskerville script=all rev=1';
     font-weight: bold;
 }
 
