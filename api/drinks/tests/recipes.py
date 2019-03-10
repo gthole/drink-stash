@@ -1,5 +1,5 @@
 from rest_framework.test import APIClient
-from drinks.models import Recipe, Comment, UserFavorite
+from drinks.models import Recipe, Comment, UserFavorite, Tag
 from .base import BaseTestCase
 import time
 
@@ -40,7 +40,8 @@ class RecipeTestCase(BaseTestCase):
                 'favorite_count': 0,
                 'id': 6,
                 'ingredients': ['Old Overholt Rye', 'St. Germain', 'Lemon Juice'],
-                'name': 'End of Childcare Day'
+                'name': 'End of Childcare Day',
+                'tags': []
             }
         )
 
@@ -224,6 +225,7 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(result['favorite_count'], 1)
 
     def test_create_recipe(self):
+        tag = Tag.objects.create(name='bitter')
         resp = self.client.post(
             '/api/v1/recipes/',
             {
@@ -231,6 +233,7 @@ class RecipeTestCase(BaseTestCase):
                 'source': 'Classic Cocktail',
                 'description': 'The classic cocktail from the count himself',
                 'directions': 'Stir with ice and garnish with an orange peel',
+                'tags': ['bitter'],
                 'quantity_set': [
                     {'amount': 1, 'unit': 1, 'ingredient': 'Gin'},
                     {'amount': 1, 'unit': 1, 'ingredient': 'Campari'},
@@ -243,6 +246,7 @@ class RecipeTestCase(BaseTestCase):
         recipe = Recipe.objects.get(name='Negroni')
         self.assertEqual(recipe.source, 'Classic Cocktail')
         self.assertEqual(recipe.quantity_set.count(), 3)
+        self.assertEqual([t for t in recipe.tags.all()], [tag])
 
     def test_delete_recipe(self):
         recipe = Recipe.objects.get(name='Special Counsel')
@@ -253,7 +257,12 @@ class RecipeTestCase(BaseTestCase):
         )
 
     def test_update_recipe(self):
+        tags = [
+            Tag.objects.create(name='bitter'),
+            Tag.objects.create(name='served up'),
+        ]
         recipe = Recipe.objects.get(name='Special Counsel')
+        recipe.tags.add(Tag.objects.create(name='sweet'))
         resp = self.client.put(
             '/api/v1/recipes/%s/' % recipe.id,
             {
@@ -261,6 +270,7 @@ class RecipeTestCase(BaseTestCase):
                 'source': 'Greg, August 2018',
                 'directions': recipe.directions,
                 'description': recipe.description,
+                'tags': ['bitter', 'served up'],
                 'quantity_set': [
                     {'amount': 1, 'unit': 1, 'ingredient': 'Rye'},
                     {'amount': .75, 'unit': 1, 'ingredient': 'Strega'},
@@ -274,6 +284,7 @@ class RecipeTestCase(BaseTestCase):
         recipe = Recipe.objects.get(name='Special Counsel')
         self.assertEqual(recipe.source, 'Greg, August 2018')
         self.assertEqual(recipe.quantity_set.count(), 4)
+        self.assertEqual([t for t in recipe.tags.all()], tags)
 
     def test_nonadmin_cannot_update_recipe_not_owned(self):
         token = self.get_user_token('user')
@@ -328,6 +339,7 @@ class RecipeTestCase(BaseTestCase):
                 'description': recipe.description,
                 'favorite': False,
                 'favorite_count': 0,
+                'tags': [],
                 'quantity_set': [
                     {
                         'amount': 1.0,

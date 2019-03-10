@@ -9,10 +9,10 @@ from django.contrib.auth.models import User
 from .permissions import ObjectOwnerPermissions
 from .grammar import parse_search_and_filter
 from .models import Recipe, Ingredient, Comment, Quantity, UserIngredient, \
-    UserFavorite
+    UserFavorite, Tag
 from .serializers import RecipeSerializer, RecipeListSerializer, \
     UserSerializer, IngredientSerializer, CommentSerializer, \
-    UserFavoriteSerializer
+    UserFavoriteSerializer, TagSerializer
 from dateutil import parser as date_parser
 
 
@@ -132,6 +132,12 @@ class IngredientViewSet(LazyViewSet):
         qs = super(IngredientViewSet, self).get_queryset()
         qs = qs.annotate(usage=Count('quantity'))
         return qs.order_by('name')
+
+
+class TagViewSet(LazyViewSet):
+    http_method_names = ['get', 'head']
+    queryset = Tag.objects.all().order_by('name')
+    serializer_class = TagSerializer
 
 
 class CommentViewSet(LazyViewSet):

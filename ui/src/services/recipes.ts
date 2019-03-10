@@ -13,6 +13,7 @@ class RecipeStub extends BaseModel {
     favorite_count: number;
     created: Date;
     added_by: any;
+    tags: string[];
 
     constructor(payload) {
         super();
@@ -23,6 +24,7 @@ class RecipeStub extends BaseModel {
         this.added_by = payload.added_by;
         this.favorite = payload.favorite;
         this.favorite_count = payload.favorite_count;
+        this.tags = payload.tags;
 
         this.created = new Date(payload.created);
     }
@@ -42,6 +44,7 @@ class Recipe extends BaseModel {
     favorite: boolean;
     favorite_count: number;
     quantities: any[];
+    tags: string[];
 
     constructor(payload) {
         super();
@@ -56,6 +59,7 @@ class Recipe extends BaseModel {
         this.favorite = payload.favorite;
         this.favorite_count = payload.favorite_count;
         this.quantities = payload.quantity_set;
+        this.tags = payload.tags;
 
         this.quantities.forEach((q) => q.name = this.quantityName());
 
@@ -69,7 +73,8 @@ class Recipe extends BaseModel {
             description: '',
             notes: '',
             directions: '',
-            quantity_set: []
+            quantity_set: [],
+            tags: [],
         });
         r.addQuantity();
         return r;
@@ -101,7 +106,8 @@ class Recipe extends BaseModel {
             source: this.source,
             directions: this.directions,
             description: this.description,
-            quantity_set: this.quantities
+            quantity_set: this.quantities,
+            tags: this.tags
         }
     }
 }

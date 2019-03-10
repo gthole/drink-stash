@@ -1,11 +1,18 @@
 from django.contrib import admin
-from .models import Ingredient, Quantity, Recipe
+from .models import Ingredient, Quantity, Recipe, Tag
 
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'category')
     exclude = ('description', 'generic')
+    search_fields = ('name',)
+    ordering = ('name',)
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
 

@@ -8,12 +8,13 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 
 from drinks.views import index, IngredientViewSet, RecipeViewSet, \
-    UserViewSet, CommentViewSet, UserFavoriteViewSet
+    UserViewSet, CommentViewSet, UserFavoriteViewSet, TagViewSet
 
 router = routers.DefaultRouter()
 router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipes', RecipeViewSet)
 router.register(r'comments', CommentViewSet)
+router.register(r'tags', TagViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'favorites', UserFavoriteViewSet)
 

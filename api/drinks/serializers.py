@@ -6,7 +6,7 @@ from rest_framework.validators import UniqueTogetherValidator
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import Recipe, Quantity, Ingredient, UserIngredient, Comment, \
-    UserFavorite
+    UserFavorite, Tag
 from .constants import base_substitutions
 
 import hashlib
@@ -79,7 +79,7 @@ class QuantityIngredientSerializer(BaseSerializer):
 
 class TagSerializer(BaseSerializer):
     def to_internal_value(self, data):
-        return Tag.objects.get(name=data)
+        return get_object_or_404(Tag, name=data)
 
     def to_representation(self, obj):
         return obj.name
@@ -177,11 +177,14 @@ class RecipeSerializer(RecipeListSerializer):
 
     def create(self, validated_data):
         quantity_data = validated_data.pop('quantity_set')
+        tags = validated_data.pop('tags')
         recipe = Recipe.objects.create(**validated_data)
+        recipe.tags.set(tags)
         return self.add_quantities(recipe, quantity_data)
 
     def update(self, recipe, validated_data):
         quantity_data = validated_data.pop('quantity_set')
+        tags = validated_data.pop('tags')
 
         # Update base fields
         recipe.name = validated_data.get('name', recipe.name)
@@ -190,6 +193,7 @@ class RecipeSerializer(RecipeListSerializer):
         recipe.description = validated_data.get('description', recipe.description)
         recipe.save()
 
+        recipe.tags.set(tags)
         recipe.quantity_set.all().delete()
         return self.add_quantities(recipe, quantity_data)
 
