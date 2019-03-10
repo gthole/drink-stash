@@ -15,7 +15,7 @@ export class FractionPipe implements PipeTransform {
             }
             const frac = n2f(part);
             if (fracCodes[frac]) {
-                return `${prefix} <span class="text-2xl font-light">${fracCodes[frac]}</span>`;
+                return `${prefix} <span class="text-2xl">${fracCodes[frac]}</span>`;
             }
             const [num, denom] = n2f(part).split('/');
             return `${prefix} <sup>${num}</sup>/<sub>${denom}</sub>`;
