@@ -13,7 +13,9 @@
                 </span>
                 <span *ngIf="a.type === 'favorite'">
                     <fa-icon class="ml-1 text-purple-dark" [icon]="faHeart">
-                    </fa-icon> <span *ngIf="recipeTitle">&nbsp;a recipe</span>
+                    </fa-icon>
+                    <span *ngIf="recipeTitle">&nbsp;a recipe</span>
+                    <span *ngIf="!recipeTitle">&nbsp;this recipe</span>
                 </span>
                 <span *ngIf="a.type === 'recipe'"> added a recipe </span>
                 <span *ngIf="a.type === 'comment' && recipeTitle"> made a comment </span>
