@@ -77,13 +77,13 @@ export class RecipeListComponent implements OnInit {
     }
 
     toQueryParams(): {[k: string]: string} {
-        const query = {};
-        if (this.meta.filters.length) query['search'] = this.meta.filters.join(',');
-        if (this.meta.page !== 1) query['page'] = '' + this.meta.page;
-        if (this.meta.filterByComments) query['comments'] = 'true';
-        if (this.meta.filterByFavorites) query['favorites'] = 'true';
-        if (this.meta.filterByCabinet) query['cabinet'] = 'true';
-        if (this.meta.recipeId) query['display'] = this.meta.recipeId;
+        const query: {[k: string]: string} = {};
+        if (this.meta.filters.length) query.search = this.meta.filters.join(',');
+        if (this.meta.page !== 1) query.page = '' + this.meta.page;
+        if (this.meta.filterByComments) query.comments = 'true';
+        if (this.meta.filterByFavorites) query.favorites = 'true';
+        if (this.meta.filterByCabinet) query.cabinet = 'true';
+        if (this.meta.recipeId) query.display = '' + this.meta.recipeId;
         return query;
     }
 
@@ -100,6 +100,7 @@ export class RecipeListComponent implements OnInit {
         this.loading = true;
         this.updateRoute();
         const query = this.toQueryParams();
+        query.per_page = '' + this.per_page;
 
         this.recipeService.getPage(query).then(
             (resp: {count: number, results: RecipeStub[]}) => {
