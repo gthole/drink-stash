@@ -68,7 +68,7 @@ export class RecipeListComponent implements OnInit {
         this.meta = {
             page: parseInt(qp.get('page')) || 1,
             filters: qp.get('search') ? qp.get('search').split(',') : [],
-            filterByCabinet: qp.get('cabinet') === 'true'),
+            filterByCabinet: qp.get('cabinet') === 'true',
             filterByComments: qp.get('comments') === 'true',
             filterByFavorites: qp.get('favorites') === 'true',
             recipeId: parseInt(qp.get('display')) || null
