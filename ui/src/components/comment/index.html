@@ -6,17 +6,17 @@
     </div>
     <div class="text-sm">
 
-        <p class="text-black font-bold leading-none mb-1">
-            <span *ngIf="!recipeTitle">
+        <p class="leading-none mb-1">
+            <span class="text-black font-bold" *ngIf="!recipeTitle">
                 <a routerLink="/users/{{ comment.user.id }}">
                     {{ comment.user.first_name }} {{ comment.user.last_name }}
                 </a>
             </span>
-            <span *ngIf="recipeTitle"><a routerLink="/recipes/{{ comment.recipe.id }}">
+            <span class="text-black font-bold" *ngIf="recipeTitle"><a routerLink="/recipes/{{ comment.recipe.id }}">
                     {{ comment.recipe.name }}
                 </a></span>
             <span class="text-grey-light" *ngIf="comment.user.id === user.id">
-                <a routerLink="/comments/{{ comment.id }}">&#9998;</a>
+                <a routerLink="/comments/{{ comment.id }}">(edit)</a>
             </span>
         </p>
         <p class="text-black" style="white-space:pre-wrap;">{{ comment.text }}</p>
