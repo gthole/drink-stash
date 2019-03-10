@@ -64,14 +64,14 @@ export class RecipeListComponent implements OnInit {
     ];
 
     ngOnInit() {
-        const params = this.route.snapshot.queryParamMap.params;
+        const qp = this.route.snapshot.queryParamMap;
         this.meta = {
-            page: parseInt(params['page'] || 1),
-            filters: params['search'] ? params['search'].split(',') : [],
-            filterByCabinet: params['cabinet'] || false,
-            filterByComments: params['comments'] || false,
-            filterByFavorites: params['favorites'] || false,
-            recipeId: parseInt(params['display']) || null
+            page: parseInt(qp.get('page')) || 1,
+            filters: qp.get('search') ? qp.get('search').split(',') : [],
+            filterByCabinet: qp.get('cabinet') === 'true'),
+            filterByComments: qp.get('comments') === 'true',
+            filterByFavorites: qp.get('favorites') === 'true',
+            recipeId: parseInt(qp.get('display')) || null
         };
         this.loadPage();
     }
