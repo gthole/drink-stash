@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
 import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
-import { ViewMetaService } from '../../services/view-meta';
+// import { ViewMetaService } from '../../services/view-meta';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 import { faHeart, faWineBottle, faComment } from '@fortawesome/free-solid-svg-icons';
@@ -31,7 +31,7 @@ export class RecipeListComponent implements OnInit {
         private recipeService: RecipeService,
         private ingredientService: IngredientService,
         private userService: UserService,
-        private viewMetaService: ViewMetaService,
+        private route: ActivatedRoute,
     ) {}
 
     faHeart = faHeart;
@@ -64,20 +64,27 @@ export class RecipeListComponent implements OnInit {
     ];
 
     ngOnInit() {
-        // Restore previous position and filters from meta service
-        const meta = this.viewMetaService.getMeta('recipes');
-        if (meta) {
-            this.meta = meta;
-        } else {
-            this.meta = {
-                page: 1,
-                filters: [],
-                filterByCabinet: false,
-                filterByComments: false,
-                filterByFavorites: false
-            };
-        }
+        const params = this.route.snapshot.queryParamMap.params;
+        this.meta = {
+            page: parseInt(params['page'] || 1),
+            filters: params['search'] ? params['search'].split(',') : [],
+            filterByCabinet: params['cabinet'] || false,
+            filterByComments: params['comments'] || false,
+            filterByFavorites: params['favorites'] || false,
+            recipeId: parseInt(params['display']) || null
+        };
         this.loadPage();
+    }
+
+    toQueryParams(): {[k: string]: string} {
+        const query = {};
+        if (this.meta.filters.length) query['search'] = this.meta.filters.join(',');
+        if (this.meta.page !== 1) query['page'] = '' + this.meta.page;
+        if (this.meta.filterByComments) query['comments'] = 'true';
+        if (this.meta.filterByFavorites) query['favorites'] = 'true';
+        if (this.meta.filterByCabinet) query['cabinet'] = 'true';
+        if (this.meta.recipeId) query['display'] = this.meta.recipeId;
+        return query;
     }
 
     onResize() {
@@ -91,15 +98,8 @@ export class RecipeListComponent implements OnInit {
         ];
 
         this.loading = true;
-        const meta = this.viewMetaService.setMeta('recipes', this.meta);
-        const query = {
-            per_page: this.per_page,
-            page: this.meta.page,
-            search: this.meta.filters.join(','),
-            cabinet: '' + this.meta.filterByCabinet,
-            comments: '' + this.meta.filterByComments,
-            favorites: '' + this.meta.filterByFavorites
-        };
+        this.updateRoute();
+        const query = this.toQueryParams();
 
         this.recipeService.getPage(query).then(
             (resp: {count: number, results: RecipeStub[]}) => {
@@ -145,6 +145,11 @@ export class RecipeListComponent implements OnInit {
         this.loadPage();
     }
 
+    updateRoute() {
+        const query = this.toQueryParams();
+        this.router.navigate(['recipes'], {replaceUrl: true, queryParams: query});
+    }
+
     addFilter() {
         if (!this.filter) return;
         this.meta.page = 1;
@@ -171,7 +176,9 @@ export class RecipeListComponent implements OnInit {
                 this.recipeLoading = false;
                 this.recipe = recipe;
                 this.meta.recipeId = id;
-                this.viewMetaService.setMeta('recipes', this.meta);
+                this.updateRoute();
+                // this.viewMetaService.setMeta('recipes', this.meta);
+                //
             });
         } else {
             this.router.navigateByUrl(`/recipes/${id}`);
