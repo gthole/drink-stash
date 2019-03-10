@@ -93,7 +93,7 @@ export class RecipeDetailViewComponent {
             recipe: {id: this.recipe.id}
         });
         this.commentService.create(payload)
-            .then((res: Comment) => this.comments.push(res))
+            .then((res: Comment) => this.comments = this.comments.concat([res]))
             .catch(() => {
                 this.alertService.error('There was an error posting your comment. ' +
                                         'Please try again later.');

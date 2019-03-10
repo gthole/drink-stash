@@ -20,7 +20,7 @@ import { FractionPipe } from '../pipes/fractions';
 
 import { AppComponent } from './app.component';
 import { AutoCompleteComponent } from '../components/autocomplete';
-import { CommentComponent } from '../components/comment';
+import { ActivityFeedViewComponent } from '../components/activity-feed';
 import { RecipeDetailViewComponent } from '../components/detail-view';
 import { RecipeEditComponent } from '../views/edit';
 import { CommentEditComponent } from '../views/comment-edit';
@@ -37,12 +37,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     declarations: [
         AppComponent,
         AutoCompleteComponent,
+        ActivityFeedViewComponent,
         RandomRecipeComponent,
         CommentEditComponent,
         RecipeEditComponent,
         RecipeDetailComponent,
         RecipeDetailViewComponent,
-        CommentComponent,
         RecipeListComponent,
         HomeViewComponent,
         UserCabinetComponent,

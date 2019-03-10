@@ -29,42 +29,12 @@
         </div>
     </div>
 
-
-    <p class="mt-12 mb-3 text-lg text-center">Activity Feed</p>
-    <div *ngIf="!activityFeed" class="text-sm text-center text-grey-light">loading ...</div>
-    <div *ngIf="activityFeed" class="mt-3 bg-grey-lighter -mx-4 px-4 py-3 mt-3">
-        <div class="mt-6 flex bg-white p-5" *ngFor="let a of activityFeed">
-            <div class="mr-4">
-                <a routerLink="/users/{{ a.user_id }}">
-                    <img class="min-img w-10 h-10 rounded-full" src="https://www.gravatar.com/avatar/{{ a.user_hash }}.jpg?d=mp&size=64">
-                </a>
-            </div>
-            <div class="text-sm">
-                <p class="leading-none mb-1" class="text-grey-dark">
-                    <span class="text-black">
-                        <a routerLink="/users/{{ a.user_id }}">{{ a.name }}</a></span>
-                    <span *ngIf="a.type === 'favorite'">
-                    <fa-icon *ngIf="a.type === 'favorite'" class="ml-1 text-purple-dark" [icon]="faHeart"></fa-icon> a recipe </span>
-                    <span *ngIf="a.type === 'recipe'"> added a recipe </span>
-                    <span *ngIf="a.type === 'comment'"> made a comment </span>
-                </p>
-                <p class="text-grey"> {{ a.when | amTimeAgo }}</p>
-
-                <p class="mt-3 font-bold">
-                    <a routerLink="/recipes/{{ a.recipe.id }}">{{ a.recipe.name }}</a>
-                </p>
-                <div *ngIf="a.type === 'recipe' || a.type === 'favorite'" class="text-grey-dark quantities text-xs">
-                    <span *ngFor="let ingredient of a.recipe.ingredients" class="mr-2">
-                        {{ ingredient }}
-                    </span>
-                </div>
-                <div *ngIf="a.type === 'comment'" class="text-grey-dark text-xs">
-                    {{ (a.text.length>120)? (a.text | slice:0:120)+' ...':(a.text) }}
-                </div>
-            </div>
-        </div>
-        <div class="text-center text-sm mt-6 mb-6">
-            <a *ngIf="activityFeed.length < allActivities.length" class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent rounded" (click)="loadMore()">Load more</a>
-        </div>
-    </div>
+    <activity-feed
+        *ngIf="activities"
+        [recipes]="activities.recipes"
+        [favorites]="activities.favorites"
+        [comments]="activities.comments"
+        [recipeTitle]="true"
+        [title]="'Activity Feed'"
+    ></activity-feed>
 </div>

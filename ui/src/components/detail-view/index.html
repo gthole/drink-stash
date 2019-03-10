@@ -10,7 +10,7 @@
             <td class="align-middle leading-loose" style="padding: 0 0 0 8px;">{{ q.ingredient }}</td>
         </tr>
     </table>
-    <div class="mb-12 text-sm">{{ recipe.directions }}</div>
+    <div class="mb-12 text-grey-darker">{{ recipe.directions }}</div>
 
     <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
 
@@ -28,11 +28,7 @@
         </a>
     </div>
 
-    <div class="mt-12 text-lg text-center" *ngIf="comments">
-        Comments
-    </div>
-
-    <div class="mt-6" *ngIf="canComment">
+    <div class="mt-12" *ngIf="canComment">
         <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="text" name="text" [(ngModel)]="commentText"></textarea>
         <p class="text-grey-dark text-xs italic">Have you made this?  Tell us what you think!</p>
 
@@ -41,9 +37,9 @@
         </button>
     </div>
 
-    <div *ngIf="comments" class="mb-12">
-        <div *ngFor="let comment of comments" class="mt-6">
-            <comment [comment]="comment" [user]="user"></comment>
-        </div>
-    </div>
+    <activity-feed
+        *ngIf="comments"
+        [comments]="comments"
+        [favorites]="favorites">
+    </activity-feed>
 </div>
