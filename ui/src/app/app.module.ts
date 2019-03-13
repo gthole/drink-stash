@@ -14,12 +14,14 @@ import { CommentService } from '../services/comments';
 import { FavoriteService } from '../services/favorites';
 import { IngredientService } from '../services/ingredients';
 import { RecipeService } from '../services/recipes';
+import { TagService } from '../services/tags';
 import { UserService } from '../services/users';
 
 import { FractionPipe } from '../pipes/fractions';
 
 import { AppComponent } from './app.component';
 import { AutoCompleteComponent } from '../components/autocomplete';
+import { TagEditComponent } from '../components/tag-edit';
 import { ActivityFeedViewComponent } from '../components/activity-feed';
 import { RecipeDetailViewComponent } from '../components/detail-view';
 import { RecipeEditComponent } from '../views/edit';
@@ -39,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AutoCompleteComponent,
         ActivityFeedViewComponent,
         RandomRecipeComponent,
+        TagEditComponent,
         CommentEditComponent,
         RecipeEditComponent,
         RecipeDetailComponent,
@@ -68,6 +71,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         FavoriteService,
         IngredientService,
         RecipeService,
+        TagService,
         UserService
     ],
     bootstrap: [AppComponent]

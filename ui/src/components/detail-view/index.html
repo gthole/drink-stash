@@ -10,7 +10,24 @@
             <td class="align-middle leading-loose" style="padding: 0 0 0 8px;">{{ q.ingredient }}</td>
         </tr>
     </table>
-    <div class="mb-12 text-grey-darker">{{ recipe.directions }}</div>
+    <div class="mb-8 text-grey-darker">{{ recipe.directions }}</div>
+
+    <div style="min-height: 30px" class="mb-6">
+    <div *ngIf="!editingTags">
+        <a *ngFor="let tag of recipe.tags" routerLink="/recipes" [queryParams]="{tags: tag}" class="mr-2 rounded-full mr-2 mt-1 py-1 px-2 text-white bg-purple-light text-sm">
+            {{ tag }}
+        </a>
+        <span *ngIf="canEdit" class="text-grey text-sm" (click)="editingTags = true">
+            (edit tags)
+        </span>
+        &nbsp;
+    </div>
+    <div class="flex w-full" *ngIf="editingTags">
+        <tag-edit [tags]="recipe.tags" [autoFocus]="true" (output)="updateTags($event)"></tag-edit>
+        <button class="text-purple-dark hover:text-purple-darkest ml-2 no-bump text-sm" (click)="saveTags()">Save</button>
+        <button class="text-grey text-sm hover:text-grey-dark ml-2 no-bump" (click)="cancelTags()">&times;</button>
+    </div>
+    </div>
 
     <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
 
@@ -23,7 +40,7 @@
             <fa-icon [icon]="faHeart"></fa-icon>
         </button>
 
-        <a *ngIf="user.is_staff || user.id === recipe.added_by.id" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump">
+        <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump">
             Edit
         </a>
     </div>

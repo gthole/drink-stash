@@ -13,6 +13,7 @@ import { faHeart, faWineBottle, faComment } from '@fortawesome/free-solid-svg-ic
 interface RecipeViewMeta {
     page: number;
     filters: string[];
+    tags: string[];
     filterByCabinet: boolean;
     filterByComments: boolean;
     filterByFavorites: boolean;
@@ -61,29 +62,41 @@ export class RecipeListComponent implements OnInit {
         'NOT juice',
         'lemon > 1/2 oz',
         'orgeat <= .25',
+        'tags = sour, bitter',
     ];
 
     ngOnInit() {
-        const qp = this.route.snapshot.queryParamMap;
-        this.meta = {
-            page: parseInt(qp.get('page')) || 1,
-            filters: qp.get('search') ? qp.get('search').split(',') : [],
-            filterByCabinet: qp.get('cabinet') === 'true',
-            filterByComments: qp.get('comments') === 'true',
-            filterByFavorites: qp.get('favorites') === 'true',
-            recipeId: parseInt(qp.get('display')) || null
-        };
-        this.loadPage();
+        this.route.queryParams.subscribe((qp) => {
+            // If we've already instantiated and just the recipe is changing,
+            // then don't reload all the data from the API.
+            if (this.meta && qp.show != this.meta.recipeId) {
+                this.meta.recipeId = parseInt(qp.show);
+                return;
+            }
+
+            this.meta = {
+                page: parseInt(qp.page) || 1,
+                filters: qp.search ? qp.search.split(',') : [],
+                tags: qp.tags ? qp.tags.split(',') : [],
+                filterByCabinet: qp.cabinet === 'true',
+                filterByComments: qp.comments === 'true',
+                filterByFavorites: qp.favorites === 'true',
+                recipeId: parseInt(qp.show) || null
+            };
+            this.loadPage();
+        });
     }
 
     toQueryParams(): {[k: string]: string} {
         const query: {[k: string]: string} = {};
         if (this.meta.filters.length) query.search = this.meta.filters.join(',');
+        if (this.meta.tags.length) query.tags = this.meta.tags.join(',');
+
         if (this.meta.page !== 1) query.page = '' + this.meta.page;
         if (this.meta.filterByComments) query.comments = 'true';
         if (this.meta.filterByFavorites) query.favorites = 'true';
         if (this.meta.filterByCabinet) query.cabinet = 'true';
-        if (this.meta.recipeId) query.display = '' + this.meta.recipeId;
+        if (this.meta.recipeId) query.show = '' + this.meta.recipeId;
         return query;
     }
 
@@ -125,25 +138,25 @@ export class RecipeListComponent implements OnInit {
         const el = document.getElementById('recipe-sidebar');
         el.scrollTop = 0;
         this.meta.page += inc;
-        this.loadPage();
+        this.updateRoute();
     }
 
     toggleCabinet() {
         this.meta.page = 1;
         this.meta.filterByCabinet = !this.meta.filterByCabinet;
-        this.loadPage();
+        this.updateRoute();
     }
 
     toggleComments() {
         this.meta.page = 1;
         this.meta.filterByComments = !this.meta.filterByComments;
-        this.loadPage();
+        this.updateRoute();
     }
 
     toggleFavorites() {
         this.meta.page = 1;
         this.meta.filterByFavorites = !this.meta.filterByFavorites;
-        this.loadPage();
+        this.updateRoute();
     }
 
     updateRoute() {
@@ -151,22 +164,45 @@ export class RecipeListComponent implements OnInit {
         this.router.navigate(['recipes'], {replaceUrl: true, queryParams: query});
     }
 
-    addFilter() {
+    addSearchFilter() {
         if (!this.filter) return;
         this.meta.page = 1;
-        let term = this.filter.toLowerCase();
-        if (this.filter.slice(0, 4) === 'NOT ') {
-            term = 'NOT ' + term.slice(4);
+        let term = this.filter.toLowerCase().trim();
+        if (term.match(/^tags? ?=/)) {
+            let tags = term.split('=')[1].split(',');
+            this.meta.tags = this.meta.tags.concat(tags.map((t) => t.trim()));
+        } else {
+            if (this.filter.slice(0, 4) === 'NOT ') {
+                term = 'NOT ' + term.slice(4);
+            }
+            this.meta.filters.push(term);
         }
-        this.meta.filters.push(term);
         this.filter = '';
-        this.loadPage();
+        this.updateRoute();
     }
 
-    removeFilter(f: string) {
+    removeSearchFilter(f: string) {
         this.meta.page = 1;
         this.meta.filters = this.meta.filters.filter((g) => g != f);
-        this.loadPage();
+        this.updateRoute();
+    }
+
+    removeTagFilter(t: string) {
+        this.meta.page = 1;
+        this.meta.tags = this.meta.tags.filter((s) => s != t);
+        this.updateRoute();
+    }
+
+    // When changes are made in the detail view (favorite, comment, tags, etc.)
+    // Receive the altered recipe here and update its attributes without
+    // re-fetching the whole list from the API
+    refresh(recipe: Recipe) {
+        const stub = this.recipes.filter((r) => r.id === recipe.id)[0];
+        if (!stub) return;
+        stub.favorite = recipe.favorite;
+        stub.tags = recipe.tags;
+        stub.comment_count = recipe.comment_count;
+        // this.recipes = _.cloneDeep(this.recipes);
     }
 
     routeRecipe(ev: any, id: number) {
@@ -178,8 +214,6 @@ export class RecipeListComponent implements OnInit {
                 this.recipe = recipe;
                 this.meta.recipeId = id;
                 this.updateRoute();
-                // this.viewMetaService.setMeta('recipes', this.meta);
-                //
             });
         } else {
             this.router.navigateByUrl(`/recipes/${id}`);

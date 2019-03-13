@@ -57,6 +57,10 @@ export class RecipeEditComponent {
         // Fetch ingredient names
     }
 
+    updateTags(tags: string[]) {
+        this.recipe.tags = tags;
+    }
+
     focusName(): void {
         this._elementRef.nativeElement.querySelector('#name').focus();
     }

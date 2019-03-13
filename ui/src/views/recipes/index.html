@@ -1,7 +1,8 @@
-<div class="row" (window:resize)="onResize()">
+<div class="row" (window:resize)="onResize()" *ngIf="meta">
     <div class="detail-view" *ngIf="side_display && recipe"
          [ngClass]="{'loading-color': recipeLoading}">
-        <recipe-detail-view [recipe]="recipe"></recipe-detail-view>
+        <recipe-detail-view [recipe]="recipe" (output)="refresh($event)">
+        </recipe-detail-view>
     </div>
     <div class="recipe-sidebar" id="recipe-sidebar">
         <div id="wrapper" class="meta">
@@ -25,15 +26,19 @@
 
             <h1>Recipes</h1>
             <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
-                <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter (e.g. {{ example }})" [(ngModel)]="filter" (change)="addFilter()" id="searchbar">
+                <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter (e.g. {{ example }})" [(ngModel)]="filter" (change)="addSearchFilter()" id="searchbar">
             </div>
             <div class="my-4 overflow-auto">
-                <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white" *ngFor="let f of meta.filters" (click)="removeFilter(f)" [ngClass]="{
+                <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white" *ngFor="let f of meta.filters" (click)="removeSearchFilter(f)" [ngClass]="{
                     'bg-orange': f.slice(0, 4) === 'NOT ',
                     'bg-teal': f.slice(0, 4) !== 'NOT '
                 }">
                     {{ f }} &times;
                 </div>
+                <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white bg-purple" *ngFor="let t of meta.tags" (click)="removeTagFilter(t)">
+                    {{ t }} &times;
+                </div>
+
             </div>
             <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
                 No matches
@@ -57,6 +62,11 @@
                         <span *ngFor="let ingredient of r.ingredients" class="mr-2">
                             {{ ingredient }}
                         </span>
+                    </div>
+                    <div *ngIf="r.tags.length > 0">
+                        <a *ngFor="let tag of r.tags" class="mr-2 rounded-full mr-2 mt-1 py-1 px-2 text-white bg-purple-light text-xs" routerLink="/recipes" [queryParams]="{tags: tag}">
+                            {{ tag }}
+                        </a>
                     </div>
                 </div>
                 <div *ngIf="meta.page > 1 || meta.page * per_page < count" class="mt-6 mb-12">
