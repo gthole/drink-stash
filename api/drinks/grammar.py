@@ -23,21 +23,22 @@ ALIASES = {
     'directions': 'directions'
 }
 unit_keys = '"i|"'.join([k for k in UNITS.keys() if k])
-exclude_keys = '|'.join([k for k in ALIASES.keys()])
 
 grammar = Lark('''
     // Top level grammar rules
-    query: NUM_ATTR OPERATOR NUMBER -> attr_constraint
-          | SEARCH_TERM OPERATOR NUMBER [UNIT] -> constraint
-          | SEARCH_TERM -> search_term
-          | ATTR "=" SEARCH_TERM -> attr_search
-          | "NOT" SEARCH_TERM -> exclude
+    start: attr_constraint | constraint | search_term | attr_search | exclude
+
+    attr_constraint.2: NUM_ATTR OPERATOR NUMBER
+    constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
+    search_term: SEARCH_TERM
+    attr_search: ATTR "=" SEARCH_TERM
+    exclude: "NOT" SEARCH_TERM
 
     // Tokens
     COMBINER: ("AND" | "OR")
     NUM_ATTR.2: ("comments" | "favorites")
     ATTR: ("name" | "description" | "directions" | "source")
-    SEARCH_TERM: /((?!AND|OR|NOT|%s)[^<=> ])+(\s((?!AND|OR|NOT)[^<=> ])+)*/
+    SEARCH_TERM: /((?!AND|OR|NOT)[^<=> ])+(\s((?!AND|OR|NOT)[^<=> ])+)*/
     OPERATOR: ("<="|">="|"="|"<"|">")
     UNIT: ("%s"i)
     WHITESPACE: (" " | "\\n")+
@@ -46,7 +47,8 @@ grammar = Lark('''
     // Imports and configs
     %%import common.INT -> INT
     %%ignore WHITESPACE
-''' % (exclude_keys, unit_keys) , start='query')
+''' % (unit_keys,))
+
 
 def parse_number(token):
     if "/" in token:
@@ -58,9 +60,11 @@ def parse_number(token):
 
 def parse_search_and_filter(term, qs):
     try:
-        tree = grammar.parse(term)
+        start_tree = grammar.parse(term)
     except:
         return qs.none()
+
+    tree = start_tree.children[0]
 
     if tree.data == 'search_term':
         term = '%s' % tree.children[0]
