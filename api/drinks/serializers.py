@@ -122,6 +122,7 @@ class RecipeListSerializer(ModelSerializer):
         "Perform necessary eager loading of data."
         queryset = queryset.select_related('added_by')
         queryset = queryset.prefetch_related(
+            'tags',
             'quantity_set',
             'quantity_set__ingredient'
         )

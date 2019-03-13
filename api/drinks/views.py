@@ -70,6 +70,11 @@ class RecipeViewSet(LazyViewSet):
         if self.request.GET.get('cabinet') == 'true':
             qs = self.filter_by_cabinet(qs)
 
+        # Filter by tags
+        if self.request.GET.get('tags'):
+            for tag in self.request.GET.get('tags').split(','):
+                qs = qs.filter(tags__name=tag)
+
         # Searching names and ingredients
         if self.request.GET.get('search'):
             qs = self.filter_by_search_terms(qs)
