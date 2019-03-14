@@ -67,13 +67,6 @@ export class RecipeListComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe((qp) => {
-            // If we've already instantiated and just the recipe is changing,
-            // then don't reload all the data from the API.
-            if (this.meta && qp.show != this.meta.recipeId) {
-                this.meta.recipeId = parseInt(qp.show);
-                return;
-            }
-
             this.meta = {
                 page: parseInt(qp.page) || 1,
                 filters: qp.search ? qp.search.split(',') : [],
@@ -81,7 +74,7 @@ export class RecipeListComponent implements OnInit {
                 filterByCabinet: qp.cabinet === 'true',
                 filterByComments: qp.comments === 'true',
                 filterByFavorites: qp.favorites === 'true',
-                recipeId: parseInt(qp.show) || null
+                // recipeId: parseInt(qp.show) || null
             };
             this.loadPage();
         });
@@ -96,7 +89,7 @@ export class RecipeListComponent implements OnInit {
         if (this.meta.filterByComments) query.comments = 'true';
         if (this.meta.filterByFavorites) query.favorites = 'true';
         if (this.meta.filterByCabinet) query.cabinet = 'true';
-        if (this.meta.recipeId) query.show = '' + this.meta.recipeId;
+        // if (this.meta.recipeId) query.show = '' + this.meta.recipeId;
         return query;
     }
 
@@ -202,7 +195,6 @@ export class RecipeListComponent implements OnInit {
         stub.favorite = recipe.favorite;
         stub.tags = recipe.tags;
         stub.comment_count = recipe.comment_count;
-        // this.recipes = _.cloneDeep(this.recipes);
     }
 
     routeRecipe(ev: any, id: number) {
@@ -213,7 +205,7 @@ export class RecipeListComponent implements OnInit {
                 this.recipeLoading = false;
                 this.recipe = recipe;
                 this.meta.recipeId = id;
-                this.updateRoute();
+                // this.updateRoute();
             });
         } else {
             this.router.navigateByUrl(`/recipes/${id}`);

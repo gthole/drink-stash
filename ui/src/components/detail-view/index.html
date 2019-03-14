@@ -12,7 +12,7 @@
     </table>
     <div class="mb-8 text-grey-darker">{{ recipe.directions }}</div>
 
-    <div style="min-height: 30px" class="mb-6">
+    <div class="mb-6">
     <div *ngIf="!editingTags">
         <a *ngFor="let tag of recipe.tags" routerLink="/recipes" [queryParams]="{tags: tag}" class="mr-2 rounded-full mr-2 mt-1 py-1 px-2 text-white bg-purple-light text-sm">
             {{ tag }}
@@ -32,7 +32,7 @@
     <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
 
     <div *ngIf="user" class="mt-6">
-        <button *ngIf="favorites" class="mr-2 -mt-2 bg-transparent font-semibold py-2 px-4 border border-purple-dark rounded float-right"
+        <button *ngIf="favorites" class="mr-2 bg-transparent font-semibold py-2 px-4 border border-purple-dark rounded"
             [ngClass]="{
                 'bg-purple-dark text-white': userFavorite,
                 'text-purple-dark': !userFavorite}"
@@ -40,7 +40,7 @@
             <fa-icon [icon]="faHeart"></fa-icon>
         </button>
 
-        <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump">
+        <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right">
             Edit
         </a>
     </div>

@@ -47,7 +47,7 @@ export class RecipeDetailViewComponent {
 
         this.userService.getSelf().then((user) => {
             this.user = user;
-            this.canEdit = this.recipe.added_by.id === user.id;
+            this.canEdit = user.is_staff || this.recipe.added_by.id === user.id;
             Promise.all([
                 this.getComments(),
                 this.getFavorites(),
