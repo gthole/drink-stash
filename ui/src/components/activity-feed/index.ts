@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Component, OnInit, Input } from '@angular/core';
 import { RecipeStub } from '../../services/recipes';
 import { Comment } from '../../services/comments';
-import { User, UserService } from '../../services/users';
+import { AuthService } from '../../services/auth';
 import { Favorite } from '../../services/favorites';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,10 +21,12 @@ interface Activity {
     selector: 'activity-feed',
     templateUrl: './index.html'
 })
-export class ActivityFeedViewComponent implements OnInit {
+export class ActivityFeedViewComponent {
     constructor(
-        private userService: UserService,
-    ) {}
+        authService: AuthService,
+    ) {
+        this.user_id = authService.getUserData().user_id;
+    }
 
     // Stuff to show
     @Input() comments: Comment[] = [];
@@ -36,24 +38,13 @@ export class ActivityFeedViewComponent implements OnInit {
     @Input() includeImage: boolean = true;
     @Input() title: string;
 
-    user: User;
+    user_id: number;
     faHeart = faHeart;
 
     activityFeed: Activity[];
     allActivities: Activity[];
 
-    ngOnInit() {
-        this.userService.getSelf().then((user) => {
-            this.user = user;
-            this.loadActivities();
-        });
-    }
-
     ngOnChanges() {
-        if(this.user) this.loadActivities();
-    }
-
-    loadActivities() {
         const recipeActivities: Activity[] = this.recipes
             .map((r) => {
                 return {
@@ -93,23 +84,20 @@ export class ActivityFeedViewComponent implements OnInit {
             };
         });
 
-        this.allActivities = _.sortBy(
+        this.allActivities = _.reverse(_.sortBy(
             recipeActivities
                 .concat(commentActivities)
                 .concat(favoriteActivities),
             'when'
-        ).reverse();
+        ));
+        console.log(this.allActivities);
 
-        this.setFeed();
+        this.activityFeed = this.allActivities.slice(0, 10);
     }
 
     loadMore() {
         const len = this.activityFeed.length;
         const nextPage = this.allActivities.slice(len, len + 10);
         this.activityFeed = this.activityFeed.concat(nextPage);
-    }
-
-    setFeed() {
-        this.activityFeed = this.allActivities.slice(0, 10);
     }
 }

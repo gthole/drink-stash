@@ -8,3 +8,9 @@ interface Alert {
     header: string;
     message: string;
 }
+
+interface ServiceResponse<K> {
+    fetched: string;
+    count: number;
+    results: K[];
+}

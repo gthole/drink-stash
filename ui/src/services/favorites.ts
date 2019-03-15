@@ -3,6 +3,8 @@ import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { RecipeStub } from './recipes';
 import { BaseModel, BaseService } from './base';
+import { CacheService } from './cache';
+
 
 class Favorite extends BaseModel {
     id: number;
@@ -33,6 +35,7 @@ class FavoriteService extends BaseService {
 
     constructor(
         public http: HttpClient,
+        public cacheService: CacheService,
     ) { super(); }
 
     baseUrl = '/api/v1/favorites/';

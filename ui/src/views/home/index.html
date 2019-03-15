@@ -31,9 +31,9 @@
 
     <activity-feed
         *ngIf="activities"
-        [recipes]="activities.recipes"
-        [favorites]="activities.favorites"
-        [comments]="activities.comments"
+        [recipes]="activities.recipes.results"
+        [favorites]="activities.favorites.results"
+        [comments]="activities.comments.results"
         [recipeTitle]="true"
         [title]="'Activity Feed'"
     ></activity-feed>

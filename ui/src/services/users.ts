@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
+import { CacheService } from './cache';
 import { AuthService } from './auth';
 
 class User extends BaseModel {
@@ -43,6 +44,7 @@ class UserService extends BaseService {
 
     constructor(
         public http: HttpClient,
+        public cacheService: CacheService,
         public authService: AuthService,
     ) {
         super();
@@ -59,7 +61,7 @@ class UserService extends BaseService {
 
     getSelf() {
         if (this._self) {
-            return new Promise((r) => r(this._self));
+            return Promise.resolve(this._self);
         }
         return this.getById(this.authService.getUserData().user_id)
             .then((user) => {

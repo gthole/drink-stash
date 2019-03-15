@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import 'rxjs/add/operator/toPromise';
 import hash from 'object-hash';
 import { stringify } from 'querystring';
+import { CacheService } from './cache';
 
 
 export class BaseModel {
@@ -22,30 +23,39 @@ export class BaseModel {
 }
 
 
-interface CacheContent {
-    values: any[];
-    date: number;
-}
-
 export class BaseService {
-
+    cacheService: CacheService;
     http: HttpClient;
     baseUrl: string;
     model: any;
     listModel: any;
 
-    getPage(query?: {[k: string]: string | number}): Promise<{count: number, results: any[]}> {
-        const qs = stringify(query || {});
+    getPage(
+        query: {[k: string]: string | number} = {},
+        cached?: ServiceResponse<any>,
+    ): Promise<ServiceResponse<any>> {
+        const qs = stringify(query);
         const model = this.listModel || this.model;
 
+        const headers: {[header: string]: string} = {};
+        if (cached) {
+            headers['If-Modified-Since'] = cached.fetched;
+        }
+
         return this.http
-            .get(`${this.baseUrl}?${qs}`)
+            .get(`${this.baseUrl}?${qs}`, {headers, observe: 'response'})
             .toPromise()
-            .then((resp: {count: number, results: any[]}) => {
+            .then((res: HttpResponse<{count: number, results: any[]}>) => {
                 return {
-                    count: resp.count,
-                    results: resp.results.map(a => new model(a))
+                    fetched: new Date(res.headers.get('Date')).toISOString(),
+                    count: res.body.count,
+                    results: res.body.results.map(a => new model(a))
                 };
+            })
+            .catch((err) => {
+                if (err.status === 304) {
+                    return Promise.resolve(cached);
+                }
             });
     }
 
@@ -73,6 +83,7 @@ export class BaseService {
     }
 
     remove(obj: any): Promise<any> {
+        this.cacheService.clear();
         return this.http
             .delete(this.baseUrl + obj.id + '/')
             .toPromise();

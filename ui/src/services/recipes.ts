@@ -2,7 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
+import { CacheService } from './cache';
 import { stringify } from 'querystring';
+
 
 class RecipeStub extends BaseModel {
     id: number;
@@ -112,11 +114,13 @@ class Recipe extends BaseModel {
     }
 }
 
+
 @Injectable()
 class RecipeService extends BaseService {
 
     constructor(
         public http: HttpClient,
+        public cacheService: CacheService,
     ) { super(); }
 
     baseUrl = '/api/v1/recipes/';

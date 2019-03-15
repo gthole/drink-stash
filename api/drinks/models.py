@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Model, CharField, DateField, FloatField, \
     IntegerField, BooleanField, ForeignKey, ManyToManyField, TextField, \
-    DateTimeField
+    DateTimeField, Index
 from .constants import base_substitutions, category_keywords
 
 
@@ -88,6 +88,9 @@ class Tag(Model):
 
 
 class Recipe(Model):
+    class Meta:
+        indexes = [Index(fields=['-created'])]
+
     name = CharField(max_length=255, unique=True, db_index=True)
     source = CharField(max_length=255)
 
@@ -104,6 +107,9 @@ class Recipe(Model):
 
 
 class UserFavorite(Model):
+    class Meta:
+        indexes = [Index(fields=['-created'])]
+
     user = ForeignKey(User, related_name='favorites')
     recipe = ForeignKey(Recipe, related_name='favorites')
     created = DateTimeField(auto_now_add=True, blank=True)
@@ -115,6 +121,9 @@ class UserIngredient(Model):
 
 
 class Comment(Model):
+    class Meta:
+        indexes = [Index(fields=['-created'])]
+
     created = DateTimeField(auto_now_add=True, blank=True)
     updated = DateTimeField(auto_now=True, blank=True)
     user = ForeignKey(User, related_name='comments')

@@ -1,7 +1,7 @@
-<div *ngIf="activityFeed && activityFeed.length">
+<div>
     <p class="mt-12 mb-3 text-lg text-grey-darker text-center">{{ title }}</p>
     <div class="mt-3 bg-grey-lighter -mx-4 px-4 py-3 mt-3">
-        <div class="mt-6 mb-6 flex bg-white p-5" *ngFor="let a of activityFeed">
+        <div class="mt-6 mb-6 mx-5 flex bg-white p-5" *ngFor="let a of activityFeed">
             <div class="mr-4" *ngIf="includeImage">
                 <a routerLink="/users/{{ a.user_id }}">
                     <img class="min-img w-10 h-10 rounded-full" src="https://www.gravatar.com/avatar/{{ a.user_hash }}.jpg?d=mp&size=64">
@@ -20,7 +20,7 @@
                     </span>
                     <span *ngIf="a.type === 'recipe'"> added a recipe </span>
                     <span *ngIf="a.type === 'comment' && recipeTitle"> made a comment </span>
-                    <span *ngIf="a.type === 'comment' && user.id === a.user_id" class="text-grey-light">
+                    <span *ngIf="a.type === 'comment' && user_id === a.user_id" class="text-grey-light">
                         <a routerLink="/comments/{{ a.id }}">&nbsp;(edit)</a>
                     </span>
                 </p>
