@@ -10,6 +10,7 @@ import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@for
 @Component({
     selector: 'home-view',
     templateUrl: './index.html',
+    styleUrls: ['./style.css'],
 })
 export class HomeViewComponent implements OnInit {
     constructor(

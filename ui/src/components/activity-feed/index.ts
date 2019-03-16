@@ -90,8 +90,6 @@ export class ActivityFeedViewComponent {
                 .concat(favoriteActivities),
             'when'
         ));
-        console.log(this.allActivities);
-
         this.activityFeed = this.allActivities.slice(0, 10);
     }
 
