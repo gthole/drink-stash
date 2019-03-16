@@ -10,7 +10,7 @@ class TagService {
     ) {}
 
     baseUrl = '/api/v1/tags/';
-    tagsResp: ServiceResp<string>;
+    tagsResp: ServiceResponse<string>;
 
     getPage(): Promise<{results: string[]}> {
         const headers: {[header: string]: string} = {};
@@ -22,12 +22,13 @@ class TagService {
             .get(this.baseUrl, {headers, observe: 'response'})
             .toPromise()
             .then((res: any) => {
-                return {
+                this.tagsResp = {
                     fetched: new Date(res.headers.get('Date')).toISOString(),
                     count: res.body.count,
                     results: res.body.results
                 };
-            });
+                return this.tagsResp;
+            })
             .catch((err) => {
                 if (err.status === 304) {
                     return Promise.resolve(this.tagsResp);
