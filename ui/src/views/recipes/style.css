@@ -33,3 +33,7 @@
 .selected {
     background-color: #F3EBFF;
 }
+
+a.text-grey-dark:visited {
+    color: #8795a1;
+}

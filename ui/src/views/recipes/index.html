@@ -63,8 +63,8 @@
                             {{ ingredient }}
                         </span>
                     </div>
-                    <div *ngIf="r.tags.length > 0">
-                        <a *ngFor="let tag of r.tags" class="mr-2 rounded-full mr-2 mt-1 py-1 px-2 text-white bg-purple-light text-xs" routerLink="/recipes" [queryParams]="{tags: tag}">
+                    <div *ngIf="r.tags.length > 0" class="mt-2">
+                        <a *ngFor="let tag of r.tags" class="mr-2 rounded-full mr-2 py-1 px-2 text-grey-dark bg-grey-light text-xs" routerLink="/recipes" [queryParams]="{tags: tag}">
                             {{ tag }}
                         </a>
                     </div>
