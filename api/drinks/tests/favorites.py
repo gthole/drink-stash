@@ -3,7 +3,7 @@ from .base import BaseTestCase
 
 
 class UserFavoriteTestCase(BaseTestCase):
-    fixtures = ['users', 'recipes', 'favorites']
+    fixtures = ['users', 'test-recipes', 'favorites']
 
     def test_list_favorites(self):
         resp = self.client.get('/api/v1/favorites/')

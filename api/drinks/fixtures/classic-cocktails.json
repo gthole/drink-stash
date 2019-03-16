@@ -1,0 +1,606 @@
+[
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Rum",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 0
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Gin",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Cognac",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Rye",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Bourbon",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Sweet Vermouth",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Dry Vermouth",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Campari",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "category": 4,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Lemon Juice",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "category": 2,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Orange Bitters",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Green Chartreuse",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "category": 4,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Lime Juice",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Benedictine",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Luxardo Maraschino",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "category": 2,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Angostura Bitters",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 14
+    },
+    {
+        "fields": {
+            "category": 2,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Peychaud's Bitters",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 15
+    },
+    {
+        "fields": {
+            "category": 1,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Grenadine",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "category": 3,
+            "created": "2018-11-21T20:17:33.735Z",
+            "description": null,
+            "generic": false,
+            "name": "Demerara syrup",
+            "substitutions": []
+        },
+        "model": "drinks.ingredient",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 1,
+            "recipe": 0,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 0
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 10,
+            "recipe": 0,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 13,
+            "recipe": 0,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 11,
+            "recipe": 0,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 3,
+            "recipe": 1,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 5,
+            "recipe": 1,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 14,
+            "recipe": 1,
+            "unit": 2
+        },
+        "model": "drinks.quantity",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 1,
+            "recipe": 2,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 7,
+            "recipe": 2,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 5,
+            "recipe": 2,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 3,
+            "recipe": 3,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 7,
+            "recipe": 3,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 5,
+            "recipe": 3,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 4,
+            "recipe": 4,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "amount": 1.0,
+            "hidden": false,
+            "ingredient": 6,
+            "recipe": 4,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 14
+    },
+    {
+        "fields": {
+            "amount": 0.25,
+            "hidden": false,
+            "ingredient": 8,
+            "recipe": 4,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 15
+    },
+    {
+        "fields": {
+            "amount": 0.5,
+            "hidden": false,
+            "ingredient": 16,
+            "recipe": 4,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 9,
+            "recipe": 4,
+            "unit": 2
+        },
+        "model": "drinks.quantity",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 0,
+            "recipe": 5,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 11,
+            "recipe": 5,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 19
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 17,
+            "recipe": 5,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 20
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 3,
+            "recipe": 6,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 21
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 2,
+            "recipe": 6,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 22
+    },
+    {
+        "fields": {
+            "amount": 0.75,
+            "hidden": false,
+            "ingredient": 5,
+            "recipe": 6,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 23
+    },
+    {
+        "fields": {
+            "amount": 0.25,
+            "hidden": false,
+            "ingredient": 12,
+            "recipe": 6,
+            "unit": 1
+        },
+        "model": "drinks.quantity",
+        "pk": 24
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 15,
+            "recipe": 6,
+            "unit": 2
+        },
+        "model": "drinks.quantity",
+        "pk": 25
+    },
+    {
+        "fields": {
+            "amount": 2.0,
+            "hidden": false,
+            "ingredient": 14,
+            "recipe": 6,
+            "unit": 2
+        },
+        "model": "drinks.quantity",
+        "pk": 26
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2018-10-10T19:08:44.858Z",
+            "description": "Easy to assemble but hard to forget, this Prohibition-era Last Word cocktail has found its way into a new generation of cocktail glasses thanks in part to Seattle-based bartender Murray Stenson who helped re-popularize the drink.",
+            "directions": "Shake ingredients with ice and strain into a chilled glass.",
+            "name": "Last Word",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 0
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2018-10-10T19:12:30.532Z",
+            "description": "A popular history suggests that the drink originated at the Manhattan Club in New York City in the early 1870s, where it was invented by Dr. Iain Marshall for a banquet hosted by Jennie Jerome in honor of presidential candidate Samuel J. Tilden.",
+            "directions": "Stir with ice, pour into cocktail glass and garnish with a maraschino cherry.",
+            "name": "Manhattan",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2019-03-06T02:37:47.191Z",
+            "description": "Easy to make and refreshingly bitter, the Negroni is said to have been invented in Florence by a dauntless Italian count who demanded that the bartender replace the club soda in his Americano with gin. It was a substitution that launched a thousand riffs.",
+            "directions": "Stir with ice, pour into a rocks glass, and garnish with an orange twist.",
+            "name": "Negroni",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2019-03-09T00:05:27.033Z",
+            "description": "Swap out the gin in a Negroni for rye whiskey and you get the delicious Boulevardier. It\u2019s equally complex as its gin-based predecessor, but the whiskey adds warmth, making it perfect for autumn and winter drinking.",
+            "directions": "Stir with ice, pour into a cocktail coupe with a large ice cube, garnish with an orange twist.",
+            "name": "Boulevardier",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2019-03-09T00:07:52.874Z",
+            "description": "This whiskey drink was invented in Paris while the U.S. suffered through Prohibition.",
+            "directions": "Shake with ice, strain into a cocktail glass.",
+            "name": "Scofflaw",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2019-03-09T00:10:35.534Z",
+            "description": "The Daiquiri is simple and sublime, a delicate blend of rum\u2019s sweetness with the raw freshness of sugar and lime juice.",
+            "directions": "Shake with ice and strain into a cocktail coupe glass.  Garnish with a lime twist.",
+            "name": "Daiquiri",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "added_by": 1,
+            "created": "2019-03-09T00:14:44.940Z",
+            "description": "The Vieux Carr\u00e9 was first stirred to life at New Orleans\u2019 legendary Hotel Monteleone in the 1930s. Like so many classic cocktails from that city, the recipe represents the crosscurrents of America at the time: brandy and liqueur from France, Italian vermouth, rye whiskey from just up the Mississippi and Caribbean bitters. The Vieux Carr\u00e9 is at once boozy, sweet, bitter and smooth\u2014in other words, New Orleans.",
+            "directions": "Stir with ice, strain into a rocks glass, garnish with a lemon peel.",
+            "name": "Vieux Carr\u00e9",
+            "source": "Classic Cocktail",
+            "tags": []
+        },
+        "model": "drinks.recipe",
+        "pk": 6
+    }
+]

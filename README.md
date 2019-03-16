@@ -15,10 +15,25 @@ services:
         environment:
             SECRET_KEY=<yourlongsecretkey>
             ALLOWED_HOSTS=<yourhostname>
-        expose:
+        ports:
             - '8000'
         volumes:
-            - '/usr/local/var/drinks-data:/data'
+            - './data:/data'
+```
+
+## Provisioning
+Once you've got the server started, add a user and some classic cocktail
+recipes to get started with.
+
+```
+# Create all the tables
+$ docker-compose run --rm api ./manage.py migrate
+
+# Create an admin user
+$ docker-compose run --rm api ./manage.py createsuperuser
+
+# Add some recipes to get started with
+$ docker-compose run --rm api ./manage.py loaddata classic-cocktails
 ```
 
 
@@ -29,8 +44,7 @@ Install [Docker](https://www.docker.com/products/docker-desktop).
 # Build the app image
 $ docker-compose build api
 
-# Create an admin user
-$ docker-compose run --rm api ./manage.py createsuperuser
+# Follow the setup instructions in the Provisioning section above
 
 # Start the server
 $ docker-compose up

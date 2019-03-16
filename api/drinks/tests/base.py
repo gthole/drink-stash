@@ -4,7 +4,7 @@ from rest_framework.test import APIClient
 
 
 class BaseTestCase(TestCase):
-    fixtures = ['users.json', 'recipes.json']
+    fixtures = ['users.json', 'test-recipes.json']
     client = None
 
     @classmethod

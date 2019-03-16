@@ -3,7 +3,7 @@ from drinks.models import Recipe, Comment
 
 
 class CommentTestCase(BaseTestCase):
-    fixtures = ['users', 'recipes', 'comments']
+    fixtures = ['users', 'test-recipes', 'comments']
 
     def test_list_comments(self):
         resp = self.client.get('/api/v1/comments/')
