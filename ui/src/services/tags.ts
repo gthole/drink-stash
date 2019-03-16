@@ -10,17 +10,28 @@ class TagService {
     ) {}
 
     baseUrl = '/api/v1/tags/';
-    tags: string[];
+    tagsResp: ServiceResp<string>;
 
     getPage(): Promise<{results: string[]}> {
-        if (this.tags) return Promise.resolve({results: this.tags});
+        const headers: {[header: string]: string} = {};
+        if (this.tagsResp) {
+            headers['If-Modified-Since'] = this.tagsResp.fetched;
+        }
 
         return this.http
-            .get(this.baseUrl)
+            .get(this.baseUrl, {headers, observe: 'response'})
             .toPromise()
             .then((res: any) => {
-                this.tags = res.results;
-                return {results: res.results};
+                return {
+                    fetched: new Date(res.headers.get('Date')).toISOString(),
+                    count: res.body.count,
+                    results: res.body.results
+                };
+            });
+            .catch((err) => {
+                if (err.status === 304) {
+                    return Promise.resolve(this.tagsResp);
+                }
             });
     }
 }

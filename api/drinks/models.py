@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Model, CharField, DateField, FloatField, \
     IntegerField, BooleanField, ForeignKey, ManyToManyField, TextField, \
@@ -82,6 +83,7 @@ class Quantity(Model):
 
 class Tag(Model):
     name = CharField(max_length=255, unique=True, db_index=True)
+    created = DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.name
