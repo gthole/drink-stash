@@ -4,6 +4,14 @@
         <p class="mt-5 text-lg italic tracking-wide font-thin">Bottoms up.</p>
       </div>
 </div>
+
+<div class="w-full sm:w-1/2 mb-20 block mx-auto ">
+    <div class="flex items-center border-b border-b-2 border-teal py-2">
+        <input class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Search the recipes for your next drink" [(ngModel)]="search" (change)="routeToSearch()" id="searchbar">
+    </div>
+    <p class="px-2 mt-1 text-grey-dark text-xs italic">e.g. cynar, Last Word, or mezcal</p>
+</div>
+
 <div>
     <div class="flex flex-wrap w-full">
         <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 px-10">
@@ -27,7 +35,7 @@
                 </a>
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold">
-                		<a routerLink="/cabinet">Liquor Cabinet</a></p>
+                        <a routerLink="/cabinet">Liquor Cabinet</a></p>
                     <p class="text-sm mt-1 text-grey-dark">
                         Track the liquor, bitters, and ingredients
                         you have on hand.</p>
@@ -42,7 +50,7 @@
                 </a>
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold">
-                		<a routerLink="/new">Add New Recipes</a></p>
+                        <a routerLink="/new">Add New Recipes</a></p>
                     <p class="text-sm mt-1 text-grey-dark">
                         Add your favorite recipes to the database
                         and share with others.</p>

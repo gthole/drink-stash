@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RecipeStub, RecipeService } from '../../services/recipes';
 import { AlertService } from '../../services/alerts';
 import { CacheService } from '../../services/cache';
@@ -14,6 +15,7 @@ import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@for
 })
 export class HomeViewComponent implements OnInit {
     constructor(
+        private router: Router,
         private alertService: AlertService,
         private recipeService: RecipeService,
         private commentService: CommentService,
@@ -27,6 +29,8 @@ export class HomeViewComponent implements OnInit {
     faPlus = faPlus;
     faRandom = faRandom;
 
+    search: string = '';
+
     activities: {
         recipes: ServiceResponse<RecipeStub>,
         favorites: ServiceResponse<Favorite>
@@ -36,6 +40,10 @@ export class HomeViewComponent implements OnInit {
     ngOnInit() {
         const cached = this.cacheService.get('home');
         this.fetchActivityFeed(cached);
+    }
+
+    routeToSearch() {
+        this.router.navigate(['recipes'], {queryParams: {search: this.search}});
     }
 
     fetchActivityFeed(cached) {
