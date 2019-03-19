@@ -1,0 +1,23 @@
+[
+    {
+        "model": "drinks.userlist",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "name": "Recipes I Love",
+            "description": "Such joy in my heart, how could any cocktail be bad?"
+        }
+    },
+    {
+        "model": "drinks.userlist",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "name": "Recipes I Hate"
+        }
+    }
+]

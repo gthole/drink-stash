@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 from django.contrib.auth.models import User
-from .models import Recipe, Comment, UserFavorite
+from .models import Recipe, Comment, UserList, UserListRecipe
 
 
 class ObjectOwnerPermissions(BasePermission):
@@ -14,9 +14,13 @@ class ObjectOwnerPermissions(BasePermission):
         if request.method in SAFE_METHODS:
             return True
 
-        # Comments and favorites can only be modified by their user
-        if obj.__class__ in (Comment, UserFavorite):
+        # Comments and user lists can only be modified by their user
+        if obj.__class__ in (Comment, UserList):
             return obj.user_id == request.user.id
+
+        # User list recipes can only be modified by their user
+        if obj.__class__ == UserListRecipe:
+            return obj.list.user_id == request.user.id
 
         # Recipes can only be modified by the creator or staff
         if obj.__class__ == Recipe:

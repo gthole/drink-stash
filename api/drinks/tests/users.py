@@ -46,7 +46,7 @@ class UserTestCase(BaseTestCase):
                 ui.ingredient.name for ui in
                 UserIngredient.objects.filter(user_id=1).iterator()
             ],
-            ['Lemon Juice', 'Gin']
+            ['Gin', 'Lemon Juice']
         )
 
     def test_cannot_create_users(self):

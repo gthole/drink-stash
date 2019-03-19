@@ -1,5 +1,5 @@
 from rest_framework.test import APIClient
-from drinks.models import Recipe, Comment, UserFavorite, Tag
+from drinks.models import Recipe, Comment, Tag
 from .base import BaseTestCase
 import time
 
@@ -36,8 +36,6 @@ class RecipeTestCase(BaseTestCase):
                 },
                 'comment_count': 0,
                 'created': '2019-02-09T23:56:01.918000Z',
-                'favorite': False,
-                'favorite_count': 0,
                 'id': 6,
                 'ingredients': ['Old Overholt Rye', 'St. Germain', 'Lemon Juice'],
                 'name': 'End of Childcare Day',
@@ -204,26 +202,6 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(result['name'], 'Last Word')
         self.assertEqual(result['comment_count'], 1)
 
-    def test_fetch_recipes_filter_by_favorites(self):
-        """
-        Return only recipes with favorites
-        """
-        recipe = Recipe.objects.get(name='Manhattan')
-        fav = UserFavorite(
-            user_id=1,
-            recipe_id=recipe.id
-        )
-        fav.save()
-        recipe.favorites.add(fav)
-        resp = self.client.get(
-            '/api/v1/recipes/',
-            {'favorites': 'true'}
-        )
-        self.assertEqual(len(resp.json()['results']), 1)
-        result = resp.json()['results'][0]
-        self.assertEqual(result['name'], 'Manhattan')
-        self.assertEqual(result['favorite_count'], 1)
-
     def test_create_recipe(self):
         tag = Tag.objects.create(name='bitter')
         resp = self.client.post(
@@ -337,8 +315,6 @@ class RecipeTestCase(BaseTestCase):
                 'source': 'Greg',
                 'directions': recipe.directions,
                 'description': recipe.description,
-                'favorite': False,
-                'favorite_count': 0,
                 'tags': [],
                 'quantity_set': [
                     {
