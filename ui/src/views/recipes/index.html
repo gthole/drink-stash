@@ -43,32 +43,16 @@
             <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
                 No matches
             </div>
+            <recipe-card
+                *ngFor="let r of recipes"
+                [ngClass]="{'bg-purple-lighter': recipe && recipe.id == r.id}"
+                [recipe]="r"
+                (click)="routeRecipe($event, r.id)"
+                (onClear)="clearRecipe(r.id, $event)">
+            </recipe-card>
+
             <div class="list mt-6" *ngIf="recipes && recipes.length"
                 [ngClass]="{'loading-color': loading}">
-                <div class="item" *ngFor="let r of recipes"
-                     (click)="routeRecipe($event, r.id)"
-                     [ngClass]="{'selected': recipe && recipe.id === r.id}">
-                    <div *ngIf="r.comment_count > 0" class="float-right rounded-full text-sm -mt-1 py-1 px-3 bg-grey text-white">
-                        {{ r.comment_count }}
-                    </div>
-                    <div *ngIf="r.favorite" class="float-right mr-2 text-purple">
-                        <fa-icon [icon]="faHeart"></fa-icon>
-                    </div>
-
-                    <p class="title text-xl">
-                        <a href="#">{{ r.name }}</a>
-                    </p>
-                    <div class="text-grey-dark quantities">
-                        <span *ngFor="let ingredient of r.ingredients" class="mr-2">
-                            {{ ingredient }}
-                        </span>
-                    </div>
-                    <div *ngIf="r.tags.length > 0" class="mt-2">
-                        <a *ngFor="let tag of r.tags" class="mr-2 rounded-full mr-2 py-1 px-2 text-grey-dark bg-grey-light text-xs" routerLink="/recipes" [queryParams]="{tags: tag}">
-                            {{ tag }}
-                        </a>
-                    </div>
-                </div>
                 <div *ngIf="meta.page > 1 || meta.page * per_page < count" class="mt-6 mb-12">
                     <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded"
                         [disabled]="loading"

@@ -4,11 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
 import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
-// import { ViewMetaService } from '../../services/view-meta';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 import { faHeart, faWineBottle, faComment } from '@fortawesome/free-solid-svg-icons';
-
 
 interface RecipeViewMeta {
     page: number;
@@ -46,6 +44,7 @@ export class RecipeListComponent implements OnInit {
     per_page: number = window.innerWidth >= 1060 ? 200 : 100;
     loading: boolean = true;
     recipeLoading: boolean = false;
+    blockClick: boolean = false;
 
     filter: string;
     meta: RecipeViewMeta;
@@ -195,6 +194,10 @@ export class RecipeListComponent implements OnInit {
         stub.favorite = recipe.favorite;
         stub.tags = recipe.tags;
         stub.comment_count = recipe.comment_count;
+    }
+
+    clearRecipe(recipe_id: number, save: boolean) {
+        this.recipes = this.recipes.filter((r) => r.id !== recipe_id);
     }
 
     routeRecipe(ev: any, id: number) {

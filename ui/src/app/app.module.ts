@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { AutoCompleteComponent } from '../components/autocomplete';
 import { TagEditComponent } from '../components/tag-edit';
 import { ActivityFeedViewComponent } from '../components/activity-feed';
+import { RecipeCardComponent } from '../components/recipe-card';
 import { RecipeDetailViewComponent } from '../components/detail-view';
 import { RecipeEditComponent } from '../views/edit';
 import { CommentEditComponent } from '../views/comment-edit';
@@ -35,6 +36,15 @@ import { LoginViewComponent } from '../views/login';
 import { UserDetailsViewComponent } from '../views/user-details';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import * as Hammer from 'hammerjs';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+
+export class MyHammerConfig extends HammerGestureConfig  {
+    buildHammer(element: HTMLElement) {
+        return new Hammer(element, {touchAction: 'pan-y'});
+    }
+}
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -46,6 +56,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         RecipeEditComponent,
         RecipeDetailComponent,
         RecipeDetailViewComponent,
+        RecipeCardComponent,
         RecipeListComponent,
         HomeViewComponent,
         UserCabinetComponent,
@@ -72,7 +83,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         IngredientService,
         RecipeService,
         TagService,
-        UserService
+        UserService,
+        {
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: MyHammerConfig
+        }
     ],
     bootstrap: [AppComponent]
 })

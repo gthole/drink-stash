@@ -1,0 +1,28 @@
+<div class="item"
+          [@cardAnimator]="animationState"
+          (@cardAnimator.done)="resetAnimationState($event)"
+          (swipeleft)="startAnimation('slideOutLeft')"
+          (swiperight)="startAnimation('zoomOutRight')">
+    <div *ngIf="recipe.comment_count > 0"
+         class="float-right rounded-full text-sm -mt-1 py-1 px-3 bg-grey text-white">
+        {{ recipe.comment_count }}
+    </div>
+    <div *ngIf="recipe.favorite"
+          class="float-right mr-2 text-purple">
+        <fa-icon [icon]="faHeart"></fa-icon>
+    </div>
+
+    <p class="title text-xl">
+        <a href="#">{{ recipe.name }}</a>
+    </p>
+    <div class="text-grey-dark quantities">
+        <span *ngFor="let ingredient of recipe.ingredients" class="mr-2">
+            {{ ingredient }}
+        </span>
+    </div>
+    <div *ngIf="recipe.tags.length > 0" class="mt-2">
+        <a *ngFor="let tag of recipe.tags" class="mr-2 rounded-full mr-2 py-1 px-2 text-grey-dark bg-grey-light text-xs" routerLink="/recipes" [queryParams]="{tags: tag}">
+            {{ tag }}
+        </a>
+    </div>
+</div>
