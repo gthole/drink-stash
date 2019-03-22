@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AlertService } from '../../services/alerts';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { Comment, CommentService } from '../../services/comments';
-import { Favorite, FavoriteService } from '../../services/favorites';
+import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
 import { units } from '../../constants';
 import { User, UserService } from '../../services/users';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,8 @@ export class RecipeDetailViewComponent {
         private alertService: AlertService,
         private recipeService: RecipeService,
         private commentService: CommentService,
-        private favoriteService: FavoriteService,
+        private listService: ListService,
+        private listRecipeService: ListRecipeService,
         private userService: UserService,
     ) {}
 
@@ -33,8 +34,8 @@ export class RecipeDetailViewComponent {
     canEdit: boolean;
     user: User;
     comments: Comment[];
-    favorites: Favorite[];
-    userFavorite: Favorite;
+    lists: List[];
+    includedLists: Set<number>;
     canComment: boolean = false;
     commentText: string = '';
 
@@ -48,20 +49,11 @@ export class RecipeDetailViewComponent {
         this.userService.getSelf().then((user) => {
             this.user = user;
             this.canEdit = user.is_staff || this.recipe.added_by.id === user.id;
-            Promise.all([
-                this.getComments(),
-                this.getFavorites(),
-            ]).then(([commentResp, favoriteResp]) => {
-                this.canComment = !commentResp.results.filter((c) => {
-                    return c.user.id === this.user.id
-                }).length;
-                this.comments = commentResp.results;
 
-                this.userFavorite = favoriteResp.results.filter((f) => {
-                    return f.user.id === this.user.id;
-                })[0];
-                this.favorites = favoriteResp.results;
-            });
+            // Fill in related data
+            this.getComments();
+            this.getLists();
+            // this.getListRecipes();
         });
     }
 
@@ -69,14 +61,27 @@ export class RecipeDetailViewComponent {
      * Lazy content loaders
      */
 
-    getComments(): Promise<{results: Comment[]}> {
-        if (this.recipe.comment_count === 0) return Promise.resolve({results: []});
-        return this.commentService.getPage({recipe: `${this.recipe.id}`});
+    getComments(): void {
+        if (this.recipe.comment_count === 0) {
+            this.canComment = true;
+            this.comments = [];
+        }
+
+        this.commentService.getPage({recipe: `${this.recipe.id}`}).then((resp) => {
+            this.canComment = !resp.results.filter((c) => {
+                c.user.id === this.user.id
+            }).length;
+            this.comments = resp.results;
+        });
     }
 
-    getFavorites(): Promise<{results: Favorite[]}> {
-        if (this.recipe.favorite_count === 0) return Promise.resolve({results: []});
-        return this.favoriteService.getPage({recipe: `${this.recipe.id}`});
+    getLists(): void {
+        Promise.all([
+            this.listService.getPage({user: this.user.id}),
+            this.listRecipeService.getPage({user: this.user.id, recipe: this.recipe.id})
+        ]).then(([listResp, listRecipeResp]) => {
+
+        });
     }
 
     /*
@@ -96,33 +101,16 @@ export class RecipeDetailViewComponent {
      * Save data to the API and refresh the recipe in any outer view listeners
      */
 
+    addToList(list: List) {
+        this.listRecipeService.create({list: List});
+    }
+
     saveTags() {
         this.editingTags = false;
         this.recipe.tags = this.updatedTags;
         this.recipeService.update(this.recipe).then(() => {
             this.output.emit(this.recipe);
         });
-    }
-
-    toggleFavorite(): void {
-        let promise;
-        if (this.userFavorite) {
-            promise = this.favoriteService.remove(this.userFavorite)
-                .then(() => this.userFavorite = null);
-        } else {
-            const payload = new Favorite({recipe: {id: this.recipe.id}});
-            promise = this.favoriteService.create(payload)
-                .then((favorite) => this.userFavorite = favorite);
-        }
-        promise
-            .then(() => {
-                this.recipe.favorite = Boolean(this.userFavorite);
-                this.output.emit(this.recipe);
-            })
-            .catch(() => {
-                this.alertService.error('There was an error posting your favorite. ' +
-                                        'Please try again later.');
-            });
     }
 
     addComment(): void {

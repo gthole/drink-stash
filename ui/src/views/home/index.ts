@@ -5,7 +5,6 @@ import { RecipeStub, RecipeService } from '../../services/recipes';
 import { AlertService } from '../../services/alerts';
 import { CacheService } from '../../services/cache';
 import { Comment, CommentService } from '../../services/comments';
-import { Favorite, FavoriteService } from '../../services/favorites';
 import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -19,7 +18,6 @@ export class HomeViewComponent implements OnInit {
         private alertService: AlertService,
         private recipeService: RecipeService,
         private commentService: CommentService,
-        private favoriteService: FavoriteService,
         private cacheService: CacheService,
     ) {}
 
@@ -33,7 +31,6 @@ export class HomeViewComponent implements OnInit {
 
     activities: {
         recipes: ServiceResponse<RecipeStub>,
-        favorites: ServiceResponse<Favorite>
         comments: ServiceResponse<Comment>
     };
 
@@ -55,13 +52,11 @@ export class HomeViewComponent implements OnInit {
         Promise.all([
             this.recipeService.getPage(params, _.get(cached, 'recipes')),
             this.commentService.getPage(params, _.get(cached, 'comments')),
-            this.favoriteService.getPage(params, _.get(cached, 'favorites'))
         ]).then(
-            ([recipeResp, commentResp, favoriteResp]) => {
+            ([recipeResp, commentResp]) => {
                 this.activities = {
                     recipes: recipeResp,
                     comments: commentResp,
-                    favorites: favoriteResp
                 };
                 this.cacheService.set('home', this.activities);
             },

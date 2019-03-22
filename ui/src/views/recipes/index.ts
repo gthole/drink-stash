@@ -6,15 +6,13 @@ import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
-import { faHeart, faWineBottle, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faWineBottle } from '@fortawesome/free-solid-svg-icons';
 
 interface RecipeViewMeta {
     page: number;
     filters: string[];
     tags: string[];
     filterByCabinet: boolean;
-    filterByComments: boolean;
-    filterByFavorites: boolean;
     recipeId?: number;
 }
 
@@ -33,9 +31,7 @@ export class RecipeListComponent implements OnInit {
         private route: ActivatedRoute,
     ) {}
 
-    faHeart = faHeart;
     faWineBottle = faWineBottle;
-    faComment = faComment;
 
     recipes: RecipeStub[];
     recipe: Recipe;
@@ -71,8 +67,6 @@ export class RecipeListComponent implements OnInit {
                 filters: qp.search ? qp.search.split(',') : [],
                 tags: qp.tags ? qp.tags.split(',') : [],
                 filterByCabinet: qp.cabinet === 'true',
-                filterByComments: qp.comments === 'true',
-                filterByFavorites: qp.favorites === 'true',
                 // recipeId: parseInt(qp.show) || null
             };
             this.loadPage();
@@ -85,8 +79,6 @@ export class RecipeListComponent implements OnInit {
         if (this.meta.tags.length) query.tags = this.meta.tags.join(',');
 
         if (this.meta.page !== 1) query.page = '' + this.meta.page;
-        if (this.meta.filterByComments) query.comments = 'true';
-        if (this.meta.filterByFavorites) query.favorites = 'true';
         if (this.meta.filterByCabinet) query.cabinet = 'true';
         // if (this.meta.recipeId) query.show = '' + this.meta.recipeId;
         return query;
@@ -139,18 +131,6 @@ export class RecipeListComponent implements OnInit {
         this.updateRoute();
     }
 
-    toggleComments() {
-        this.meta.page = 1;
-        this.meta.filterByComments = !this.meta.filterByComments;
-        this.updateRoute();
-    }
-
-    toggleFavorites() {
-        this.meta.page = 1;
-        this.meta.filterByFavorites = !this.meta.filterByFavorites;
-        this.updateRoute();
-    }
-
     updateRoute() {
         const query = this.toQueryParams();
         this.router.navigate(['recipes'], {replaceUrl: true, queryParams: query});
@@ -185,13 +165,12 @@ export class RecipeListComponent implements OnInit {
         this.updateRoute();
     }
 
-    // When changes are made in the detail view (favorite, comment, tags, etc.)
+    // When changes are made in the detail view (comment, tags, etc.)
     // Receive the altered recipe here and update its attributes without
     // re-fetching the whole list from the API
     refresh(recipe: Recipe) {
         const stub = this.recipes.filter((r) => r.id === recipe.id)[0];
         if (!stub) return;
-        stub.favorite = recipe.favorite;
         stub.tags = recipe.tags;
         stub.comment_count = recipe.comment_count;
     }

@@ -79,7 +79,6 @@
         <activity-feed
             *ngIf="activities"
             [recipes]="activities.recipes.results"
-            [favorites]="activities.favorites.results"
             [comments]="activities.comments.results"
             [recipeTitle]="true"
             [title]="'Activity Feed'"

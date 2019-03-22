@@ -20,7 +20,7 @@ class ObjectOwnerPermissions(BasePermission):
 
         # User list recipes can only be modified by their user
         if obj.__class__ == UserListRecipe:
-            return obj.list.user_id == request.user.id
+            return obj.user_list.user_id == request.user.id
 
         # Recipes can only be modified by the creator or staff
         if obj.__class__ == Recipe:

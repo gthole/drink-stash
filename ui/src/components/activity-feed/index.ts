@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RecipeStub } from '../../services/recipes';
 import { Comment } from '../../services/comments';
 import { AuthService } from '../../services/auth';
-import { Favorite } from '../../services/favorites';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 interface Activity {
@@ -30,7 +29,6 @@ export class ActivityFeedViewComponent {
 
     // Stuff to show
     @Input() comments: Comment[] = [];
-    @Input() favorites: Favorite[] = [];
     @Input() recipes: RecipeStub[] = [];
 
     // Display options
@@ -71,23 +69,9 @@ export class ActivityFeedViewComponent {
             };
         });
 
-        const favoriteActivities: Activity[] = this.favorites.map((f) => {
-            return {
-                id: f.id,
-                user_hash: f.user.user_hash,
-                user_id: f.user.id,
-                name: `${f.user.first_name} ${f.user.last_name}`,
-                type: 'favorite',
-                when: f.created,
-                text: '',
-                recipe: f.recipe
-            };
-        });
-
         this.allActivities = _.reverse(_.sortBy(
             recipeActivities
-                .concat(commentActivities)
-                .concat(favoriteActivities),
+                .concat(commentActivities),
             'when'
         ));
         this.activityFeed = this.allActivities.slice(0, 10);

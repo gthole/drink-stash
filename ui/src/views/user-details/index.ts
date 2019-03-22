@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { User, UserService } from '../../services/users';
+import { List, ListService } from '../../services/lists';
 import { Comment, CommentService } from '../../services/comments';
-import { Favorite, FavoriteService } from '../../services/favorites';
 
 
 @Component({
@@ -15,15 +15,15 @@ export class UserDetailsViewComponent implements OnInit {
         private authService: AuthService,
         private userService: UserService,
         private commentService: CommentService,
-        private favoriteService: FavoriteService,
+        private listService: ListService,
         private route: ActivatedRoute,
         private router: Router,
     ) {}
 
     user: User;
     activeUser: User;
+    lists: List[];
     comments: Comment[];
-    favorites: Favorite[];
 
     ngOnInit() {
         this.route.params.subscribe((params: {id}) => {
@@ -32,13 +32,17 @@ export class UserDetailsViewComponent implements OnInit {
                 this.userService.getSelf(),
                 this.userService.getById(params.id),
                 this.commentService.getPage(query),
-                this.favoriteService.getPage(query),
-            ]).then(([activeUser, user, comments, favorites]) => {
+            ]).then(([activeUser, user, comments]) => {
                 this.activeUser = activeUser;
                 this.user = user;
                 this.comments = comments.results;
-                this.favorites = favorites.results;
+
             });
+
+            this.listService.getPage({user: params.id})
+                .then((resp) => {
+                    this.lists = resp.results;
+                });
         });
     }
 

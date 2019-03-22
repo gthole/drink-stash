@@ -34,5 +34,6 @@ class UserListSerializer(ModelSerializer):
             'updated',
             'user',
             'name',
+            'description',
             'recipe_count',
         )

@@ -1,0 +1,42 @@
+<div class="flex flex-wrap" *ngIf="list">
+    <div class="flex mb-10 flex-wrap content-start w-full lg:w-1/3">
+        <div class="w-full">
+            <p class="text-4xl">{{ list.name }}</p>
+            <p class="text-grey-dark font-light mb-5">({{ list.recipe_count }} recipes)</p>
+            <div class="text-grey-dark text-sm">
+                <p *ngIf="list.description">{{ list.description }}</p>
+                <p *ngIf="!list.description">(no description)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-2/3" *ngIf="listRecipes">
+        <div class="mb-6" *ngFor="let lr of listRecipes">
+            <p class="title text-xl">
+                <a routerLink="/recipes/{{ lr.recipe.id }}">{{ lr.recipe.name }}</a>
+            </p>
+            <div class="text-grey-dark quantities">
+                <span *ngFor="let ingredient of lr.recipe.ingredients" class="mr-2">
+                    {{ ingredient }}
+                </span>
+            </div>
+            <div class="mt-1 text-sm" *ngIf="!lr.editing">
+                <p class="text-black">
+                    {{ lr.notes }}
+                    <span *ngIf="activeUser.user_id === list.user.id"
+                          class="text-grey-dark"
+                          (click)="lr.editing = true">
+                        <span *ngIf="lr.notes">(edit)</span>
+                        <span *ngIf="!lr.notes">(add a note)</span>
+                    </span>
+                </p>
+            </div>
+            <div *ngIf="lr.editing">
+                <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                          [(ngModel)]="lr.notes"></textarea>
+                <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-1 px-2 rounded mb-6 text-sm focus:bg-purple-darker"
+                        (click)="saveNote(lr)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
