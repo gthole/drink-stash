@@ -14,6 +14,8 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(
             resp.json(),
             {
+                'comment_count': 0,
+                'recipe_count': 6,
                 'first_name': 'Dorothea',
                 'id': 1,
                 'ingredient_set': [],
