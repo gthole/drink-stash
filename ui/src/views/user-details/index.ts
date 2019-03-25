@@ -45,10 +45,4 @@ export class UserDetailsViewComponent implements OnInit {
                 });
         });
     }
-
-    logout() {
-        this.activeUser = null;
-        this.authService.logout();
-        this.router.navigateByUrl('/login');
-    }
 }

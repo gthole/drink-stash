@@ -59,6 +59,10 @@ def parse_number(token):
 
 
 def parse_search_and_filter(term, qs):
+    """
+    TODO: Re-work this as a depth-first recursive processor so we can support
+    arbitrarily nested queries ...for fun.
+    """
     try:
         start_tree = grammar.parse(term)
     except:

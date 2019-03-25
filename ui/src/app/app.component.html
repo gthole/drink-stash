@@ -1,3 +1,4 @@
+<div (click)="closeMenu()">
 <div class="navbar w-full pin-t pin-l px-4 py-3 font-serif text-white bg-purple-darker">
     <div class="container">
         <ul class="list-reset flex justify-between">
@@ -13,7 +14,18 @@
             </p>
           </li>
           <li class="mr-3 minwidth text-right">
-              <a *ngIf="loggedIn && userId" class="text-white text-3xl" routerLink="/users/{{ userId }}">&#9776;</a>
+              <button *ngIf="loggedIn && userId" class="text-white text-3xl"
+                  (click)="toggleMenu($event)">
+                  &#9776;
+              </button>
+              <div class="menu-content block text-left" *ngIf="showMenu">
+                  <div class="w-full py-2 px-4 hover:bg-teal border-b border-b-2 border-grey">
+                      <a routerLink="/users/{{ userId }}">Profile</a>
+                  </div>
+                  <div class="w-full py-2 px-4 hover:bg-teal">
+                      <a (click)="logout()">Log out</a>
+                  </div>
+              </div>
           </li>
         </ul>
     </div>
@@ -34,4 +46,5 @@
           <p>{{ alert.message }}</p>
     </div>
     <router-outlet></router-outlet>
+</div>
 </div>

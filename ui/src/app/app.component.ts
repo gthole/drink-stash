@@ -15,6 +15,7 @@ export class AppComponent {
     loggedIn: boolean = false;
     userId: number;
     alerts: Alert[] = [];
+    showMenu: boolean = false;
 
     constructor(
         private authService: AuthService,
@@ -46,5 +47,20 @@ export class AppComponent {
 
     goBack() {
         this.location.back();
+    }
+
+    toggleMenu(ev) {
+        ev.stopPropagation();
+        this.showMenu = !this.showMenu;
+    }
+
+    closeMenu() {
+        this.showMenu = false;
+    }
+
+    logout() {
+        this.loggedIn = null;
+        this.authService.logout();
+        this.router.navigateByUrl('/login');
     }
 }

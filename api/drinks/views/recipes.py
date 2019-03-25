@@ -18,6 +18,7 @@ class RecipeViewSet(LazyViewSet):
         queryset = super(RecipeViewSet, self).get_queryset()
         # Set up eager loading to avoid N+1 selects
         queryset = self.get_serializer_class().setup_eager_loading(queryset)
+        queryset = queryset.annotate(comment_count=Count('comments', distinct=True))
         return queryset
 
     def get_serializer_class(self):
@@ -27,7 +28,6 @@ class RecipeViewSet(LazyViewSet):
 
     def filter_queryset(self, *args, **kwargs):
         qs = super().filter_queryset(*args, **kwargs)
-        qs = qs.annotate(comment_count=Count('comments', distinct=True))
 
         # Whether there are comments or not
         if self.request.GET.get('comments') == 'true':

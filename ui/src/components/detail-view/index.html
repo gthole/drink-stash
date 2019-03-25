@@ -35,6 +35,10 @@
         <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right">
             Edit
         </a>
+
+        <div>
+            <button (click)="toggleDrop($event)" class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded focus:bg-purple-darker">Add to Lists</button>
+        </div>
     </div>
 
     <div class="mt-12" *ngIf="canComment">
@@ -50,4 +54,27 @@
         *ngIf="comments"
         [comments]="comments">
     </activity-feed>
+</div>
+
+<!-- List modal -->
+<div class="modal border border-grey-lighter" (click)="closeDrop()" [ngClass]="{'show': showModal}">
+
+  <!-- Modal content -->
+  <div class="modal-content rounded py-4" (click)="$event.stopPropagation()">
+    <div class="modal-header px-4 mb-3">
+      <span class="float-right text-grey-dark cursor-pointer"
+        	(click)="closeDrop()">&times;</span>
+      <p class="text-xl font-bold">Add to Lists</p>
+    </div>
+    <div class="modal-body">
+        <div
+            *ngFor="let list of lists"
+            (click)="addToList($event, list)"
+            [ngClass]="{'bg-teal text-white': addedToList(list)}"
+            class="py-4 border-t border-grey-light cursor-pointer text-grey-darkest">
+            <span class="px-4">{{ list.name }}</span>
+        </div>
+    </div>
+  </div>
+
 </div>

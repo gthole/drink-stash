@@ -6,20 +6,20 @@ from .users import NestedUserSerializer
 
 
 class UserListRecipeSerializer(ModelSerializer):
-    recipe = NestedRecipeListSerializer(read_only=True)
+    recipe = NestedRecipeListSerializer()
 
     class Meta:
         model = UserListRecipe
         fields = (
             'id',
             'recipe',
+            'user_list',
             'notes',
             'order',
         )
 
 
 class UserListSerializer(ModelSerializer):
-    # recipes = NestedUserListRecipeSerializer(read_only=True, many=True)
     recipe_count = IntegerField(read_only=True)
     user = NestedUserSerializer(
         read_only=True,

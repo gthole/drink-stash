@@ -16,9 +16,11 @@ export class ListDetailsComponent implements OnInit {
         private route: ActivatedRoute,
     ) {}
 
-    activeUser: User;
+    canEdit: boolean = false;
+    loading: boolean = true;
     list: List;
     listRecipes: ListRecipe[];
+    editingLr: {id: number, notes: string};
 
     ngOnInit() {
         this.route.params.subscribe((params: {id}) => {
@@ -27,16 +29,25 @@ export class ListDetailsComponent implements OnInit {
                 this.listService.getById(params.id),
                 this.listRecipeService.getPage({user_list: params.id})
             ]).then(([activeUser, list, recipeResp]) => {
-                this.activeUser = activeUser;
+                this.canEdit = activeUser.user_id === list.user.id;
                 this.list = list
                 this.listRecipes = recipeResp.results;
+                this.loading = false;
             });
         });
     }
 
+    editLr(lr) {
+        this.editingLr = {id: lr.id, notes: lr.notes || ''};
+        setTimeout(() => document.getElementById('edit-lr').focus(), 10);
+    }
+
     saveNote(lr) {
+        lr.notes = this.editingLr.notes;
+        this.loading = true;
         this.listRecipeService.update(lr).then(() => {
-            lr.editing = false
+            this.loading = false;
+            this.editingLr = null;
         });
     }
 }

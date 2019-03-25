@@ -1,5 +1,4 @@
 .navbar {
-    overflow: hidden;
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
@@ -47,4 +46,30 @@
     .text-title {
         font-size: 1.25rem;
     }
+}
+
+ /* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.menu-content {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 100000;
+}
+
+/* Links inside the dropdown */
+.menu-content a {
+  text-decoration: none;
+  display: block;
+}
+
+.menu-content div:hover a {
+  color: #fff;
 }

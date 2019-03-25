@@ -1,44 +1,43 @@
-<div class="flex" *ngIf="user">
-    <div class="flex mb-10 flex-wrap content-start w-full lg:w-1/2">
-        <div class="flex w-full mb-10">
+<div class="flex flex-wrap" *ngIf="user">
+    <div class="flex mb-6 flex-wrap content-start w-full lg:w-1/2">
+        <div class="flex w-full lg:mb-10">
             <img style="max-height: 128px" class="flex-no-shrink rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ user.user_hash }}.jpg?d=mp&size=128">
 
-            <div class="ml-3">
+            <div class="w-full mx-3">
                 <div class="mb-6">
-                    <p class="title">{{ user.first_name }} {{ user.last_name }}</p>
-                    <div *ngIf="user.id === activeUser.id" class="mt-3">
-                        <p *ngIf="activeUser.is_staff" class="text-grey">
-                            Log into the <a href="/admin/">admin portal</a> to manage the site.
-                        </p>
-                    </div>
+                    <p class="text-2xl">{{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text-grey-dark mt-1">Added {{ user.recipe_count }}
+                    <span [innerHTML]="user.recipe_count === 1 ? 'recipe' : 'recipes'"></span>.</p>
+                    <p class="text-grey-dark">Made {{ user.comment_count }}
+                    <span [innerHTML]="user.comment_count === 1 ? 'comment' : 'comments'"></span>.</p>
                 </div>
-                <button *ngIf="user.id === activeUser.id"
-                        class="
-                            text-grey text-xs bg-transparent
-                            font-semibold py-2 px-4
-                            border border-grey-dark rounded"
-                        (click)="logout()">
-                        Log out
-                </button>
+                <a *ngIf="user.id === activeUser.id" class="bg-purple-dark hover:bg-purple-darker text-white py-2 px-4 rounded focus:bg-purple-darker text-sm" routerLink="/lists/new">
+            &#43; New List
+                </a>
             </div>
         </div>
 
         <div class="w-full">
-            <p class="w-full mt-12 md:mt-0 mb-3 block uppercase tracking-wide font-bold text-grey-darker text-center">Lists</p>
+            <p class="w-full mt-12 lg:mt-0 block uppercase tracking-wide font-bold text-grey-darker text-center">Lists</p>
             <div *ngIf="lists">
                 <div *ngFor="let list of lists">
                     <div class="max-w-sm">
-                      <div class="px-6 py-4">
+                      <div class="py-4">
                         <div>
-                            <a routerLink="/lists/{{ list.id }}" class="font-bold text-xl text-grey-darker mb-2">{{ list.name }}</a>
-                            <span class="text-grey-dark font-light ml-1">({{ list.recipe_count }} recipes)</span>
+                            <a routerLink="/lists/{{ list.id }}"
+                               class="font-bold text-xl text-grey-darker mb-2">
+                               {{ list.name }}
+                            </a>
+                            <span class="text-grey-dark font-light ml-1">({{ list.recipe_count }} <span [innerHTML]="list.recipe_count === 1 ? 'recipe' : 'recipes'"></span>)</span>
                         </div>
                         <div class="text-grey-dark text-sm">
                             <p *ngIf="list.description">{{ list.description }}</p>
-                            <p *ngIf="!list.description">(no description)</p>
                         </div>
                       </div>
                     </div>
+                </div>
+                <div *ngIf="lists.length === 0">
+                    <p class="text-grey-dark text-sm text-center">(No lists here yet!)</p>
                 </div>
             </div>
         </div>

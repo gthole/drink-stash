@@ -55,3 +55,46 @@ class UserListTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 400)
+
+    def test_get_ulr_by_recipe(self):
+        resp = self.client.get('/api/v1/list-recipes/', {'recipe': 1})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [ulr['id'] for ulr in resp.json()['results']],
+            [1, 3]
+        )
+
+    def test_get_ulr_by_list(self):
+        resp = self.client.get('/api/v1/list-recipes/', {'user_list': 2})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [ulr['id'] for ulr in resp.json()['results']],
+            [3]
+        )
+
+    def test_get_ulr_by_user(self):
+        resp = self.client.get('/api/v1/list-recipes/', {'user_list__user': 1})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [ulr['id'] for ulr in resp.json()['results']],
+            [1, 2]
+        )
+
+    def test_get_ulr_by_user_and_recipe(self):
+        resp = self.client.get('/api/v1/list-recipes/', {'user_list__user': 1, 'recipe': 1})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [ulr['id'] for ulr in resp.json()['results']],
+            [1]
+        )
+
+    def test_create_user_list_recipe(self):
+        resp = self.client.post(
+            '/api/v1/list-recipes/',
+            {
+                'recipe': 3,
+                'user_list': 1
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 201)

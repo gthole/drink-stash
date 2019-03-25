@@ -19,5 +19,41 @@
             "updated": "2019-03-03T00:00:00Z",
             "name": "Recipes I Hate"
         }
+    },
+    {
+        "model": "drinks.userlistrecipe",
+        "pk": 1,
+        "fields": {
+            "user_list": 1,
+            "recipe": 1,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "notes": "Wonderful!",
+            "order": 0.1
+        }
+    },
+    {
+        "model": "drinks.userlistrecipe",
+        "pk": 2,
+        "fields": {
+            "user_list": 1,
+            "recipe": 2,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "notes": "Delicious!",
+            "order": 0.2
+        }
+    },
+    {
+        "model": "drinks.userlistrecipe",
+        "pk": 3,
+        "fields": {
+            "user_list": 2,
+            "recipe": 1,
+            "created": "2019-03-03T00:00:00Z",
+            "updated": "2019-03-03T00:00:00Z",
+            "notes": "Awful",
+            "order": 0.1
+        }
     }
 ]

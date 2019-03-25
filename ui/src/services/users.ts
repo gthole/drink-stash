@@ -13,6 +13,8 @@ class User extends BaseModel {
     last_name: string;
     ingredient_set: string[];
     is_staff: boolean;
+    comment_count: boolean;
+    recipe_count: boolean;
 
     constructor(payload) {
         super();
@@ -23,6 +25,8 @@ class User extends BaseModel {
         this.last_name = payload.last_name;
         this.ingredient_set = payload.ingredient_set;
         this.is_staff = payload.is_staff;
+        this.comment_count = payload.comment_count;
+        this.recipe_count = payload.recipe_count;
 
         this.setHash();
     }

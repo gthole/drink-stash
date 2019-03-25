@@ -87,7 +87,8 @@ export class ListRecipe extends BaseModel {
         return {
             id: this.id,
             notes: this.notes,
-            user_list: this.list
+            user_list: this.list,
+            recipe: this.recipe.id
         }
     }
 }

@@ -10,7 +10,8 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'recipe-detail-view',
-    templateUrl: './index.html'
+    templateUrl: './index.html',
+    styleUrls: ['./style.css']
 })
 export class RecipeDetailViewComponent {
     constructor(
@@ -34,8 +35,9 @@ export class RecipeDetailViewComponent {
     canEdit: boolean;
     user: User;
     comments: Comment[];
+    showModal: boolean = false;
     lists: List[];
-    includedLists: Set<number>;
+    listRecipes: ListRecipe[];
     canComment: boolean = false;
     commentText: string = '';
 
@@ -78,9 +80,13 @@ export class RecipeDetailViewComponent {
     getLists(): void {
         Promise.all([
             this.listService.getPage({user: this.user.id}),
-            this.listRecipeService.getPage({user: this.user.id, recipe: this.recipe.id})
+            this.listRecipeService.getPage({
+                user_list__user: this.user.id,
+                recipe: this.recipe.id
+            })
         ]).then(([listResp, listRecipeResp]) => {
-
+            this.lists = listResp.results;
+            this.listRecipes = listRecipeResp.results;
         });
     }
 
@@ -98,11 +104,42 @@ export class RecipeDetailViewComponent {
     }
 
     /*
+     * Manage the lists dropdown
+     */
+
+    toggleDrop(ev) {
+        ev.stopPropagation();
+        this.showModal = !this.showModal;
+    }
+
+    closeDrop() {
+        this.showModal = false;
+    }
+
+    /*
      * Save data to the API and refresh the recipe in any outer view listeners
      */
 
-    addToList(list: List) {
-        this.listRecipeService.create({list: List});
+    addedToList(list: List): boolean {
+        return Boolean(this.listRecipes.filter((lr) => lr.list === list.id).length);
+    }
+
+    addToList(ev, list: List) {
+        ev.stopPropagation();
+        let lr = this.listRecipes.filter((lr) => lr.list === list.id)[0];
+        if (lr) {
+            this.listRecipes = this.listRecipes.filter((lr) => lr.list !== list.id);
+            this.listRecipeService.remove(lr);
+            return;
+        }
+
+        lr = new ListRecipe({
+            user_list: list.id,
+            recipe: this.recipe
+        });
+        this.listRecipeService.create(lr).then((saved) => {
+            this.listRecipes.push(saved);
+        });
     }
 
     saveTags() {
