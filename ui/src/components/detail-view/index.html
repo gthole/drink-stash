@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="mt-12" *ngIf="canComment">
+    <div class="mt-10" *ngIf="canComment">
         <textarea class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" id="text" name="text" [(ngModel)]="commentText"></textarea>
         <p class="text-grey-dark text-xs italic">Have you made this?  Tell us what you think!</p>
 
@@ -63,16 +63,19 @@
   <div class="modal-content rounded py-4" (click)="$event.stopPropagation()">
     <div class="modal-header px-4 mb-3">
       <span class="float-right text-grey-dark cursor-pointer"
-        	(click)="closeDrop()">&times;</span>
+            (click)="closeDrop()">&times;</span>
       <p class="text-xl font-bold">Add to Lists</p>
     </div>
     <div class="modal-body">
         <div
             *ngFor="let list of lists"
             (click)="addToList($event, list)"
-            [ngClass]="{'bg-teal text-white': addedToList(list)}"
             class="py-4 border-t border-grey-light cursor-pointer text-grey-darkest">
-            <span class="px-4">{{ list.name }}</span>
+            <span class="px-4">
+                <fa-icon class="text-teal mr-1" *ngIf="addedToList(list)" [icon]="faCheckSquare"></fa-icon>
+                <fa-icon class="text-grey-dark mr-1" *ngIf="!addedToList(list)" [icon]="faSquare"></fa-icon>
+                {{ list.name }}
+            </span>
         </div>
     </div>
   </div>

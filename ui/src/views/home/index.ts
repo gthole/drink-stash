@@ -2,10 +2,12 @@ import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeStub, RecipeService } from '../../services/recipes';
+import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { CacheService } from '../../services/cache';
 import { Comment, CommentService } from '../../services/comments';
-import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { faGlassMartiniAlt, faWineBottle, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
     selector: 'home-view',
@@ -15,6 +17,7 @@ import { faHeart, faGlassMartiniAlt, faWineBottle, faPlus, faRandom } from '@for
 export class HomeViewComponent implements OnInit {
     constructor(
         private router: Router,
+        private authService: AuthService,
         private alertService: AlertService,
         private recipeService: RecipeService,
         private commentService: CommentService,
@@ -24,10 +27,11 @@ export class HomeViewComponent implements OnInit {
     // Icons
     faGlassMartiniAlt = faGlassMartiniAlt;
     faWineBottle = faWineBottle;
-    faPlus = faPlus;
+    faBookmark = faBookmark;
     faRandom = faRandom;
 
     search: string = '';
+    activeUser: {user_id: string};
 
     activities: {
         recipes: ServiceResponse<RecipeStub>,
@@ -36,6 +40,7 @@ export class HomeViewComponent implements OnInit {
 
     ngOnInit() {
         const cached = this.cacheService.get('home');
+        this.activeUser = this.authService.getUserData();
         this.fetchActivityFeed(cached);
     }
 

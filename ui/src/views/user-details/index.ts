@@ -21,7 +21,7 @@ export class UserDetailsViewComponent implements OnInit {
     ) {}
 
     user: User;
-    activeUser: User;
+    activeUser: {user_id: string};
     lists: List[];
     comments: Comment[];
 
@@ -29,20 +29,17 @@ export class UserDetailsViewComponent implements OnInit {
         this.route.params.subscribe((params: {id}) => {
             const query = {user: params.id, ordering: '-created'};
             Promise.all([
-                this.userService.getSelf(),
+                this.authService.getUserData(),
                 this.userService.getById(params.id),
                 this.commentService.getPage(query),
             ]).then(([activeUser, user, comments]) => {
                 this.activeUser = activeUser;
                 this.user = user;
                 this.comments = comments.results;
-
             });
 
-            this.listService.getPage({user: params.id})
-                .then((resp) => {
-                    this.lists = resp.results;
-                });
+            this.listService.getPage({user: params.id, per_page: 5})
+                .then((resp) => this.lists = resp.results);
         });
     }
 }

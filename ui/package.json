@@ -26,6 +26,7 @@
     "@fortawesome/angular-fontawesome": "0.2.1",
     "@fortawesome/fontawesome-svg-core": "1.2.6",
     "@fortawesome/free-solid-svg-icons": "5.4.1",
+    "@fortawesome/free-regular-svg-icons": "5.4.1",
     "angular2-moment": "^1.7.0",
     "animate.css": "^3.7.0",
     "core-js": "^2.4.1",

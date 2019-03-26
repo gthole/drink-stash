@@ -5,7 +5,8 @@ import { Comment, CommentService } from '../../services/comments';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
 import { units } from '../../constants';
 import { User, UserService } from '../../services/users';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSquare } from '@fortawesome/free-regular-svg-icons';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class RecipeDetailViewComponent {
     showQuantities: any[] = [];
     units = units;
     faHeart = faHeart;
+    faCheckSquare = faCheckSquare;
+    faSquare = faSquare;
 
     editingTags: boolean = false;
     updatedTags: string[];
@@ -87,6 +90,10 @@ export class RecipeDetailViewComponent {
         ]).then(([listResp, listRecipeResp]) => {
             this.lists = listResp.results;
             this.listRecipes = listRecipeResp.results;
+            this.lists.forEach((l) => {
+                const count = this.listRecipes.filter((lr) => lr.list === l.id).length;
+                l.added_to_recipe = Boolean(count);
+            });
         });
     }
 
@@ -121,18 +128,20 @@ export class RecipeDetailViewComponent {
      */
 
     addedToList(list: List): boolean {
-        return Boolean(this.listRecipes.filter((lr) => lr.list === list.id).length);
+        return list.added_to_recipe;
     }
 
     addToList(ev, list: List) {
         ev.stopPropagation();
         let lr = this.listRecipes.filter((lr) => lr.list === list.id)[0];
         if (lr) {
+            list.added_to_recipe = false;
             this.listRecipes = this.listRecipes.filter((lr) => lr.list !== list.id);
             this.listRecipeService.remove(lr);
             return;
         }
 
+        list.added_to_recipe = true;
         lr = new ListRecipe({
             user_list: list.id,
             recipe: this.recipe

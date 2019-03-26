@@ -11,6 +11,7 @@ export class List extends BaseModel {
     name: string;
     description: string
     recipe_count: number;
+    added_to_recipe: boolean;
 
     created: Date;
     updated: Date;

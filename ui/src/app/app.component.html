@@ -18,12 +18,18 @@
                   (click)="toggleMenu($event)">
                   &#9776;
               </button>
-              <div class="menu-content block text-left" *ngIf="showMenu">
-                  <div class="w-full py-2 px-4 hover:bg-teal border-b border-b-2 border-grey">
-                      <a routerLink="/users/{{ userId }}">Profile</a>
+              <div class="menu text-left shadow-md bg-white block"
+                   *ngIf="showMenu">
+                  <div class="w-full py-3 px-4 hover:bg-teal">
+                      <a routerLink="/new">Add new recipes</a>
                   </div>
-                  <div class="w-full py-2 px-4 hover:bg-teal">
-                      <a (click)="logout()">Log out</a>
+
+                  <div class="w-full py-3 px-4 hover:bg-teal border-b
+                              border-b-2 border-grey">
+                      <a routerLink="/users/{{ userId }}">Your profile</a>
+                  </div>
+                  <div class="w-full py-3 px-4 hover:bg-teal">
+                      <a (click)="logout()">Sign out</a>
                   </div>
               </div>
           </li>
