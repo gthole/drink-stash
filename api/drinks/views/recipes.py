@@ -14,6 +14,10 @@ class RecipeViewSet(LazyViewSet):
     serializer_class = RecipeSerializer
     list_serializer_class = RecipeListSerializer
 
+    filter_fields = {
+        'id': ['in']
+    }
+
     def get_queryset(self):
         queryset = super(RecipeViewSet, self).get_queryset()
         # Set up eager loading to avoid N+1 selects

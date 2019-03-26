@@ -21,8 +21,7 @@
             <p class="w-full mt-12 lg:mt-0 block uppercase tracking-wide font-bold text-grey-darker text-center">Lists</p>
             <div *ngIf="lists">
                 <div *ngFor="let list of lists">
-                    <div class="max-w-sm">
-                      <div class="py-4">
+                    <div class="py-4">
                         <div>
                             <a routerLink="/lists/{{ list.id }}"
                                class="font-bold text-xl text-grey-darker mb-2 mr-1">
@@ -33,7 +32,6 @@
                         <div class="text-grey-dark text-sm">
                             <p *ngIf="list.description">{{ list.description }}</p>
                         </div>
-                      </div>
                     </div>
                 </div>
                 <div *ngIf="lists.length === 0">

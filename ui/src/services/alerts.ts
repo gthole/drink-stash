@@ -9,7 +9,7 @@ export class AlertService {
     private alertSubject = new Subject<Alert>();
     alertTopic = this.alertSubject.asObservable();
 
-    error(message: string): void {
+    error(message: string = 'Whoops - something went wrong'): void {
         this.alertSubject.next({header: 'Error', message});
     }
 

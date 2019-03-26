@@ -38,7 +38,7 @@ export class UserDetailsViewComponent implements OnInit {
                 this.comments = comments.results;
             });
 
-            this.listService.getPage({user: params.id, per_page: 5})
+            this.listService.getPage({user: params.id})
                 .then((resp) => this.lists = resp.results);
         });
     }

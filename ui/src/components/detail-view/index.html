@@ -60,13 +60,13 @@
 <div class="modal border border-grey-lighter" (click)="closeDrop()" [ngClass]="{'show': showModal}">
 
   <!-- Modal content -->
-  <div class="modal-content rounded py-4" (click)="$event.stopPropagation()">
-    <div class="modal-header px-4 mb-3">
-      <span class="float-right text-grey-dark cursor-pointer"
-            (click)="closeDrop()">&times;</span>
+  <div class="modal-content rounded" (click)="$event.stopPropagation()">
+    <div class="modal-header px-4 py-4">
+      <button class="float-right text-purple-light cursor-pointer"
+            (click)="closeDrop()">Done</button>
       <p class="text-xl font-bold">Add to Lists</p>
     </div>
-    <div class="modal-body">
+    <div class="modal-body border-b border-1 border-grey-lighter">
         <div
             *ngFor="let list of lists"
             (click)="addToList($event, list)"
@@ -77,6 +77,11 @@
                 {{ list.name }}
             </span>
         </div>
+    </div>
+    <div class="modal-footer px-4 py-4 align-middle">
+        <a class="text-teal" routerLink="/lists/new" [queryParams]="{'recipes': recipe.id}" class="text-sm">
+            + Create a new list with this recipe
+        </a>
     </div>
   </div>
 
