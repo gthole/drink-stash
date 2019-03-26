@@ -10,7 +10,7 @@
             <td class="align-middle leading-loose" style="padding: 0 0 0 8px;">{{ q.ingredient }}</td>
         </tr>
     </table>
-    <div class="mb-8 text-grey-darker">{{ recipe.directions }}</div>
+    <div class="mb-8 text-grey-darker whitespace-pre-wrap">{{ recipe.directions }}</div>
 
     <div class="mb-6">
     <div *ngIf="!editingTags">
@@ -29,7 +29,7 @@
     </div>
     </div>
 
-    <div *ngIf="recipe.description" class="bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
+    <div *ngIf="recipe.description" class="whitespace-pre-wrap bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
 
     <div *ngIf="user" class="mt-6">
         <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right">

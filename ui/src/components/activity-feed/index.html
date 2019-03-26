@@ -29,8 +29,7 @@
                     </span>
                 </div>
                 <div *ngIf="a.type === 'comment'"
-                    class="text-grey-darker"
-                    style="white-space:pre-wrap;">{{ (a.text.length>110 && recipeTitle)? (a.text | slice:0:110)+' ...':(a.text) }}</div>
+                    class="text-grey-darker whitespace-pre-wrap">{{ (a.text.length>110 && recipeTitle)? (a.text | slice:0:110)+' ...':(a.text) }}</div>
 
             </div>
         </div>
