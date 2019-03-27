@@ -61,6 +61,7 @@ class NestedUserSerializer(UserSerializer):
         model = User
         fields = (
             'id',
+            'username',
             'user_hash',
             'first_name',
             'last_name',

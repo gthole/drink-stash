@@ -32,7 +32,7 @@
     <div *ngIf="recipe.description" class="whitespace-pre-wrap bg-grey-lighter -mx-4 md:-mx-1 px-4 py-6">{{ recipe.description }}</div>
 
     <div *ngIf="user" class="mt-6">
-        <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right">
+        <a *ngIf="canEdit" routerLink="/recipes/{{ recipe.slug }}/edit" class="bg-transparent hover:bg-purple-dark text-purple-dark font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right">
             Edit
         </a>
 

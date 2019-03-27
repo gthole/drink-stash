@@ -1,3 +1,5 @@
 .env
 .data
+.tmp
 __pycache__
+Dockerfile

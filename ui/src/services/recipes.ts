@@ -8,6 +8,7 @@ import { stringify } from 'querystring';
 
 class RecipeStub extends BaseModel {
     id: number;
+    slug: string;
     name: string;
     comment_count: number;
     ingredients: string[];
@@ -18,6 +19,7 @@ class RecipeStub extends BaseModel {
     constructor(payload) {
         super();
         this.id = payload.id;
+        this.slug = payload.slug;
         this.name = payload.name;
         this.comment_count = payload.comment_count;
         this.ingredients = payload.ingredients;
@@ -32,6 +34,7 @@ class RecipeStub extends BaseModel {
 
 class Recipe extends BaseModel {
     id: number;
+    slug: string;
     name: string;
     source: string;
     directions: string;
@@ -45,6 +48,7 @@ class Recipe extends BaseModel {
     constructor(payload) {
         super();
         this.id = payload.id;
+        this.slug = payload.slug;
         this.name = payload.name;
         this.source = payload.source;
         this.description = payload.description;

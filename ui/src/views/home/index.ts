@@ -31,7 +31,7 @@ export class HomeViewComponent implements OnInit {
     faRandom = faRandom;
 
     search: string = '';
-    activeUser: {user_id: string};
+    activeUser: {user_id: number, username: string};
 
     activities: {
         recipes: ServiceResponse<RecipeStub>,

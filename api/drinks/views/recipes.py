@@ -1,4 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 from drinks.models import Recipe, Quantity, Ingredient, UserIngredient
@@ -93,3 +94,20 @@ class RecipeViewSet(LazyViewSet):
         for term in terms:
             qs = parse_search_and_filter(term, qs)
         return qs.distinct()
+
+    def get_object(self):
+        """
+        Get recipe by slug or PK
+        """
+        queryset = self.get_queryset()
+        filter = {}
+
+        pk = self.kwargs['pk']
+        if pk.isdigit():
+            filter['pk'] = pk
+        else:
+            filter['slug'] = pk
+
+        obj = get_object_or_404(queryset, **filter)
+        self.check_object_permissions(self.request, obj)
+        return obj

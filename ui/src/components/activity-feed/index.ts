@@ -8,11 +8,12 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 interface Activity {
     id: number;
     user_hash: string;
-    user_id: number;
+    username: string;
     name: string;
     type: string;
     when: Date;
     recipe: RecipeStub;
+    slug?: string;
     text?: string;
 }
 
@@ -24,7 +25,7 @@ export class ActivityFeedViewComponent {
     constructor(
         authService: AuthService,
     ) {
-        this.user_id = authService.getUserData().user_id;
+        this.username = authService.getUserData().username;
     }
 
     // Stuff to show
@@ -36,7 +37,7 @@ export class ActivityFeedViewComponent {
     @Input() includeImage: boolean = true;
     @Input() title: string;
 
-    user_id: number;
+    username: string;
     faHeart = faHeart;
 
     activityFeed: Activity[];
@@ -47,8 +48,9 @@ export class ActivityFeedViewComponent {
             .map((r) => {
                 return {
                     id: r.id,
+                    slug: r.slug,
                     user_hash: r.added_by.user_hash,
-                    user_id: r.added_by.id,
+                    username: r.added_by.username,
                     name: `${r.added_by.first_name} ${r.added_by.last_name}`,
                     type: 'recipe',
                     when: r.created,
@@ -60,7 +62,7 @@ export class ActivityFeedViewComponent {
             return {
                 id: c.id,
                 user_hash: c.user.user_hash,
-                user_id: c.user.id,
+                username: c.user.username,
                 name: `${c.user.first_name} ${c.user.last_name}`,
                 type: 'comment',
                 when: c.created,

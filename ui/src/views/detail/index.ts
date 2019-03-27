@@ -27,7 +27,7 @@ export class RecipeDetailComponent {
         });
     }
 
-    fetchId(id: number) {
+    fetchId(id: string) {
         this.recipeService.getById(id).then((recipe) => {
             this.recipe = recipe;
             this.loading = false;

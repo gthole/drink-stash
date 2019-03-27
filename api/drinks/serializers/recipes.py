@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
-    CurrentUserDefault, IntegerField
+    CurrentUserDefault, IntegerField, CharField
 from .users import NestedUserSerializer
 from .tags import TagSerializer
 from .ingredients import NestedIngredientSerializer
@@ -22,6 +22,7 @@ class RecipeListSerializer(ModelSerializer):
         many=True,
         read_only=True
     )
+    slug = CharField(read_only=True)
     tags = TagSerializer(many=True)
     added_by = NestedUserSerializer(
         read_only=True,
@@ -32,6 +33,7 @@ class RecipeListSerializer(ModelSerializer):
        model = Recipe
        fields = (
            'id',
+           'slug',
            'name',
            'created',
            'added_by',
@@ -63,6 +65,7 @@ class NestedRecipeListSerializer(RecipeListSerializer):
        model = Recipe
        fields = (
            'id',
+           'slug',
            'name',
            'created',
            'added_by',
@@ -96,6 +99,7 @@ class RecipeSerializer(RecipeListSerializer):
         model = Recipe
         fields = (
             'id',
+            'slug',
             'name',
             'source',
             'directions',

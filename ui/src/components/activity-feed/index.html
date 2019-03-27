@@ -3,25 +3,25 @@
     <div class="mt-3 bg-grey-lighter -mx-4 lg:mx-0 px-4 py-3 mt-3">
         <div class="mt-6 mb-6 lg:mx-5 flex bg-white p-5" *ngFor="let a of activityFeed">
             <div class="mr-4" *ngIf="includeImage">
-                <a routerLink="/users/{{ a.user_id }}">
+                <a routerLink="/users/{{ a.username }}">
                     <img class="min-img w-10 h-10 rounded-full" src="https://www.gravatar.com/avatar/{{ a.user_hash }}.jpg?d=mp&size=64">
                 </a>
             </div>
             <div class="text-sm">
                 <p class="leading-none mb-1" class="text-grey-dark">
                     <span class="text-black">
-                        <a routerLink="/users/{{ a.user_id }}">{{ a.name }}</a>
+                        <a routerLink="/users/{{ a.username }}">{{ a.name }}</a>
                     </span>
                     <span *ngIf="a.type === 'recipe'"> added a recipe </span>
                     <span *ngIf="a.type === 'comment' && recipeTitle"> made a comment </span>
-                    <span *ngIf="a.type === 'comment' && user_id === a.user_id" class="text-grey-light">
+                    <span *ngIf="a.type === 'comment' && username === a.username" class="text-grey-light">
                         <a routerLink="/comments/{{ a.id }}">&nbsp;(edit)</a>
                     </span>
                 </p>
                 <p class="mb-3 text-grey"> {{ a.when | amTimeAgo }}</p>
 
                 <p class="font-bold" *ngIf="recipeTitle">
-                    <a routerLink="/recipes/{{ a.recipe.id }}">{{ a.recipe.name }}</a>
+                    <a routerLink="/recipes/{{ a.recipe.slug }}">{{ a.recipe.name }}</a>
                 </p>
                 <div *ngIf="recipeTitle && a.type === 'recipe'" class="text-grey-darker quantities text-sm">
                     <span *ngFor="let ingredient of a.recipe.ingredients" class="mr-2">

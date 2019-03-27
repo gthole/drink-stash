@@ -90,10 +90,6 @@ export class RecipeListComponent implements OnInit {
     }
 
     loadPage() {
-        this.example = this.exampleQueries[
-            Math.floor(Math.random() * this.exampleQueries.length)
-        ];
-
         this.loading = true;
         this.updateRoute();
         const query = this.toQueryParams();
@@ -103,6 +99,9 @@ export class RecipeListComponent implements OnInit {
             (resp: {count: number, results: RecipeStub[]}) => {
                 this.count = resp.count;
                 this.recipes = resp.results;
+                this.example = this.exampleQueries[
+                    Math.floor(Math.random() * this.exampleQueries.length)
+                ];
                 this.loading = false;
             },
             (err) => {

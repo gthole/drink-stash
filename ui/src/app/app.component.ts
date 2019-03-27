@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
     title = 'Drink Stash';
     loggedIn: boolean = false;
-    userId: number;
+    username: string;
     alerts: Alert[] = [];
     showMenu: boolean = false;
 
@@ -27,7 +27,7 @@ export class AppComponent {
             this.router.navigateByUrl('/login');
         } else {
             const data = this.authService.getUserData();
-            this.userId = data.user_id;
+            this.username = data.username;
             this.loggedIn = true;
         }
 

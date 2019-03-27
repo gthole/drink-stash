@@ -454,6 +454,7 @@
             "description": "A variation of the Josie Packard's Prosecutor with smoky amaro and Strega.",
             "directions": "Shake with ice, pour into coupe glass. Experiment with bitters and garnish, maybe a luxardo cherry. Experiment with Campari for color.",
             "name": "Special Counsel",
+            "slug": "special-counsel",
             "source": "Greg"
         },
         "model": "drinks.recipe",
@@ -466,6 +467,7 @@
             "description": "Easy to assemble but hard to forget, this Prohibition-era Last Word cocktail has found its way into a new generation of cocktail glasses thanks in part to Seattle-based bartender Murray Stenson who helped re-popularize the drink.",
             "directions": "Shake ingredients with ice and strain into a chilled glass.",
             "name": "Last Word",
+            "slug": "last-word",
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
@@ -478,6 +480,7 @@
             "description": "A popular history suggests that the drink originated at the Manhattan Club in New York City in the early 1870s, where it was invented by Dr. Iain Marshall for a banquet hosted by Jennie Jerome in honor of presidential candidate Samuel J. Tilden.",
             "directions": "Stir with ice, pour into cocktail glass and garnish with a maraschino cherry.",
             "name": "Manhattan",
+            "slug": "manhattan",
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
@@ -490,6 +493,7 @@
             "description": "The Sazerac is an unusual old-school drink with the fine distinction of The Official Cocktail of New Orleans. No garnish, no ice, no citrus juice - but deeply refreshing and smooth. It was originally made with Cognac, but since 1880 or so, rye whiskey has been the standard. And that's a good thing: Rye's peppery intensity gets a serious flavor going up front where Cognac might just lay back and take it.",
             "directions": "Coat a chilled old fashioned glass in Herbsaint.  Stir the other ingredients with ice, then double strain into the glass.  Pinch a lemon twist over the drink to express oils onto its surface, then rub the twist around the glass rim to coat. Discard the twist.",
             "name": "Sazerac",
+            "slug": "sazerac",
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
@@ -502,6 +506,7 @@
             "description": "",
             "directions": "Combine all ingredients in a mixing glass filled with ice. Stir until chilled and strain into a chilled coupe or cocktail glass. Garnish with an orange twist.",
             "name": "Toronto",
+            "slug": "toronto",
             "source": "Classic Cocktail"
         },
         "model": "drinks.recipe",
@@ -514,6 +519,7 @@
             "description": "While technically a childcare recovery drink should contain gin, this is a no-nonsense way to take the edge off without anything weird like cinnamon syrup or K\u00fcmmel or something.",
             "directions": "Shake with ice and strain into a coupe glass.",
             "name": "End of Childcare Day",
+            "slug": "end-of-childcare-day",
             "source": "Greg"
         },
         "model": "drinks.recipe",

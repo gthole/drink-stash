@@ -59,7 +59,7 @@ export class BaseService {
             });
     }
 
-    getById(id: number): Promise<any> {
+    getById(id: number | string): Promise<any> {
         return this.http
             .get(this.baseUrl + id + '/')
             .toPromise()

@@ -14,7 +14,7 @@
             </p>
           </li>
           <li class="mr-3 minwidth text-right">
-              <button *ngIf="loggedIn && userId" class="text-white text-3xl"
+              <button *ngIf="loggedIn && username" class="text-white text-3xl"
                   (click)="toggleMenu($event)">
                   &#9776;
               </button>
@@ -26,7 +26,7 @@
 
                   <div class="w-full py-3 px-4 hover:bg-teal border-b
                               border-b-2 border-grey">
-                      <a routerLink="/users/{{ userId }}">Your profile</a>
+                      <a routerLink="/users/{{ username }}">Your profile</a>
                   </div>
                   <div class="w-full py-3 px-4 hover:bg-teal">
                       <a (click)="logout()">Sign out</a>

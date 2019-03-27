@@ -29,6 +29,7 @@ class RecipeTestCase(BaseTestCase):
             resp.json()['results'][0],
             {
                 'added_by': {
+                    'username': 'admin',
                     'first_name': 'Dorothea',
                     'last_name': 'Brooke',
                     'id': 1,
@@ -36,6 +37,7 @@ class RecipeTestCase(BaseTestCase):
                 },
                 'comment_count': 0,
                 'created': '2019-02-09T23:56:01.918000Z',
+                'slug': 'end-of-childcare-day',
                 'id': 6,
                 'ingredients': ['Old Overholt Rye', 'St. Germain', 'Lemon Juice'],
                 'name': 'End of Childcare Day',
@@ -234,6 +236,34 @@ class RecipeTestCase(BaseTestCase):
             0
         )
 
+    def test_update_recipe_name(self):
+        tags = [
+            Tag.objects.create(name='bitter'),
+            Tag.objects.create(name='served up'),
+        ]
+        recipe = Recipe.objects.get(name='Special Counsel')
+        recipe.tags.add(Tag.objects.create(name='sweet'))
+        resp = self.client.put(
+            '/api/v1/recipes/%s/' % recipe.id,
+            {
+                'name': 'From Russia With Love',
+                'source': 'Greg, August 2018',
+                'directions': recipe.directions,
+                'description': recipe.description,
+                'tags': ['bitter', 'served up'],
+                'quantity_set': [
+                    {'amount': 1, 'unit': 1, 'ingredient': 'Rye'},
+                    {'amount': .75, 'unit': 1, 'ingredient': 'Strega'},
+                    {'amount': .75, 'unit': 1, 'ingredient': 'Sfumato'},
+                    {'amount': .75, 'unit': 1, 'ingredient': 'Lemon Juice'}
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+        recipe = Recipe.objects.get(name='From Russia With Love')
+        self.assertEqual(recipe.slug, 'from-russia-with-love')
+
     def test_update_recipe(self):
         tags = [
             Tag.objects.create(name='bitter'),
@@ -303,6 +333,7 @@ class RecipeTestCase(BaseTestCase):
             resp.json(),
             {
                 'added_by': {
+                    'username': 'admin',
                     'first_name': 'Dorothea',
                     'last_name': 'Brooke',
                     'id': 1,
@@ -311,6 +342,7 @@ class RecipeTestCase(BaseTestCase):
                 'comment_count': 0,
                 'created': '2018-10-10T14:14:40.019000Z',
                 'id': recipe.id,
+                'slug': 'special-counsel',
                 'name': 'Special Counsel',
                 'source': 'Greg',
                 'directions': recipe.directions,
@@ -344,3 +376,8 @@ class RecipeTestCase(BaseTestCase):
                 ]
             }
         )
+
+    def test_fetch_recipe_by_slug(self):
+        self.maxDiff = None
+        resp = self.client.get('/api/v1/recipes/special-counsel/')
+        self.assertEqual(resp.status_code, 200)

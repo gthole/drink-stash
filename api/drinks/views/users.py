@@ -1,4 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 from django.contrib.auth.models import User
@@ -18,3 +19,20 @@ class UserViewSet(LazyViewSet):
         queryset = queryset.annotate(comment_count=Count('comments', distinct=True))
         queryset = queryset.annotate(recipe_count=Count('recipe', distinct=True))
         return queryset
+
+    def get_object(self):
+        """
+        Get user by username or PK
+        """
+        queryset = self.get_queryset()
+        filter = {}
+
+        pk = self.kwargs['pk']
+        if pk.isdigit():
+            filter['pk'] = pk
+        else:
+            filter['username'] = pk
+
+        obj = get_object_or_404(queryset, **filter)
+        self.check_object_permissions(self.request, obj)
+        return obj

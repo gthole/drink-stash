@@ -24,11 +24,11 @@ export class ListEditComponent implements OnInit {
 
     list: List;
     recipes: Recipe[] = [];
-    user_id: number;
+    activeUser: {user_id: number, username: string};
     loading: boolean = true;
 
     ngOnInit() {
-        this.user_id = this.authService.getUserData().user_id;
+        this.activeUser = this.authService.getUserData();
         const id = this.route.snapshot.params.id,
               recipeIds = this.route.snapshot.queryParams.recipes;
 
@@ -42,8 +42,8 @@ export class ListEditComponent implements OnInit {
     getExisting(id) {
         this.listService.getById(id).then((list) => {
             this.loading = false;
-            if (list.user.id !== this.user_id) {
-                return this.router.navigateByUrl(`/users/${this.user_id}`);
+            if (list.user.id !== this.activeUser.user_id) {
+                return this.router.navigateByUrl(`/users/${this.activeUser.username}`);
             }
             this.list = list
         }, () => this.alertService.error());
@@ -61,7 +61,7 @@ export class ListEditComponent implements OnInit {
     delete(): void {
         this.loading = true;
         this.listService.remove(this.list)
-            .then(() => this.router.navigateByUrl(`/users/${this.user_id}`))
+            .then(() => this.router.navigateByUrl(`/users/${this.activeUser.username}`))
             .catch(() => this.alertService.error());
     }
 

@@ -7,13 +7,14 @@ FROM node:8-alpine
 ENV PATH ./node_modules/.bin:$PATH
 
 WORKDIR /app
-ADD ./ui /app
+ADD ./ui/package.json ./ui/package-lock.json /app/
 RUN npm install
+
+ADD ./ui /app
 RUN npm run compile
 
-
 # API
-FROM python:3.6-alpine
+FROM python:3.6-alpine3.7
 
 RUN apk add --update --no-cache dumb-init
 
