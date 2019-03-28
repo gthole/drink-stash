@@ -9,7 +9,7 @@ from rest_framework import routers
 
 from drinks.views import index, IngredientViewSet, RecipeViewSet, \
     UserViewSet, CommentViewSet, TagViewSet, UserListViewSet, \
-    UserListRecipeViewSet
+    UserListRecipeViewSet, UomViewSet
 
 router = routers.DefaultRouter()
 router.register(r'ingredients', IngredientViewSet)
@@ -18,6 +18,7 @@ router.register(r'comments', CommentViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'lists', UserListViewSet)
 router.register(r'list-recipes', UserListRecipeViewSet)
+router.register(r'uom', UomViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [

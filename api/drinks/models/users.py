@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db.models import Model, ForeignKey
-from .recipes import Ingredient
+from .ingredients import Ingredient
 from .base import DateMixin
 
 

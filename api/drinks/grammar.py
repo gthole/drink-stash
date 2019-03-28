@@ -3,7 +3,8 @@ from .models import Quantity
 from django.db.models import Q
 
 
-UNITS = dict([(v,k) for k, v in Quantity._meta.get_field('unit').choices])
+# TODO: Get these from DB
+UNITS = ('oz', 'dash', 'pinch', 'leaf', 'wedge')
 OPS = {
     '>': 'gt',
     '=': 'exact',
@@ -22,7 +23,7 @@ ALIASES = {
     'name': 'name',
     'directions': 'directions'
 }
-unit_keys = '"i|"'.join([k for k in UNITS.keys() if k])
+unit_keys = '"i|"'.join(UNITS)
 
 grammar = Lark('''
     // Top level grammar rules
@@ -100,7 +101,7 @@ def parse_search_and_filter(term, qs):
         amount = parse_number(tree.children[2])
 
         if len(tree.children) == 4:
-            unit = UNITS[tree.children[3].lower()]
+            unit = tree.children[3].lower()
         else:
             unit = 1
         kwargs = {

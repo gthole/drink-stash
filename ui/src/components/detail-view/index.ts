@@ -3,7 +3,6 @@ import { AlertService } from '../../services/alerts';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { Comment, CommentService } from '../../services/comments';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
-import { units } from '../../constants';
 import { User, UserService } from '../../services/users';
 import { faHeart, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { faSquare } from '@fortawesome/free-regular-svg-icons';
@@ -28,7 +27,6 @@ export class RecipeDetailViewComponent {
     @Output() output: EventEmitter<Recipe> = new EventEmitter<Recipe>();
 
     showQuantities: any[] = [];
-    units = units;
     faHeart = faHeart;
     faCheckSquare = faCheckSquare;
     faSquare = faSquare;

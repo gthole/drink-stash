@@ -15,6 +15,7 @@ import { ListService, ListRecipeService } from '../services/lists';
 import { IngredientService } from '../services/ingredients';
 import { RecipeService } from '../services/recipes';
 import { TagService } from '../services/tags';
+import { UomService } from '../services/uom';
 import { UserService } from '../services/users';
 
 import { FractionPipe } from '../pipes/fractions';
@@ -88,6 +89,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
         IngredientService,
         RecipeService,
         TagService,
+        UomService,
         UserService,
         {
             provide: HAMMER_GESTURE_CONFIG,

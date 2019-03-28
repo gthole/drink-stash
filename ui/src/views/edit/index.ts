@@ -3,8 +3,8 @@ import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { Ingredient, IngredientService } from '../../services/ingredients';
+import { UomService } from '../../services/uom';
 import { Router } from '@angular/router';
-import { units } from '../../constants';
 
 @Component({
     selector: 'recipe-edit',
@@ -16,14 +16,14 @@ export class RecipeEditComponent {
         private router: Router,
         private route: ActivatedRoute,
         private ingredientService: IngredientService,
+        private uomService: UomService,
         private recipeService: RecipeService,
         private _elementRef: ElementRef
     ) {}
 
     recipe: Recipe;
     ingredients: string[];
-    units = units;
-    objectKeys = Object.keys;
+    units: string[];
 
     error: string;
     loading: boolean;
@@ -31,9 +31,13 @@ export class RecipeEditComponent {
     ngOnInit() {
         this.loading = true;
         this.route.params.subscribe((params: {id}) => {
-            this.ingredientService.getPage().then((resp) => {
-                this.ingredients = _.reverse(_.sortBy(resp.results, 'usage'))
+            Promise.all([
+                this.ingredientService.getPage(),
+                this.uomService.getPage()
+            ]).then(([ingredResp, uomResp]) => {
+                this.ingredients = _.reverse(_.sortBy(ingredResp.results, 'usage'))
                     .map(i => i.name);
+                this.units = uomResp.results;
                 if (params.id) {
                     this.fetchId(params.id);
                 } else {

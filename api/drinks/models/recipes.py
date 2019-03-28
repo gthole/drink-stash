@@ -2,26 +2,13 @@ from django.db.models import ForeignKey, TextField, FloatField, CharField, \
     ManyToManyField, Model, IntegerField, BooleanField, Index, SlugField
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-from drinks.models.ingredients import Ingredient
 from .tags import Tag
 from .base import DateMixin
 
 
 class Quantity(Model):
     amount = FloatField()
-    unit = IntegerField(choices=(
-        (0, ''),
-        (1, 'oz'),
-        (2, 'dash'),
-        (3, 'barspoon'),
-        (4, 'pinch'),
-        (5, 'teaspoon'),
-        (6, 'tablespoon'),
-        (7, 'sprig'),
-        (8, 'leaf'),
-        (9, 'spritz'),
-        (10, 'wedge'),
-    ), null=True, blank=True)
+    unit = ForeignKey('Uom', default='oz')
     ingredient = ForeignKey('Ingredient')
     hidden = BooleanField(default=False)
     recipe = ForeignKey('Recipe')

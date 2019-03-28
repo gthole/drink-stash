@@ -31,6 +31,13 @@ class RecipeStub extends BaseModel {
 }
 
 
+interface Quantity {
+    amount: number;
+    unit: string;
+    ingredient: string;
+    name?: string;
+    hidden?: boolean;
+}
 
 class Recipe extends BaseModel {
     id: number;
@@ -42,7 +49,7 @@ class Recipe extends BaseModel {
     created: Date;
     added_by: any;
     comment_count: number;
-    quantities: any[];
+    quantities: Quantity[];
     tags: string[];
 
     constructor(payload) {
@@ -80,7 +87,7 @@ class Recipe extends BaseModel {
 
     addQuantity() {
         let amount = 1,
-            unit = 1;
+            unit = 'oz';
         if (this.quantities.length) {
             unit = this.quantities.slice(-1)[0].unit;
         }

@@ -5,7 +5,7 @@
         <tr *ngFor="let q of showQuantities" class="mb-3">
             <td style="text-align: right; padding: 3px 8px 3px 0; border-right: 1px solid #999" class="mr-2">
                 <span class="font-bold" [innerHTML]="q.amount | fractions"></span>
-                <span class="text-grey-darker text-s">&nbsp;{{ units[q.unit] }}</span>
+                <span class="text-grey-darker text-s">&nbsp;{{ q.unit }}</span>
             </td>
             <td class="align-middle leading-loose" style="padding: 0 0 0 8px;">{{ q.ingredient }}</td>
         </tr>
