@@ -1,3 +1,4 @@
+from django.test import TestCase
 from rest_framework.test import APIClient
 from drinks.models import Recipe, Comment, Tag
 from .base import BaseTestCase
@@ -381,3 +382,10 @@ class RecipeTestCase(BaseTestCase):
         self.maxDiff = None
         resp = self.client.get('/api/v1/recipes/special-counsel/')
         self.assertEqual(resp.status_code, 200)
+
+
+class FixturesTestCase(TestCase):
+    fixtures = ['users.json', 'classic-cocktails.json']
+
+    def test_classic_cocktail_fixtures_should_load(self):
+        Recipe.objects.count() > 0
