@@ -33,7 +33,7 @@
 
         <div class="w-1/5 px-2 mb-6">
             <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" [(ngModel)]="q.unit" name="unit-{{q.name}}">
-                <option *ngFor="let key of objectKeys(units)" value="{{ key }}">{{ units[key] }}</option>
+                <option *ngFor="let u of units" value="{{ u }}">{{ u }}</option>
             </select>
         </div>
         <div class="w-3/5 mb-6">

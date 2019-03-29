@@ -35,7 +35,7 @@
                 *ngFor="let r of recipes"
                 [ngClass]="{'bg-purple-lighter': recipe && recipe.id == r.id}"
                 [recipe]="r"
-                (click)="routeRecipe($event, r.id)"
+                (click)="routeRecipe($event, r.slug)"
                 (onClear)="clearRecipe(r.id, $event)">
             </recipe-card>
 

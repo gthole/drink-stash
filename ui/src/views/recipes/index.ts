@@ -13,7 +13,7 @@ interface RecipeViewMeta {
     filters: string[];
     tags: string[];
     filterByCabinet: boolean;
-    recipeId?: number;
+    recipeSlug?: string;
 }
 
 @Component({
@@ -40,7 +40,6 @@ export class RecipeListComponent implements OnInit {
     per_page: number = window.innerWidth >= 1060 ? 200 : 100;
     loading: boolean = true;
     recipeLoading: boolean = false;
-    blockClick: boolean = false;
 
     filter: string;
     meta: RecipeViewMeta;
@@ -67,7 +66,7 @@ export class RecipeListComponent implements OnInit {
                 filters: qp.search ? qp.search.split(',') : [],
                 tags: qp.tags ? qp.tags.split(',') : [],
                 filterByCabinet: qp.cabinet === 'true',
-                // recipeId: parseInt(qp.show) || null
+                // recipeSlug: qp.show || null
             };
             this.loadPage();
         });
@@ -80,7 +79,7 @@ export class RecipeListComponent implements OnInit {
 
         if (this.meta.page !== 1) query.page = '' + this.meta.page;
         if (this.meta.filterByCabinet) query.cabinet = 'true';
-        // if (this.meta.recipeId) query.show = '' + this.meta.recipeId;
+        // if (this.meta.recipeSlug) query.show = '' + this.meta.recipeSlug;
         return query;
     }
 
@@ -111,8 +110,8 @@ export class RecipeListComponent implements OnInit {
             }
         );
 
-        if (this.side_display && !this.recipe && this.meta.recipeId) {
-            this.routeRecipe(null, this.meta.recipeId);
+        if (this.side_display && !this.recipe && this.meta.recipeSlug) {
+            this.routeRecipe(null, this.meta.recipeSlug);
         }
     }
 
@@ -178,18 +177,18 @@ export class RecipeListComponent implements OnInit {
         this.recipes = this.recipes.filter((r) => r.id !== recipe_id);
     }
 
-    routeRecipe(ev: any, id: number) {
+    routeRecipe(ev: any, slug: string) {
         if (ev) ev.preventDefault();
         if (this.side_display) {
             this.recipeLoading = true;
-            this.recipeService.getById(id).then((recipe) => {
+            this.recipeService.getById(slug).then((recipe) => {
                 this.recipeLoading = false;
                 this.recipe = recipe;
-                this.meta.recipeId = id;
+                this.meta.recipeSlug = slug;
                 // this.updateRoute();
             });
         } else {
-            this.router.navigateByUrl(`/recipes/${id}`);
+            this.router.navigateByUrl(`/recipes/${slug}`);
         }
     }
 }

@@ -8,7 +8,7 @@ from .base import DateMixin
 
 class Quantity(Model):
     amount = FloatField()
-    unit = ForeignKey('Uom', default='oz')
+    unit = ForeignKey('Uom')
     ingredient = ForeignKey('Ingredient')
     hidden = BooleanField(default=False)
     recipe = ForeignKey('Recipe')
@@ -49,4 +49,4 @@ class Recipe(DateMixin):
     def save(self, *args, **kwargs):
         # Always do this on save - if the name changes, the slug should change
         self.slug = self._get_unique_slug()
-        super(Recipe, self).save(*args, **kwargs)
+        return super(Recipe, self).save(*args, **kwargs)
