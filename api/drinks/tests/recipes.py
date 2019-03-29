@@ -215,9 +215,9 @@ class RecipeTestCase(BaseTestCase):
                 'directions': 'Stir with ice and garnish with an orange peel',
                 'tags': ['bitter'],
                 'quantity_set': [
-                    {'amount': 1, 'unit': 1, 'ingredient': 'Gin'},
-                    {'amount': 1, 'unit': 1, 'ingredient': 'Campari'},
-                    {'amount': 1, 'unit': 1, 'ingredient': 'Sweet Vermouth'}
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Gin'},
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Campari'},
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Sweet Vermouth'}
                 ]
             },
             format='json'
@@ -252,10 +252,10 @@ class RecipeTestCase(BaseTestCase):
                 'description': recipe.description,
                 'tags': ['bitter', 'served up'],
                 'quantity_set': [
-                    {'amount': 1, 'unit': 1, 'ingredient': 'Rye'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Strega'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Sfumato'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Lemon Juice'}
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Rye'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Strega'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Sfumato'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Lemon Juice'}
                 ]
             },
             format='json'
@@ -280,10 +280,10 @@ class RecipeTestCase(BaseTestCase):
                 'description': recipe.description,
                 'tags': ['bitter', 'served up'],
                 'quantity_set': [
-                    {'amount': 1, 'unit': 1, 'ingredient': 'Rye'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Strega'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Sfumato'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Lemon Juice'}
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Rye'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Strega'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Sfumato'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Lemon Juice'}
                 ]
             },
             format='json'
@@ -307,9 +307,9 @@ class RecipeTestCase(BaseTestCase):
                 'directions': recipe.directions,
                 'description': recipe.description,
                 'quantity_set': [
-                    {'amount': 1, 'unit': 1, 'ingredient': 'Rye'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Strega'},
-                    {'amount': .75, 'unit': 1, 'ingredient': 'Gin'}
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Rye'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Strega'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Gin'}
                 ]
             },
             format='json'
@@ -352,25 +352,25 @@ class RecipeTestCase(BaseTestCase):
                     {
                         'amount': 1.0,
                         'hidden': False,
-                        'unit': 1,
+                        'unit': 'oz',
                         'ingredient': 'Rye'
                     },
                     {
                         'amount': .75,
                         'hidden': False,
-                        'unit': 1,
+                        'unit': 'oz',
                         'ingredient': 'Strega'
                     },
                     {
                         'amount': .75,
                         'hidden': False,
-                        'unit': 1,
+                        'unit': 'oz',
                         'ingredient': 'Sfumato'
                     },
                     {
                         'amount': .75,
                         'hidden': False,
-                        'unit': 1,
+                        'unit': 'oz',
                         'ingredient': 'Lemon Juice'
                     }
                 ]

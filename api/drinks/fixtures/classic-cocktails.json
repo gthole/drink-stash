@@ -221,7 +221,7 @@
             "hidden": false,
             "ingredient": 1,
             "recipe": 0,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 0
@@ -232,7 +232,7 @@
             "hidden": false,
             "ingredient": 10,
             "recipe": 0,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 1
@@ -243,7 +243,7 @@
             "hidden": false,
             "ingredient": 13,
             "recipe": 0,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 2
@@ -254,7 +254,7 @@
             "hidden": false,
             "ingredient": 11,
             "recipe": 0,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 3
@@ -265,7 +265,7 @@
             "hidden": false,
             "ingredient": 3,
             "recipe": 1,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 4
@@ -276,7 +276,7 @@
             "hidden": false,
             "ingredient": 5,
             "recipe": 1,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 5
@@ -287,7 +287,7 @@
             "hidden": false,
             "ingredient": 14,
             "recipe": 1,
-            "unit": 2
+            "unit": "dash"
         },
         "model": "drinks.quantity",
         "pk": 6
@@ -298,7 +298,7 @@
             "hidden": false,
             "ingredient": 1,
             "recipe": 2,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 7
@@ -309,7 +309,7 @@
             "hidden": false,
             "ingredient": 7,
             "recipe": 2,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 8
@@ -320,7 +320,7 @@
             "hidden": false,
             "ingredient": 5,
             "recipe": 2,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 9
@@ -331,7 +331,7 @@
             "hidden": false,
             "ingredient": 3,
             "recipe": 3,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 10
@@ -342,7 +342,7 @@
             "hidden": false,
             "ingredient": 7,
             "recipe": 3,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 11
@@ -353,7 +353,7 @@
             "hidden": false,
             "ingredient": 5,
             "recipe": 3,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 12
@@ -364,7 +364,7 @@
             "hidden": false,
             "ingredient": 4,
             "recipe": 4,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 13
@@ -375,7 +375,7 @@
             "hidden": false,
             "ingredient": 6,
             "recipe": 4,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 14
@@ -386,7 +386,7 @@
             "hidden": false,
             "ingredient": 8,
             "recipe": 4,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 15
@@ -397,7 +397,7 @@
             "hidden": false,
             "ingredient": 16,
             "recipe": 4,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 16
@@ -408,7 +408,7 @@
             "hidden": false,
             "ingredient": 9,
             "recipe": 4,
-            "unit": 2
+            "unit": "dash"
         },
         "model": "drinks.quantity",
         "pk": 17
@@ -419,7 +419,7 @@
             "hidden": false,
             "ingredient": 0,
             "recipe": 5,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 18
@@ -430,7 +430,7 @@
             "hidden": false,
             "ingredient": 11,
             "recipe": 5,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 19
@@ -441,7 +441,7 @@
             "hidden": false,
             "ingredient": 17,
             "recipe": 5,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 20
@@ -452,7 +452,7 @@
             "hidden": false,
             "ingredient": 3,
             "recipe": 6,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 21
@@ -463,7 +463,7 @@
             "hidden": false,
             "ingredient": 2,
             "recipe": 6,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 22
@@ -474,7 +474,7 @@
             "hidden": false,
             "ingredient": 5,
             "recipe": 6,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 23
@@ -485,7 +485,7 @@
             "hidden": false,
             "ingredient": 12,
             "recipe": 6,
-            "unit": 1
+            "unit": "oz"
         },
         "model": "drinks.quantity",
         "pk": 24
@@ -496,7 +496,7 @@
             "hidden": false,
             "ingredient": 15,
             "recipe": 6,
-            "unit": 2
+            "unit": "dash"
         },
         "model": "drinks.quantity",
         "pk": 25
@@ -507,7 +507,7 @@
             "hidden": false,
             "ingredient": 14,
             "recipe": 6,
-            "unit": 2
+            "unit": "dash"
         },
         "model": "drinks.quantity",
         "pk": 26
