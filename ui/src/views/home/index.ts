@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { CacheService } from '../../services/cache';
 import { Comment, CommentService } from '../../services/comments';
-import { faGlassMartiniAlt, faWineBottle, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { faGlassMartiniAlt, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -26,7 +26,7 @@ export class HomeViewComponent implements OnInit {
 
     // Icons
     faGlassMartiniAlt = faGlassMartiniAlt;
-    faWineBottle = faWineBottle;
+    faPlus = faPlus;
     faBookmark = faBookmark;
     faRandom = faRandom;
 

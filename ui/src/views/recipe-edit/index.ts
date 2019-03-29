@@ -30,7 +30,7 @@ export class RecipeEditComponent {
 
     ngOnInit() {
         this.loading = true;
-        this.route.params.subscribe((params: {id}) => {
+        this.route.params.subscribe((params: {slug}) => {
             Promise.all([
                 this.ingredientService.getPage(),
                 this.uomService.getPage()
@@ -38,8 +38,8 @@ export class RecipeEditComponent {
                 this.ingredients = _.reverse(_.sortBy(ingredResp.results, 'usage'))
                     .map(i => i.name);
                 this.units = uomResp.results;
-                if (params.id) {
-                    this.fetchId(params.id);
+                if (params.slug) {
+                    this.fetchId(params.slug);
                 } else {
                     this.recipe = Recipe.createNew();
                     this.doneLoading();
@@ -48,8 +48,8 @@ export class RecipeEditComponent {
         });
     }
 
-    fetchId(id: number) {
-        this.recipeService.getById(id).then((recipe) => {
+    fetchId(slug: string) {
+        this.recipeService.getById(slug).then((recipe) => {
             this.recipe = recipe;
             this.doneLoading();
         });

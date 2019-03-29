@@ -42,6 +42,7 @@ export class ListEditComponent implements OnInit {
     getExisting(id) {
         this.listService.getById(id).then((list) => {
             this.loading = false;
+            // If the user is trying to edit someone else's list, just go home
             if (list.user.id !== this.activeUser.user_id) {
                 return this.router.navigateByUrl(`/users/${this.activeUser.username}`);
             }
@@ -50,6 +51,12 @@ export class ListEditComponent implements OnInit {
     }
 
     getNew(recipeIds: string) {
+        // Redirect to correct username creation endpoint
+        const username = this.route.snapshot.params.username;
+        if (username !== this.activeUser.username) {
+            return this.router.navigateByUrl(`/users/${this.activeUser.username}/lists/new`);
+        }
+
         if (recipeIds) {
             this.recipeService.getPage({id__in: recipeIds})
                 .then((resp) => this.recipes = resp.results);

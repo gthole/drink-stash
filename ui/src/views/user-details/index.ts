@@ -26,11 +26,10 @@ export class UserDetailsViewComponent implements OnInit {
     comments: Comment[];
 
     ngOnInit() {
-        this.route.params.subscribe((params: {id}) => {
+        this.route.params.subscribe((params: {username}) => {
             this.activeUser = this.authService.getUserData();
-            this.userService.getById(params.id).then((user) => {
+            this.userService.getById(params.username).then((user) => {
                 this.user = user;
-
                 const query = {user: user.id, ordering: '-created'};
                 this.commentService.getPage(query)
                     .then((comments) => this.comments = comments.results);

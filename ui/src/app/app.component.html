@@ -3,7 +3,7 @@
     <div class="container">
         <ul class="list-reset flex justify-between">
           <li class="mr-3 minwidth">
-              <p class="inline-block rounded py-2 px-4" >
+              <p class="inline-block rounded py-2 px-4 cursor-pointer" >
                   <span (click)="goBack()" class="back" *ngIf="hasHistory()">&#8592;</span>
                   &nbsp;
               </p>
@@ -36,7 +36,7 @@
         </ul>
     </div>
 </div>
-<div class="mt-24 px-4 container bg-white">
+<div class="pt-24 px-4 container">
     <div class="mb-12 border-l-4 p-4"
         [ngClass]="{
             'bg-red-lightest border-red text-red-dark': alert.header === 'Error',

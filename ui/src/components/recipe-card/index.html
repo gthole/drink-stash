@@ -8,9 +8,7 @@
         {{ recipe.comment_count }}
     </div>
 
-    <p class="title text-xl">
-        <a routerLink="/recipes/{{ recipe.slug }}">{{ recipe.name }}</a>
-    </p>
+    <p class="title text-xl">{{ recipe.name }}</p>
     <div class="text-grey-dark quantities">
         <span *ngFor="let ingredient of recipe.ingredients" class="mr-2">
             {{ ingredient }}

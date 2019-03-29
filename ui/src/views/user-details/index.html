@@ -1,7 +1,8 @@
 <div class="flex flex-wrap" *ngIf="user">
     <div class="flex mb-6 flex-wrap content-start w-full lg:w-1/2">
         <div class="flex w-full lg:mb-10">
-            <img style="max-height: 128px" class="flex-no-shrink rounded-full mr-4" src="https://www.gravatar.com/avatar/{{ user.user_hash }}.jpg?d=mp&size=128">
+            <img style="max-height: 128px" class="flex-no-shrink rounded-full mr-4"
+                 src="https://www.gravatar.com/avatar/{{ user.user_hash }}.jpg?d=mp&size=128">
 
             <div class="w-full mx-3">
                 <div class="mb-6">
@@ -11,17 +12,17 @@
                     <p class="text-grey-dark">Made {{ user.comment_count }}
                     <span [innerHTML]="user.comment_count === 1 ? 'comment' : 'comments'"></span>.</p>
                 </div>
-                <a *ngIf="user.id === activeUser.user_id" class="bg-purple-dark hover:bg-purple-darker text-white py-2 px-4 rounded focus:bg-purple-darker text-sm" routerLink="/lists/new">
-            &#43; New List
-                </a>
+                <a *ngIf="user.id === activeUser.user_id"
+                    class="bg-purple-dark hover:bg-purple-darker text-white py-2 px-4 rounded focus:bg-purple-darker text-sm"
+                    routerLink="/users/{{ activeUser.username }}/cabinet">Liquor Cabinet</a>
             </div>
         </div>
 
         <div class="w-full">
-            <p class="w-full mt-12 lg:mt-0 block uppercase tracking-wide font-bold text-grey-darker text-center">Lists</p>
+            <p class="w-full mt-12 mb-2 lg:mt-0 block uppercase tracking-wide font-bold text-grey-darker text-center">Lists</p>
             <div *ngIf="lists">
-                <div *ngFor="let list of lists">
-                    <div class="py-4">
+                <div *ngFor="let list of lists" class="bg-white px-4 py-3 mb-3">
+                    <div class="py-2">
                         <div>
                             <a routerLink="/lists/{{ list.id }}"
                                class="font-bold text-xl text-grey-darker mb-2 mr-1">
@@ -38,6 +39,10 @@
                     <p class="mt-3 text-grey-dark text-sm text-center">(No lists here yet!)</p>
                 </div>
             </div>
+            <div class="text-center text-sm mt-6 mb-6">
+
+                <a routerLink="/users/{{ user.username }}/lists" class="bg-transparent hover:bg-purple-dark text-purple-darker font-semibold hover:text-white py-2 px-4 border border-purple-darker hover:border-transparent rounded">All lists</a>
+            </div>
         </div>
     </div>
 
@@ -47,7 +52,6 @@
             [title]="'Activity'"
             [comments]="comments"
             [recipeTitle]="true"
-            [includeImage]="false"
         ></activity-feed>
     </div>
 </div>

@@ -32,6 +32,7 @@
                 No matches
             </div>
             <recipe-card
+                class="cursor-pointer"
                 *ngFor="let r of recipes"
                 [ngClass]="{'bg-purple-lighter': recipe && recipe.id == r.id}"
                 [recipe]="r"

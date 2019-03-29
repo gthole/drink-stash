@@ -26,16 +26,18 @@ import { TagEditComponent } from '../components/tag-edit';
 import { ActivityFeedViewComponent } from '../components/activity-feed';
 import { RecipeCardComponent } from '../components/recipe-card';
 import { RecipeDetailViewComponent } from '../components/detail-view';
-import { RecipeEditComponent } from '../views/edit';
+
+import { RecipeEditComponent } from '../views/recipe-edit';
 import { ListDetailsComponent } from '../views/list-details';
 import { ListEditComponent } from '../views/list-edit';
+import { ListViewComponent } from '../views/lists';
 import { CommentEditComponent } from '../views/comment-edit';
-import { RecipeDetailComponent } from '../views/detail';
+import { RecipeDetailComponent } from '../views/recipe-detail';
 import { RecipeListComponent } from '../views/recipes';
-import { RandomRecipeComponent } from '../views/random';
+import { RandomRecipeComponent } from '../views/recipe-random';
 import { HomeViewComponent } from '../views/home';
-import { UserCabinetComponent } from '../views/cabinet';
 import { LoginViewComponent } from '../views/login';
+import { UserCabinetComponent } from '../views/user-cabinet';
 import { UserDetailsViewComponent } from '../views/user-details';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -58,6 +60,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
         CommentEditComponent,
         ListDetailsComponent,
         ListEditComponent,
+        ListViewComponent,
         RecipeEditComponent,
         RecipeDetailComponent,
         RecipeDetailViewComponent,

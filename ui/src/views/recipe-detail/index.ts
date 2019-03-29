@@ -22,13 +22,13 @@ export class RecipeDetailComponent {
 
     ngOnInit() {
         this.loading = true;
-        this.route.params.subscribe((params: {id}) => {
-            this.fetchId(params.id);
+        this.route.params.subscribe((params: {slug}) => {
+            this.fetchId(params.slug);
         });
     }
 
-    fetchId(id: string) {
-        this.recipeService.getById(id).then((recipe) => {
+    fetchId(slug: string) {
+        this.recipeService.getById(slug).then((recipe) => {
             this.recipe = recipe;
             this.loading = false;
         })

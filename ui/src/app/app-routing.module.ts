@@ -1,32 +1,34 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RecipeEditComponent } from '../views/edit';
+import { RecipeEditComponent } from '../views/recipe-edit';
 import { CommentEditComponent } from '../views/comment-edit';
-import { RecipeDetailComponent } from '../views/detail';
+import { RecipeDetailComponent } from '../views/recipe-detail';
 import { RecipeListComponent } from '../views/recipes';
 import { ListEditComponent } from '../views/list-edit';
 import { ListDetailsComponent } from '../views/list-details';
-import { RandomRecipeComponent } from '../views/random';
+import { ListViewComponent } from '../views/lists';
+import { RandomRecipeComponent } from '../views/recipe-random';
 import { HomeViewComponent } from '../views/home';
-import { UserCabinetComponent } from '../views/cabinet';
+import { UserCabinetComponent } from '../views/user-cabinet';
 import { UserDetailsViewComponent } from '../views/user-details';
 import { LoginViewComponent } from '../views/login';
 
 const routes: Routes = [
     {path: '', component: HomeViewComponent},
-    {path: 'recipes/:id/edit', component: RecipeEditComponent},
-    {path: 'recipes/:id', component: RecipeDetailComponent},
+    {path: 'recipes/:slug/edit', component: RecipeEditComponent},
+    {path: 'recipes/:slug', component: RecipeDetailComponent},
     {path: 'recipes', component: RecipeListComponent},
-    {path: 'lists/new', component: ListEditComponent},
-    {path: 'lists/:id', component: ListDetailsComponent},
-    {path: 'lists/:id/edit', component: ListEditComponent},
     {path: 'comments/:id', component: CommentEditComponent},
     {path: 'random', component: RandomRecipeComponent},
-    {path: 'cabinet', component: UserCabinetComponent},
     {path: 'new', component: RecipeEditComponent},
-    {path: 'users/:id', component: UserDetailsViewComponent},
-    {path: 'login', component: LoginViewComponent}
+    {path: 'login', component: LoginViewComponent},
+    {path: 'users/:username', component: UserDetailsViewComponent},
+    {path: 'users/:username/cabinet', component: UserCabinetComponent},
+    {path: 'users/:username/lists', component: ListViewComponent},
+    {path: 'users/:username/lists/new', component: ListEditComponent},
+    {path: 'users/:username/lists/:id', component: ListDetailsComponent},
+    {path: 'users/:username/lists/:id/edit', component: ListEditComponent},
 ];
 
 @NgModule({

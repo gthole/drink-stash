@@ -30,12 +30,13 @@
 
         <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 px-10">
             <div class="flex flex-wrap items-center justify-center">
-                <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/users/{{ activeUser.username }}">
+                <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/users/{{ activeUser.username }}/lists">
                     <fa-icon [icon]="faBookmark"></fa-icon>
                 </a>
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold">
-                        <a routerLink="/new">Build Lists</a></p>
+                        <a routerLink="/users/{{ activeUser.username }}/lists">Build Lists</a>
+                    </p>
                     <p class="text-sm mt-1 text-grey-dark">
                         Keep track of what you've tried and what you like, or
                         bookmark drinks to try later.</p>
@@ -45,15 +46,14 @@
 
         <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 px-10">
             <div class="flex flex-wrap items-center justify-center">
-                <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/cabinet">
-                    <fa-icon [icon]="faWineBottle"></fa-icon>
+                <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/new">
+                    <fa-icon [icon]="faPlus"></fa-icon>
                 </a>
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold">
-                        <a routerLink="/cabinet">Liquor Cabinet</a></p>
-                    <p class="text-sm mt-1 text-grey-dark">
-                        Track the liquor, bitters, and ingredients
-                        you have on hand.</p>
+                        <a routerLink="/new">Add Recipes</a></p>
+                    <p class="text-sm mt-1 text-grey-dark">Add your favorite recipes to the database
+                        and share with others.</p>
                 </div>
             </div>
         </div>
