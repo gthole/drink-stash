@@ -1,7 +1,7 @@
 <div *ngIf="user" class="row">
     <div class="list-detail-view" *ngIf="side_display && list"
          [ngClass]="{'loading-color': listLoading}">
-        <list-details [list_id]="list.id">
+        <list-details [list_id]="list.id" [standalone]="false">
         </list-details>
     </div>
     <div class="list-sidebar">
@@ -11,7 +11,7 @@
             </div>
             <a class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded focus:bg-purple-darker"
                 *ngIf="activeUser.user_id === user.id"
-                routerLink="/lists/new">
+                routerLink="/users/{{ activeUser.username }}/lists/new">
                 &#43; New List
             </a>
         </div>

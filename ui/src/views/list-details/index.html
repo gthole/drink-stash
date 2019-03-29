@@ -1,12 +1,12 @@
 <div class="flex flex-wrap" *ngIf="list">
-    <div class="flex mb-6 md:mb-10 flex-wrap content-start w-full">
+    <div class="flex mb-6 md:mb-10 flex-wrap content-start w-full" [ngClass]="{'md:w-1/3 md:px-4': standalone}">
         <div class="w-full">
             <p class="text-2xl">{{ list.name }}</p>
             <p class="text-grey-dark font-light mb-5">{{ list.recipe_count }} recipes</p>
 
             <div *ngIf="list.description" class="bg-grey-lighter mb-5 -mx-4 md:-mx-1 px-4 py-6">{{ list.description }}</div>
             <div class="text-grey-dark text-sm">
-                <a *ngIf="canEdit" routerLink="/lists/{{ list.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right text-base">
+                <a *ngIf="canEdit" routerLink="/users/{{ list.user.username }}/lists/{{ list.id }}/edit" class="bg-transparent hover:bg-purple-dark text-purple font-semibold hover:text-white py-2 px-4 border border-purple-dark hover:border-transparent rounded bump float-right text-base">
                     Edit
                 </a>
 
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="w-full" *ngIf="listRecipes">
+    <div class="w-full" *ngIf="listRecipes" [ngClass]="{'md:w-2/3 md:px-4': standalone}">
         <p class="w-full mt-12 lg:mt-0 mb-3 block uppercase tracking-wide font-bold text-grey-darker text-center">Recipes</p>
 
         <div class="mb-8" *ngFor="let lr of listRecipes">

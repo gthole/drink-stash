@@ -17,11 +17,13 @@ class NotModified(APIException):
 
 class LazyViewSet(ModelViewSet):
     def get_queryset(self):
+        queryset = super(LazyViewSet, self).get_queryset()
         modified = self.request.META.get('HTTP_IF_MODIFIED_SINCE')
         if modified:
-            parsed = date_parser.parse(modified)
-            if self.queryset.only('created').latest('created').created <= parsed:
+            since = date_parser.parse(modified)
+            if not self.check_last_modified(queryset, since):
                 raise NotModified
-        return self.queryset
+        return queryset
 
-
+    def check_last_modified(self, queryset, since):
+        return queryset.filter(created__gt=since).exists()

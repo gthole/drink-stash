@@ -136,3 +136,14 @@ STATICFILES_DIRS = [
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 DEBUG = (os.environ.get('DEBUG') == 'True')
 SECRET_KEY = os.environ.get('SECRET_KEY', 'foo')
+ADMINS = os.environ['ADMINS'].split(',') if os.environ.get('ADMINS') else []
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+if os.environ.get('EMAIL_HOST') and not DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+    EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+

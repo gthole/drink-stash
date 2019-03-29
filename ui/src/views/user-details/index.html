@@ -24,7 +24,7 @@
                 <div *ngFor="let list of lists" class="bg-white px-4 py-3 mb-3">
                     <div class="py-2">
                         <div>
-                            <a routerLink="/lists/{{ list.id }}"
+                            <a routerLink="/users/{{ user.username }}/lists/{{ list.id }}"
                                class="font-bold text-xl text-grey-darker mb-2 mr-1">
                                {{ list.name }}
                             </a>

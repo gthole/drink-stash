@@ -19,10 +19,33 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Uom)
 class UomAdmin(admin.ModelAdmin):
-    readonly_fields = ('name',)
     list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
+
+    def changeform_view(self, request, object_id=None, form_url='',
+                        extra_context=None):
+        """
+        Prevent editing, since the only field is the primary key
+        """
+        extra_context = extra_context or {}
+        if object_id is not None:
+            self.readonly_fields = ('name',)
+            self.show_save_and_add_another = False
+            extra_context = extra_context or {}
+            extra_context['show_save_and_continue'] = False
+            extra_context['show_save'] = False
+            # This apparently is calculated rather than taking a direct value
+            # extra_context['show_save_and_add_another'] = False
+        else:
+            extra_context['show_save_and_continue'] = False
+            self.readonly_fields = []
+        return super(UomAdmin, self).changeform_view(
+            request,
+            object_id,
+            form_url,
+            extra_context
+        )
 
 
 class QuantityInline(admin.TabularInline):

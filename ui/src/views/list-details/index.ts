@@ -18,6 +18,7 @@ export class ListDetailsComponent {
     ) {}
 
     @Input() list_id: number = null;
+    @Input() standalone: boolean = true;
     canEdit: boolean = false;
     loading: boolean = true;
     list: List;

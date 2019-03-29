@@ -75,7 +75,7 @@ export class ListEditComponent implements OnInit {
     update() {
         this.loading = true;
         this.listService.update(this.list).then(() => {
-            this.router.navigateByUrl(`/lists/${this.list.id}`);
+            this.router.navigateByUrl(`/users/${this.activeUser.username}/lists/${this.list.id}`);
         });
     }
 
@@ -89,7 +89,7 @@ export class ListEditComponent implements OnInit {
                 }));
             }))
             .then(
-                () => this.router.navigateByUrl(`/lists/${saved.id}`),
+                () => this.router.navigateByUrl(`/users/${this.activeUser.username}/lists/${saved.id}`),
                 () => this.alertService.error(err)
             );
         });

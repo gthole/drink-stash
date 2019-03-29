@@ -1,3 +1,5 @@
+from datetime import timedelta
+from django.utils.timezone import now
 from rest_framework.test import APIClient
 from drinks.models import Tag
 from .base import BaseTestCase
@@ -17,6 +19,22 @@ class TagTestCase(BaseTestCase):
             resp.json()['results'],
             ['bitter', 'sour']
         )
+
+    def test_304_unmodified(self):
+        Tag.objects.create(name='sour')
+        resp = self.client.get(
+            '/api/v1/tags/',
+            HTTP_IF_MODIFIED_SINCE=now().isoformat()
+        )
+        self.assertEqual(resp.status_code, 304)
+
+    def test_no_304_if_modified(self):
+        Tag.objects.create(name='sour')
+        resp = self.client.get(
+            '/api/v1/tags/',
+            HTTP_IF_MODIFIED_SINCE=(now() - timedelta(minutes=5)).isoformat()
+        )
+        self.assertEqual(resp.status_code, 200)
 
     def test_no_post(self):
         resp = self.client.post('/api/v1/tags/')
