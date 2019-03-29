@@ -31,14 +31,17 @@
             <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
                 No matches
             </div>
-            <recipe-card
-                class="cursor-pointer"
-                *ngFor="let r of recipes"
-                [ngClass]="{'bg-purple-lighter': recipe && recipe.id == r.id}"
-                [recipe]="r"
-                (click)="routeRecipe($event, r.slug)"
-                (onClear)="clearRecipe(r.id, $event)">
-            </recipe-card>
+            <div class="-mx-4 bg-grey-light">
+                <div class="mx-4">
+                    <recipe-card
+                        class="cursor-pointer"
+                        *ngFor="let r of recipes"
+                        [recipe]="r"
+                        (click)="routeRecipe($event, r.slug)"
+                        (onClear)="clearRecipe(r.id, $event)">
+                    </recipe-card>
+                </div>
+            </div>
 
             <div class="list mt-6" *ngIf="recipes && recipes.length"
                 [ngClass]="{'loading-color': loading}">

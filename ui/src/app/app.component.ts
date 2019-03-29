@@ -3,7 +3,11 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../services/auth';
 import { AlertService } from '../services/alerts';
+import { IngredientService } from '../services/ingredients';
+import { UomService } from '../services/uom';
+import { TagService } from '../services/tags';
 import { Router } from '@angular/router';
+import { faLongArrowAltLeft, faBars } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-root',
@@ -17,12 +21,31 @@ export class AppComponent {
     alerts: Alert[] = [];
     showMenu: boolean = false;
 
+    faLongArrowAltLeft = faLongArrowAltLeft;
+    faBars = faBars;
+
     constructor(
         private authService: AuthService,
         private alertService: AlertService,
+        private ingredientService: IngredientService,
+        private uomService: UomService,
+        private tagService: TagService,
         private location: Location,
         private router: Router,
     ) {
+        this.setLoggedInState();
+        this.alertService.alertTopic.subscribe(alrt => this.alerts.push(alrt));
+        this.authService.authUpdates.subscribe(() => this.setLoggedInState());
+
+        if (this.loggedIn) {
+            // Pre-populate this data and let the cache help out
+            this.ingredientService.getPage();
+            this.uomService.getPage();
+            this.tagService.getPage();
+        }
+    }
+
+    setLoggedInState() {
         if (!this.authService.isLoggedIn()) {
             this.router.navigateByUrl('/login');
         } else {
@@ -30,9 +53,6 @@ export class AppComponent {
             this.username = data.username;
             this.loggedIn = true;
         }
-
-        this.alertService.alertTopic.subscribe(alrt => this.alerts.push(alrt));
-        this.authService.authUpdates.subscribe(state => this.loggedIn = state);
     }
 
     hasHistory(): boolean {

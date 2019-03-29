@@ -91,30 +91,32 @@ export class BaseService {
 }
 
 export class BaseReadOnlyService {
+    cacheService: CacheService;
     http: HttpClient;
     baseUrl: string;
-    lastResponse: ServiceResponse<any>;
 
     getPage(): Promise<{results: any[]}> {
         const headers: {[header: string]: string} = {};
-        if (this.lastResponse) {
-            headers['If-Modified-Since'] = this.lastResponse.fetched;
+        let lastResponse = this.cacheService.get(this.baseUrl);
+        if (lastResponse) {
+            headers['If-Modified-Since'] = lastResponse.fetched;
         }
 
         return this.http
             .get(this.baseUrl, {headers, observe: 'response'})
             .toPromise()
             .then((res: any) => {
-                this.lastResponse = {
+                lastResponse = {
                     fetched: new Date(res.headers.get('Date')).toISOString(),
                     count: res.body.count,
                     results: res.body.results
                 };
-                return this.lastResponse;
+                this.cacheService.set(this.baseUrl, lastResponse);
+                return lastResponse;
             })
             .catch((err) => {
                 if (err.status === 304) {
-                    return Promise.resolve(this.lastResponse);
+                    return Promise.resolve(lastResponse);
                 }
             });
     }

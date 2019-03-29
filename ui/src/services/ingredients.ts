@@ -35,6 +35,7 @@ class IngredientService extends BaseReadOnlyService {
 
     constructor(
         public http: HttpClient,
+        public cacheService: CacheService,
     ) { super(); }
 
     baseUrl = '/api/v1/ingredients/';

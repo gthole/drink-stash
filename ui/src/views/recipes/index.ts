@@ -52,7 +52,7 @@ export class RecipeListComponent implements OnInit {
         'yellow chartreuse',
         'favorites >= 2',
         'comments = 0',
-        'source = classic cocktail',
+        'source = classic',
         'NOT juice',
         'lemon > 1/2 oz',
         'orgeat <= .25',

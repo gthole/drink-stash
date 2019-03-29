@@ -1,56 +1,55 @@
 <div (click)="closeMenu()">
-<div class="navbar w-full pin-t pin-l px-4 py-3 font-serif text-white bg-purple-darker">
-    <div class="container">
-        <ul class="list-reset flex justify-between">
-          <li class="mr-3 minwidth">
-              <p class="inline-block rounded py-2 px-4 cursor-pointer" >
-                  <span (click)="goBack()" class="back" *ngIf="hasHistory()">&#8592;</span>
-                  &nbsp;
-              </p>
-          </li>
-          <li class="mr-3 text-xl cursive">
-            <p class="inline-block py-2 text-title">
-                <a routerLink="/">{{ title }}</a>
-            </p>
-          </li>
-          <li class="mr-3 minwidth text-right">
-              <button *ngIf="loggedIn && username" class="text-white text-3xl"
-                  (click)="toggleMenu($event)">
-                  &#9776;
-              </button>
-              <div class="menu text-left shadow-md bg-white block"
-                   *ngIf="showMenu">
-                  <div class="w-full py-3 px-4 hover:bg-teal">
-                      <a routerLink="/new">Add new recipes</a>
+    <div class="navbar w-full pin-t pin-l px-4 py-3 font-serif text-white bg-purple-darker">
+        <div class="container">
+            <ul class="list-reset flex justify-between">
+              <li class="mr-3 minwidth">
+                  <p class="inline-block rounded py-2 px-4 cursor-pointer">
+                      <span (click)="goBack()" class="back" *ngIf="hasHistory()"><fa-icon [icon]="faLongArrowAltLeft"></fa-icon></span>
+                      &nbsp;
+                  </p>
+              </li>
+              <li class="mr-3 text-xl cursive">
+                <p class="inline-block py-2 text-title">
+                    <a routerLink="/">{{ title }}</a>
+                </p>
+              </li>
+              <li class="mr-3 minwidth text-right">
+                  <button *ngIf="loggedIn && username" class="text-white pt-1 text-2xl"
+                      (click)="toggleMenu($event)">
+                      <fa-icon [icon]="faBars"></fa-icon>
+                  </button>
+                  <div class="menu text-left shadow-lg bg-white block"
+                       *ngIf="showMenu">
+                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white"
+                              routerLink="/users/{{ username }}">Your profile</a>
+                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white"
+                              routerLink="/users/{{ username }}/lists">Your lists</a>
+                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white"
+                              routerLink="/new">Add new recipes</a>
+                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white border-b border-grey"
+                              routerLink="/users/{{ username }}/cabinet">Manage your liquor cabinet</a>
+                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white cursor-pointer"
+                              (click)="logout()">Sign out</a>
                   </div>
-
-                  <div class="w-full py-3 px-4 hover:bg-teal border-b
-                              border-b-2 border-grey">
-                      <a routerLink="/users/{{ username }}">Your profile</a>
-                  </div>
-                  <div class="w-full py-3 px-4 hover:bg-teal">
-                      <a (click)="logout()">Sign out</a>
-                  </div>
-              </div>
-          </li>
-        </ul>
+              </li>
+            </ul>
+        </div>
     </div>
-</div>
-<div class="pt-24 px-4 container">
-    <div class="mb-12 border-l-4 p-4"
-        [ngClass]="{
-            'bg-red-lightest border-red text-red-dark': alert.header === 'Error',
-            'bg-orange-lightest border-orange text-orange-dark': alert.header === 'Warning'
-        }"
-        role="alert"
-        *ngFor="let alert of alerts; let i = index">
-          <a href="#"
-             class="float-right text-bold text-grey"
-             (click)="dismiss($event, i)">
-             &times;</a>
-          <p class="font-bold">{{ alert.header }}</p>
-          <p>{{ alert.message }}</p>
+    <div class="pt-24 px-4 container">
+        <div class="mb-12 border-l-4 p-4"
+            [ngClass]="{
+                'bg-red-lightest border-red text-red-dark': alert.header === 'Error',
+                'bg-orange-lightest border-orange text-orange-dark': alert.header === 'Warning'
+            }"
+            role="alert"
+            *ngFor="let alert of alerts; let i = index">
+              <a href="#"
+                 class="float-right text-bold text-grey"
+                 (click)="dismiss($event, i)">
+                 &times;</a>
+              <p class="font-bold">{{ alert.header }}</p>
+              <p>{{ alert.message }}</p>
+        </div>
+        <router-outlet></router-outlet>
     </div>
-    <router-outlet></router-outlet>
-</div>
 </div>
