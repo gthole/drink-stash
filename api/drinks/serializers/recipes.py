@@ -91,6 +91,7 @@ class QuantitySerializer(ModelSerializer):
         fields = ('amount', 'unit', 'ingredient', 'hidden')
 
     def validate_unit(self, data):
+        "Custom validation here to allow the empty string unit"
         try:
             return get_object_or_404(Uom, name=data)
         except Http404:
