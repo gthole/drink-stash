@@ -1,10 +1,11 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
-    CurrentUserDefault, IntegerField, CharField
+    CurrentUserDefault, IntegerField, CharField, ValidationError
 from .users import NestedUserSerializer
 from .tags import TagSerializer
 from .ingredients import NestedIngredientSerializer
-from drinks.models import Recipe, Quantity
+from drinks.models import Recipe, Quantity, Uom
 
 
 class QuantityIngredientSerializer(BaseSerializer):
@@ -83,10 +84,17 @@ class NestedRecipeListSerializer(RecipeListSerializer):
 
 class QuantitySerializer(ModelSerializer):
     ingredient = NestedIngredientSerializer()
+    unit = CharField(allow_blank=True)
 
     class Meta:
         model = Quantity
         fields = ('amount', 'unit', 'ingredient', 'hidden')
+
+    def validate_unit(self, data):
+        try:
+            return get_object_or_404(Uom, name=data)
+        except Http404:
+            raise ValidationError('Unknown unit of measure')
 
 
 class RecipeSerializer(RecipeListSerializer):

@@ -384,6 +384,45 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 200)
 
 
+    def test_create_recipe_with_empty_unit(self):
+        resp = self.client.post(
+            '/api/v1/recipes/',
+            {
+                'name': 'Braulio Flip Out',
+                'source': 'Greg',
+                'description': 'A minty, custardy delight.',
+                'directions': 'Shake without ice and then with ice.',
+                'tags': [],
+                'quantity_set': [
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Amaro Braulio'},
+                    {'amount': 1, 'unit': '', 'ingredient': 'Egg'},
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 201)
+        recipe = Recipe.objects.get(name='Braulio Flip Out')
+        self.assertEqual(recipe.quantity_set.count(), 2)
+
+    def test_404_for_unknown_unit(self):
+        resp = self.client.post(
+            '/api/v1/recipes/',
+            {
+                'name': 'Braulio Flip Out',
+                'source': 'Greg',
+                'description': 'A minty, custardy delight.',
+                'directions': 'Shake without ice and then with ice.',
+                'tags': [],
+                'quantity_set': [
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Amaro Braulio'},
+                    {'amount': 1, 'unit': 'foo', 'ingredient': 'Egg'},
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 400)
+
+
 class FixturesTestCase(TestCase):
     fixtures = ['users.json', 'classic-cocktails.json']
 
