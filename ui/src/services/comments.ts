@@ -12,8 +12,8 @@ class Comment extends BaseModel {
     recipe: RecipeStub;
     rating: number;
     text: string;
-    created: Date;
-    updated?: Date;
+    created: string;
+    updated?: string;
 
     constructor(payload) {
         super();
@@ -22,11 +22,8 @@ class Comment extends BaseModel {
         this.recipe = new RecipeStub(payload.recipe);
         this.rating = payload.rating;
         this.text = payload.text;
-        if (payload.updated) {
-            this.updated = new Date(payload.updated);
-        }
-        this.created = new Date(payload.created);
-
+        this.updated = payload.updated;
+        this.created = payload.created;
         this.setHash();
     }
 

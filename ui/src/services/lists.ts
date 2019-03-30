@@ -12,9 +12,8 @@ export class List extends BaseModel {
     description: string
     recipe_count: number;
     added_to_recipe: boolean;
-
-    created: Date;
-    updated: Date;
+    created: string;
+    updated: string;
 
     constructor(payload) {
         super();
@@ -23,14 +22,8 @@ export class List extends BaseModel {
         this.name = payload.name;
         this.description = payload.description;
         this.recipe_count = payload.recipe_count;
-
-        if (payload.created) {
-            this.created = new Date(payload.created);
-        }
-        if (payload.updated) {
-            this.updated = new Date(payload.updated);
-        }
-
+        this.created = payload.created;
+        this.updated = payload.updated;
 
         this.setHash();
     }
@@ -62,8 +55,8 @@ export class ListRecipe extends BaseModel {
     recipe: RecipeStub;
     list: number;
     notes: string
-    created: Date;
-    updated: Date;
+    created: string;
+    updated: string;
 
     editing: boolean = false;
 
@@ -73,13 +66,8 @@ export class ListRecipe extends BaseModel {
         this.recipe = new RecipeStub(payload.recipe);
         this.notes = payload.notes;
         this.list = payload.user_list;
-
-        if (payload.created) {
-            this.created = new Date(payload.created);
-        }
-        if (payload.updated) {
-            this.updated = new Date(payload.updated);
-        }
+        this.created = payload.created;
+        this.updated = payload.updated;
 
         this.setHash();
     }

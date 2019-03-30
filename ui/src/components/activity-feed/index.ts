@@ -53,7 +53,7 @@ export class ActivityFeedViewComponent {
                     username: r.added_by.username,
                     name: `${r.added_by.first_name} ${r.added_by.last_name}`,
                     type: 'recipe',
-                    when: r.created,
+                    when: new Date(r.created),
                     recipe: r
                 };
             });
@@ -65,7 +65,7 @@ export class ActivityFeedViewComponent {
                 username: c.user.username,
                 name: `${c.user.first_name} ${c.user.last_name}`,
                 type: 'comment',
-                when: c.created,
+                when: new Date(c.created),
                 text: c.text,
                 recipe: c.recipe
             };
