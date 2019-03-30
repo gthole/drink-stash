@@ -6,12 +6,6 @@
     </div>
     <div class="recipe-sidebar" id="recipe-sidebar">
         <div id="wrapper" class="meta">
-            <button class="bg-transparent font-semibold py-2 px-4 border border-teal-dark rounded float-right no-bump"
-                [ngClass]="{'bg-teal-dark text-white': meta.filterByCabinet, 'text-teal-dark': !meta.filterByCabinet}"
-                (click)="toggleCabinet()">
-                <fa-icon [icon]="faWineBottle"></fa-icon>
-            </button>
-
             <h1>Recipes</h1>
             <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
                 <input id="search" class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter {{ count }} {{ count === 1 ? 'recipe' : 'recipes' }} (e.g. {{ example }})" [(ngModel)]="filter" (change)="addSearchFilter()" id="searchbar" [ngClass]="{'hide-placeholder': loading}">
@@ -23,15 +17,11 @@
                 }">
                     {{ f }} &times;
                 </div>
-                <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white bg-purple" *ngFor="let t of meta.tags" (click)="removeTagFilter(t)">
-                    {{ t }} &times;
-                </div>
-
             </div>
             <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
                 No matches
             </div>
-            <div class="-mx-4 bg-grey-light">
+            <div class="-mx-4 bg-grey-light" [ngClass]="{'loading-color': loading}">
                 <div class="mx-4">
                     <recipe-card
                         class="cursor-pointer"

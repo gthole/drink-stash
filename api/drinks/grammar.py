@@ -1,5 +1,5 @@
 from lark import Lark
-from .models import Quantity
+from .models import Quantity, Ingredient, UserIngredient
 from django.db.models import Q
 
 
@@ -32,10 +32,14 @@ grammar = Lark('''
            search_term | \
            attr_search | \
            exclude | \
+           cabinet | \
+           tags_constraint | \
            list_constraint
 
     attr_constraint.2: NUM_ATTR OPERATOR NUMBER
     list_constraint.2: "list" "=" SEARCH_TERM
+    tags_constraint.2: "tags" "=" SEARCH_TERM
+    cabinet: "cabinet" "=" ("true" | "1") | "cabinet"
     constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
     search_term: SEARCH_TERM
     attr_search: ATTR "=" SEARCH_TERM
@@ -105,6 +109,12 @@ def parse_search_and_filter(term, qs, user):
         term = '%s' % tree.children[0]
         return qs.filter(userlist__name__icontains=term, userlist__user=user)
 
+    if tree.data == 'tags_constraint':
+        tags = [t.strip() for t in ('%s' % tree.children[0]).split(',')]
+        for tag in tags:
+            qs = qs.filter(tags__name=tag)
+        return qs
+
     if tree.data == 'constraint':
         search = '%s' % tree.children[0]
         op = OPS['%s' % tree.children[1]]
@@ -126,5 +136,32 @@ def parse_search_and_filter(term, qs, user):
         kwargs = {}
         kwargs['%s__icontains' % tree.children[0]] = '%s' % tree.children[1]
         return qs.filter(**kwargs)
+
+    if tree.data == 'cabinet':
+        # Build out the user cabinet with substitutions in two directions
+        user_ingredients = Ingredient.objects.filter(
+            id__in=UserIngredient.objects.filter(
+                user=user
+            ).values('ingredient')
+        )
+        subs = Ingredient.objects.filter(substitutions__in=user_ingredients)
+        rsubs = Ingredient.objects.filter(
+            id__in=user_ingredients.values('substitutions')
+        )
+        rsubsplusone = Ingredient.objects.filter(substitutions__in=rsubs)
+
+        # Load the ids into memory, since we run into operational errors
+        # without evaluating at this point
+        cabinet = [
+            i for i in
+            user_ingredients.union(
+                subs, rsubs, rsubsplusone
+            ).values_list('id', flat=True)
+        ]
+
+        # Find all the quantities that require an ingredient the user
+        # doesn't have, and get all the recipes that don't have one of those
+        lacking = Quantity.objects.exclude(ingredient__in=cabinet)
+        return qs.exclude(quantity__in=lacking)
 
     return qs.none()

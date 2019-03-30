@@ -11,8 +11,6 @@ import { faWineBottle } from '@fortawesome/free-solid-svg-icons';
 interface RecipeViewMeta {
     page: number;
     filters: string[];
-    tags: string[];
-    filterByCabinet: boolean;
     recipeSlug?: string;
 }
 
@@ -43,6 +41,7 @@ export class RecipeListComponent implements OnInit {
 
     filter: string;
     meta: RecipeViewMeta;
+    qp: string;
 
     example: string = '';
     exampleQueries: string[] = [
@@ -57,43 +56,47 @@ export class RecipeListComponent implements OnInit {
         'NOT juice',
         'lemon > 1/2 oz',
         'orgeat <= .25',
-        'tags = sour, bitter',
+        'tags = served up',
+        'cabinet = true',
     ];
 
+    /*
+     * We get state changes through the query parameters, which means users
+     * can reload or come back to the same page again later.
+     */
     ngOnInit() {
         this.route.queryParams.subscribe((qp) => {
+            // If we've already loaded and the only difference is the recipe,
+            // then don't load the recipe data
+            if (this.meta && this.meta.recipeSlug !== qp.show) {
+                this.meta.recipeSlug = qp.show;
+                return;
+            }
+
+            // Set the meta object so that the view can update
+            let search;
+            if (qp.search && Array.isArray(qp.search)) {
+                search = qp.search;
+            } else if (qp.search) {
+                search = [qp.search];
+            }
             this.meta = {
                 page: parseInt(qp.page) || 1,
-                filters: qp.search ? qp.search.split(',') : [],
-                tags: qp.tags ? qp.tags.split(',') : [],
-                filterByCabinet: qp.cabinet === 'true',
-                // recipeSlug: qp.show || null
+                filters: search || [],
+                recipeSlug: qp.show || null
             };
             this.loadPage();
         });
     }
 
-    toQueryParams(): {[k: string]: string} {
-        const query: {[k: string]: string} = {};
-        if (this.meta.filters.length) query.search = this.meta.filters.join(',');
-        if (this.meta.tags.length) query.tags = this.meta.tags.join(',');
-
-        if (this.meta.page !== 1) query.page = '' + this.meta.page;
-        if (this.meta.filterByCabinet) query.cabinet = 'true';
-        // if (this.meta.recipeSlug) query.show = '' + this.meta.recipeSlug;
-        return query;
-    }
-
-    onResize() {
-        this.side_display = window.innerWidth >= 1060;
-        this.per_page = window.innerWidth >= 1060 ? 200 : 100;
-    }
-
     loadPage() {
         this.loading = true;
-        this.updateRoute();
-        const query = this.toQueryParams();
-        query.per_page = '' + this.per_page;
+
+        // Pull the query parameters to send to the API out of the meta object
+        const query: {[k: string]: string | number | string[]} = {};
+        if (this.meta.filters.length) query.search = this.meta.filters;
+        if (this.meta.page !== 1) query.page = this.meta.page;
+        query.per_page = this.per_page;
 
         this.recipeService.getPage(query).then(
             (resp: {count: number, results: RecipeStub[]}) => {
@@ -116,52 +119,48 @@ export class RecipeListComponent implements OnInit {
         }
     }
 
+    /*
+     * Page resize event
+     */
+
+    onResize() {
+        this.side_display = window.innerWidth >= 1060;
+        this.per_page = window.innerWidth >= 1060 ? 200 : 100;
+    }
+
+    /*
+     * User changes that go to the query parameters
+     */
+
+    updateRoute(overrides) {
+        const qp = _.cloneDeep(this.route.snapshot.queryParams);
+        Object.keys(overrides).forEach((k) => qp[k] = overrides[k]);
+        if (qp.page == '1') Reflect.deleteProperty(qp, 'page');
+        this.router.navigate(['recipes'], {replaceUrl: true, queryParams: qp});
+    }
+
     paginate(inc: number) {
         // Scroll to the top of the recipe sidebar
         const el = document.getElementById('recipe-sidebar');
         el.scrollTop = 0;
-        this.meta.page += inc;
-        this.updateRoute();
-    }
-
-    toggleCabinet() {
-        this.meta.page = 1;
-        this.meta.filterByCabinet = !this.meta.filterByCabinet;
-        this.updateRoute();
-    }
-
-    updateRoute() {
-        const query = this.toQueryParams();
-        this.router.navigate(['recipes'], {replaceUrl: true, queryParams: query});
+        this.updateRoute({page: this.meta.page + inc});
     }
 
     addSearchFilter() {
         if (!this.filter) return;
-        this.meta.page = 1;
         let term = this.filter.toLowerCase().trim();
-        if (term.match(/^tags? ?=/)) {
-            let tags = term.split('=')[1].split(',');
-            this.meta.tags = this.meta.tags.concat(tags.map((t) => t.trim()));
-        } else {
-            if (this.filter.slice(0, 4) === 'NOT ') {
-                term = 'NOT ' + term.slice(4);
-            }
-            this.meta.filters.push(term);
+        if (this.filter.slice(0, 4) === 'NOT ') {
+            term = 'NOT ' + term.slice(4);
         }
         this.filter = '';
-        this.updateRoute();
+
+        const filters = this.meta.filters.concat([term]);
+        this.updateRoute({page: 1, search: filters});
     }
 
     removeSearchFilter(f: string) {
-        this.meta.page = 1;
-        this.meta.filters = this.meta.filters.filter((g) => g != f);
-        this.updateRoute();
-    }
-
-    removeTagFilter(t: string) {
-        this.meta.page = 1;
-        this.meta.tags = this.meta.tags.filter((s) => s != t);
-        this.updateRoute();
+        const filters = this.meta.filters.filter((g) => g != f);
+        this.updateRoute({page: 1, search: filters});
     }
 
     // When changes are made in the detail view (comment, tags, etc.)
@@ -174,6 +173,7 @@ export class RecipeListComponent implements OnInit {
         stub.comment_count = recipe.comment_count;
     }
 
+    // Received on
     clearRecipe(recipe_id: number, save: boolean) {
         this.recipes = this.recipes.filter((r) => r.id !== recipe_id);
     }
@@ -185,8 +185,7 @@ export class RecipeListComponent implements OnInit {
             this.recipeService.getById(slug).then((recipe) => {
                 this.recipeLoading = false;
                 this.recipe = recipe;
-                this.meta.recipeSlug = slug;
-                // this.updateRoute();
+                if (ev) this.updateRoute({show: slug});
             });
         } else {
             this.router.navigateByUrl(`/recipes/${slug}`);

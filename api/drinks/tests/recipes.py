@@ -1,6 +1,7 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
-from drinks.models import Recipe, Comment, Tag, UserList, UserListRecipe
+from drinks.models import Recipe, Comment, Tag, UserList, UserListRecipe, \
+    UserIngredient, Ingredient
 from .base import BaseTestCase
 import time
 
@@ -182,6 +183,22 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['name'], 'Last Word')
 
+    def test_fetch_recipes_cabinet_filtering(self):
+        """
+        Filter by the ingredients in your liquor cabinet
+        """
+        for name in ['Gin', 'Green Chartreuse', 'Luxardo Maraschino', 'Lime Juice']:
+            UserIngredient(
+                user_id=1,
+                ingredient=Ingredient.objects.get(name=name)
+            ).save()
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'cabinet = true'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual(resp.json()['results'][0]['name'], 'Last Word')
+
     def test_fetch_recipes_comment_counts(self):
         """
         Comment counts should be returned
@@ -203,26 +220,41 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(result['name'], 'Last Word')
         self.assertEqual(result['comment_count'], 1)
 
-    def test_fetch_recipes_filter_by_comments(self):
+    def test_fetch_recipes_filter_by_tags(self):
         """
-        Return only recipes with comments
+        Return recipes with matching tags
         """
         recipe = Recipe.objects.get(name='Last Word')
-        comment = Comment(
-            user_id=1,
-            recipe_id=recipe.id,
-            text='Delicious!'
-        )
-        comment.save()
-        recipe.comments.add(comment)
+        tag = Tag.objects.create(name='bitter')
+        recipe.tags.add(tag)
         resp = self.client.get(
             '/api/v1/recipes/',
-            {'comments': 'true'}
+            {'search': 'tags = bitter'}
         )
         self.assertEqual(len(resp.json()['results']), 1)
         result = resp.json()['results'][0]
         self.assertEqual(result['name'], 'Last Word')
-        self.assertEqual(result['comment_count'], 1)
+
+    def test_fetch_recipes_filter_by_multiple_tags(self):
+        """
+        Return recipes with matching tags by AND
+        """
+        bitter = Tag.objects.create(name='bitter')
+        sour = Tag.objects.create(name='sour')
+
+        recipe = Recipe.objects.get(name='Toronto')
+        recipe.tags.add(bitter)
+        recipe.tags.add(sour)
+        recipe2 = Recipe.objects.get(name='Last Word')
+        recipe2.tags.add(sour)
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'tags = bitter, sour'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        result = resp.json()['results'][0]
+        self.assertEqual(result['name'], 'Toronto')
 
     def test_create_recipe(self):
         tag = Tag.objects.create(name='bitter')
@@ -401,7 +433,6 @@ class RecipeTestCase(BaseTestCase):
         self.maxDiff = None
         resp = self.client.get('/api/v1/recipes/special-counsel/')
         self.assertEqual(resp.status_code, 200)
-
 
     def test_create_recipe_with_empty_unit(self):
         resp = self.client.post(

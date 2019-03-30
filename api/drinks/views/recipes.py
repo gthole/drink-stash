@@ -34,66 +34,14 @@ class RecipeViewSet(LazyViewSet):
     def filter_queryset(self, *args, **kwargs):
         qs = super().filter_queryset(*args, **kwargs)
 
-        # Whether there are comments or not
-        if self.request.GET.get('comments') == 'true':
-            qs = self.filter_by_comments(qs)
-
-        # User ingredient cabinet
-        if self.request.GET.get('cabinet') == 'true':
-            qs = self.filter_by_cabinet(qs)
-
-        # Filter by tags
-        if self.request.GET.get('tags'):
-            for tag in self.request.GET.get('tags').split(','):
-                qs = qs.filter(tags__name=tag)
-
         # Searching names and ingredients
         if self.request.GET.get('search'):
-            qs = self.filter_by_search_terms(qs)
+            terms = self.request.GET.getlist('search')
+            for term in terms:
+                qs = parse_search_and_filter(term, qs, self.request.user)
+            qs = qs.distinct()
 
         return qs
-
-    def filter_by_comments(self, qs):
-        return qs.filter(comment_count__gt=0)
-
-    def filter_by_cabinet(self, qs):
-        # Build out the user cabinet with substitutions in two directions
-        user_ingredients = Ingredient.objects.filter(
-            id__in=UserIngredient.objects.filter(
-                user=self.request.user
-            ).values('ingredient')
-        )
-        subs = Ingredient.objects.filter(substitutions__in=user_ingredients)
-        rsubs = Ingredient.objects.filter(
-            id__in=user_ingredients.values('substitutions')
-        )
-        rsubsplusone = Ingredient.objects.filter(substitutions__in=rsubs)
-
-        # Load the ids into memory, since we run into operational errors
-        # without evaluating at this point
-        cabinet = [
-            i for i in
-            user_ingredients.union(
-                subs, rsubs, rsubsplusone
-            ).values_list('id', flat=True)
-        ]
-
-        # Find all the quantities that require an ingredient the user
-        # doesn't have, and get all the recipes that don't have one of those
-        lacking = Quantity.objects.exclude(ingredient__in=cabinet)
-        return qs.exclude(quantity__in=lacking)
-
-    def filter_by_tags(self, qs):
-        tags = self.request.GET.get('tags').split(',')
-        for tag in tags:
-            qs = qs.filter(tags__name=tag)
-        return qs
-
-    def filter_by_search_terms(self, qs):
-        terms = self.request.GET.get('search').split(',')
-        for term in terms:
-            qs = parse_search_and_filter(term, qs, self.request.user)
-        return qs.distinct()
 
     def get_object(self):
         """

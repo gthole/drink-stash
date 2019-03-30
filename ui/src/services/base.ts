@@ -31,7 +31,7 @@ export class BaseService {
     listModel: any;
 
     getPage(
-        query: {[k: string]: string | number} = {},
+        query: {[k: string]: string | number | string[]} = {},
         cached?: ServiceResponse<any>,
     ): Promise<ServiceResponse<any>> {
         const qs = stringify(query);
