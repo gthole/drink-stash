@@ -2,11 +2,8 @@ import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
-import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { User, UserService } from '../../services/users';
-import { Ingredient, IngredientService } from '../../services/ingredients';
-import { faWineBottle } from '@fortawesome/free-solid-svg-icons';
 
 interface RecipeViewMeta {
     page: number;
@@ -24,12 +21,9 @@ export class RecipeListComponent implements OnInit {
         private router: Router,
         private alertService: AlertService,
         private recipeService: RecipeService,
-        private ingredientService: IngredientService,
         private userService: UserService,
         private route: ActivatedRoute,
     ) {}
-
-    faWineBottle = faWineBottle;
 
     recipes: RecipeStub[];
     recipe: Recipe;
@@ -41,7 +35,6 @@ export class RecipeListComponent implements OnInit {
 
     filter: string;
     meta: RecipeViewMeta;
-    qp: string;
 
     example: string = '';
     exampleQueries: string[] = [
@@ -68,7 +61,8 @@ export class RecipeListComponent implements OnInit {
         this.route.queryParams.subscribe((qp) => {
             // If we've already loaded and the only difference is the recipe,
             // then don't load the recipe data
-            if (this.meta && this.meta.recipeSlug !== qp.show) {
+            if (this.meta && qp.show && this.meta.recipeSlug &&
+                    this.meta.recipeSlug !== qp.show) {
                 this.meta.recipeSlug = qp.show;
                 return;
             }
@@ -141,8 +135,12 @@ export class RecipeListComponent implements OnInit {
 
     paginate(inc: number) {
         // Scroll to the top of the recipe sidebar
-        const el = document.getElementById('recipe-sidebar');
-        el.scrollTop = 0;
+        if (this.side_display) {
+            const el = document.getElementById('recipe-sidebar');
+            el.scrollTop = 0;
+        } else {
+            window.scrollTo(0, 0);
+        }
         this.updateRoute({page: this.meta.page + inc});
     }
 
@@ -173,11 +171,12 @@ export class RecipeListComponent implements OnInit {
         stub.comment_count = recipe.comment_count;
     }
 
-    // Received on
+    // Received on swipe left event
     clearRecipe(recipe_id: number, save: boolean) {
         this.recipes = this.recipes.filter((r) => r.id !== recipe_id);
     }
 
+    // Either route to the recipe details view or display on the side
     routeRecipe(ev: any, slug: string) {
         if (ev) ev.preventDefault();
         if (this.side_display) {

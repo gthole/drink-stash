@@ -1,4 +1,4 @@
-<div class="row" (window:resize)="onResize()" *ngIf="meta">
+<div id="main" class="row" (window:resize)="onResize()" *ngIf="meta">
     <div class="detail-view" *ngIf="side_display && recipe"
          [ngClass]="{'loading-color': recipeLoading}">
         <recipe-detail-view [recipe]="recipe" (output)="refresh($event)">
