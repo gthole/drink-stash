@@ -5,7 +5,7 @@ import { Comment, CommentService } from '../../services/comments';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
 import { User, UserService } from '../../services/users';
 import { faHeart, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { faSquare } from '@fortawesome/free-regular-svg-icons';
+import { faSquare, faEdit } from '@fortawesome/free-regular-svg-icons';
 
 
 @Component({
@@ -30,6 +30,7 @@ export class RecipeDetailViewComponent {
     faHeart = faHeart;
     faCheckSquare = faCheckSquare;
     faSquare = faSquare;
+    faEdit = faEdit;
 
     editingTags: boolean = false;
     updatedTags: string[];
@@ -119,6 +120,10 @@ export class RecipeDetailViewComponent {
 
     closeDrop() {
         this.showModal = false;
+    }
+
+    addedLists(): List[] {
+        return this.lists.filter((l) => l.added_to_recipe);
     }
 
     /*

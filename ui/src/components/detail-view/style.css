@@ -20,6 +20,33 @@
     display: block !important;
 }
 
+.lists {
+  display: inline;
+  list-style: none;
+}
+
+.lists li {
+  display: inline;
+}
+
+.lists li:after {
+  content: "•";
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.lists li:first-child {
+  padding-right: 0;
+}
+
+.lists li:last-child {
+  padding-left: 0;
+}
+
+.lists li:last-child:after {
+    content: "";
+}
+
 /* Modal Content */
 .modal-content {
   position: fixed;
