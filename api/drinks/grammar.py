@@ -27,9 +27,15 @@ unit_keys = '"i|"'.join(UNITS)
 
 grammar = Lark('''
     // Top level grammar rules
-    start: attr_constraint | constraint | search_term | attr_search | exclude
+    start: attr_constraint | \
+           constraint | \
+           search_term | \
+           attr_search | \
+           exclude | \
+           list_constraint
 
     attr_constraint.2: NUM_ATTR OPERATOR NUMBER
+    list_constraint.2: "list" "=" SEARCH_TERM
     constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
     search_term: SEARCH_TERM
     attr_search: ATTR "=" SEARCH_TERM
@@ -59,7 +65,7 @@ def parse_number(token):
         return float(token)
 
 
-def parse_search_and_filter(term, qs):
+def parse_search_and_filter(term, qs, user):
     """
     TODO: Re-work this as a depth-first recursive processor so we can support
     arbitrarily nested queries ...for fun.
@@ -94,6 +100,10 @@ def parse_search_and_filter(term, qs):
         kwargs = {}
         kwargs['%s__%s' % (attr, op)] = amount
         return qs.filter(**kwargs)
+
+    if tree.data == 'list_constraint':
+        term = '%s' % tree.children[0]
+        return qs.filter(userlist__name__icontains=term, userlist__user=user)
 
     if tree.data == 'constraint':
         search = '%s' % tree.children[0]

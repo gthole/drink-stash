@@ -1,6 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
-from drinks.models import Recipe, Comment, Tag
+from drinks.models import Recipe, Comment, Tag, UserList, UserListRecipe
 from .base import BaseTestCase
 import time
 
@@ -151,6 +151,25 @@ class RecipeTestCase(BaseTestCase):
         )
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['id'], 2)
+
+    def test_fetch_recipes_with_list_constraint(self):
+        """
+        Constrain to a specific list
+        """
+        ul = UserList(name='Favorites', user_id=1)
+        ul.save()
+        UserListRecipe(recipe_id=1, user_list_id=ul.id).save()
+        UserListRecipe(recipe_id=3, user_list_id=ul.id).save()
+        ul2 = UserList(name='Favorites', user_id=2)
+        ul2.save()
+        UserListRecipe(recipe_id=2, user_list_id=ul2.id).save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'list = favorites'}
+        )
+        self.assertEqual(len(resp.json()['results']), 2)
+        self.assertEqual([r['id'] for r in resp.json()['results']], [3, 1])
 
     def test_fetch_recipes_search_negation(self):
         """

@@ -92,7 +92,7 @@ class RecipeViewSet(LazyViewSet):
     def filter_by_search_terms(self, qs):
         terms = self.request.GET.get('search').split(',')
         for term in terms:
-            qs = parse_search_and_filter(term, qs)
+            qs = parse_search_and_filter(term, qs, self.request.user)
         return qs.distinct()
 
     def get_object(self):

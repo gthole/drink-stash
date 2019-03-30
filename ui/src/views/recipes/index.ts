@@ -53,6 +53,7 @@ export class RecipeListComponent implements OnInit {
         'favorites >= 2',
         'comments = 0',
         'source = classic',
+        'list = favorites',
         'NOT juice',
         'lemon > 1/2 oz',
         'orgeat <= .25',
