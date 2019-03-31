@@ -31,7 +31,6 @@ export class AuthService {
 
     logout(): void {
         localStorage.clear();
-        this.cacheService.clear();
         this.loggedInState.next(false);
     }
 

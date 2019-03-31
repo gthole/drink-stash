@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from .base import BaseTestCase
 from drinks.models import Recipe, Comment
 
@@ -52,3 +53,11 @@ class CommentTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 400)
+
+    def test_304_unmodified(self):
+        resp = self.client.get(
+            '/api/v1/comments/',
+            HTTP_IF_MODIFIED_SINCE=now().isoformat(),
+            HTTP_X_COUNT='2'
+        )
+        self.assertEqual(resp.status_code, 304)

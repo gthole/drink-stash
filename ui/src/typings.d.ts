@@ -9,6 +9,10 @@ interface Alert {
     message: string;
 }
 
+interface QueryParams {
+    [k: string]: string | number | string[];
+}
+
 interface ServiceResponse<K> {
     fetched: string;
     count: number;

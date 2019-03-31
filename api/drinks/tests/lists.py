@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from .base import BaseTestCase
 from drinks.models import Recipe, UserList, UserListRecipe
 
@@ -36,7 +37,7 @@ class UserListTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(UserList.objects.get(id=1).name, 'Recipes I Really Love')
 
-    def test_remove_comment(self):
+    def test_remove_list(self):
         resp = self.client.delete('/api/v1/lists/1/')
         self.assertEqual(resp.status_code, 204)
         self.assertEqual(UserList.objects.filter(pk=1).count(), 0)
@@ -55,6 +56,14 @@ class UserListTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 400)
+
+    def test_304_unmodified_list(self):
+        resp = self.client.get(
+            '/api/v1/lists/',
+            HTTP_IF_MODIFIED_SINCE=now().isoformat(),
+            HTTP_X_COUNT='2'
+        )
+        self.assertEqual(resp.status_code, 304)
 
     def test_get_ulr_by_recipe(self):
         resp = self.client.get('/api/v1/list-recipes/', {'recipe': 1})
@@ -98,3 +107,11 @@ class UserListTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 201)
+
+    def test_304_unmodified(self):
+        resp = self.client.get(
+            '/api/v1/list-recipes/',
+            HTTP_IF_MODIFIED_SINCE=now().isoformat(),
+            HTTP_X_COUNT='3'
+        )
+        self.assertEqual(resp.status_code, 304)

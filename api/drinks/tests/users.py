@@ -1,6 +1,7 @@
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
 from drinks.models import UserIngredient
+from django.utils.timezone import now
 from .base import BaseTestCase
 
 

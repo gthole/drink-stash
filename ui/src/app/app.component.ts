@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../services/auth';
 import { AlertService } from '../services/alerts';
+import { CacheService } from '../services/cache';
+import { RecipeService } from '../services/recipes';
 import { IngredientService } from '../services/ingredients';
 import { UomService } from '../services/uom';
 import { TagService } from '../services/tags';
@@ -27,6 +29,8 @@ export class AppComponent {
     constructor(
         private authService: AuthService,
         private alertService: AlertService,
+        private cacheService: CacheService,
+        private recipeService: RecipeService,
         private ingredientService: IngredientService,
         private uomService: UomService,
         private tagService: TagService,
@@ -38,7 +42,11 @@ export class AppComponent {
         this.authService.authUpdates.subscribe(() => this.setLoggedInState());
 
         if (this.loggedIn) {
+            // Clear cache if it's been a while
+            this.cacheService.checkClear();
+
             // Pre-populate this data and let the cache help out
+            this.recipeService.getPage({per_page: 100});
             this.ingredientService.getPage();
             this.uomService.getPage();
             this.tagService.getPage();

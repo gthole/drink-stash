@@ -24,7 +24,8 @@ class TagTestCase(BaseTestCase):
         Tag.objects.create(name='sour')
         resp = self.client.get(
             '/api/v1/tags/',
-            HTTP_IF_MODIFIED_SINCE=now().isoformat()
+            HTTP_IF_MODIFIED_SINCE=now().isoformat(),
+            HTTP_X_COUNT='1'
         )
         self.assertEqual(resp.status_code, 304)
 
@@ -32,7 +33,17 @@ class TagTestCase(BaseTestCase):
         Tag.objects.create(name='sour')
         resp = self.client.get(
             '/api/v1/tags/',
-            HTTP_IF_MODIFIED_SINCE=(now() - timedelta(minutes=5)).isoformat()
+            HTTP_IF_MODIFIED_SINCE=(now() - timedelta(minutes=5)).isoformat(),
+            HTTP_X_COUNT='1'
+        )
+        self.assertEqual(resp.status_code, 200)
+
+    def test_no_304_if_inaccurate_last_count(self):
+        Tag.objects.create(name='sour')
+        resp = self.client.get(
+            '/api/v1/tags/',
+            HTTP_IF_MODIFIED_SINCE=now().isoformat(),
+            HTTP_X_COUNT='2'
         )
         self.assertEqual(resp.status_code, 200)
 

@@ -39,31 +39,29 @@ export class HomeViewComponent implements OnInit {
     };
 
     ngOnInit() {
-        const cached = this.cacheService.get('home');
         this.activeUser = this.authService.getUserData();
-        this.fetchActivityFeed(cached);
+        this.fetchActivityFeed();
     }
 
     routeToSearch() {
         this.router.navigate(['recipes'], {queryParams: {search: this.search}});
     }
 
-    fetchActivityFeed(cached) {
+    fetchActivityFeed() {
         const params = {
             per_page: 30,
             ordering: '-created'
         };
 
         Promise.all([
-            this.recipeService.getPage(params, _.get(cached, 'recipes')),
-            this.commentService.getPage(params, _.get(cached, 'comments')),
+            this.recipeService.getPage(params),
+            this.commentService.getPage(params)
         ]).then(
             ([recipeResp, commentResp]) => {
                 this.activities = {
                     recipes: recipeResp,
                     comments: commentResp,
                 };
-                this.cacheService.set('home', this.activities);
             },
             (err) => {
                 this.alertService.error(`Something went wrong, please reload

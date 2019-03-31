@@ -61,8 +61,7 @@ export class RecipeListComponent implements OnInit {
         this.route.queryParams.subscribe((qp) => {
             // If we've already loaded and the only difference is the recipe,
             // then don't load the recipe data
-            if (this.meta && qp.show && this.meta.recipeSlug &&
-                    this.meta.recipeSlug !== qp.show) {
+            if (this.meta && qp.show && this.meta.recipeSlug !== qp.show) {
                 this.meta.recipeSlug = qp.show;
                 return;
             }

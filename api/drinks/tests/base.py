@@ -28,5 +28,3 @@ class BaseTestCase(TestCase):
             {'username': username, 'password': 'negroni'}
         )
         return 'JWT %s' % resp.json()['token']
-
-

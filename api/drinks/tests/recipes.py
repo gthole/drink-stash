@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.timezone import now
 from rest_framework.test import APIClient
 from drinks.models import Recipe, Comment, Tag, UserList, UserListRecipe, \
     UserIngredient, Ingredient
@@ -68,6 +69,25 @@ class RecipeTestCase(BaseTestCase):
         )
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['name'], 'Toronto')
+
+    def test_304_on_filtered_list(self):
+        """
+        Search finds a recipe by ingredient
+        """
+        stamp = now().isoformat()
+        time.sleep(0.1)
+
+        recipe = Recipe.objects.get(name='Last Word')
+        recipe.updated = now()
+        recipe.save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'fernet'},
+            HTTP_IF_MODIFIED_SINCE=stamp,
+            HTTP_X_COUNT='1'
+        )
+        self.assertEqual(resp.status_code, 304)
 
     def test_fetch_recipes_search_constraint(self):
         """
@@ -471,6 +491,14 @@ class RecipeTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 400)
+
+    def test_304_unmodified(self):
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            HTTP_IF_MODIFIED_SINCE=now().isoformat(),
+            HTTP_X_COUNT='6'
+        )
+        self.assertEqual(resp.status_code, 304)
 
 
 class FixturesTestCase(TestCase):

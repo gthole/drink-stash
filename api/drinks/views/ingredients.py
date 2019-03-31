@@ -8,6 +8,7 @@ from drinks.views.base import LazyViewSet
 
 
 class IngredientViewSet(LazyViewSet):
+    audit_field = 'created'
     http_method_names = ['get', 'head']
     permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = Ingredient.objects.all()

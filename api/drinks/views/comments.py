@@ -21,10 +21,3 @@ class CommentViewSet(LazyViewSet):
         if self.request.method == 'GET':
             queryset = self.get_serializer_class().setup_eager_loading(queryset)
         return queryset
-
-    def filter_queryset(self, *args, **kwargs):
-        "Custom filtering to for exclude negations of users"
-        qs = super().filter_queryset(*args, **kwargs)
-        if self.request.GET.get('user!'):
-            qs = qs.exclude(user__id=self.request.GET.get('user!'))
-        return qs

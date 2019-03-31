@@ -16,14 +16,30 @@ class NotModified(APIException):
 
 
 class LazyViewSet(ModelViewSet):
-    def get_queryset(self):
-        queryset = super(LazyViewSet, self).get_queryset()
-        modified = self.request.META.get('HTTP_IF_MODIFIED_SINCE')
-        if modified:
-            since = date_parser.parse(modified)
-            if not self.check_last_modified(queryset, since):
-                raise NotModified
-        return queryset
+    audit_field = 'updated'
 
-    def check_last_modified(self, queryset, since):
-        return queryset.filter(created__gt=since).exists()
+    def filter_queryset(self, queryset):
+        filtered = super(LazyViewSet, self).filter_queryset(queryset)
+        self.check_last_modified(filtered)
+        return filtered
+
+    def check_last_modified(self, queryset):
+        """
+        Do some inexpensive querying to see if the data set is unchanged since
+        the last time it was requested
+        """
+        modified = self.request.META.get('HTTP_IF_MODIFIED_SINCE')
+        last_count = self.request.META.get('HTTP_X_COUNT')
+        if modified and last_count and last_count.isdigit():
+
+            # Check to see if any records have been updated since the last query
+            kw = {}
+            kw['%s__gt' % self.audit_field] = date_parser.parse(modified)
+            if queryset.filter(**kw).exists():
+                return
+
+            # Check to make sure the total is the same (no deletions)
+            last_count = int(last_count)
+            if queryset.count() != last_count:
+                return
+            raise NotModified

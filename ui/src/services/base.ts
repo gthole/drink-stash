@@ -30,27 +30,34 @@ export class BaseService {
     model: any;
     listModel: any;
 
-    getPage(
-        query: {[k: string]: string | number | string[]} = {},
-        cached?: ServiceResponse<any>,
-    ): Promise<ServiceResponse<any>> {
-        const qs = stringify(query);
+    getPage(query: QueryParams = {}): Promise<ServiceResponse<any>> {
         const model = this.listModel || this.model;
 
+        const qs = stringify(query);
+        const url = `${this.baseUrl}?${qs}`
+
+        let cached = this.cacheService.get(url);
         const headers: {[header: string]: string} = {};
         if (cached) {
             headers['If-Modified-Since'] = cached.fetched;
+            headers['X-Count'] = '' + cached.count;
         }
 
         return this.http
-            .get(`${this.baseUrl}?${qs}`, {headers, observe: 'response'})
+            .get(url, {headers, observe: 'response'})
             .toPromise()
             .then((res: HttpResponse<{count: number, results: any[]}>) => {
-                return {
+                const response = {
                     fetched: new Date(res.headers.get('Date')).toISOString(),
                     count: res.body.count,
-                    results: res.body.results.map(a => new model(a))
+                    results: res.body.results
                 };
+                if (model) {
+                    response.results = response.results
+                        .map((a) => new model(a));
+                }
+                this.cacheService.set(url, response);
+                return response;
             })
             .catch((err) => {
                 if (err.status === 304) {
@@ -83,41 +90,8 @@ export class BaseService {
     }
 
     remove(obj: any): Promise<any> {
-        this.cacheService.clear();
         return this.http
             .delete(this.baseUrl + obj.id + '/')
             .toPromise();
-    }
-}
-
-export class BaseReadOnlyService {
-    cacheService: CacheService;
-    http: HttpClient;
-    baseUrl: string;
-
-    getPage(): Promise<{results: any[]}> {
-        const headers: {[header: string]: string} = {};
-        let lastResponse = this.cacheService.get(this.baseUrl);
-        if (lastResponse) {
-            headers['If-Modified-Since'] = lastResponse.fetched;
-        }
-
-        return this.http
-            .get(this.baseUrl, {headers, observe: 'response'})
-            .toPromise()
-            .then((res: any) => {
-                lastResponse = {
-                    fetched: new Date(res.headers.get('Date')).toISOString(),
-                    count: res.body.count,
-                    results: res.body.results
-                };
-                this.cacheService.set(this.baseUrl, lastResponse);
-                return lastResponse;
-            })
-            .catch((err) => {
-                if (err.status === 304) {
-                    return Promise.resolve(lastResponse);
-                }
-            });
     }
 }

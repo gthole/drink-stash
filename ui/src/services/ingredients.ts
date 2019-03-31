@@ -3,7 +3,6 @@ import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { CacheService } from './cache';
-import { BaseReadOnlyService } from './base';
 
 
 class Ingredient extends BaseModel {
@@ -31,7 +30,7 @@ class Ingredient extends BaseModel {
 }
 
 @Injectable()
-class IngredientService extends BaseReadOnlyService {
+class IngredientService extends BaseService {
 
     constructor(
         public http: HttpClient,
@@ -39,6 +38,7 @@ class IngredientService extends BaseReadOnlyService {
     ) { super(); }
 
     baseUrl = '/api/v1/ingredients/';
+    model = Ingredient
 }
 
 export { Ingredient, IngredientService };

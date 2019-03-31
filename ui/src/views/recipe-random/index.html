@@ -3,7 +3,7 @@
         Shuffle
     </button>
 
-    <recipe-detail-view [recipe]="recipe"></recipe-detail-view>
+    <recipe-detail-view [recipe]="recipe" [showEdit]="false"></recipe-detail-view>
 </div>
 <div *ngIf="loading === false && !recipe" class="width-container text-center text-grey px-12">
     <p>Whoops - doesn't look like your liquor cabinet supports any drink

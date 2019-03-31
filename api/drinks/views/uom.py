@@ -6,6 +6,7 @@ from drinks.views.base import LazyViewSet
 
 
 class UomViewSet(LazyViewSet):
+    audit_field = 'created'
     http_method_names = ['get', 'head']
     queryset = Uom.objects.all().order_by('name')
     serializer_class = UomSerializer

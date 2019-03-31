@@ -32,7 +32,7 @@ class RecipeViewSet(LazyViewSet):
         return self.serializer_class
 
     def filter_queryset(self, *args, **kwargs):
-        qs = super().filter_queryset(*args, **kwargs)
+        qs = self.get_queryset()
 
         # Searching names and ingredients
         if self.request.GET.get('search'):
@@ -41,7 +41,7 @@ class RecipeViewSet(LazyViewSet):
                 qs = parse_search_and_filter(term, qs, self.request.user)
             qs = qs.distinct()
 
-        return qs
+        return super(RecipeViewSet, self).filter_queryset(qs)
 
     def get_object(self):
         """

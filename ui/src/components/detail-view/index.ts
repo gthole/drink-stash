@@ -24,6 +24,7 @@ export class RecipeDetailViewComponent {
     ) {}
 
     @Input() recipe: Recipe;
+    @Input() showEdit: boolean = true;
     @Output() output: EventEmitter<Recipe> = new EventEmitter<Recipe>();
 
     showQuantities: any[] = [];
@@ -57,7 +58,6 @@ export class RecipeDetailViewComponent {
             // Fill in related data
             this.getComments();
             this.getLists();
-            // this.getListRecipes();
         });
     }
 

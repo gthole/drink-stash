@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache';
-import { BaseReadOnlyService } from './base';
+import { BaseService } from './base';
 
 @Injectable()
-class UomService extends BaseReadOnlyService {
+class UomService extends BaseService {
 
     constructor(
         public http: HttpClient,
