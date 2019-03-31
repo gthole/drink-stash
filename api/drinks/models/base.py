@@ -8,3 +8,7 @@ class DateMixin(Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        self.updated = now()
+        super(DateMixin, self).save(*args, **kwargs)

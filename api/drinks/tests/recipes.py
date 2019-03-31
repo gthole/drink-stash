@@ -70,25 +70,6 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['name'], 'Toronto')
 
-    def test_304_on_filtered_list(self):
-        """
-        Search finds a recipe by ingredient
-        """
-        stamp = now().isoformat()
-        time.sleep(0.1)
-
-        recipe = Recipe.objects.get(name='Last Word')
-        recipe.updated = now()
-        recipe.save()
-
-        resp = self.client.get(
-            '/api/v1/recipes/',
-            {'search': 'fernet'},
-            HTTP_IF_MODIFIED_SINCE=stamp,
-            HTTP_X_COUNT='1'
-        )
-        self.assertEqual(resp.status_code, 304)
-
     def test_fetch_recipes_search_constraint(self):
         """
         Search finds a recipe with an ingredient constraint
@@ -492,6 +473,10 @@ class RecipeTestCase(BaseTestCase):
         )
         self.assertEqual(resp.status_code, 400)
 
+    #
+    # 304 Not modified tests
+    #
+
     def test_304_unmodified(self):
         resp = self.client.get(
             '/api/v1/recipes/',
@@ -499,6 +484,63 @@ class RecipeTestCase(BaseTestCase):
             HTTP_X_COUNT='6'
         )
         self.assertEqual(resp.status_code, 304)
+
+    def test_304_on_filtered_list(self):
+        """
+        Searching with last mod header ignores changes to results outside
+        the returned results
+        """
+        stamp = now().isoformat()
+        time.sleep(0.1)
+
+        recipe = Recipe.objects.get(name='Last Word')
+        recipe.updated = now()
+        recipe.save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'fernet'},
+            HTTP_IF_MODIFIED_SINCE=stamp,
+            HTTP_X_COUNT='1'
+        )
+        self.assertEqual(resp.status_code, 304)
+
+    def test_no_304_after_changes(self):
+        """
+        Changes to a recipe should not return a 304 when requested with a
+        previous timestamp
+        """
+        stamp = now().isoformat()
+        time.sleep(0.1)
+
+        recipe = Recipe.objects.get(name='Last Word')
+        recipe.description = 'Something tasty'
+        recipe.save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'last word'},
+            HTTP_IF_MODIFIED_SINCE=stamp,
+            HTTP_X_COUNT='1'
+        )
+        self.assertEqual(resp.status_code, 200)
+
+    def test_no_304_when_new_comment(self):
+        """
+        Comment changes should update the recipe response
+        """
+        stamp = now().isoformat()
+        time.sleep(0.1)
+
+        recipe = Recipe.objects.get(name='Last Word')
+        Comment(text='Foo!', user_id=1, recipe=recipe).save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            HTTP_IF_MODIFIED_SINCE=stamp,
+            HTTP_X_COUNT='6'
+        )
+        self.assertEqual(resp.status_code, 200)
 
 
 class FixturesTestCase(TestCase):

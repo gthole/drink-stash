@@ -61,3 +61,19 @@ class CommentTestCase(BaseTestCase):
             HTTP_X_COUNT='2'
         )
         self.assertEqual(resp.status_code, 304)
+
+    def test_no_304_after_update(self):
+        stamp = now().isoformat()
+        resp = self.client.put(
+            '/api/v1/comments/1/',
+            {'recipe': 2, 'text': 'Totally delicious!'},
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+
+        resp = self.client.get(
+            '/api/v1/comments/',
+            HTTP_IF_MODIFIED_SINCE=stamp,
+            HTTP_X_COUNT='2'
+        )
+        self.assertEqual(resp.status_code, 200)

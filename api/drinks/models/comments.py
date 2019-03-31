@@ -16,3 +16,8 @@ class Comment(DateMixin):
     user = ForeignKey(User, related_name='comments')
     recipe = ForeignKey(Recipe, related_name='comments')
     text = TextField()
+
+    def save(self, *args, **kwargs):
+        super(Comment, self).save(*args, **kwargs)
+        self.recipe.updated = self.updated
+        self.recipe.save()

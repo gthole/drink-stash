@@ -1,4 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
@@ -8,7 +9,7 @@ from drinks.permissions import ObjectOwnerPermissions
 from drinks.views.base import LazyViewSet
 
 
-class UserViewSet(LazyViewSet):
+class UserViewSet(ModelViewSet):
     http_method_names = ['get', 'put', 'head']
     permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = User.objects.all().order_by('id')

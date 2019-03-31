@@ -36,3 +36,8 @@ class UserListRecipe(DateMixin):
 
     def __str__(self):
         return '%s (%s)' % (self.name, self.id)
+
+    def save(self, *args, **kwargs):
+        super(UserListRecipe, self).save(*args, **kwargs)
+        self.user_list.updated = self.updated
+        self.user_list.save()
