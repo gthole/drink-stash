@@ -9,31 +9,20 @@ export class CacheService {
     ) { }
 
     set(name: string, value: any): void {
-        localStorage.setItem(name, JSON.stringify(value));
+        sessionStorage.setItem(name, JSON.stringify(value));
     }
 
     get(name: string): any {
-        const item = localStorage.getItem(name);
+        const item = sessionStorage.getItem(name);
         if (!item) return;
         return JSON.parse(item);
     }
 
     remove(name): void {
-        localStorage.clearItem(name);
+        sessionStorage.clearItem(name);
     }
 
-    /*
-     * A sensible check on the cache to prevent it getting too big - check
-     * whenever we load the app, and if it's been more than three days, blow
-     * away the cache
-     */
-    checkClear(): void {
-        const stamp = localStorage.getItem('_stamp');
-        if (stamp && Date.now() - new Date(stamp).valueOf() > EXPIRY) {
-            const token = localStorage.getItem('token');
-            localStorage.clear();
-            localStorage.setItem('token', token);
-        }
-        localStorage.setItem('_stamp', new Date().toISOString());
+    clear(): void {
+        sessionStorage.clear();
     }
 }

@@ -42,9 +42,6 @@ export class AppComponent {
         this.authService.authUpdates.subscribe(() => this.setLoggedInState());
 
         if (this.loggedIn) {
-            // Clear cache if it's been a while
-            this.cacheService.checkClear();
-
             // Pre-populate this data and let the cache help out
             this.recipeService.getPage({per_page: 100});
             this.ingredientService.getPage();
