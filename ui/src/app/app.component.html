@@ -1,3 +1,20 @@
+<div id="alerts" class="absolute pin-t pin-l pin-r mt-20 px-10 z-10">
+    <div class="w-full mb-12 border-l-4 p-4"
+        [ngClass]="{
+            'bg-red-lightest border-red text-red-dark': alert.header === 'Error',
+            'bg-orange-lightest border-orange text-orange-dark': alert.header === 'Warning'
+        }"
+        role="alert"
+        *ngFor="let alert of alerts; let i = index">
+          <a href="#"
+             class="float-right text-bold text-grey"
+             (click)="dismiss($event, i)">
+             &times;</a>
+          <p class="font-bold">{{ alert.header }}</p>
+          <p>{{ alert.message }}</p>
+    </div>
+</div>
+
 <div (click)="closeMenu()">
     <div class="navbar w-full pin-t pin-l px-4 py-3 font-serif text-white bg-purple-darker">
         <div class="container">
@@ -36,20 +53,6 @@
         </div>
     </div>
     <div class="pt-24 px-4 container">
-        <div class="mb-12 border-l-4 p-4"
-            [ngClass]="{
-                'bg-red-lightest border-red text-red-dark': alert.header === 'Error',
-                'bg-orange-lightest border-orange text-orange-dark': alert.header === 'Warning'
-            }"
-            role="alert"
-            *ngFor="let alert of alerts; let i = index">
-              <a href="#"
-                 class="float-right text-bold text-grey"
-                 (click)="dismiss($event, i)">
-                 &times;</a>
-              <p class="font-bold">{{ alert.header }}</p>
-              <p>{{ alert.message }}</p>
-        </div>
         <router-outlet></router-outlet>
     </div>
 </div>

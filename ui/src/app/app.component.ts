@@ -50,6 +50,13 @@ export class AppComponent {
         }
     }
 
+    addAlert(alrt: {header: string, message: string}): void {
+        // Prevent duplicate errors that already displayed
+        if (this.alerts.filter((a) => a.header === alrt.header).length === 0) {
+            this.alerts.push(alrt);
+        }
+    }
+
     setLoggedInState() {
         if (!this.authService.isLoggedIn()) {
             this.router.navigateByUrl('/login');

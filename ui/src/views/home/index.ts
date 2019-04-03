@@ -18,7 +18,6 @@ export class HomeViewComponent implements OnInit {
     constructor(
         private router: Router,
         private authService: AuthService,
-        private alertService: AlertService,
         private recipeService: RecipeService,
         private commentService: CommentService,
         private cacheService: CacheService,
@@ -62,10 +61,6 @@ export class HomeViewComponent implements OnInit {
                     recipes: recipeResp,
                     comments: commentResp,
                 };
-            },
-            (err) => {
-                this.alertService.error(`Something went wrong, please reload
-                                         or try again.`);
             }
         );
     }

@@ -16,8 +16,6 @@ export class CommentEditComponent {
     ) {}
 
     comment: Comment;
-
-    error: string;
     loading: boolean;
 
     ngOnInit() {
@@ -38,21 +36,14 @@ export class CommentEditComponent {
         this.loading = true;
         this.commentService.remove(this.comment).then(
             () => this.router.navigateByUrl(`/recipes/${this.comment.recipe.id}`),
-            (err) => {
-                this.loading = false;
-                this.error = 'Whoops - something went wrong';
-                console.log(err);
-            }
+            (err) => this.loading = false
         );
     }
 
     save(): void {
-        this.commentService.update(this.comment).then((saved) => {
-            this.router.navigateByUrl(`/recipes/${this.comment.recipe.id}`);
-        }, (err) => {
-            this.loading = false;
-            this.error = 'Whoops - something went wrong';
-            console.log(err);
-        });
+        this.commentService.update(this.comment).then(
+            (saved) => this.router.navigateByUrl(`/recipes/${saved.recipe.id}`),
+            (err) => this.loading = false
+        );
     }
 }

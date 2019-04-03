@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { AlertService } from '../../services/alerts';
 import { AuthService } from '../../services/auth';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
@@ -13,7 +12,6 @@ const err = 'There was an error saving your list.  Please try again later.';
 })
 export class ListEditComponent implements OnInit {
     constructor(
-        private alertService: AlertService,
         private authService: AuthService,
         private listService: ListService,
         private listRecipeService: ListRecipeService,
@@ -47,7 +45,7 @@ export class ListEditComponent implements OnInit {
                 return this.router.navigateByUrl(`/users/${this.activeUser.username}`);
             }
             this.list = list
-        }, () => this.alertService.error());
+        });
     }
 
     getNew(recipeIds: string) {
@@ -68,8 +66,7 @@ export class ListEditComponent implements OnInit {
     delete(): void {
         this.loading = true;
         this.listService.remove(this.list)
-            .then(() => this.router.navigateByUrl(`/users/${this.activeUser.username}`))
-            .catch(() => this.alertService.error());
+            .then(() => this.router.navigateByUrl(`/users/${this.activeUser.username}`));
     }
 
     update() {
@@ -88,10 +85,9 @@ export class ListEditComponent implements OnInit {
                     recipe: {id: r.id}
                 }));
             }))
-            .then(
-                () => this.router.navigateByUrl(`/users/${this.activeUser.username}/lists/${saved.id}`),
-                () => this.alertService.error(err)
-            );
+            .then(() => {
+                this.router.navigateByUrl(`/users/${this.activeUser.username}/lists/${saved.id}`);
+            });
         });
     }
 }

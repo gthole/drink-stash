@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
-import { AlertService } from '../../services/alerts';
 import { User, UserService } from '../../services/users';
 
 interface RecipeViewMeta {
@@ -19,7 +18,6 @@ interface RecipeViewMeta {
 export class RecipeListComponent implements OnInit {
     constructor(
         private router: Router,
-        private alertService: AlertService,
         private recipeService: RecipeService,
         private userService: UserService,
         private route: ActivatedRoute,
@@ -101,7 +99,6 @@ export class RecipeListComponent implements OnInit {
                 this.loading = false;
             },
             (err) => {
-                this.alertService.error('Something went wrong, please reload or try again.');
                 this.recipes = [];
                 this.loading = false;
             }

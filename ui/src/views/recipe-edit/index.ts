@@ -8,8 +8,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'recipe-edit',
-    templateUrl: './index.html',
-    styleUrls: ['./style.css'],
+    templateUrl: './index.html'
 })
 export class RecipeEditComponent {
     constructor(
