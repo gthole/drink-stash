@@ -281,6 +281,24 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(recipe.quantity_set.count(), 3)
         self.assertEqual([t for t in recipe.tags.all()], [tag])
 
+    def test_400_for_empty_quantities(self):
+        tag = Tag.objects.create(name='bitter')
+        resp = self.client.post(
+            '/api/v1/recipes/',
+            {
+                'name': 'Shot of Chilled Gin',
+                'source': 'Why chill tho?',
+                'description': 'Cure what ails ya',
+                'directions': 'Or just take it straight from the bottle',
+                'tags': [],
+                'quantity_set': [
+                    {'amount': 3, 'unit': 'oz', 'ingredient': 'Gin'},
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 400)
+
     def test_delete_recipe(self):
         recipe = Recipe.objects.get(name='Special Counsel')
         resp = self.client.delete('/api/v1/recipes/%s/' % recipe.id)

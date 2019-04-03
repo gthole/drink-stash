@@ -120,6 +120,15 @@ class RecipeSerializer(RecipeListSerializer):
             'comment_count',
         )
 
+    def validate(self, data):
+        """
+        Must have at least two quantities to make a drink
+        """
+        if len(data['quantity_set']) <= 1:
+            raise ValidationError('Must have at least two quantities per '
+                                  'mixed drink')
+        return data
+
     def add_quantities(self, recipe, quantity_data):
         for qdata in quantity_data:
             Quantity(recipe=recipe, **qdata).save()
