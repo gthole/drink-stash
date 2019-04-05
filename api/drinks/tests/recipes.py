@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils.timezone import now
 from rest_framework.test import APIClient
 from drinks.models import Recipe, Comment, Tag, UserList, UserListRecipe, \
-    UserIngredient, Ingredient
+    UserIngredient, Ingredient, Quantity, Uom
 from .base import BaseTestCase
 import time
 
@@ -173,6 +173,83 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(len(resp.json()['results']), 2)
         self.assertEqual([r['id'] for r in resp.json()['results']], [3, 1])
 
+    def test_fetch_recipes_with_list_constraint_by_id(self):
+        """
+        Constrain to a specific list by id
+        """
+        ul = UserList(name='Favorites', user_id=1)
+        ul.save()
+        UserListRecipe(recipe_id=1, user_list_id=ul.id).save()
+        UserListRecipe(recipe_id=3, user_list_id=ul.id).save()
+        ul2 = UserList(name='Favorites', user_id=2)
+        ul2.save()
+        UserListRecipe(recipe_id=2, user_list_id=ul2.id).save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'list = %s' % ul2.id}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual([r['id'] for r in resp.json()['results']], [2])
+
+    def test_fetch_or_filter(self):
+        """
+        Test an OR filter
+        """
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'germain OR gin'}
+        )
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['End of Childcare Day', 'Last Word']
+        )
+
+    def test_like_filter(self):
+        r = Recipe(name='Fancy as F*ck', directions='Shake and drink')
+        r.save()
+        for i in [4, 9, 13]:
+            q = Quantity(
+                recipe=r,
+                amount=1,
+                unit=Uom(pk='oz'),
+                ingredient=Ingredient(pk=i)
+            )
+            q.save()
+
+        r2 = Recipe.objects.get(name='Special Counsel')
+        ul = UserList(name='Favorites', user_id=1)
+        ul.save()
+        UserListRecipe(recipe=r2, user_list=ul).save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'LIKE list = %s' % ul.id}
+        )
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['Fancy as F*ck']
+        )
+
+    def test_fetch_recipes_with_list_constraint_by_id(self):
+        """
+        Constrain to a specific list by id
+        """
+        ul = UserList(name='Favorites', user_id=1)
+        ul.save()
+        UserListRecipe(recipe_id=1, user_list_id=ul.id).save()
+        UserListRecipe(recipe_id=3, user_list_id=ul.id).save()
+        ul2 = UserList(name='Favorites', user_id=2)
+        ul2.save()
+        UserListRecipe(recipe_id=2, user_list_id=ul2.id).save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'list = %s' % ul2.id}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual([r['id'] for r in resp.json()['results']], [2])
+
     def test_fetch_recipes_search_negation(self):
         """
         Search with a negative
@@ -256,6 +333,48 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(len(resp.json()['results']), 1)
         result = resp.json()['results'][0]
         self.assertEqual(result['name'], 'Toronto')
+
+    def test_combined_filtering(self):
+        """
+        Combine search terms with an AND
+        """
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'rye AND directions = shake'}
+        )
+        self.assertEqual(len(resp.json()['results']), 2)
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['End of Childcare Day', 'Special Counsel']
+        )
+
+    def test_combined_filtering_with_or(self):
+        """
+        Combine search terms with an AND
+        """
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'gin > .5 oz OR fernet'}
+        )
+        self.assertEqual(len(resp.json()['results']), 2)
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['Last Word', 'Toronto']
+        )
+
+    def test_combined_filtering_nested_operators(self):
+        """
+        Combine search terms with an AND and an OR
+        """
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'rye AND st. germain OR sfumato'}
+        )
+        self.assertEqual(len(resp.json()['results']), 2)
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['End of Childcare Day', 'Special Counsel']
+        )
 
     def test_create_recipe(self):
         tag = Tag.objects.create(name='bitter')

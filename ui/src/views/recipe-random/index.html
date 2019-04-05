@@ -6,7 +6,6 @@
     <recipe-detail-view [recipe]="recipe" [showEdit]="false"></recipe-detail-view>
 </div>
 <div *ngIf="loading === false && !recipe" class="width-container text-center text-grey px-12">
-    <p>Whoops - doesn't look like your liquor cabinet supports any drink
-    recipes yet!</p>
-    <p class="mt-3">Add some <a routerLink="/cabinet">here.</a></p>
+    <p>Whoops - doesn't look like there are any recipes here yet!</p>
+    <p class="mt-3">Try a <a routerLink="/random" [queryParams]="{}">wider pool of options</a>.</p>
 </div>

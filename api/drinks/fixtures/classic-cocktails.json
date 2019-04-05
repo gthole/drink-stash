@@ -1,6 +1,27 @@
 [
     {
         "fields": {
+            "created": "2018-11-21T20:17:33.735Z"
+        },
+        "model": "drinks.uom",
+        "pk": "oz"
+    },
+    {
+        "fields": {
+            "created": "2018-11-21T20:17:33.735Z"
+        },
+        "model": "drinks.uom",
+        "pk": "dash"
+    },
+    {
+        "fields": {
+            "created": "2018-11-21T20:17:33.735Z"
+        },
+        "model": "drinks.uom",
+        "pk": ""
+    },
+    {
+        "fields": {
             "category": 1,
             "created": "2018-11-21T20:17:33.735Z",
             "description": null,

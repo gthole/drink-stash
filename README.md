@@ -1,9 +1,18 @@
 # Drink Stash
 A little web app for saving and searching for cocktail recipes.
 
+## Features
+- Built for mobile devices
+- Search for recipes with an expressive (nerdy) query engine
+- Keep lists for menus or of things you love or want to try
+- Track what's in your liquor cabinet so you can easily find what you can make
+- Lightweight server, tidily packaged in Docker
+
+## Running
+
 Run it behind an HTTP reverse-proxy for TLS-termination etc. You can run it
 from the base image, storing persistent data in a sqlite database in a
-mounted volume:
+mounted volume.  With docker-compose:
 
 ```yaml
 version: '3'

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Recipe, RecipeStub, RecipeService } from '../../services/recipes';
 import { User, UserService } from '../../services/users';
 import { Ingredient, IngredientService } from '../../services/ingredients';
@@ -14,34 +15,51 @@ export class RandomRecipeComponent {
         private recipeService: RecipeService,
         private ingredientService: IngredientService,
         private userService: UserService,
+        private route: ActivatedRoute,
     ) {}
 
-    recipes: RecipeStub[];
     recipe: Recipe;
+    count: number;
 
-    error: string;
+    search: string;
     loading: boolean;
 
     ngOnInit() {
         this.loading = true;
 
-        this.recipeService.getPage({cabinet: 'true', per_page: 1000}).then((resp) => {
-            this.recipes = resp.results;
-            this.shuffle();
-        })
+        this.route.queryParams.subscribe((qp) => {
+            this.search = qp.search;
+            const params = {search: this.search, per_page: 0};
+            this.recipeService.getPage(params).then((resp) => {
+                this.count = resp.count;
+                if (this.count === 0) {
+                    this.loading = false;
+                    return;
+                }
+                this.shuffle();
+            })
+        });
     }
 
     shuffle() {
         this.loading = true;
-        const index = Math.floor(Math.random() * 1000) % this.recipes.length;
-        const shuffled = this.recipes[index];
+        const index = Math.floor(Math.random() * this.count) + 1;
+        const params = {
+            search: this.search,
+            per_page: 1,
+            page: index
+        };
 
-        if (this.recipe && shuffled.id === this.recipe.id && this.recipes.length > 1) {
-            return this.shuffle();
-        }
-        this.recipeService.getById(shuffled.id).then((recipe) => {
-            this.loading = false;
-            this.recipe = recipe;
+        this.recipeService.getPage(params).then((resp) => {
+            const rid = resp.results[0].id;
+            if (this.count > 1 && this.recipe && this.recipe.id === rid) {
+                return this.shuffle();
+            }
+
+            this.recipeService.getById(rid).then((recipe) => {
+                this.loading = false;
+                this.recipe = recipe;
+            });
         });
     }
 }

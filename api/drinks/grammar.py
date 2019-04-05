@@ -1,5 +1,5 @@
-from lark import Lark
-from .models import Quantity, Ingredient, UserIngredient
+from lark import Lark, Token
+from .models import Recipe, Quantity, Ingredient, UserIngredient
 from django.db.models import Q
 
 
@@ -16,7 +16,6 @@ OPS = {
 # Attributes - these can never be a search term
 ALIASES = {
     'comments': 'comment_count',
-    'favorites': 'favorite_count',
     'desc': 'description',
     'description': 'description',
     'source': 'source',
@@ -26,15 +25,26 @@ ALIASES = {
 unit_keys = '"i|"'.join(UNITS)
 
 grammar = Lark('''
-    // Top level grammar rules
-    start: attr_constraint | \
-           constraint | \
-           search_term | \
-           attr_search | \
-           exclude | \
-           cabinet | \
-           tags_constraint | \
-           list_constraint
+    // Top level
+    start: query | nested
+
+    // Nested rules
+    nested: \
+        "NOT" query -> exclude | \
+        "LIKE" query -> like | \
+        "ALMOST" "LIKE" query -> almost_like | \
+        query COMBINER query -> combined
+
+    // Core rules
+    query: \
+        nested | \
+        attr_constraint | \
+        list_constraint | \
+        tags_constraint | \
+        cabinet | \
+        constraint | \
+        search_term | \
+        attr_search
 
     attr_constraint.2: NUM_ATTR OPERATOR NUMBER
     list_constraint.2: "list" "=" SEARCH_TERM
@@ -43,13 +53,12 @@ grammar = Lark('''
     constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
     search_term: SEARCH_TERM
     attr_search: ATTR "=" SEARCH_TERM
-    exclude: "NOT" SEARCH_TERM
 
     // Tokens
     COMBINER: ("AND" | "OR")
-    NUM_ATTR.2: ("comments" | "favorites")
+    NUM_ATTR.2: "comments"
     ATTR: ("name" | "description" | "directions" | "source")
-    SEARCH_TERM: /((?!AND|OR|NOT)[^<=> ])+(\s((?!AND|OR|NOT)[^<=> ])+)*/
+    SEARCH_TERM: /((?!AND|OR|NOT|LIKE)[^<=> ])+(\s((?!AND|OR|NOT)[^<=> ])+)*/
     OPERATOR: ("<="|">="|"="|"<"|">")
     UNIT: ("%s"i)
     WHITESPACE: (" " | "\\n")+
@@ -61,81 +70,126 @@ grammar = Lark('''
 ''' % (unit_keys,))
 
 
-def parse_number(token):
-    if "/" in token:
-        [num, den] = token.split("/")
-        return float(num) / float(den)
-    else:
-        return float(token)
-
-
 def parse_search_and_filter(term, qs, user):
     """
     TODO: Re-work this as a depth-first recursive processor so we can support
     arbitrarily nested queries ...for fun.
     """
     try:
-        start_tree = grammar.parse(term)
-    except:
+        tree = grammar.parse(term)
+        return qs.filter(parse_tree(tree, user))
+    except Exception as e:
+        print(e)
         return qs.none()
 
-    tree = start_tree.children[0]
+
+def parse_token(token):
+    if token.type in ('COMBINER', 'SEARCH_TERM'):
+        return u'%s' % token
+    if token.type in ('ATTR', 'NUM_ATTR'):
+        return ALIASES.get('%s' % token, '%s' % token)
+    if token.type == 'NUMBER':
+        if "/" in token:
+            [num, den] = token.split("/")
+            return float(num) / float(den)
+        return float(token)
+    if token.type == 'UNIT':
+        return ('%s' % token).lower()
+    if token.type == 'OPERATOR':
+        return OPS['%s' % token]
+    raise NotImplemented
+
+
+def related_ingredients(ingredients):
+    subs = Ingredient.objects.filter(substitutions__in=ingredients)
+    rsubs = Ingredient.objects.filter(
+        id__in=ingredients.values('substitutions')
+    )
+    rsubsplusone = Ingredient.objects.filter(substitutions__in=rsubs)
+
+    # Load the ids into memory, since we run into operational errors
+    # without evaluating at this point
+    cabinet = [
+        i for i in
+        ingredients.union(
+            subs, rsubs, rsubsplusone
+        ).values_list('id', flat=True)
+    ]
+
+    # Find all the quantities that require an ingredient the user
+    # doesn't have, and get all the recipes that don't have one of those
+    lacking = Quantity.objects.exclude(ingredient__in=cabinet)
+    return ~Q(quantity__in=lacking)
+
+
+def parse_tree(tree, user):
+    if tree.__class__ == Token:
+        return parse_token(tree)
+
+    data = [parse_tree(t, user) for t in tree.children]
+
+    if tree.data in ('start', 'query', 'nested', 'parens'):
+        return data[0]
 
     if tree.data == 'search_term':
-        term = '%s' % tree.children[0]
-        return qs.filter(
-            Q(quantity__ingredient__name__icontains=term) | \
-            Q(name__icontains=term) | \
-            Q(description__iregex='\\b%s\\b' % term)
-        )
-
-    if tree.data == 'exclude':
-        term = '%s' % tree.children[0]
-        return qs.exclude(
-            Q(quantity__ingredient__name__icontains=term) | \
-            Q(name__icontains=term) | \
-            Q(description__iregex='\\b%s\\b' % term)
-        )
+        return Q(quantity__ingredient__name__icontains=data[0]) | \
+            Q(name__icontains=data[0]) | \
+            Q(description__iregex=u'\\b%s\\b' % data[0])
 
     if tree.data == 'attr_constraint':
-        attr = ALIASES.get(tree.children[0], tree.children[0])
-        op = OPS['%s' % tree.children[1]]
-        amount = parse_number(tree.children[2])
+        [attr, op, amount] = data
         kwargs = {}
         kwargs['%s__%s' % (attr, op)] = amount
-        return qs.filter(**kwargs)
+        return Q(**kwargs)
 
     if tree.data == 'list_constraint':
-        term = '%s' % tree.children[0]
-        return qs.filter(userlist__name__icontains=term, userlist__user=user)
+        term = data[0]
+        if term.isdigit():
+            return Q(userlist__id=term)
+        return Q(userlist__name__icontains=term, userlist__user=user)
 
     if tree.data == 'tags_constraint':
-        tags = [t.strip() for t in ('%s' % tree.children[0]).split(',')]
+        tags = [t.strip() for t in data[0].split(',')]
+        qs = Recipe.objects
         for tag in tags:
             qs = qs.filter(tags__name=tag)
-        return qs
+        return Q(id__in=qs.values('id'))
 
     if tree.data == 'constraint':
-        search = '%s' % tree.children[0]
-        op = OPS['%s' % tree.children[1]]
-        amount = parse_number(tree.children[2])
-
         if len(tree.children) == 4:
-            unit = tree.children[3].lower()
+            [search, op, amount, unit] = data
         else:
+            [search, op, amount] = data
             unit = 1
         kwargs = {
             'quantity__ingredient__name__icontains': search,
             'quantity__unit': unit
         }
         kwargs['quantity__amount__%s' % op] = amount
-        return qs.filter(**kwargs)
+        return Q(**kwargs)
 
     if tree.data == 'attr_search':
-        attr = ALIASES.get(tree.children[0], tree.children[0])
+        [attr, value] = data
         kwargs = {}
-        kwargs['%s__icontains' % tree.children[0]] = '%s' % tree.children[1]
-        return qs.filter(**kwargs)
+        kwargs['%s__icontains' % attr] = value
+        return Q(**kwargs)
+
+    if tree.data == 'combined':
+        if data[1] == 'AND':
+            qs = Recipe.objects.filter(data[0]).filter(data[2])
+            return Q(id__in=qs.values('id'))
+        return data[0] | data[2]
+
+    if tree.data == 'exclude':
+        return ~data[0]
+
+    if tree.data == 'like':
+        # Find the recipes from the nested constraint
+        recipes = Recipe.objects.filter(data[0])
+        ingred = Ingredient.objects.filter(
+            id__in=recipes.values('quantity__ingredient__id'))
+        related = related_ingredients(ingred)
+        return related & ~Q(id__in=recipes.values('id'))
 
     if tree.data == 'cabinet':
         # Build out the user cabinet with substitutions in two directions
@@ -144,24 +198,6 @@ def parse_search_and_filter(term, qs, user):
                 user=user
             ).values('ingredient')
         )
-        subs = Ingredient.objects.filter(substitutions__in=user_ingredients)
-        rsubs = Ingredient.objects.filter(
-            id__in=user_ingredients.values('substitutions')
-        )
-        rsubsplusone = Ingredient.objects.filter(substitutions__in=rsubs)
+        return related_ingredients(user_ingredients)
 
-        # Load the ids into memory, since we run into operational errors
-        # without evaluating at this point
-        cabinet = [
-            i for i in
-            user_ingredients.union(
-                subs, rsubs, rsubsplusone
-            ).values_list('id', flat=True)
-        ]
-
-        # Find all the quantities that require an ingredient the user
-        # doesn't have, and get all the recipes that don't have one of those
-        lacking = Quantity.objects.exclude(ingredient__in=cabinet)
-        return qs.exclude(quantity__in=lacking)
-
-    return qs.none()
+    raise NotImplemented

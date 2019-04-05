@@ -5,10 +5,6 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import 'hammerjs';
 
-if (!environment.production) {
-  document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
-  ':35729/livereload.js?snipver=1"></' + 'script>')
-}
 enableProdMode();
 
 platformBrowserDynamic().bootstrapModule(AppModule)

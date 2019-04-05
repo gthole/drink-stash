@@ -44,6 +44,7 @@ export class RecipeListComponent implements OnInit {
         'comments = 0',
         'source = classic',
         'list = favorites',
+        'LIKE craigie on main',
         'NOT juice',
         'lemon > 1/2 oz',
         'orgeat <= .25',
@@ -142,12 +143,8 @@ export class RecipeListComponent implements OnInit {
 
     addSearchFilter() {
         if (!this.filter) return;
-        let term = this.filter.toLowerCase().trim();
-        if (this.filter.slice(0, 4) === 'NOT ') {
-            term = 'NOT ' + term.slice(4);
-        }
+        let term = this.filter.trim();
         this.filter = '';
-
         const filters = this.meta.filters.concat([term]);
         this.updateRoute({page: 1, search: filters});
     }
