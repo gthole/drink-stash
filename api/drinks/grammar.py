@@ -109,17 +109,12 @@ def related_ingredients(ingredients):
 
     # Load the ids into memory, since we run into operational errors
     # without evaluating at this point
-    cabinet = [
+    return [
         i for i in
         ingredients.union(
             subs, rsubs, rsubsplusone
         ).values_list('id', flat=True)
     ]
-
-    # Find all the quantities that require an ingredient the user
-    # doesn't have, and get all the recipes that don't have one of those
-    lacking = Quantity.objects.exclude(ingredient__in=cabinet)
-    return ~Q(quantity__in=lacking)
 
 
 def parse_tree(tree, user):
@@ -188,8 +183,14 @@ def parse_tree(tree, user):
         recipes = Recipe.objects.filter(data[0])
         ingred = Ingredient.objects.filter(
             id__in=recipes.values('quantity__ingredient__id'))
-        related = related_ingredients(ingred)
-        return related & ~Q(id__in=recipes.values('id'))
+        similar_ingredients = related_ingredients(ingred)
+
+        # Find all the quantities that are "oz" based and aren't for one of
+        # the related ingredients, and exclude those from the search
+        lacking = Quantity.objects \
+            .filter(unit__name__in=('oz', 'teaspoon', 'barspoon')) \
+            .exclude(ingredient__in=similar_ingredients)
+        return ~Q(quantity__in=lacking) & ~Q(id__in=recipes.values('id'))
 
     if tree.data == 'cabinet':
         # Build out the user cabinet with substitutions in two directions
@@ -198,6 +199,11 @@ def parse_tree(tree, user):
                 user=user
             ).values('ingredient')
         )
-        return related_ingredients(user_ingredients)
+        cabinet = related_ingredients(user_ingredients)
+
+        # Find all the quantities that require an ingredient the user
+        # doesn't have, and get all the recipes that don't have one of those
+        lacking = Quantity.objects.exclude(ingredient__in=cabinet)
+        return ~Q(quantity__in=lacking)
 
     raise NotImplemented
