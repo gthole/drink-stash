@@ -102,7 +102,6 @@ export class RecipeEditComponent {
             () => this.router.navigateByUrl(`/recipes`),
             (err) => {
                 this.loading = false;
-                this.error = 'Whoops - something went wrong';
                 console.log(err);
             }
         );
@@ -157,7 +156,6 @@ export class RecipeEditComponent {
             },
             (err) => {
                 this.loading = false;
-                this.error = 'Whoops - something went wrong';
                 console.log(err);
             }
         );
