@@ -4,7 +4,8 @@
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
         Name
       </label>
-      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" type="text" name="name" [(ngModel)]="recipe.name">
+      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" type="text" name="name" [(ngModel)]="recipe.name" (change)="nameChange(recipe.name)" [ngClass]="{'border-red': errors && errors.name}">
+      <p *ngIf="errors && errors.name" class="text-red text-xs italic">{{ errors.name }}</p>
     </div>
   </div>
 
@@ -27,8 +28,9 @@
   </div>
   <div class="mb-6">
       <div class="flex" *ngFor="let q of recipe.quantities">
-         <div class="w-1/5 mb-6">
-             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" type="number" [(ngModel)]="q.amount" id="amount-{{q.name}}" name="amount-{{q.name}}">
+        <div class="w-1/5 mb-6">
+             <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-grey" [(ngModel)]="q.amount" id="amount-{{q.name}}" name="amount-{{q.name}}" [ngClass]="{'border-red': q.error}">
+            <p *ngIf="q.error" class="text-red text-xs italic">{{ q.error }}</p>
         </div>
 
         <div class="w-1/5 px-2 mb-6">

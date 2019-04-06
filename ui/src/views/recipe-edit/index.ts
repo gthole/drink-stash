@@ -24,7 +24,7 @@ export class RecipeEditComponent {
     ingredients: string[];
     units: string[];
 
-    error: string;
+    errors: {[k: string]: string};
     loading: boolean;
 
     ngOnInit() {
@@ -44,6 +44,20 @@ export class RecipeEditComponent {
                     this.doneLoading();
                 }
             });
+        });
+    }
+
+    nameChange(name: string) {
+        if (!name) {
+            this.errors = null;
+            return;
+        }
+        this.recipeService.getPage({name}).then((resp) => {
+            if (resp.results.length && this.recipe.id !== resp.results[0].id) {
+                this.errors = {name: 'That name is already taken.'};
+            } else {
+                this.errors = null;
+            }
         });
     }
 
@@ -94,12 +108,35 @@ export class RecipeEditComponent {
         );
     }
 
+    parseAmount(q) {
+        if (_.isNumber(q.amount)) {
+            q.error = null;
+            return;
+        }
+        try {
+            if (q.amount.includes('/')) {
+                const [num, den] = q.amount.split('/');
+                q.amount = parseInt(num, 10) / parseInt(den, 10);
+            } else {
+                q.amount = parseFloat(q.amount);
+            }
+            if (!_.isFinite(q.amount)) throw new Error();
+            q.error = null;
+        } catch (e) {
+            q.error = 'Invalid amount';
+        }
+    }
+
     save(createNew): void {
         // Make sure quantities exist and all have ingredient values
         this.recipe.quantities = this.recipe.quantities.filter((q) => {
             return q.ingredient.trim();
         });
-        if (this.recipe.quantities.length === 0) return;
+        if (this.recipe.quantities.length < 2) return;
+
+        // Parse and validate amounts
+        this.recipe.quantities.forEach((q) => this.parseAmount(q));
+        if (this.recipe.quantities.filter((q) => q.error).length) return;
 
         this.loading = true;
         let promise;

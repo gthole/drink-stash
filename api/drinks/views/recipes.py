@@ -16,7 +16,8 @@ class RecipeViewSet(LazyViewSet):
     list_serializer_class = RecipeListSerializer
 
     filter_fields = {
-        'id': ['in']
+        'id': ['in'],
+        'name': ['exact']
     }
 
     def get_queryset(self):
