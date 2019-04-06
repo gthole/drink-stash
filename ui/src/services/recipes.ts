@@ -36,6 +36,7 @@ interface Quantity {
     ingredient: string;
     name?: string;
     hidden?: boolean;
+    error?: string;
 }
 
 class Recipe extends BaseModel {
