@@ -5,6 +5,7 @@ import { Recipe, RecipeService } from '../../services/recipes';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 import { UomService } from '../../services/uom';
 import { Router } from '@angular/router';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'recipe-edit',
@@ -24,8 +25,9 @@ export class RecipeEditComponent {
     ingredients: string[];
     units: string[];
 
-    errors: {[k: string]: string};
+    errors: {[k: string]: string} = {};
     loading: boolean;
+    faTimes = faTimes;
 
     ngOnInit() {
         this.loading = true;
@@ -49,14 +51,14 @@ export class RecipeEditComponent {
 
     nameChange(name: string) {
         if (!name) {
-            this.errors = null;
+            delete this.errors.name;
             return;
         }
         this.recipeService.getPage({name}).then((resp) => {
             if (resp.results.length && this.recipe.id !== resp.results[0].id) {
-                this.errors = {name: 'That name is already taken.'};
+                this.errors.name = 'That name is already taken.';
             } else {
-                this.errors = null;
+                delete this.errors.name;
             }
         });
     }
@@ -109,7 +111,7 @@ export class RecipeEditComponent {
 
     parseAmount(q) {
         if (_.isNumber(q.amount)) {
-            q.error = null;
+            delete this.errors[q.name];
             return;
         }
         try {
@@ -120,9 +122,9 @@ export class RecipeEditComponent {
                 q.amount = parseFloat(q.amount);
             }
             if (!_.isFinite(q.amount)) throw new Error();
-            q.error = null;
+            delete this.errors[q.name];
         } catch (e) {
-            q.error = 'Invalid amount';
+            this.errors[q.name] = 'Invalid amount';
         }
     }
 
@@ -135,7 +137,11 @@ export class RecipeEditComponent {
 
         // Parse and validate amounts
         this.recipe.quantities.forEach((q) => this.parseAmount(q));
-        if (this.recipe.quantities.filter((q) => q.error).length) return;
+
+        // If there are any unaddressed errors, don't post
+        if (Object.keys(this.errors).filter(e => this.errors[e]).length) {
+            return;
+        }
 
         this.loading = true;
         let promise;

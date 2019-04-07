@@ -3,6 +3,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import { User, UserService } from '../../services/users';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
     selector: 'list-details',
@@ -24,6 +26,7 @@ export class ListDetailsComponent {
     list: List;
     listRecipes: ListRecipe[];
     editingLr: {id: number, notes: string};
+    faTimes = faTimes;
 
     ngOnInit() {
         this.ngOnChanges();

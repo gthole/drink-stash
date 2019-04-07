@@ -24,7 +24,8 @@
         <p class="w-full mt-12 lg:mt-0 mb-3 block uppercase tracking-wide font-bold text-grey-darker text-center">Recipes</p>
 
         <div class="mb-8" *ngFor="let lr of listRecipes">
-            <p *ngIf="canEdit" class="float-right text-grey cursor-pointer" (click)="removeLr(lr)">X</p>
+            <p *ngIf="canEdit" class="float-right text-grey cursor-pointer" (click)="removeLr(lr)"><fa-icon [icon]="faTimes"></fa-icon></p>
+
             <p class="title text-xl">
                 <a routerLink="/recipes/{{ lr.recipe.slug }}">{{ lr.recipe.name }}</a>
             </p>

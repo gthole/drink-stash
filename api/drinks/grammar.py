@@ -85,7 +85,7 @@ def parse_search_and_filter(term, qs, user):
 
 def parse_token(token):
     if token.type in ('COMBINER', 'SEARCH_TERM'):
-        return u'%s' % token
+        return ('%s' % token).strip('"')
     if token.type in ('ATTR', 'NUM_ATTR'):
         return ALIASES.get('%s' % token, '%s' % token)
     if token.type == 'NUMBER':
@@ -129,7 +129,7 @@ def parse_tree(tree, user):
     if tree.data == 'search_term':
         return Q(quantity__ingredient__name__icontains=data[0]) | \
             Q(name__icontains=data[0]) | \
-            Q(description__iregex=u'\\b%s\\b' % data[0])
+            Q(description__iregex='\\b%s\\b' % data[0])
 
     if tree.data == 'attr_constraint':
         [attr, op, amount] = data

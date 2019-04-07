@@ -173,6 +173,21 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(len(resp.json()['results']), 2)
         self.assertEqual([r['id'] for r in resp.json()['results']], [3, 1])
 
+    def test_fetch_recipes_with_list_constraint_quoted(self):
+        """
+        Constrain to a specific list
+        """
+        ul = UserList(name='My Special List', user_id=1)
+        ul.save()
+        UserListRecipe(recipe_id=1, user_list_id=ul.id).save()
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'list = "My Special List"'}
+        )
+        self.assertEqual([r['id'] for r in resp.json()['results']], [1])
+
+
     def test_fetch_recipes_with_list_constraint_by_id(self):
         """
         Constrain to a specific list by id
