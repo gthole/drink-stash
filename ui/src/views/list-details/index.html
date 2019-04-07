@@ -24,6 +24,7 @@
         <p class="w-full mt-12 lg:mt-0 mb-3 block uppercase tracking-wide font-bold text-grey-darker text-center">Recipes</p>
 
         <div class="mb-8" *ngFor="let lr of listRecipes">
+            <p *ngIf="canEdit" class="float-right text-grey cursor-pointer" (click)="removeLr(lr)">X</p>
             <p class="title text-xl">
                 <a routerLink="/recipes/{{ lr.recipe.slug }}">{{ lr.recipe.name }}</a>
             </p>
@@ -33,10 +34,8 @@
                 </span>
             </div>
             <div class="mt-3" *ngIf="!editingLr || editingLr.id !== lr.id">
-                <p *ngIf="lr.notes" class="-mx-4 px-6 py-4 bg-grey-lighter text-grey-darkest whitespace-pre-wrap">
-                    {{ lr.notes }}
-                </p>
-                <button class="no-bounce text-grey-dark mt-1 text-sm rounded py-1 px-2 border border-grey-dark"
+                <p *ngIf="lr.notes" class="-mx-4 px-4 py-6 bg-grey-lighter text-grey-darkest whitespace-pre-wrap">{{ lr.notes }}</p>
+                <button *ngIf="canEdit" class="no-bounce text-grey-dark mt-1 text-sm rounded py-1 px-2 border border-grey-dark"
                       (click)="editLr(lr)">
                     <span *ngIf="lr.notes">edit</span>
                     <span *ngIf="!lr.notes">add a note</span>

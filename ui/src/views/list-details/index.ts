@@ -55,6 +55,11 @@ export class ListDetailsComponent {
         setTimeout(() => document.getElementById('edit-lr').focus(), 10);
     }
 
+    removeLr(lr) {
+        this.listRecipes = this.listRecipes.filter((x) => x.id !== lr.id);
+        this.listRecipeService.remove(lr);
+    }
+
     saveNote(lr) {
         lr.notes = this.editingLr.notes;
         this.loading = true;
