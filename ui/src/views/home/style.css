@@ -1,12 +1,10 @@
 /* The hero image */
 .hero-image {
   background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url("assets/drinks-hero.jpg");
-
-  height: 500px;
+  height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-attachment: fixed; */
   position: relative;
 }
 
@@ -18,4 +16,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
+  font-size: 3rem;
+}
+
+@media only screen and (min-width: 992px) {
+    .hero-image {
+      height: 700px;
+      background-attachment: fixed;
+    }
+
+    .hero-text {
+        font-size: 5rem;
+    }
 }

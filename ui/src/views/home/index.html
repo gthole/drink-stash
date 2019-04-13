@@ -1,6 +1,6 @@
-<div class="hero-image -mt-10 mb-20 -mx-4">
+<div class="hero-image -mt-24 mb-20 -mx-4">
     <div class="hero-text">
-        <p class="title text-5xl">Drink Stash</p>
+        <p class="title">Drink Stash</p>
         <p class="mt-5 text-lg italic tracking-wide font-thin">Bottoms up.</p>
       </div>
 </div>
@@ -12,23 +12,23 @@
     <p class="px-2 mt-1 text-grey-dark text-xs italic">e.g. cynar, Last Word, or mezcal</p>
 </div>
 
-<div>
-    <div class="flex flex-wrap w-full">
-        <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 px-10">
+<div class="-mx-4">
+    <div class="flex flex-wrap w-full bg-purple-lightest -px-4 pt-24 pb-16 shadow-inner">
+        <div class="mb-12 w-full sm:w-1/2 xl:w-1/4 px-10">
             <div class="flex flex-wrap items-center justify-center">
                 <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/recipes">
                     <img class="w-10 h-10" type="image/svg+xml" src="/static/assets/drink.svg" />
                 </a>
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold"><a routerLink="/recipes">Recipes</a></p>
-                    <p class="text-sm mt-1 text-grey-dark">
+                    <p class="text-sm mt-1 text-grey-darker">
                         Search the cocktail recipes and find something new.
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 px-10">
+        <div class="mb-12 w-full sm:w-1/2 xl:w-1/4 px-10">
             <div class="flex flex-wrap items-center justify-center">
                 <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/users/{{ activeUser.username }}/lists">
                     <fa-icon [icon]="faBookmark"></fa-icon>
@@ -37,14 +37,14 @@
                     <p class="text-xl font-bold">
                         <a routerLink="/users/{{ activeUser.username }}/lists">Build Lists</a>
                     </p>
-                    <p class="text-sm mt-1 text-grey-dark">
+                    <p class="text-sm mt-1 text-grey-darker">
                         Keep track of what you've tried and what you like, or
                         bookmark drinks to try later.</p>
                 </div>
             </div>
         </div>
 
-        <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 px-10">
+        <div class="mb-12 w-full sm:w-1/2 xl:w-1/4 px-10">
             <div class="flex flex-wrap items-center justify-center">
                 <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/new">
                     <fa-icon [icon]="faPlus"></fa-icon>
@@ -52,13 +52,13 @@
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold">
                         <a routerLink="/new">Add Recipes</a></p>
-                    <p class="text-sm mt-1 text-grey-dark">Add your favorite recipes to the database
+                    <p class="text-sm mt-1 text-grey-darker">Add your favorite recipes to the database
                         and share with others.</p>
                 </div>
             </div>
         </div>
 
-        <div class="mb-10 w-full sm:w-1/2 xl:w-1/4 content-center px-10">
+        <div class="mb-12 w-full sm:w-1/2 xl:w-1/4 content-center px-10">
             <div class="flex flex-wrap items-center justify-center">
                 <a class="bg-purple-darker text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md"
                    routerLink="/random"                                                                 [queryParams]="{search: 'LIKE list = favorites'}">
@@ -66,7 +66,7 @@
                 </a>
                 <div class="w-full text-center mt-5 text-grey-darker">
                     <p class="text-xl font-bold"><a routerLink="/random">Discover</a></p>
-                    <p class="text-sm mt-1 text-grey-dark">
+                    <p class="text-sm mt-1 text-grey-darker">
                         Get a random cocktail recipe similar
                         to the ones you've added to your favorites.</p>
                 </div>
@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<div class="flex flex-wrap items-center justify-center sm:mt-12 mt-6">
+<div class="flex flex-wrap items-center justify-center mt-16">
     <div class="w-full md:w-3/4 xl:w-1/2">
         <activity-feed
             *ngIf="activities"

@@ -12,9 +12,6 @@
                     <p class="text-grey-dark">Made {{ user.comment_count }}
                     <span [innerHTML]="user.comment_count === 1 ? 'comment' : 'comments'"></span>.</p>
                 </div>
-                <a *ngIf="user.id === activeUser.user_id"
-                    class="bg-purple-dark hover:bg-purple-darker text-white py-2 px-4 rounded focus:bg-purple-darker text-sm"
-                    routerLink="/users/{{ activeUser.username }}/cabinet">Liquor Cabinet</a>
             </div>
         </div>
 

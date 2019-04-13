@@ -3,7 +3,17 @@
     top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
     z-index: 100000;
+    -webkit-transition: background-color 100ms linear;
+        -ms-transition: background-color 100ms linear;
+            transition: background-color 100ms linear;
 }
+
+.navbar.bg-transparent {
+    -webkit-transition: background-color 50ms linear;
+        -ms-transition: background-color 50ms linear;
+            transition: background-color 50ms linear;
+}
+
 
 .container {
     max-width: 768px;

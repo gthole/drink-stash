@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../services/auth';
 import { AlertService } from '../services/alerts';
@@ -22,6 +22,7 @@ export class AppComponent {
     username: string;
     alerts: Alert[] = [];
     showMenu: boolean = false;
+    showNav: boolean = false;
 
     faLongArrowAltLeft = faLongArrowAltLeft;
     faBars = faBars;
@@ -48,6 +49,7 @@ export class AppComponent {
             this.uomService.getPage();
             this.tagService.getPage();
         }
+        this.router.events.subscribe(() => this.handleScroll());
     }
 
     addAlert(alrt: {header: string, message: string}): void {
@@ -65,6 +67,12 @@ export class AppComponent {
             this.username = data.username;
             this.loggedIn = true;
         }
+    }
+
+    @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+        this.showNav = !this.location.isCurrentPathEqualTo('/') ||
+            (window.pageYOffset || document.documentElement.scrollTop) > 380;
     }
 
     hasHistory(): boolean {
