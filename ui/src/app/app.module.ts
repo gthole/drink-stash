@@ -39,6 +39,7 @@ import { HomeViewComponent } from '../views/home';
 import { LoginViewComponent } from '../views/login';
 import { UserCabinetComponent } from '../views/user-cabinet';
 import { UserDetailsViewComponent } from '../views/user-details';
+import { UserEditViewComponent } from '../views/user-edit';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import * as Hammer from 'hammerjs';
@@ -70,6 +71,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
         UserCabinetComponent,
         LoginViewComponent,
         UserDetailsViewComponent,
+        UserEditViewComponent,
         FractionPipe,
     ],
     imports: [

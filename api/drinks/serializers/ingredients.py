@@ -34,6 +34,3 @@ class IngredientSerializer(ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ('name', 'usage', 'substitutions', 'category')
-
-
-

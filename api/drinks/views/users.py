@@ -1,10 +1,14 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 from django.contrib.auth.models import User
-from drinks.serializers import UserSerializer
+from drinks.serializers import UserSerializer, NestedIngredientSerializer, \
+    PasswordSerializer
 from drinks.permissions import ObjectOwnerPermissions
 from drinks.views.base import LazyViewSet
 
@@ -37,3 +41,24 @@ class UserViewSet(ModelViewSet):
         obj = get_object_or_404(queryset, **filter)
         self.check_object_permissions(self.request, obj)
         return obj
+
+    @action(detail=True, methods=['post'])
+    def reset_password(self, request, pk=None):
+        user = self.get_object()
+        serializer = PasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user.set_password(serializer.data['password'])
+            user.save()
+            return Response({'status': 'password set'})
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['put'])
+    def cabinet(self, request, pk=None):
+        user = self.get_object()
+        serializer = NestedIngredientSerializer(many=True, data=request.data)
+        if serializer.is_valid():
+            user.ingredient_set.set(serializer.data)
+            return Response({'status': 'cabinet updated'})
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
