@@ -56,8 +56,7 @@ export class RecipeDetailViewComponent {
             this.canEdit = user.is_staff || this.recipe.added_by.id === user.id;
 
             // Fill in related data
-            this.getComments();
-            this.getLists();
+            this.getRelated();
         });
     }
 
@@ -65,32 +64,21 @@ export class RecipeDetailViewComponent {
      * Lazy content loaders
      */
 
-    getComments(): void {
-        if (this.recipe.comment_count === 0) {
-            this.canComment = true;
-            this.comments = [];
-        }
-
-        this.commentService.getPage({recipe: `${this.recipe.id}`}).then((resp) => {
-            this.canComment = !resp.results.filter((c) => {
-                c.user.id === this.user.id
-            }).length;
-            this.comments = resp.results;
-        });
-    }
-
-    getLists(): void {
+    getRelated(): void {
         Promise.all([
+            this.commentService.getPage({recipe: this.recipe.id}),
             this.listService.getPage({user: this.user.id}),
-            this.listRecipeService.getPage({
-                user_list__user: this.user.id,
-                recipe: this.recipe.id
-            })
-        ]).then(([listResp, listRecipeResp]) => {
+            this.listRecipeService.getPage({recipe: this.recipe.id})
+        ]).then(([commentResp, listResp, listRecipeResp]) => {
+            this.canComment = !commentResp.results
+                .filter((c) => c.user.id === this.user.id).length;
+            this.comments = commentResp.results;
+
             this.lists = listResp.results;
             this.listRecipes = listRecipeResp.results;
             this.lists.forEach((l) => {
-                const count = this.listRecipes.filter((lr) => lr.list === l.id).length;
+                const count = this.listRecipes
+                    .filter((lr) => lr.list.id === l.id).length;
                 l.added_to_recipe = Boolean(count);
             });
         });
@@ -136,17 +124,17 @@ export class RecipeDetailViewComponent {
 
     addToList(ev, list: List) {
         ev.stopPropagation();
-        let lr = this.listRecipes.filter((lr) => lr.list === list.id)[0];
+        let lr = this.listRecipes.filter((lr) => lr.list.id === list.id)[0];
         if (lr) {
             list.added_to_recipe = false;
-            this.listRecipes = this.listRecipes.filter((lr) => lr.list !== list.id);
+            this.listRecipes = this.listRecipes.filter((lr) => lr.list.id !== list.id);
             this.listRecipeService.remove(lr);
             return;
         }
 
         list.added_to_recipe = true;
         lr = new ListRecipe({
-            user_list: list.id,
+            user_list: {id: list.id, name: list.name},
             recipe: this.recipe
         });
         this.listRecipeService.create(lr).then((saved) => {

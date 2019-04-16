@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth';
 import { AlertService } from '../../services/alerts';
 import { CacheService } from '../../services/cache';
 import { Comment, CommentService } from '../../services/comments';
+import { ListRecipe, ListRecipeService } from '../../services/lists';
 import { faGlassMartiniAlt, faPlus, faRandom } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 
@@ -20,6 +21,7 @@ export class HomeViewComponent implements OnInit {
         private authService: AuthService,
         private recipeService: RecipeService,
         private commentService: CommentService,
+        private listRecipeService: ListRecipeService,
         private cacheService: CacheService,
     ) {}
 
@@ -33,8 +35,9 @@ export class HomeViewComponent implements OnInit {
     activeUser: {user_id: number, username: string};
 
     activities: {
-        recipes: ServiceResponse<RecipeStub>,
-        comments: ServiceResponse<Comment>
+        recipes: RecipeStub[],
+        comments: Comment[],
+        listRecipes: ListRecipe[],
     };
 
     ngOnInit() {
@@ -54,12 +57,14 @@ export class HomeViewComponent implements OnInit {
 
         Promise.all([
             this.recipeService.getPage(params),
-            this.commentService.getPage(params)
+            this.commentService.getPage(params),
+            this.listRecipeService.getPage(params),
         ]).then(
-            ([recipeResp, commentResp]) => {
+            ([recipeResp, commentResp, lrResp]) => {
                 this.activities = {
-                    recipes: recipeResp,
-                    comments: commentResp,
+                    recipes: recipeResp.results,
+                    comments: commentResp.results,
+                    listRecipes: lrResp.results
                 };
             }
         );

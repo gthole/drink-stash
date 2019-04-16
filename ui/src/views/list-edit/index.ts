@@ -81,7 +81,7 @@ export class ListEditComponent implements OnInit {
         this.listService.create(this.list).then((saved) => {
             Promise.all(this.recipes.map((r) => {
                 return this.listRecipeService.create(new ListRecipe({
-                    user_list: saved.id,
+                    user_list: {id: saved.id, name: ''},
                     recipe: {id: r.id}
                 }));
             }))

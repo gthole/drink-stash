@@ -53,8 +53,9 @@ export class ListService extends BaseService {
 export class ListRecipe extends BaseModel {
     id: number;
     recipe: RecipeStub;
-    list: number;
+    list: {id: number, name: string};
     notes: string
+    user: any;
     created: string;
     updated: string;
 
@@ -66,6 +67,7 @@ export class ListRecipe extends BaseModel {
         this.recipe = new RecipeStub(payload.recipe);
         this.notes = payload.notes;
         this.list = payload.user_list;
+        this.user = payload.user;
         this.created = payload.created;
         this.updated = payload.updated;
 
@@ -76,7 +78,7 @@ export class ListRecipe extends BaseModel {
         return {
             id: this.id,
             notes: this.notes,
-            user_list: this.list,
+            user_list: this.list.id,
             recipe: this.recipe.id
         }
     }

@@ -77,6 +77,16 @@ class NestedRecipeListSerializer(RecipeListSerializer):
         return get_object_or_404(Recipe, pk=data)
 
 
+class ShorterNestedRecipeListSerializer(NestedRecipeListSerializer):
+    class Meta:
+       model = Recipe
+       fields = (
+           'slug',
+           'name',
+           'ingredients',
+       )
+
+
 #
 # Details & PUT/POST
 #

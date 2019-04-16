@@ -13,6 +13,11 @@
                         <a routerLink="/users/{{ a.username }}">{{ a.name }}</a>
                     </span>
                     <span *ngIf="a.type === 'recipe'"> added a recipe </span>
+                    <span *ngIf="a.type === 'listrecipe'"> added {{ recipeTitle ? 'a' : 'this' }} recipe to
+                        <a routerLink="/lists/{{ a.username }}/lists/{{ a.id }}">
+                            "{{ a.text }}"
+                        </a>
+                    </span>
                     <span *ngIf="a.type === 'comment' && recipeTitle"> made a comment </span>
                     <span *ngIf="a.type === 'comment' && username === a.username" class="text-grey-light">
                         <a routerLink="/comments/{{ a.id }}">&nbsp;(edit)</a>
@@ -23,7 +28,8 @@
                 <p class="font-bold" *ngIf="recipeTitle">
                     <a routerLink="/recipes/{{ a.recipe.slug }}">{{ a.recipe.name }}</a>
                 </p>
-                <div *ngIf="recipeTitle && a.type === 'recipe'" class="text-grey-darker quantities text-sm">
+                <div *ngIf="recipeTitle && (a.type === 'recipe' || a.type === 'listrecipe')"
+                     class="text-grey-darker quantities text-sm">
                     <span *ngFor="let ingredient of a.recipe.ingredients" class="mr-2">
                         {{ ingredient }}
                     </span>

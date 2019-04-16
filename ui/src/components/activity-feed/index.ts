@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Component, OnInit, Input } from '@angular/core';
 import { RecipeStub } from '../../services/recipes';
 import { Comment } from '../../services/comments';
+import { ListRecipe } from '../../services/lists';
 import { AuthService } from '../../services/auth';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
@@ -30,6 +31,7 @@ export class ActivityFeedViewComponent {
 
     // Stuff to show
     @Input() comments: Comment[] = [];
+    @Input() listRecipes: ListRecipe[] = [];
     @Input() recipes: RecipeStub[] = [];
 
     // Display options
@@ -71,9 +73,23 @@ export class ActivityFeedViewComponent {
             };
         });
 
+        const lrActivities: Activity[] = this.listRecipes.map((lr) => {
+            return {
+                id: lr.id,
+                user_hash: lr.user.user_hash,
+                username: lr.user.username,
+                name: `${lr.user.first_name} ${lr.user.last_name}`,
+                type: 'listrecipe',
+                when: new Date(lr.created),
+                text: lr.list.name,
+                recipe: lr.recipe
+            };
+        });
+
         this.allActivities = _.reverse(_.sortBy(
             recipeActivities
-                .concat(commentActivities),
+                .concat(commentActivities)
+                .concat(lrActivities),
             'when'
         ));
         this.activityFeed = this.allActivities.slice(0, 10);

@@ -74,12 +74,33 @@ class UserListTestCase(BaseTestCase):
         )
 
     def test_get_ulr_by_list(self):
+        self.maxDiff = None
         resp = self.client.get('/api/v1/list-recipes/', {'user_list': 2})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
             [ulr['id'] for ulr in resp.json()['results']],
             [3]
         )
+
+        self.assertEqual(resp.json()['results'][0], {
+            'id': 3,
+            'notes': 'Awful',
+            'order': 0.1,
+            'recipe': {
+                'ingredients': ['Rye', 'Strega', 'Sfumato', 'Lemon Juice'],
+                'name': 'Special Counsel',
+                'slug': 'special-counsel'
+            },
+            'user': {
+                'first_name': 'Tertius',
+                 'id': 2,
+                 'last_name': 'Lydgate',
+                 'user_hash': 'd41d8cd98f00b204e9800998ecf8427e',
+                 'username': 'user'
+            },
+            'user_list': {'id': 2, 'name': 'Recipes I Hate'},
+            'created': resp.json()['results'][0]['created']
+        })
 
     def test_get_ulr_by_user(self):
         resp = self.client.get('/api/v1/list-recipes/', {'user_list__user': 1})

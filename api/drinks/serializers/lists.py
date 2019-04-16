@@ -1,19 +1,37 @@
 from rest_framework.serializers import ModelSerializer, CurrentUserDefault, \
     IntegerField, FloatField
+from django.shortcuts import get_object_or_404
 from drinks.models import UserList, UserListRecipe
-from .recipes import NestedRecipeListSerializer
+from .recipes import NestedRecipeListSerializer, \
+    ShorterNestedRecipeListSerializer
 from .users import NestedUserSerializer
 
 
+class NestedUserListSerializer(ModelSerializer):
+    class Meta:
+       model = UserList
+       fields = (
+           'id',
+           'name',
+       )
+
+    def to_internal_value(self, data):
+        return get_object_or_404(UserList, pk=data)
+
+
 class UserListRecipeSerializer(ModelSerializer):
-    recipe = NestedRecipeListSerializer()
+    recipe = ShorterNestedRecipeListSerializer()
+    user = NestedUserSerializer(source='user_list.user', read_only=True)
+    user_list = NestedUserListSerializer()
 
     class Meta:
         model = UserListRecipe
         fields = (
             'id',
             'recipe',
+            'created',
             'user_list',
+            'user',
             'notes',
             'order',
         )

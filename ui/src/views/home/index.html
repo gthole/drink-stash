@@ -79,8 +79,9 @@
     <div class="w-full md:w-3/4 xl:w-1/2">
         <activity-feed
             *ngIf="activities"
-            [recipes]="activities.recipes.results"
-            [comments]="activities.comments.results"
+            [recipes]="activities.recipes"
+            [comments]="activities.comments"
+            [listRecipes]="activities.listRecipes"
             [recipeTitle]="true"
             [title]="'Activity Feed'"
         ></activity-feed>
