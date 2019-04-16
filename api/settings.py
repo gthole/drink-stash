@@ -39,6 +39,7 @@ REST_FRAMEWORK = {
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=365),
+    'JWT_PAYLOAD_HANDLER': 'drinks.auth.jwt_payload_handler'
 }
 
 MIDDLEWARE_CLASSES = [

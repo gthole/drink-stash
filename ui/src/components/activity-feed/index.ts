@@ -75,7 +75,7 @@ export class ActivityFeedViewComponent {
 
         const lrActivities: Activity[] = this.listRecipes.map((lr) => {
             return {
-                id: lr.id,
+                id: lr.list.id,
                 user_hash: lr.user.user_hash,
                 username: lr.user.username,
                 name: `${lr.user.first_name} ${lr.user.last_name}`,

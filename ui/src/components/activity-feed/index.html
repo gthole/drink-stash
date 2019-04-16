@@ -14,7 +14,7 @@
                     </span>
                     <span *ngIf="a.type === 'recipe'"> added a recipe </span>
                     <span *ngIf="a.type === 'listrecipe'"> added {{ recipeTitle ? 'a' : 'this' }} recipe to
-                        <a routerLink="/lists/{{ a.username }}/lists/{{ a.id }}">
+                        <a routerLink="/users/{{ a.username }}/lists/{{ a.id }}">
                             "{{ a.text }}"
                         </a>
                     </span>

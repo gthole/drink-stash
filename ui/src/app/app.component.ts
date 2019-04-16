@@ -19,7 +19,7 @@ import { faLongArrowAltLeft, faBars } from '@fortawesome/free-solid-svg-icons';
 export class AppComponent {
     title = 'Drink Stash';
     loggedIn: boolean = false;
-    username: string;
+    user: {username: string, is_staff: boolean};
     alerts: Alert[] = [];
     showMenu: boolean = false;
     showNav: boolean = false;
@@ -63,8 +63,7 @@ export class AppComponent {
         if (!this.authService.isLoggedIn()) {
             this.router.navigateByUrl('/login');
         } else {
-            const data = this.authService.getUserData();
-            this.username = data.username;
+            this.user = this.authService.getUserData();
             this.loggedIn = true;
         }
     }

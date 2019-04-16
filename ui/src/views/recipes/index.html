@@ -33,23 +33,21 @@
                 </div>
             </div>
 
-            <div class="list mt-6" *ngIf="recipes && recipes.length"
+            <div class="mt-6 mb-12" *ngIf="meta.page > 1 || meta.page * per_page < count"
                 [ngClass]="{'loading-color': loading}">
-                <div class="mt-6 mb-12">
-                    <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded"
-                        [disabled]="loading"
-                        *ngIf="meta.page > 1"
-                        (click)="paginate(-1)">
-                        Prev
-                    </button>&nbsp;
+                <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded"
+                    [disabled]="loading"
+                    *ngIf="meta.page > 1"
+                    (click)="paginate(-1)">
+                    Prev
+                </button>&nbsp;
 
-                    <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded float-right"
-                        [disabled]="loading"
-                        *ngIf="meta.page * per_page < count"
-                        (click)="paginate(1)">
-                        Next
-                    </button>
-                </div>
+                <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded float-right"
+                    [disabled]="loading"
+                    *ngIf="meta.page * per_page < count"
+                    (click)="paginate(1)">
+                    Next
+                </button>
             </div>
         </div>
     </div>

@@ -14,7 +14,7 @@
                     <img class="min-img w-10 h-10 rounded-full" src="https://www.gravatar.com/avatar/{{ list.user.user_hash }}.jpg?d=mp&size=64">
                 </a>
                 <span class="ml-3 align-top">
-                by <a routerLink="/users/{{ list.user.username }}">{{ list.user.first_name }} {{list.user.last_name}}</a>
+                by <a class="align-top h-full" routerLink="/users/{{ list.user.username }}">{{ list.user.first_name }} {{list.user.last_name}}</a>
                 </span>
             </div>
         </div>
@@ -24,7 +24,9 @@
         <p class="w-full mt-12 lg:mt-0 mb-3 block uppercase tracking-wide font-bold text-grey-darker text-center">Recipes</p>
 
         <div class="mb-8" *ngFor="let lr of listRecipes">
-            <p *ngIf="canEdit" class="float-right text-grey cursor-pointer" (click)="removeLr(lr)"><fa-icon [icon]="faTimes"></fa-icon></p>
+            <p *ngIf="canEdit" class="float-right text-grey cursor-pointer px-2 py-1" (click)="removeLr(lr)">
+                <fa-icon [icon]="faTimes"></fa-icon>
+            </p>
 
             <p class="title text-xl">
                 <a routerLink="/recipes/{{ lr.recipe.slug }}">{{ lr.recipe.name }}</a>

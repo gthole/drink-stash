@@ -2,7 +2,7 @@
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 20; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -50,9 +50,9 @@
 /* Modal Content */
 .modal-content {
   position: fixed;
-  top: 20%;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background-color: #fefefe;
   width: 300px;
   max-width: 100%;
@@ -76,8 +76,8 @@
 }
 
 .modal-footer a {
-    /* Teal */
-    color: #4dc0b5;
+  /* Teal */
+  color: #4dc0b5;
 }
 
 /* Add Animation */
