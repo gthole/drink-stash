@@ -6,12 +6,14 @@
     <h1 class="title">{{ recipe.name }}</h1>
     <div class="mt-2 text-grey-darker"><i>{{ recipe.source }}</i></div>
     <table class="my-6 mx-2">
-        <tr *ngFor="let q of showQuantities" style="min-height: 38px">
+        <tr *ngFor="let q of showQuantities">
             <td style="text-align: right; padding: 5px 8px 5px 0; border-right: 1px solid #999; min-width: 62px" class="mr-2">
                 <span class="font-bold" [innerHTML]="q.amount | fractions"></span>
                 <span class="text-grey-darker text-s">&nbsp;{{ q.unit }}</span>
             </td>
-            <td class="align-middle" style="padding: 5px 0 5px 8px;">{{ q.ingredient }}</td>
+            <td class="align-middle" style="padding: 5px 0 5px 8px;">
+                <div style="min-height: 38px">{{ q.ingredient }}</div>
+            </td>
         </tr>
     </table>
     <div class="mb-8 text-grey-darker whitespace-pre-wrap">{{ recipe.directions }}</div>
