@@ -87,6 +87,7 @@ class UserListTestCase(BaseTestCase):
             'notes': 'Awful',
             'order': 0.1,
             'recipe': {
+                'id': 1,
                 'ingredients': ['Rye', 'Strega', 'Sfumato', 'Lemon Juice'],
                 'name': 'Special Counsel',
                 'slug': 'special-counsel'
