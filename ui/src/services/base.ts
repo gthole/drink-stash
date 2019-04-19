@@ -43,6 +43,13 @@ export class BaseService {
             headers['X-Count'] = '' + cached.count;
         }
 
+        function format(response) {
+            if (model) {
+                response.results = response.results.map(a => new model(a));
+            }
+            return response;
+        }
+
         return this.http
             .get(url, {headers, observe: 'response'})
             .toPromise()
@@ -52,16 +59,13 @@ export class BaseService {
                     count: res.body.count,
                     results: res.body.results
                 };
-                if (model) {
-                    response.results = response.results
-                        .map((a) => new model(a));
-                }
                 this.cacheService.set(url, response);
-                return response;
+                return format(response);
             })
             .catch((err) => {
-                if (err.status === 304) {
-                    return Promise.resolve(cached);
+                if (err.status === 304 && cached) {
+                    const response = format(cached);
+                    return Promise.resolve(response);
                 }
             });
     }

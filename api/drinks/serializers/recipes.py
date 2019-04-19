@@ -81,6 +81,7 @@ class ShorterNestedRecipeListSerializer(NestedRecipeListSerializer):
     class Meta:
        model = Recipe
        fields = (
+           'id',
            'slug',
            'name',
            'ingredients',
