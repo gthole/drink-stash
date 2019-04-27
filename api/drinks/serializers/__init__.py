@@ -5,4 +5,4 @@ from .recipes import RecipeListSerializer, NestedRecipeListSerializer, \
 from .lists import UserListSerializer, UserListRecipeSerializer
 from .tags import TagSerializer
 from .uom import UomSerializer
-from .users import UserSerializer, NestedUserSerializer
+from .users import UserSerializer, NestedUserSerializer, PasswordSerializer

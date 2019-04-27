@@ -37,24 +37,21 @@ class UserTestCase(BaseTestCase):
             {
                 'first_name': 'Dodo',
                 'id': 1,
-                'ingredient_set': [
-                    'Lemon Juice',
-                    'Gin'
-                ],
                 'last_name': 'Brooke',
                 'username': 'admin'
             },
             format='json'
         )
         self.assertEqual(resp.status_code, 200)
-        # self.assertEqual(User.objects.get(pk=1).first_name, 'Dodo')
-        self.assertEqual(
-            [
-                ui.ingredient.name for ui in
-                UserIngredient.objects.filter(user_id=1).iterator()
-            ],
-            ['Gin', 'Lemon Juice']
-        )
+        self.assertEqual(User.objects.get(pk=1).first_name, 'Dodo')
+
+        # self.assertEqual(
+        #     [
+        #         ui.ingredient.name for ui in
+        #         UserIngredient.objects.filter(user_id=1).iterator()
+        #     ],
+        #     ['Gin', 'Lemon Juice']
+        # )
 
     def test_cannot_create_users(self):
         resp = self.client.post(

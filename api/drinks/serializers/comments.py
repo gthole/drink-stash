@@ -1,4 +1,5 @@
-from rest_framework.serializers import ModelSerializer, CurrentUserDefault
+from rest_framework.serializers import ModelSerializer, CreateOnlyDefault, \
+    CurrentUserDefault
 from rest_framework.validators import UniqueTogetherValidator
 from .users import NestedUserSerializer
 from .recipes import NestedRecipeListSerializer
@@ -8,7 +9,7 @@ from drinks.models import Comment
 class CommentSerializer(ModelSerializer):
     user = NestedUserSerializer(
         read_only=True,
-        default=CurrentUserDefault()
+        default=CreateOnlyDefault(CurrentUserDefault()),
     )
     recipe = NestedRecipeListSerializer()
 

@@ -1,7 +1,8 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
-    CurrentUserDefault, IntegerField, CharField, ValidationError
+    IntegerField, CharField, ValidationError, CreateOnlyDefault, \
+    CurrentUserDefault
 from .users import NestedUserSerializer
 from .tags import TagSerializer
 from .ingredients import NestedIngredientSerializer
@@ -27,7 +28,7 @@ class RecipeListSerializer(ModelSerializer):
     tags = TagSerializer(many=True)
     added_by = NestedUserSerializer(
         read_only=True,
-        default=CurrentUserDefault()
+        default=CreateOnlyDefault(CurrentUserDefault())
     )
 
     class Meta:

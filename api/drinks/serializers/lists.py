@@ -1,5 +1,5 @@
-from rest_framework.serializers import ModelSerializer, CurrentUserDefault, \
-    IntegerField, FloatField
+from rest_framework.serializers import ModelSerializer, IntegerField, \
+    FloatField, CreateOnlyDefault, CurrentUserDefault
 from django.shortcuts import get_object_or_404
 from drinks.models import UserList, UserListRecipe
 from .recipes import NestedRecipeListSerializer, \
@@ -41,7 +41,7 @@ class UserListSerializer(ModelSerializer):
     recipe_count = IntegerField(read_only=True)
     user = NestedUserSerializer(
         read_only=True,
-        default=CurrentUserDefault()
+        default=CreateOnlyDefault(CurrentUserDefault()),
     )
 
     class Meta:

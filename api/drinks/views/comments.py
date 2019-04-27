@@ -21,3 +21,6 @@ class CommentViewSet(LazyViewSet):
         if self.request.method == 'GET':
             queryset = self.get_serializer_class().setup_eager_loading(queryset)
         return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
