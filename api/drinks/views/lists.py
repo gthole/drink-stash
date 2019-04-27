@@ -53,3 +53,6 @@ class UserListViewSet(LazyViewSet):
     def get_queryset(self):
         qs = super(UserListViewSet, self).get_queryset()
         return qs.annotate(recipe_count=Count('recipes', distinct=True))
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

@@ -63,6 +63,9 @@ class RecipeViewSet(LazyViewSet):
 
         return super(RecipeViewSet, self).filter_queryset(qs)
 
+    def perform_create(self, serializer):
+        serializer.save(added_by=self.request.user)
+
     def get_object(self):
         """
         Get recipe by slug or PK

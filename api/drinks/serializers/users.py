@@ -1,7 +1,7 @@
 from hashlib import md5
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
-    SerializerMethodField, BooleanField, IntegerField
+    SerializerMethodField, BooleanField, IntegerField, CharField
 from drinks.models import UserIngredient
 from .ingredients import get_or_create_ingredient
 
