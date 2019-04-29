@@ -1,14 +1,27 @@
 from hashlib import md5
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
-    SerializerMethodField, BooleanField, IntegerField, CharField
+    SerializerMethodField, BooleanField, IntegerField, CharField, \
+    ValidationError, Serializer
 from drinks.models import UserIngredient
-from .ingredients import get_or_create_ingredient
 
 
 class UserIngredientSerializer(BaseSerializer):
     def to_internal_value(self, data):
-        return data
+        ingredient = next((i for i in self.context['ingredients']
+                           if i.name == data), None)
+        if ingredient is None:
+            raise ValidationError(detail='Unknown ingredient')
+
+        try:
+            return next((ui for ui in self.context['user_ingredients']
+                         if ui.ingredient.name == data))
+        except StopIteration:
+            return UserIngredient(
+                user=self.context['request'].user,
+                ingredient=ingredient
+            )
 
     def to_representation(self, obj):
         return obj.ingredient.name
@@ -54,6 +67,6 @@ class NestedUserSerializer(UserSerializer):
         )
 
 
-class PasswordSerializer(BaseSerializer):
+class PasswordSerializer(Serializer):
     current_password = CharField()
     new_password = CharField()

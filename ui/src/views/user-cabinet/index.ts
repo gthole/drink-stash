@@ -30,8 +30,10 @@ export class UserCabinetComponent {
             this.ingredientService.getPage()
         ]).then(([user, ingredientResp]) => {
             this.loading = false;
-
             this.user = user;
+            this.user.ingredient_set = _.sortBy(this.user.ingredient_set, (i) => {
+                return i.toLowerCase();
+            });
             this.ingredients = _.reverse(_.sortBy(ingredientResp.results, 'usage'))
                 .map(i => i.name);
         });
@@ -62,6 +64,6 @@ export class UserCabinetComponent {
     }
 
     save() {
-        this.userService.updateSelf(this.user);
+        this.userService.updateCabinet(this.user.ingredient_set);
     }
 }

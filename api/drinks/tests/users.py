@@ -1,6 +1,6 @@
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
-from drinks.models import UserIngredient
+from drinks.models import UserIngredient, Ingredient
 from django.utils.timezone import now
 from .base import BaseTestCase
 
@@ -44,14 +44,6 @@ class UserTestCase(BaseTestCase):
         )
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(User.objects.get(pk=1).first_name, 'Dodo')
-
-        # self.assertEqual(
-        #     [
-        #         ui.ingredient.name for ui in
-        #         UserIngredient.objects.filter(user_id=1).iterator()
-        #     ],
-        #     ['Gin', 'Lemon Juice']
-        # )
 
     def test_cannot_create_users(self):
         resp = self.client.post(
@@ -122,3 +114,99 @@ class UserTestCase(BaseTestCase):
         resp = self.client.delete('/api/v1/users/2/')
         self.assertEqual(resp.status_code, 405)
         self.assertEqual(User.objects.all().count(), 2)
+
+    def test_update_cabinet(self):
+        resp = self.client.put(
+            '/api/v1/users/1/cabinet/',
+            ['Gin', 'Lemon Juice'],
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [
+                ui.ingredient.name for ui in
+                UserIngredient.objects.filter(user_id=1).iterator()
+            ],
+            ['Gin', 'Lemon Juice']
+        )
+
+    def test_remove_from_cabinet(self):
+        UserIngredient(user_id=1, ingredient=Ingredient.objects.get(name='Gin')).save()
+        UserIngredient(user_id=1, ingredient=Ingredient.objects.get(name='Lemon Juice')).save()
+        resp = self.client.put(
+            '/api/v1/users/1/cabinet/',
+            ['Gin'],
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [
+                ui.ingredient.name for ui in
+                UserIngredient.objects.filter(user_id=1).iterator()
+            ],
+            ['Gin']
+        )
+
+    def test_no_update_other_user_cabinet(self):
+        resp = self.client.put(
+            '/api/v1/users/2/cabinet/',
+            ['Gin', 'Lemon Juice'],
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 403)
+        self.assertEqual(UserIngredient.objects.filter(user_id=2).count(), 0)
+
+    def test_add_to_cabinet(self):
+        UserIngredient(user_id=1, ingredient=Ingredient.objects.get(name='Gin')).save()
+        resp = self.client.put(
+            '/api/v1/users/1/cabinet/',
+            ['Gin', 'Lemon Juice', 'Rye'],
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [
+                ui.ingredient.name for ui in
+                UserIngredient.objects.filter(user_id=1).iterator()
+            ],
+            ['Gin', 'Rye', 'Lemon Juice']
+        )
+
+    def test_update_cabinet_unknown_ingredient(self):
+        resp = self.client.put(
+            '/api/v1/users/1/cabinet/',
+            ['Gin', 'Foo Juice'],
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 400)
+        self.assertEqual(UserIngredient.objects.filter(user_id=1).count(), 0)
+
+    def test_reset_password(self):
+        resp = self.client.put(
+            '/api/v1/users/1/reset_password/',
+            {'current_password': 'negroni', 'new_password': 'fegroni'},
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+        u = User.objects.get(pk=1)
+        self.assertTrue(u.check_password('fegroni'))
+
+    def test_check_password_on_reset(self):
+        resp = self.client.put(
+            '/api/v1/users/1/reset_password/',
+            {'current_password': 'ginandtonic', 'new_password': 'fegroni'},
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 401)
+        u = User.objects.get(pk=1)
+        self.assertFalse(u.check_password('fegroni'))
+
+    def test_no_reset_password_other_users(self):
+        resp = self.client.put(
+            '/api/v1/users/2/reset_password/',
+            {'current_password': 'negroni', 'new_password': 'fegroni'},
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 403)
+        u = User.objects.get(pk=2)
+        self.assertFalse(u.check_password('fegroni'))

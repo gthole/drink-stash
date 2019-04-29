@@ -33,11 +33,8 @@ class User extends BaseModel {
     toPayload() {
         return {
             id: this.id,
-            username: this.username,
             first_name: this.first_name,
             last_name: this.last_name,
-            ingredient_set: this.ingredient_set,
-            is_staff: this.is_staff,
         }
     }
 }
@@ -76,6 +73,19 @@ class UserService extends BaseService {
     updateSelf(user: User) {
         this._self = user;
         return this.update(user);
+    }
+
+    updateCabinet(ingredients: string[]): Promise<Object> {
+        const user_id = this.authService.getUserData().user_id;
+        return this.http.put(`${this.baseUrl}${user_id}/cabinet/`, ingredients)
+            .toPromise();
+    }
+
+    resetPassword(current_password: string, new_password: string): Promise<Object> {
+        const user_id = this.authService.getUserData().user_id;
+        const payload = {current_password, new_password};
+        return this.http.put(`${this.baseUrl}${user_id}/reset_password/`, payload)
+            .toPromise();
     }
 }
 

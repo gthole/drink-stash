@@ -2,6 +2,7 @@
 .data
 api/.env
 api/app-build
+api/static
 __pycache__
 *.pyc
 ui/node_modules

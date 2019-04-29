@@ -16,6 +16,13 @@ class UserIngredient(Model):
     user = ForeignKey(User, related_name='ingredient_set', on_delete=CASCADE)
     ingredient = ForeignKey(Ingredient, on_delete=CASCADE)
 
+    def __str__(self):
+        return '%s: %s - %s' % (
+            self.id,
+            self.user.username,
+            self.ingredient.name
+        )
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

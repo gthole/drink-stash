@@ -3,12 +3,14 @@ from rest_framework.permissions import IsAuthenticated, BasePermission, \
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, \
+    HTTP_403_FORBIDDEN
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 from django.contrib.auth.models import User
-from drinks.serializers import UserSerializer, NestedIngredientSerializer, \
+from drinks.models import UserIngredient, Ingredient
+from drinks.serializers import UserSerializer, UserIngredientSerializer, \
     PasswordSerializer
 from drinks.views.base import LazyViewSet
 
@@ -51,12 +53,16 @@ class UserViewSet(ModelViewSet):
         self.check_object_permissions(self.request, obj)
         return obj
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['put'])
     def reset_password(self, request, pk=None):
         user = self.get_object()
+        if user.id != request.user.id:
+            return Response(status=HTTP_403_FORBIDDEN)
         serializer = PasswordSerializer(data=request.data)
         if serializer.is_valid():
-            user.set_password(serializer.data['password'])
+            if not user.check_password(serializer.data['current_password']):
+                return Response(status=HTTP_401_UNAUTHORIZED)
+            user.set_password(serializer.data['new_password'])
             user.save()
             return Response({'status': 'password set'})
         else:
@@ -65,9 +71,29 @@ class UserViewSet(ModelViewSet):
     @action(detail=True, methods=['put'])
     def cabinet(self, request, pk=None):
         user = self.get_object()
-        serializer = NestedIngredientSerializer(many=True, data=request.data)
+        if user.id != request.user.id:
+            return Response(status=HTTP_403_FORBIDDEN)
+        ingredients = Ingredient.objects.filter(name__in=request.data).all()
+        user_ingredients = UserIngredient.objects.filter(user=request.user) \
+            .all()
+        serializer = UserIngredientSerializer(
+            many=True,
+            data=request.data,
+            context={
+                'request': request,
+                'ingredients': ingredients,
+                'user_ingredients': user_ingredients
+            }
+        )
+
         if serializer.is_valid():
-            user.ingredient_set.set(serializer.data)
+            for ui in (x for x in serializer.validated_data if not x.id):
+                ui.save()
+            UserIngredient.objects \
+                .filter(user=request.user) \
+                .exclude(ingredient__name__in=request.data) \
+                .delete()
+            request.user.ingredient_set.set(serializer.validated_data)
             return Response({'status': 'cabinet updated'})
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
