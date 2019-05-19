@@ -36,6 +36,11 @@ export class ListViewComponent implements OnInit {
                 this.listService.getPage({user: user.id}).then((listResp) => {
                     this.lists = listResp.results;
                     this.loading = false;
+                    if (this.side_display && this.route.snapshot.queryParams.show) {
+                        const id = this.route.snapshot.queryParams.show;
+                        this.listService.getById(id)
+                            .then(list => this.routeList(null, list));
+                    }
                 });
             });
         });
@@ -45,6 +50,10 @@ export class ListViewComponent implements OnInit {
         if (ev) ev.preventDefault();
         if (this.side_display) {
             this.list = list;
+            this.router.navigate(
+                ['users', list.user.username, 'lists'],
+                {replaceUrl: true, queryParams: {show: list.id}}
+            );
         } else {
             this.router.navigateByUrl(`/users/${list.user.username}/lists/${list.id}`);
         }
