@@ -7,6 +7,7 @@ import { User, UserService } from '../../services/users';
 interface RecipeViewMeta {
     page: number;
     filters: string[];
+    ignoreIds: number[];
     recipeSlug?: string;
 }
 
@@ -62,6 +63,12 @@ export class RecipeListComponent implements OnInit {
             // then don't load the recipe data
             if (this.meta && qp.show && this.meta.recipeSlug !== qp.show) {
                 this.meta.recipeSlug = qp.show;
+                this.recipes = this.recipes.filter(r => !this.meta.ignoreIds.includes(r.id));
+                return;
+            }
+
+            if (this.meta && qp.ignore && this.meta.ignoreIds.length !== qp.ignore.split(',').length) {
+                this.meta.ignoreIds = this.parseIgnore(qp);
                 return;
             }
 
@@ -75,10 +82,16 @@ export class RecipeListComponent implements OnInit {
             this.meta = {
                 page: parseInt(qp.page) || 1,
                 filters: search || [],
-                recipeSlug: qp.show || null
+                recipeSlug: qp.show || null,
+                ignoreIds: this.parseIgnore(qp)
             };
             this.loadPage();
         });
+    }
+
+    parseIgnore(qp): number[] {
+        if (!qp.ignore) return [];
+        return qp.ignore.split(',').filter(i => Boolean(i)).map(i => parseInt(i));
     }
 
     loadPage() {
@@ -93,7 +106,7 @@ export class RecipeListComponent implements OnInit {
         this.recipeService.getPage(query).then(
             (resp: {count: number, results: RecipeStub[]}) => {
                 this.count = resp.count;
-                this.recipes = resp.results;
+                this.recipes = resp.results.filter(r => !this.meta.ignoreIds.includes(r.id));
                 this.example = this.exampleQueries[
                     Math.floor(Math.random() * this.exampleQueries.length)
                 ];
@@ -166,7 +179,14 @@ export class RecipeListComponent implements OnInit {
 
     // Received on swipe left event
     clearRecipe(recipe_id: number, save: boolean) {
-        this.recipes = this.recipes.filter((r) => r.id !== recipe_id);
+        const ids = this.meta.ignoreIds.concat([recipe_id]);
+        this.recipes = this.recipes.filter(r => !ids.includes(r.id));
+        this.updateRoute({ignore: ids.join(',')});
+    }
+
+    clearIgnored() {
+        this.updateRoute({ignore: ''});
+        this.loadPage();
     }
 
     // Either route to the recipe details view or display on the side

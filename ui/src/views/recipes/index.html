@@ -10,6 +10,11 @@
             <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
                 <input id="search" class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter {{ count }} {{ count === 1 ? 'recipe' : 'recipes' }} (e.g. {{ example }})" [(ngModel)]="filter" (change)="addSearchFilter()" id="searchbar" [ngClass]="{'hide-placeholder': loading}">
             </div>
+            <div *ngIf="meta && meta.ignoreIds.length" class="my-4 py-2 px-4 bg-grey-lighter">
+                <div class="float-right" (click)="clearIgnored()">&times;</div>
+                Ignoring {{ meta.ignoreIds.length }}
+                <span [innerHtml]="meta.ignoreIds.length === 1 ? 'recipe' : 'recipes'"></span>
+            </div>
             <div class="my-4 overflow-auto">
                 <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white" *ngFor="let f of meta.filters" (click)="removeSearchFilter(f)" [ngClass]="{
                     'bg-orange': f.slice(0, 4) === 'NOT ',
