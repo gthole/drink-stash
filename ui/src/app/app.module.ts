@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 import { AutoCompleteComponent } from '../components/autocomplete';
 import { TagEditComponent } from '../components/tag-edit';
 import { ActivityFeedViewComponent } from '../components/activity-feed';
+import { LoadingComponent } from '../components/loading';
 import { RecipeCardComponent } from '../components/recipe-card';
 import { RecipeDetailViewComponent } from '../components/detail-view';
 
@@ -61,6 +62,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
         ListDetailsComponent,
         ListEditComponent,
         ListViewComponent,
+        LoadingComponent,
         RecipeEditComponent,
         RecipeDetailComponent,
         RecipeDetailViewComponent,

@@ -76,6 +76,7 @@
 </div>
 
 <div class="flex flex-wrap items-center justify-center mt-16">
+    <loading *ngIf="!activities" class="w-full mb-20"></loading>
     <div class="w-full md:w-3/4 xl:w-1/2">
         <activity-feed
             *ngIf="activities"

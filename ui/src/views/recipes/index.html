@@ -23,6 +23,7 @@
                     {{ f }} &times;
                 </div>
             </div>
+            <loading *ngIf="!recipes"></loading>
             <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
                 No matches
             </div>
