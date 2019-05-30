@@ -1,4 +1,5 @@
-<form class="width-container w-full max-w-md" *ngIf="!loading">
+<div class="width-container bg-white sm:shadow sm:p-10" *ngIf="!loading">
+<form class="width-container w-full max-w-md">
   <div class="flex flex-wrap -mx-3 mb-1">
     <div class="w-full md:w-1/2 px-3 mb-2">
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
@@ -88,7 +89,7 @@
 
 </form>
 
-<div class="width-container" *ngIf="!loading && recipe.id">
+<div *ngIf="recipe.id">
     <button class="bg-transparent text-red hover:bg-red hover:text-white border border-red hover:border-transparent font-bold py-2 px-4 rounded focus:bg-red focus:text-white focus:border-transparent" (click)="delete()">
         Delete
     </button>
@@ -98,7 +99,7 @@
     </button>
 </div>
 
-<div class="width-container" *ngIf="!loading && !recipe.id">
+<div *ngIf="!recipe.id">
     <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 focus:bg-purple-darker" (click)="save()">
         Save
     </button>
@@ -106,4 +107,5 @@
     <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded float-right focus:bg-purple-darker" (click)="save(true)">
         &#43; Save and New
     </button>
+</div>
 </div>

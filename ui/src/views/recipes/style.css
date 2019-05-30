@@ -8,9 +8,15 @@
     -webkit-transition: opacity 0.2s;
 }
 
+.recipe-sidebar {
+    margin: -20px -15px 0 -15px;
+    padding: 30px 20px 0 20px;
+}
+
 @media only screen and (min-width: 1060px) {
     .recipe-sidebar {
-        padding-top: 30px;
+        margin-top: -50px;
+        padding-top: 76px;
         padding-left: 20px;
         padding-right: 20px;
         float: left;

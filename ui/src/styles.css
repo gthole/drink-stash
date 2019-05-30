@@ -1,5 +1,12 @@
 body {
     font-family: 'Roboto script=all rev=1', sans-serif;
+    background: #fff;
+}
+
+@media only screen and (min-width: 575px) {
+    body {
+        background: #f1f5f8;
+    }
 }
 
 input:focus {outline:0;}

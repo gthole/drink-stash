@@ -1,4 +1,4 @@
-<div *ngIf="recipe">
+<div *ngIf="recipe" class="bg-white sm:shadow sm:p-10">
     <a *ngIf="canEdit && showEdit" routerLink="/recipes/{{ recipe.slug }}/edit" class="float-right text-2xl md:text-3xl mt-1" style="color: #794acf">
         <fa-icon [icon]="faEdit"></fa-icon>
     </a>

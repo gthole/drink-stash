@@ -1,5 +1,5 @@
 <div class="flex flex-wrap" *ngIf="user">
-    <div class="flex mb-6 flex-wrap content-start w-full lg:w-1/2">
+    <div class="bg-white sm:shadow sm:p-10 flex mb-6 flex-wrap content-start w-full lg:w-1/2">
         <div class="flex w-full lg:mb-10">
             <img style="max-height: 128px" class="flex-no-shrink rounded-full mr-4"
                  src="https://www.gravatar.com/avatar/{{ user.user_hash }}.jpg?d=mp&size=128">
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="w-full">
+        <div class="bg-white w-full">
             <p class="w-full mt-12 mb-2 lg:mt-0 block uppercase tracking-wide font-bold text-grey-darker text-center">Lists</p>
             <div *ngIf="lists">
                 <div *ngFor="let list of lists" class="bg-white px-4 py-3 mb-3">

@@ -5,34 +5,36 @@
         </list-details>
     </div>
     <div class="list-sidebar">
-        <div class="mb-6 content-start">
-            <div class="mb-6 text-2xl">
-                {{ user.first_name }} {{ user.last_name }}'s Lists
-            </div>
-            <a class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded focus:bg-purple-darker"
-                *ngIf="activeUser.user_id === user.id"
-                routerLink="/users/{{ activeUser.username }}/lists/new">
-                &#43; New List
-            </a>
-        </div>
-        <div *ngFor="let list of lists" class="item cursor-pointer" (click)="routeList($event, list)">
-            <div class="py-4">
-                <div>
-                    <a class="font-bold text-xl text-grey-darker mb-2 mr-1">
-                        {{ list.name }}
-                    </a>
-                    <span class="text-grey-dark font-light">
-                        ({{ list.recipe_count }}&nbsp;<span [innerHTML]="list.recipe_count === 1 ? 'recipe' : 'recipes'"></span>)
-                    </span>
+        <div class="bg-white sm:p-10 sm:shadow">
+            <div class="mb-6 content-start">
+                <div class="mb-6 text-2xl">
+                    {{ user.first_name }} {{ user.last_name }}'s Lists
                 </div>
-                <div *ngIf="list.description" class="text-grey-dark text-sm">
-                    <p *ngIf="list.description">{{ list.description }}</p>
-                </div>
-                <div class="text-sm text-grey-dark mt-2">{{ list.updated | amTimeAgo }}</div>
+                <a class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded focus:bg-purple-darker"
+                    *ngIf="activeUser.user_id === user.id"
+                    routerLink="/users/{{ activeUser.username }}/lists/new">
+                    &#43; New List
+                </a>
             </div>
-        </div>
-        <div *ngIf="lists.length === 0">
-            <p class="mt-3 text-grey-dark text-sm text-center">(No lists here yet!)</p>
+            <div *ngFor="let list of lists" class="item cursor-pointer" (click)="routeList($event, list)">
+                <div class="py-4">
+                    <div>
+                        <a class="font-bold text-xl text-grey-darker mb-2 mr-1">
+                            {{ list.name }}
+                        </a>
+                        <span class="text-grey-dark font-light">
+                            ({{ list.recipe_count }}&nbsp;<span [innerHTML]="list.recipe_count === 1 ? 'recipe' : 'recipes'"></span>)
+                        </span>
+                    </div>
+                    <div *ngIf="list.description" class="text-grey-dark text-sm">
+                        <p *ngIf="list.description">{{ list.description }}</p>
+                    </div>
+                    <div class="text-sm text-grey-dark mt-2">{{ list.updated | amTimeAgo }}</div>
+                </div>
+            </div>
+            <div *ngIf="lists.length === 0">
+                <p class="mt-3 text-grey-dark text-sm text-center">(No lists here yet!)</p>
+            </div>
         </div>
     </div>
 </div>

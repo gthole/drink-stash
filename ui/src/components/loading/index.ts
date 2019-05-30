@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+// https://cssfx.dev/
 @Component({
     selector: 'loading',
     template: `

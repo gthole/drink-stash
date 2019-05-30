@@ -1,4 +1,5 @@
-<form class="width-container w-full max-w-md mb-12" *ngIf="!loading">
+<div class="width-container bg-white sm:shadow sm:p-10">
+<form class="w-full max-w-md mb-12" *ngIf="!loading">
   <div class="flex flex-wrap -mx-3 mb-1">
     <div class="w-full md:w-1/2 px-3 mb-2">
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
@@ -39,4 +40,5 @@
     <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 focus:bg-purple-darker" (click)="create()" [disabled]="loading">
         Save
     </button>
+</div>
 </div>
