@@ -7,12 +7,12 @@ import { TagService } from '../../services/tags';
     selector: 'tag-edit',
     template: `
         <div class="flex" *ngIf="sourceTags">
-        <span *ngFor="let tag of tags" class="mr-2 rounded-full mr-2 py-1 px-2 text-white bg-purple-light text-sm">
+        <span *ngFor="let tag of tags" class="mr-2 rounded-full mr-2 py-1 px-2 text-white bg-purple-400 text-sm">
             {{ tag }} <span (click)="removeTag(tag)">&times;</span>
         </span>
         <autocomplete
             [name]="'tag-add'"
-            [inputClass]="'text-purple-dark text-sm border-b border-purple'"
+            [inputClass]="'text-purple-600 text-sm border-b border-purple-500'"
             [(ngModel)]="newTag"
             [dataSource]="sourceTags"
             [clearOnSelect]="true"

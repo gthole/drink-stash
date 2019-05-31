@@ -1,0 +1,89 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/*
+ * Buttons
+ */
+
+.btn {
+    @apply py-2 px-4 rounded;
+}
+.btn-sm {
+    @apply py-1 px-2 text-sm rounded;
+}
+
+/* Solid */
+
+.btn-primary {
+    @apply bg-purple-600 text-white;
+}
+.btn-primary:hover {
+    @apply bg-purple-800;
+}
+.btn-primary:focus {
+    @apply bg-purple-800;
+}
+
+.btn-secondary {
+    @apply text-gray-600 border border-gray-600;
+}
+.btn-secondary:hover {
+    @apply bg-gray-600 text-white border-transparent;
+}
+.btn-secondary:focus {
+    @apply bg-gray-600 text-white border-transparent;
+}
+
+
+/* Outline */
+
+.btn-outline-primary {
+    @apply bg-transparent text-purple-500 font-semibold border border-purple-600;
+}
+.btn-outline-primary:hover {
+    @apply bg-purple-600 text-white border-transparent;
+}
+.btn-outline-primary:focus {
+    @apply bg-purple-600 text-white border-transparent;
+}
+
+.btn-outline-danger {
+    @apply bg-transparent text-red-500 border border-red-500 font-bold;
+}
+.btn-outline-danger:hover {
+    @apply bg-red-500 text-white border-transparent;
+}
+.btn-outline-danger:focus {
+    @apply bg-red-500 text-white border-transparent;
+}
+
+/*
+ * Forms
+ */
+input.forms {
+    @apply appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight;
+}
+input.forms:focus {
+    @apply outline-none bg-white;
+}
+
+select.forms {
+    @apply block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-3 rounded leading-tight;
+}
+select.forms:focus {
+    @apply outline-none bg-white;
+}
+
+label.forms {
+    @apply block uppercase tracking-wide text-gray-700 text-xs font-bold;
+}
+
+textarea.forms {
+    @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight;
+}
+textarea.forms:focus {
+    @apply outline-none bg-white;
+}

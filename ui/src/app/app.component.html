@@ -1,13 +1,13 @@
 <div id="alerts" class="absolute pin-t pin-l pin-r mt-20 px-10 z-10">
     <div class="w-full mb-12 border-l-4 p-4"
         [ngClass]="{
-            'bg-red-lightest border-red text-red-dark': alert.header === 'Error',
-            'bg-orange-lightest border-orange text-orange-dark': alert.header === 'Warning'
+            'bg-red-100 border-red-500 text-red-600': alert.header === 'Error',
+            'bg-orange-100 border-orange-500 text-orange-600': alert.header === 'Warning'
         }"
         role="alert"
         *ngFor="let alert of alerts; let i = index">
           <a href="#"
-             class="float-right text-bold text-grey"
+             class="float-right text-bold text-gray-500"
              (click)="dismiss($event, i)">
              &times;</a>
           <p class="font-bold">{{ alert.header }}</p>
@@ -16,8 +16,8 @@
 </div>
 
 <div (click)="closeMenu()">
-    <div class="navbar w-full pin-t pin-l px-4 py-3 font-serif text-white"
-         [ngClass]="{'bg-transparent': !showNav, 'bg-purple-darker': showNav}">
+    <div class="navbar w-full px-4 py-3 font-serif text-white"
+         [ngClass]="{'bg-transparent': !showNav, 'bg-purple-900': showNav}">
         <div class="container">
             <ul class="list-reset flex justify-between">
               <li class="mr-3 minwidth">
@@ -38,17 +38,17 @@
                   </button>
                   <div class="menu text-left shadow-lg bg-white block"
                        *ngIf="showMenu">
-                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white"
+                          <a class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white"
                               routerLink="/users/{{ user.username }}">Your profile</a>
-                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white"
+                          <a class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white"
                               routerLink="/users/{{ user.username }}/lists">Your lists</a>
-                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white"
+                          <a class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white"
                               routerLink="/new">Add new recipes</a>
-                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white border-b border-grey"
+                          <a class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white border-b border-gray-500"
                               routerLink="/users/{{ user.username }}/cabinet">Manage your liquor cabinet</a>
-                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white border-b border-grey"
+                          <a class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white border-b border-gray-500"
                               *ngIf="user.is_staff" href="/admin/">Admin</a>
-                          <a class="block w-full py-3 px-4 hover:bg-teal hover:text-white cursor-pointer"
+                          <a class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white cursor-pointer"
                               (click)="logout()">Sign out</a>
                   </div>
               </li>

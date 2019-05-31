@@ -21,8 +21,8 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "node_modules/tailwindcss/dist/tailwind.min.css",
               "node_modules/animate.css/animate.min.css",
+              "src/styles-tailwind.css",
               "src/styles.css"
             ],
             "scripts": []

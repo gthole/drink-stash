@@ -1,24 +1,24 @@
 <div class="w-full mx-auto max-w-xs">
   <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <div class="mb-4">
-      <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+      <label class="forms" for="username">
         Username
       </label>
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" name="username" [(ngModel)]="username" required autofocus>
+      <input class="bg-white shadow forms" id="username" type="text" name="username" [(ngModel)]="username" required autofocus>
     </div>
     <div class="mb-6">
-      <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+      <label class="forms" for="password">
         Password
       </label>
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" name="password" [(ngModel)]="password" required>
+      <input class="forms bg-white shadow" id="password" type="password" name="password" [(ngModel)]="password" required>
     </div>
     <div class="flex items-center justify-between">
-      <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="submit()">
+      <button class="btn btn-primary" type="submit" (click)="submit()">
         Sign In
       </button>
     </div>
   </form>
-  <p class="text-center text-grey text-xs">
+  <p class="text-center text-gray-500 text-xs">
     ©2018 CT Publishing
   </p>
 </div>

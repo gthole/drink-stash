@@ -5,7 +5,7 @@ body {
 
 @media only screen and (min-width: 575px) {
     body {
-        background: #f1f5f8;
+        background: #edf2f7;
     }
 }
 
@@ -15,6 +15,10 @@ button:focus {outline:0;}
 .bump:hover, .bump:focus {
     transform: translateY(-1px);
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+}
+
+.title-size {
+    font-size: 2em;
 }
 
 .title {

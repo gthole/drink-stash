@@ -18,6 +18,7 @@
 *.sublime-workspace
 
 # misc
+./src/styles-tailwind.css
 /.sass-cache
 /connect.lock
 /coverage

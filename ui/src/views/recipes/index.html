@@ -7,28 +7,28 @@
     <div class="recipe-sidebar" id="recipe-sidebar">
 
         <div id="wrapper" class="meta bg-white sm:shadow sm:px-6 py-10">
-            <h1 class="title">Recipes</h1>
-            <div class="flex mt-1 items-center border-b border-b-2 border-teal py-2">
-                <input id="search" class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter {{ count }} {{ count === 1 ? 'recipe' : 'recipes' }} (e.g. {{ example }})" [(ngModel)]="filter" (change)="addSearchFilter()" id="searchbar" [ngClass]="{'hide-placeholder': loading}">
+            <h1 class="title title-size">Recipes</h1>
+            <div class="flex mt-1 items-center border-b border-b-2 border-teal-500 py-2">
+                <input id="search" class="appearance-none bg-transparent border-none w-full text-gray-800 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter {{ count }} {{ count === 1 ? 'recipe' : 'recipes' }} (e.g. {{ example }})" [(ngModel)]="filter" (change)="addSearchFilter()" id="searchbar" [ngClass]="{'hide-placeholder': loading}">
             </div>
-            <div *ngIf="meta && meta.ignoreIds.length" class="my-4 py-2 px-4 bg-grey-lighter">
+            <div *ngIf="meta && meta.ignoreIds.length" class="my-4 py-2 px-4 bg-gray-lighter">
                 <div class="float-right" (click)="clearIgnored()">&times;</div>
                 Ignoring {{ meta.ignoreIds.length }}
                 <span [innerHtml]="meta.ignoreIds.length === 1 ? 'recipe' : 'recipes'"></span>
             </div>
             <div class="my-4 overflow-auto">
                 <div class="float-left rounded-full mr-2 mt-1 py-2 px-4 text-white" *ngFor="let f of meta.filters" (click)="removeSearchFilter(f)" [ngClass]="{
-                    'bg-orange': f.slice(0, 4) === 'NOT ',
-                    'bg-teal': f.slice(0, 4) !== 'NOT '
+                    'bg-orange-500': f.slice(0, 4) === 'NOT ',
+                    'bg-teal-500': f.slice(0, 4) !== 'NOT '
                 }">
                     {{ f }} &times;
                 </div>
             </div>
             <loading *ngIf="!recipes"></loading>
-            <div class="text-center text-grey" *ngIf="recipes && recipes.length === 0">
+            <div class="text-center text-gray" *ngIf="recipes && recipes.length === 0">
                 No matches
             </div>
-            <div class="-mx-4 bg-grey-light" [ngClass]="{'loading-color': loading}">
+            <div class="-mx-4 bg-gray-light" [ngClass]="{'loading-color': loading}">
                 <div class="mx-4">
                     <recipe-card
                         class="cursor-pointer"
@@ -42,14 +42,14 @@
 
             <div class="mt-6 mb-12" *ngIf="meta.page > 1 || meta.page * per_page < count"
                 [ngClass]="{'loading-color': loading}">
-                <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded"
+                <button class="bg-transparent font-semibold py-2 px-4 border border-purple-800 text-purple-600 rounded"
                     [disabled]="loading"
                     *ngIf="meta.page > 1"
                     (click)="paginate(-1)">
                     Prev
                 </button>&nbsp;
 
-                <button class="bg-transparent font-semibold py-2 px-4 border border-purple-darker text-purple-dark rounded float-right"
+                <button class="bg-transparent font-semibold py-2 px-4 border border-purple-800 text-purple-600 rounded float-right"
                     [disabled]="loading"
                     *ngIf="meta.page * per_page < count"
                     (click)="paginate(1)">
