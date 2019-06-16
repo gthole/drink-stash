@@ -1,5 +1,4 @@
 import { HttpClient } from "@angular/common/http";
-import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { CacheService } from './cache';

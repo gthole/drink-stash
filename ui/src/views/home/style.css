@@ -1,6 +1,6 @@
 /* The hero image */
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url("assets/drinks-hero.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url("/static/assets/drinks-hero.jpg");
   height: 100vh;
   background-position: center;
   background-repeat: no-repeat;

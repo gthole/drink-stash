@@ -1,5 +1,4 @@
 import { HttpClient } from "@angular/common/http";
-import { URLSearchParams } from "@angular/http";
 import { Injectable } from '@angular/core';
 import { RecipeStub } from './recipes';
 import { BaseModel, BaseService } from './base';
