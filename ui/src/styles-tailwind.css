@@ -997,6 +997,10 @@ img {
   width: 6rem;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
 .w-1\/5 {
   width: 20%;
 }

@@ -1,21 +1,23 @@
-<form class="width-container w-full max-w-md mb-12" *ngIf="!loading">
+<div class="width-container bg-white sm:shadow sm:p-10 w-full">
+<form class="w-full max-w-md mb-12" *ngIf="!loading">
   <div class="flex flex-wrap -mx-3 mb-1">
     <div class="w-1/2 px-3 mb-2">
-      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="firstname">
+      <label class="forms" for="firstname">
         First Name
       </label>
-      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="firstname" type="text" name="firstname" [(ngModel)]="user.first_name">
+      <input class="forms" id="firstname" type="text" name="firstname" [(ngModel)]="user.first_name">
     </div>
 
     <div class="w-1/2 px-3">
-      <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="lastname">
+      <label class="forms" for="lastname">
         Last Name
       </label>
-      <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="lastname" type="text" name="lastname" [(ngModel)]="user.last_name">
+      <input class="forms" id="lastname" type="text" name="lastname" [(ngModel)]="user.last_name">
     </div>
   </div>
 
-  <button class="bg-purple-dark hover:bg-purple-darker text-white font-bold py-2 px-4 rounded mb-6 float-right focus:bg-purple-darker" (click)="save()" [disabled]="loading">
-        Save
+  <button class="btn btn-primary mb-6 float-right" (click)="save()" [disabled]="loading">
+    Save
   </button>
 </form>
+</div>
