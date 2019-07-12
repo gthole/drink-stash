@@ -582,6 +582,26 @@ class RecipeTestCase(BaseTestCase):
             }
         )
 
+    def test_word_boundary_search(self):
+        """
+        Searching for 'gin' should not return 'ginger beer' recipes
+        """
+        ingredient = Ingredient.objects.create(name='Ginger Beer')
+        recipe = Recipe.objects.get(name='Toronto')
+        Quantity.objects.create(
+            recipe=recipe,
+            unit=Uom('oz'),
+            amount=1,
+            ingredient=ingredient
+        )
+
+        resp = self.client.get('/api/v1/recipes/', {'search': 'gin'})
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            # Description and ingredient respectively
+            ['End of Childcare Day', 'Last Word']
+        )
+
     def test_fetch_recipe_by_slug(self):
         self.maxDiff = None
         resp = self.client.get('/api/v1/recipes/special-counsel/')

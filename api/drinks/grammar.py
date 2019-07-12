@@ -127,9 +127,10 @@ def parse_tree(tree, user):
         return data[0]
 
     if tree.data == 'search_term':
-        return Q(quantity__ingredient__name__icontains=data[0]) | \
+        rgx = '\\b%s\\b' % data[0]
+        return Q(quantity__ingredient__name__iregex=rgx) | \
             Q(name__icontains=data[0]) | \
-            Q(description__iregex='\\b%s\\b' % data[0])
+            Q(description__iregex=rgx)
 
     if tree.data == 'attr_constraint':
         [attr, op, amount] = data
