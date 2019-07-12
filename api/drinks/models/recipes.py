@@ -6,6 +6,26 @@ from .tags import Tag
 from .base import DateMixin
 
 
+class RecipeBlockUser(Model):
+    user = ForeignKey(User)
+    block = ForeignKey('RecipeBlock')
+    owner = BooleanField(default=False)
+
+
+class RecipeBlock(DateMixin):
+    name = CharField(max_length=255, db_index=True)
+    public = BooleanField(default=False)
+
+    users = ManyToManyField(
+        User,
+        related_name='blocks',
+        through=RecipeBlockUser
+    )
+
+    def __str__(self):
+        return '%s (%s)' % (self.name, self.id)
+
+
 class Quantity(Model):
     amount = FloatField()
     unit = ForeignKey('Uom')
@@ -31,6 +51,7 @@ class Recipe(DateMixin):
     directions = TextField(blank=True, null=True)
     description = TextField(blank=True, null=True)
 
+    block = ForeignKey(RecipeBlock)
     added_by = ForeignKey(User, blank=True, null=True)
     tags = ManyToManyField(Tag, related_name='recipes')
 

@@ -5,7 +5,7 @@ from rest_framework.serializers import ModelSerializer, BaseSerializer, \
 from .users import NestedUserSerializer
 from .tags import TagSerializer
 from .ingredients import NestedIngredientSerializer
-from drinks.models import Recipe, Quantity, Uom
+from drinks.models import Recipe, RecipeBlock, Quantity, Uom
 
 
 class QuantityIngredientSerializer(BaseSerializer):
@@ -92,6 +92,16 @@ class ShorterNestedRecipeListSerializer(NestedRecipeListSerializer):
 # Details & PUT/POST
 #
 
+class NestedBlockSerializer(ModelSerializer):
+    name = CharField(read_only=True)
+
+    class Meta:
+        model = RecipeBlock
+        fields = ('id', 'name')
+
+    def to_internal_value(self, data):
+        return get_object_or_404(RecipeBlock, pk=data)
+
 
 class QuantitySerializer(ModelSerializer):
     ingredient = NestedIngredientSerializer()
@@ -114,11 +124,13 @@ class RecipeSerializer(RecipeListSerializer):
     Recipe details plus POST/PUT processing
     """
     quantity_set = QuantitySerializer(many=True)
+    block = NestedBlockSerializer()
 
     class Meta:
         model = Recipe
         fields = (
             'id',
+            'block',
             'slug',
             'name',
             'source',
@@ -161,6 +173,7 @@ class RecipeSerializer(RecipeListSerializer):
         recipe.source = validated_data.get('source', recipe.source)
         recipe.directions = validated_data.get('directions', recipe.directions)
         recipe.description = validated_data.get('description', recipe.description)
+        recipe.block = validated_data.get('block', recipe.block)
         recipe.save()
 
         recipe.tags.set(tags)

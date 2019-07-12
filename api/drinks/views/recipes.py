@@ -1,6 +1,6 @@
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from drinks.models import Recipe, Quantity, Ingredient, UserIngredient
 from drinks.serializers import RecipeSerializer, RecipeListSerializer
@@ -33,7 +33,10 @@ class RecipeViewSet(LazyViewSet):
         return self.serializer_class
 
     def filter_queryset(self, *args, **kwargs):
-        qs = self.get_queryset()
+        # Apply permissions first - users can only see what they're permitted
+        # to see, either public or groups they're a member of
+        permissions = Q(block__public=True) | Q(block__users=self.request.user)
+        qs = self.get_queryset().filter(permissions)
 
         # Searching names and ingredients
         if self.request.GET.get('search'):

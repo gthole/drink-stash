@@ -1,4 +1,4 @@
-from .recipes import Quantity, Recipe
+from .recipes import Quantity, Recipe, RecipeBlock, RecipeBlockUser
 from .lists import UserList, UserListRecipe
 from .users import UserIngredient
 from .comments import Comment

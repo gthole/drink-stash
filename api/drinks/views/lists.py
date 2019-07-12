@@ -9,6 +9,7 @@ from drinks.views.base import LazyViewSet
 
 
 class UserListRecipeViewSet(LazyViewSet):
+    http_method_names = ['get', 'head', 'post', 'delete']
     permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
     queryset = UserListRecipe.objects.all().order_by('-created')
     serializer_class = UserListRecipeSerializer

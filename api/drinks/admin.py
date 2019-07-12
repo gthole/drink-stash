@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Ingredient, Quantity, Recipe, Tag, Uom
+from .models import Ingredient, Quantity, Recipe, RecipeBlock, \
+    RecipeBlockUser, Tag, Uom
 
 
 @admin.register(Ingredient)
@@ -46,6 +47,20 @@ class UomAdmin(admin.ModelAdmin):
             form_url,
             extra_context
         )
+
+
+class RecipeBlockUserInline(admin.TabularInline):
+    model = RecipeBlockUser
+
+
+@admin.register(RecipeBlock)
+class RecipeBlockAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    ordering = ('name',)
+    list_display = ('name', 'id')
+    inlines = [
+        RecipeBlockUserInline,
+    ]
 
 
 class QuantityInline(admin.TabularInline):

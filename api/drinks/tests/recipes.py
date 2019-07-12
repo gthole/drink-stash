@@ -221,7 +221,11 @@ class RecipeTestCase(BaseTestCase):
         )
 
     def test_like_filter(self):
-        r = Recipe(name='Fancy as F*ck', directions='Shake and drink')
+        r = Recipe(
+            name='Fancy as F*ck',
+            block_id=1,
+            directions='Shake and drink'
+        )
         r.save()
         for i in [4, 9, 13]:
             q = Quantity(
@@ -398,6 +402,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'Negroni',
                 'source': 'Classic Cocktail',
+                'block': 1,
                 'description': 'The classic cocktail from the count himself',
                 'directions': 'Stir with ice and garnish with an orange peel',
                 'tags': ['bitter'],
@@ -453,6 +458,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'From Russia With Love',
                 'source': 'Greg, August 2018',
+                'block': 1,
                 'directions': recipe.directions,
                 'description': recipe.description,
                 'tags': ['bitter', 'served up'],
@@ -481,6 +487,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'Special Counsel',
                 'source': 'Greg, August 2018',
+                'block': 1,
                 'directions': recipe.directions,
                 'description': recipe.description,
                 'tags': ['bitter', 'served up'],
@@ -544,6 +551,7 @@ class RecipeTestCase(BaseTestCase):
                     'id': 1,
                     'user_hash': 'd41d8cd98f00b204e9800998ecf8427e'
                 },
+                'block': {'id': 1, 'name': 'Public Recipes'},
                 'comment_count': 0,
                 'created': '2018-10-10T14:14:40.019000Z',
                 'id': recipe.id,
@@ -613,6 +621,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'Braulio Flip Out',
                 'source': 'Greg',
+                'block': 1,
                 'description': 'A minty, custardy delight.',
                 'directions': 'Shake without ice and then with ice.',
                 'tags': [],
@@ -712,6 +721,92 @@ class RecipeTestCase(BaseTestCase):
             HTTP_IF_MODIFIED_SINCE=stamp,
             HTTP_X_COUNT='6'
         )
+        self.assertEqual(resp.status_code, 200)
+
+    def test_cannot_create_recipe_with_block_as_non_owner(self):
+        resp = self.client.post(
+            '/api/v1/recipes/',
+            {
+                'name': 'Negroni',
+                'source': 'Classic Cocktail',
+                'block': 2,  # Block not owned by anyone
+                'description': 'The classic cocktail from the count himself',
+                'directions': 'Stir with ice and garnish with an orange peel',
+                'tags': [],
+                'quantity_set': [
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Gin'},
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Campari'},
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Sweet Vermouth'}
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 403)
+
+    def test_cannot_update_recipe_to_block_as_non_owner(self):
+        recipe = Recipe.objects.get(name='Last Word')
+        recipe.block_id = 2
+        recipe.save()
+
+        resp = self.client.put(
+            '/api/v1/recipes/%s/' % recipe.id,
+            {
+                'name': 'Never a Kind Word',
+                'source': 'Greg, August 2018',
+                'block': 1,
+                'directions': recipe.directions,
+                'description': recipe.description,
+                'tags': [],
+                'quantity_set': [
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Rye'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Strega'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Sfumato'},
+                    {'amount': .75, 'unit': 'oz', 'ingredient': 'Lemon Juice'}
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 403)
+
+    def test_fetch_hides_recipes_if_no_block_permission(self):
+        """
+        Create a recipe in a private block, ensure other user cannot see it
+        via get or get list
+        """
+        recipe = Recipe.objects.get(name='Last Word')
+        recipe.block_id = 2
+        recipe.save()
+
+        resp = self.client.get('/api/v1/recipes/', {'search': 'last word'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [r['id'] for r in resp.json()['results']],
+            []
+        )
+
+        resp = self.client.get('/api/v1/recipes/%d/' % recipe.id)
+        self.assertEqual(resp.status_code, 404)
+
+    def test_fetch_shows_recipes_if_block_permission(self):
+        """
+        Create a recipe in a private block, ensure block member can see it
+        via get and get list
+        """
+        token = self.get_user_token('user')
+        client = APIClient(HTTP_AUTHORIZATION=token)
+
+        recipe = Recipe.objects.get(name='Last Word')
+        recipe.block_id = 2
+        recipe.save()
+
+        resp = client.get('/api/v1/recipes/', {'search': 'last word'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(
+            [r['id'] for r in resp.json()['results']],
+            [recipe.id]
+        )
+
+        resp = client.get('/api/v1/recipes/%d/' % recipe.id)
         self.assertEqual(resp.status_code, 200)
 
 

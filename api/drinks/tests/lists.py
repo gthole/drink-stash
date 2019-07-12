@@ -50,9 +50,7 @@ class UserListTestCase(BaseTestCase):
     def test_user_list_name_is_unique_for_user(self):
         resp = self.client.post(
             '/api/v1/lists/',
-            {
-                'name': 'Recipes I Love'
-            },
+            {'name': 'Recipes I Love'},
             format='json'
         )
         self.assertEqual(resp.status_code, 400)
@@ -72,6 +70,29 @@ class UserListTestCase(BaseTestCase):
             [ulr['id'] for ulr in resp.json()['results']],
             [1, 3]
         )
+
+    def test_list_ulrs_filters_by_block_access(self):
+        # Set a recipe onto a private block
+        r = Recipe.objects.get(pk=3)
+        r.block_id = 2
+        r.save()
+        ulr = UserListRecipe.objects.create(recipe_id=3, user_list_id=1)
+
+        resp = self.client.get('/api/v1/list-recipes/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertFalse(
+            ulr.id in [r['id'] for r in resp.json()['results']]
+        )
+
+    def test_get_details_ulr_filters_by_block_access(self):
+        # Set the recipe onto a private block
+        r = Recipe.objects.get(pk=3)
+        r.block_id = 2
+        r.save()
+        ulr = UserListRecipe.objects.create(recipe_id=3, user_list_id=1)
+
+        resp = self.client.get('/api/v1/list-recipes/%d/' % ulr.id)
+        self.assertEqual(resp.status_code, 404)
 
     def test_get_ulr_by_list(self):
         self.maxDiff = None
@@ -129,6 +150,37 @@ class UserListTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 201)
+
+    def test_remove_user_list_recipe(self):
+        resp = self.client.delete('/api/v1/list-recipes/1/')
+        self.assertEqual(resp.status_code, 204)
+
+    def test_create_ulr_authorizes_against_blocks(self):
+        # Set the recipe onto a private block
+        r = Recipe.objects.get(pk=3)
+        r.block_id = 2
+        r.save()
+
+        resp = self.client.post(
+            '/api/v1/list-recipes/',
+            {
+                'recipe': 3,
+                'user_list': 1
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 403)
+
+    def test_405_on_ulr_update(self):
+        resp = self.client.post(
+            '/api/v1/list-recipes/1/',
+            {
+                'recipe': 3,
+                'user_list': 2
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 405)
 
     def test_304_unmodified(self):
         resp = self.client.get(

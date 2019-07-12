@@ -10,6 +10,12 @@ class CommentTestCase(BaseTestCase):
         resp = self.client.get('/api/v1/comments/')
         self.assertEqual(len(resp.json()['results']), 2)
 
+    def test_list_comments_filters_by_block_access(self):
+        pass
+
+    def test_get_comment_filters_by_block_access(self):
+        pass
+
     def test_list_comments_by_recipe(self):
         resp = self.client.get('/api/v1/comments/', {'recipe': 1})
         self.assertEqual(len(resp.json()['results']), 1)
@@ -28,6 +34,9 @@ class CommentTestCase(BaseTestCase):
         )
         self.assertEqual(resp.status_code, 201)
 
+    def test_create_comment_authorizes_against_blocks(self):
+        pass
+
     def test_edit_comment(self):
         resp = self.client.put(
             '/api/v1/comments/1/',
@@ -35,6 +44,9 @@ class CommentTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 200)
+
+    def test_edit_comment_authorizes_against_blocks(self):
+        pass
 
     def test_remove_comment(self):
         resp = self.client.delete('/api/v1/comments/1/')
