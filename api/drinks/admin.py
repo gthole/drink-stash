@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Ingredient, Quantity, Recipe, RecipeBlock, \
-    RecipeBlockUser, Tag, Uom
+from .models import Ingredient, Quantity, Recipe, Block, \
+    BlockUser, Tag, Uom
 
 
 @admin.register(Ingredient)
@@ -49,17 +49,17 @@ class UomAdmin(admin.ModelAdmin):
         )
 
 
-class RecipeBlockUserInline(admin.TabularInline):
-    model = RecipeBlockUser
+class BlockUserInline(admin.TabularInline):
+    model = BlockUser
 
 
-@admin.register(RecipeBlock)
-class RecipeBlockAdmin(admin.ModelAdmin):
+@admin.register(Block)
+class BlockAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
     list_display = ('name', 'id')
     inlines = [
-        RecipeBlockUserInline,
+        BlockUserInline,
     ]
 
 

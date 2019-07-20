@@ -1,17 +1,26 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, BasePermission, \
+    SAFE_METHODS
 from rest_framework.viewsets import ModelViewSet
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
 from django.contrib.auth.models import User
 from drinks.serializers import UserSerializer
-from drinks.permissions import ObjectOwnerPermissions
 from drinks.views.base import LazyViewSet
+
+
+class UserPermission(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in SAFE_METHODS:
+            return True
+        return obj.id == request.user.id
 
 
 class UserViewSet(ModelViewSet):
     http_method_names = ['get', 'put', 'head']
-    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
+    permission_classes = (IsAuthenticated, UserPermission)
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 

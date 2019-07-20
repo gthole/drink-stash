@@ -3,14 +3,13 @@ from rest_framework.permissions import IsAuthenticated
 
 from drinks.models import Ingredient
 from drinks.serializers import IngredientSerializer
-from drinks.permissions import ObjectOwnerPermissions
 from drinks.views.base import LazyViewSet
 
 
 class IngredientViewSet(LazyViewSet):
     audit_field = 'created'
     http_method_names = ['get', 'head']
-    permission_classes = (IsAuthenticated, ObjectOwnerPermissions)
+    permission_classes = (IsAuthenticated,)
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 

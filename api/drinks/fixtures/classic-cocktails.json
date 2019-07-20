@@ -6,7 +6,7 @@
             "updated": "2018-11-21T20:17:33.735Z",
             "public": true
         },
-        "model": "drinks.recipeblock",
+        "model": "drinks.block",
         "pk": 1
     },
     {

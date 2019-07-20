@@ -5,7 +5,7 @@ from rest_framework.serializers import ModelSerializer, BaseSerializer, \
 from .users import NestedUserSerializer
 from .tags import TagSerializer
 from .ingredients import NestedIngredientSerializer
-from drinks.models import Recipe, RecipeBlock, Quantity, Uom
+from drinks.models import Recipe, Block, Quantity, Uom
 
 
 class QuantityIngredientSerializer(BaseSerializer):
@@ -96,11 +96,11 @@ class NestedBlockSerializer(ModelSerializer):
     name = CharField(read_only=True)
 
     class Meta:
-        model = RecipeBlock
+        model = Block
         fields = ('id', 'name')
 
     def to_internal_value(self, data):
-        return get_object_or_404(RecipeBlock, pk=data)
+        return get_object_or_404(Block, pk=data)
 
 
 class QuantitySerializer(ModelSerializer):

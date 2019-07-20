@@ -426,6 +426,7 @@ class RecipeTestCase(BaseTestCase):
             '/api/v1/recipes/',
             {
                 'name': 'Shot of Chilled Gin',
+                'block': 1,
                 'source': 'Why chill tho?',
                 'description': 'Cure what ails ya',
                 'directions': 'Or just take it straight from the bottle',
@@ -642,6 +643,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'Braulio Flip Out',
                 'source': 'Greg',
+                'block': 1,
                 'description': 'A minty, custardy delight.',
                 'directions': 'Shake without ice and then with ice.',
                 'tags': [],
@@ -745,15 +747,12 @@ class RecipeTestCase(BaseTestCase):
 
     def test_cannot_update_recipe_to_block_as_non_owner(self):
         recipe = Recipe.objects.get(name='Last Word')
-        recipe.block_id = 2
-        recipe.save()
-
         resp = self.client.put(
             '/api/v1/recipes/%s/' % recipe.id,
             {
                 'name': 'Never a Kind Word',
                 'source': 'Greg, August 2018',
-                'block': 1,
+                'block': 2,
                 'directions': recipe.directions,
                 'description': recipe.description,
                 'tags': [],

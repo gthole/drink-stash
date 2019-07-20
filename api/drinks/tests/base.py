@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
+from drinks.models import Recipe
 
 
 class BaseTestCase(TestCase):
@@ -28,3 +29,8 @@ class BaseTestCase(TestCase):
             {'username': username, 'password': 'negroni'}
         )
         return 'JWT %s' % resp.json()['token']
+
+    def update_recipe_block(self, recipe_id, block_id):
+        r = Recipe.objects.get(pk=recipe_id)
+        r.block_id = block_id
+        r.save()

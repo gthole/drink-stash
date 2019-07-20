@@ -9,8 +9,8 @@ import django.utils.timezone
 
 
 def create_default_block(apps, schema_editor):
-    RecipeBlock = apps.get_model('drinks', 'RecipeBlock')
-    rb = RecipeBlock(
+    Block = apps.get_model('drinks', 'Block')
+    rb = Block(
         name='Public Recipes',
         public=True
     )
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='RecipeBlock',
+            name='Block',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created', models.DateTimeField(blank=True, default=django.utils.timezone.now)),
@@ -39,24 +39,24 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='RecipeBlockUser',
+            name='BlockUser',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('owner', models.BooleanField(default=False)),
-                ('block', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='drinks.RecipeBlock')),
+                ('block', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='drinks.Block')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
-            model_name='recipeblock',
+            model_name='Block',
             name='users',
-            field=models.ManyToManyField(related_name='blocks', through='drinks.RecipeBlockUser', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='blocks', through='drinks.BlockUser', to=settings.AUTH_USER_MODEL),
         ),
         migrations.RunPython(create_default_block),
         migrations.AddField(
             model_name='recipe',
             name='block',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='drinks.RecipeBlock'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='drinks.Block'),
             preserve_default=False,
         ),
     ]
