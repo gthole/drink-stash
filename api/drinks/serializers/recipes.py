@@ -3,9 +3,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
     CurrentUserDefault, IntegerField, CharField, ValidationError
 from .users import NestedUserSerializer
+from .books import NestedBookSerializer
 from .tags import TagSerializer
 from .ingredients import NestedIngredientSerializer
-from drinks.models import Recipe, Block, Quantity, Uom
+from drinks.models import Recipe, Book, Quantity, Uom
 
 
 class QuantityIngredientSerializer(BaseSerializer):
@@ -92,17 +93,6 @@ class ShorterNestedRecipeListSerializer(NestedRecipeListSerializer):
 # Details & PUT/POST
 #
 
-class NestedBlockSerializer(ModelSerializer):
-    name = CharField(read_only=True)
-
-    class Meta:
-        model = Block
-        fields = ('id', 'name')
-
-    def to_internal_value(self, data):
-        return get_object_or_404(Block, pk=data)
-
-
 class QuantitySerializer(ModelSerializer):
     ingredient = NestedIngredientSerializer()
     unit = CharField(allow_blank=True)
@@ -124,13 +114,13 @@ class RecipeSerializer(RecipeListSerializer):
     Recipe details plus POST/PUT processing
     """
     quantity_set = QuantitySerializer(many=True)
-    block = NestedBlockSerializer()
+    book = NestedBookSerializer()
 
     class Meta:
         model = Recipe
         fields = (
             'id',
-            'block',
+            'book',
             'slug',
             'name',
             'source',
@@ -173,7 +163,7 @@ class RecipeSerializer(RecipeListSerializer):
         recipe.source = validated_data.get('source', recipe.source)
         recipe.directions = validated_data.get('directions', recipe.directions)
         recipe.description = validated_data.get('description', recipe.description)
-        recipe.block = validated_data.get('block', recipe.block)
+        recipe.book = validated_data.get('book', recipe.book)
         recipe.save()
 
         recipe.tags.set(tags)

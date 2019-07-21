@@ -1,3 +1,4 @@
+from .books import BookSerializer
 from .comments import CommentSerializer
 from .ingredients import NestedIngredientSerializer, IngredientSerializer
 from .recipes import RecipeListSerializer, NestedRecipeListSerializer, \

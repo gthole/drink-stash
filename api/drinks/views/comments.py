@@ -3,16 +3,16 @@ from django.db.models import Q
 
 from drinks.models import Comment, Recipe
 from drinks.serializers import CommentSerializer
-from drinks.views.base import LazyViewSet, BlockPermission
+from drinks.views.base import LazyViewSet, BookPermission
 
 
-class CommentPermission(BlockPermission):
-    def get_block_from_body(self, data):
+class CommentPermission(BookPermission):
+    def get_book_from_body(self, data):
         recipe_id = data.get('recipe')
-        return Recipe.objects.get(pk=recipe_id).block_id
+        return Recipe.objects.get(pk=recipe_id).book_id
 
-    def get_block_from_obj(self, obj):
-        return obj.recipe.block_id
+    def get_book_from_obj(self, obj):
+        return obj.recipe.book_id
 
     def check_user_object(self, obj, user):
         return obj.user_id == user.id
@@ -29,8 +29,8 @@ class CommentViewSet(LazyViewSet):
 
     def get_queryset(self):
         queryset = super(CommentViewSet, self).get_queryset()
-        permissions = Q(recipe__block__public=True) | \
-                      Q(recipe__block__users=self.request.user)
+        permissions = Q(recipe__book__public=True) | \
+                      Q(recipe__book__users=self.request.user)
         queryset = queryset.filter(permissions)
         # Set up eager loading to avoid N+1 selects
         if self.request.method == 'GET':

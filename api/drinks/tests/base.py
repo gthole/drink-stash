@@ -30,7 +30,7 @@ class BaseTestCase(TestCase):
         )
         return 'JWT %s' % resp.json()['token']
 
-    def update_recipe_block(self, recipe_id, block_id):
+    def update_recipe_book(self, recipe_id, book_id):
         r = Recipe.objects.get(pk=recipe_id)
-        r.block_id = block_id
+        r.book_id = book_id
         r.save()

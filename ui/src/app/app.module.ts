@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { httpInterceptorProviders } from '../http-interceptors/';
 import { AuthService } from '../services/auth';
 import { AlertService } from '../services/alerts';
+import { BookService } from '../services/books';
 import { CacheService } from '../services/cache';
 import { CommentService } from '../services/comments';
 import { ListService, ListRecipeService } from '../services/lists';
@@ -87,6 +88,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
         httpInterceptorProviders,
         AuthService,
         AlertService,
+        BookService,
         CacheService,
         CommentService,
         ListService,

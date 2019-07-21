@@ -1,4 +1,4 @@
-from .blocks import Block, BlockUser
+from .books import Book, BookUser
 from .recipes import Quantity, Recipe
 from .lists import UserList, UserListRecipe
 from .users import UserIngredient

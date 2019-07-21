@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
+import { Book } from './books';
 import { CacheService } from './cache';
 import { stringify } from 'querystring';
 
@@ -42,6 +43,7 @@ class Recipe extends BaseModel {
     slug: string;
     name: string;
     source: string;
+    book: Book;
     directions: string;
     description: string;
     created: string;
@@ -56,6 +58,7 @@ class Recipe extends BaseModel {
         this.slug = payload.slug;
         this.name = payload.name;
         this.source = payload.source;
+        this.book = payload.book;
         this.description = payload.description;
         this.directions = payload.directions;
         this.added_by = payload.added_by;
@@ -106,6 +109,7 @@ class Recipe extends BaseModel {
         return {
             id: this.id,
             name: this.name,
+            book: this.book.id,
             source: this.source,
             directions: this.directions,
             description: this.description,

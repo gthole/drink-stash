@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AlertService } from '../../services/alerts';
+import { BookService } from '../../services/books';
 import { Recipe, RecipeService } from '../../services/recipes';
 import { Comment, CommentService } from '../../services/comments';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
@@ -17,6 +18,7 @@ export class RecipeDetailViewComponent {
     constructor(
         private alertService: AlertService,
         private recipeService: RecipeService,
+        private bookService: BookService,
         private commentService: CommentService,
         private listService: ListService,
         private listRecipeService: ListRecipeService,
@@ -53,10 +55,10 @@ export class RecipeDetailViewComponent {
 
         this.userService.getSelf().then((user) => {
             this.user = user;
-            this.canEdit = user.is_staff || this.recipe.added_by.id === user.id;
 
             // Fill in related data
             this.getRelated();
+            this.checkCanEdit();
         });
     }
 
@@ -82,6 +84,12 @@ export class RecipeDetailViewComponent {
                 l.added_to_recipe = Boolean(count);
             });
         });
+    }
+
+    async checkCanEdit(): Promise<void> {
+        const resp = await this.bookService.getPage({owner: 'true'});
+        const ids = resp.results.map(b => b.id);
+        this.canEdit = ids.includes(this.recipe.book.id);
     }
 
     /*

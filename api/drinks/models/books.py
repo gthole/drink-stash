@@ -4,20 +4,20 @@ from django.contrib.auth.models import User
 from .base import DateMixin
 
 
-class BlockUser(Model):
+class BookUser(Model):
     user = ForeignKey(User)
-    block = ForeignKey('Block')
+    book = ForeignKey('Book')
     owner = BooleanField(default=False)
 
 
-class Block(DateMixin):
+class Book(DateMixin):
     name = CharField(max_length=255, db_index=True)
     public = BooleanField(default=False)
 
     users = ManyToManyField(
         User,
-        related_name='blocks',
-        through=BlockUser
+        related_name='books',
+        through=BookUser
     )
 
     def __str__(self):

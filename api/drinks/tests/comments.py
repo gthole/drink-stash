@@ -10,8 +10,8 @@ class CommentTestCase(BaseTestCase):
         resp = self.client.get('/api/v1/comments/')
         self.assertEqual(len(resp.json()['results']), 2)
 
-    def test_list_comments_filters_by_block_access(self):
-        self.update_recipe_block(recipe_id=1, block_id=2)
+    def test_list_comments_filters_by_book_access(self):
+        self.update_recipe_book(recipe_id=1, book_id=2)
         resp = self.client.get('/api/v1/comments/')
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['id'], 2)
@@ -20,8 +20,8 @@ class CommentTestCase(BaseTestCase):
         resp = self.client.get('/api/v1/comments/2/')
         self.assertEqual(resp.status_code, 200)
 
-    def test_get_comment_filters_by_block_access(self):
-        self.update_recipe_block(recipe_id=3, block_id=2)
+    def test_get_comment_filters_by_book_access(self):
+        self.update_recipe_book(recipe_id=3, book_id=2)
         resp = self.client.get('/api/v1/comments/2/')
         self.assertEqual(resp.status_code, 404)
 
@@ -43,8 +43,8 @@ class CommentTestCase(BaseTestCase):
         )
         self.assertEqual(resp.status_code, 201)
 
-    def test_create_comment_authorizes_against_blocks(self):
-        self.update_recipe_block(recipe_id=2, block_id=2)
+    def test_create_comment_authorizes_against_books(self):
+        self.update_recipe_book(recipe_id=2, book_id=2)
         resp = self.client.post(
             '/api/v1/comments/',
             {'recipe': 2, 'text': 'Yum!'},
@@ -60,8 +60,8 @@ class CommentTestCase(BaseTestCase):
         )
         self.assertEqual(resp.status_code, 200)
 
-    def test_edit_comment_authorizes_against_blocks(self):
-        self.update_recipe_block(recipe_id=1, block_id=2)
+    def test_edit_comment_authorizes_against_books(self):
+        self.update_recipe_book(recipe_id=1, book_id=2)
         resp = self.client.put(
             '/api/v1/comments/1/',
             {'recipe': 1, 'text': 'Yup!'},

@@ -7,14 +7,14 @@ from rest_framework.exceptions import APIException
 from dateutil import parser as date_parser
 import json
 
-from drinks.models import Block, BlockUser
+from drinks.models import Book, BookUser
 
 
-class BlockPermission(BasePermission):
-    def get_block_from_body(self, data):
+class BookPermission(BasePermission):
+    def get_book_from_body(self, data):
         raise NotImplemented
 
-    def get_block_from_obj(self, obj):
+    def get_book_from_obj(self, obj):
         raise NotImplemented
 
     def has_permission(self, request, view):
@@ -22,14 +22,14 @@ class BlockPermission(BasePermission):
             return True
 
         # Can only create/edit objects if the user has access to
-        # the requested block associated with the object
+        # the requested book associated with the object
         if request.method in ('PUT', 'POST'):
             data = json.loads(request.body)
-            block_id = self.get_block_from_body(data)
-            if block_id is None:
+            book_id = self.get_book_from_body(data)
+            if book_id is None:
                 return False
-            return BlockUser.objects.filter(
-                block_id=block_id,
+            return BookUser.objects.filter(
+                book_id=book_id,
                 user=request.user.id,
                 owner=True
             ).exists()
@@ -37,12 +37,12 @@ class BlockPermission(BasePermission):
         return True
 
     def has_object_permission(self, request, view, obj):
-        # Can only get details if block access is allowed
+        # Can only get details if book access is allowed
         if request.method == 'GET':
-            block_id = self.get_block_from_obj(obj)
-            return Block.objects.filter(
+            book_id = self.get_book_from_obj(obj)
+            return Book.objects.filter(
                 Q(public=True) | Q(users=request.user.id),
-                pk=block_id
+                pk=book_id
             ).exists()
         elif request.method in SAFE_METHODS:
             return True

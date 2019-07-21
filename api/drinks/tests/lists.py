@@ -71,10 +71,10 @@ class UserListTestCase(BaseTestCase):
             [1, 3]
         )
 
-    def test_list_ulrs_filters_by_block_access(self):
-        # Set a recipe onto a private block
+    def test_list_ulrs_filters_by_book_access(self):
+        # Set a recipe onto a private book
         r = Recipe.objects.get(pk=3)
-        r.block_id = 2
+        r.book_id = 2
         r.save()
         ulr = UserListRecipe.objects.create(recipe_id=3, user_list_id=1)
 
@@ -84,10 +84,10 @@ class UserListTestCase(BaseTestCase):
             ulr.id in [r['id'] for r in resp.json()['results']]
         )
 
-    def test_get_details_ulr_filters_by_block_access(self):
-        # Set the recipe onto a private block
+    def test_get_details_ulr_filters_by_book_access(self):
+        # Set the recipe onto a private book
         r = Recipe.objects.get(pk=3)
-        r.block_id = 2
+        r.book_id = 2
         r.save()
         ulr = UserListRecipe.objects.create(recipe_id=3, user_list_id=1)
 
@@ -155,10 +155,10 @@ class UserListTestCase(BaseTestCase):
         resp = self.client.delete('/api/v1/list-recipes/1/')
         self.assertEqual(resp.status_code, 204)
 
-    def test_create_ulr_authorizes_against_blocks(self):
-        # Set the recipe onto a private block
+    def test_create_ulr_authorizes_against_books(self):
+        # Set the recipe onto a private book
         r = Recipe.objects.get(pk=3)
-        r.block_id = 2
+        r.book_id = 2
         r.save()
 
         resp = self.client.post(

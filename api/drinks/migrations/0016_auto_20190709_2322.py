@@ -8,13 +8,26 @@ import django.db.models.deletion
 import django.utils.timezone
 
 
-def create_default_block(apps, schema_editor):
-    Block = apps.get_model('drinks', 'Block')
-    rb = Block(
+def create_default_book(apps, schema_editor):
+    Book = apps.get_model('drinks', 'Book')
+    rb = Book.objects.create(
         name='Public Recipes',
         public=True
     )
-    rb.save()
+
+    BookUser = apps.get_model('drinks', 'BookUser')
+    User = apps.get_model('auth', 'User')
+    for user in User.objects.iterator():
+        public = Book.objects.create(
+            name='%s\'s Public Drinks' % user.first_name,
+            public=True
+        )
+        BookUser.objects.create(book=public, user=user, owner=True)
+        private = Book.objects.create(
+            name='%s\'s Private Drinks' % user.first_name,
+            public=False
+        )
+        BookUser.objects.create(book=private, user=user, owner=True)
 
 
 class Migration(migrations.Migration):
@@ -26,7 +39,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Block',
+            name='Book',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created', models.DateTimeField(blank=True, default=django.utils.timezone.now)),
@@ -39,24 +52,24 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='BlockUser',
+            name='BookUser',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('owner', models.BooleanField(default=False)),
-                ('block', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='drinks.Block')),
+                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='drinks.Book')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
-            model_name='Block',
+            model_name='Book',
             name='users',
-            field=models.ManyToManyField(related_name='blocks', through='drinks.BlockUser', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='books', through='drinks.BookUser', to=settings.AUTH_USER_MODEL),
         ),
-        migrations.RunPython(create_default_block),
+        migrations.RunPython(create_default_book),
         migrations.AddField(
             model_name='recipe',
-            name='block',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='drinks.Block'),
+            name='book',
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='drinks.Book'),
             preserve_default=False,
         ),
     ]

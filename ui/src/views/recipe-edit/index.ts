@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Component, ElementRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Recipe, RecipeService } from '../../services/recipes';
+import { Book, BookService } from '../../services/books';
 import { Ingredient, IngredientService } from '../../services/ingredients';
 import { UomService } from '../../services/uom';
 import { Router } from '@angular/router';
@@ -17,11 +18,13 @@ export class RecipeEditComponent {
         private route: ActivatedRoute,
         private ingredientService: IngredientService,
         private uomService: UomService,
+        private bookService: BookService,
         private recipeService: RecipeService,
         private _elementRef: ElementRef
     ) {}
 
     recipe: Recipe;
+    books: Book[];
     ingredients: string[];
     units: string[];
 
@@ -33,9 +36,11 @@ export class RecipeEditComponent {
         this.loading = true;
         this.route.params.subscribe((params: {slug}) => {
             Promise.all([
+                this.bookService.getPage(),
                 this.ingredientService.getPage(),
                 this.uomService.getPage()
-            ]).then(([ingredResp, uomResp]) => {
+            ]).then(([bookResp, ingredResp, uomResp]) => {
+                this.books = bookResp.results;
                 this.ingredients = _.reverse(_.sortBy(ingredResp.results, 'usage'))
                     .map(i => i.name);
                 this.units = uomResp.results;
@@ -43,6 +48,8 @@ export class RecipeEditComponent {
                     this.fetchId(params.slug);
                 } else {
                     this.recipe = Recipe.createNew();
+                    this.recipe.book = this.books[0];
+                    console.log(this.recipe.book);
                     this.doneLoading();
                 }
             });
@@ -66,8 +73,13 @@ export class RecipeEditComponent {
     fetchId(slug: string) {
         this.recipeService.getById(slug).then((recipe) => {
             this.recipe = recipe;
+            console.log(this.recipe.book);
             this.doneLoading();
         });
+    }
+
+    byId(i, j) {
+        if (j) return i.id === j.id;
     }
 
     doneLoading() {
@@ -157,6 +169,7 @@ export class RecipeEditComponent {
                     this.router.navigateByUrl(`/recipes/${saved.id}`);
                 } else {
                     this.recipe = Recipe.createNew();
+                    this.recipe.book = saved.book;
                     this.doneLoading();
                 }
             },

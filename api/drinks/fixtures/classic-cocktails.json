@@ -6,7 +6,7 @@
             "updated": "2018-11-21T20:17:33.735Z",
             "public": true
         },
-        "model": "drinks.block",
+        "model": "drinks.book",
         "pk": 1
     },
     {
@@ -546,7 +546,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2018-10-10T19:08:44.858Z",
             "description": "Easy to assemble but hard to forget, this Prohibition-era Last Word cocktail has found its way into a new generation of cocktail glasses thanks in part to Seattle-based bartender Murray Stenson who helped re-popularize the drink.",
             "directions": "Shake ingredients with ice and strain into a chilled glass.",
@@ -561,7 +561,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2018-10-10T19:12:30.532Z",
             "description": "A popular history suggests that the drink originated at the Manhattan Club in New York City in the early 1870s, where it was invented by Dr. Iain Marshall for a banquet hosted by Jennie Jerome in honor of presidential candidate Samuel J. Tilden.",
             "directions": "Stir with ice, pour into cocktail glass and garnish with a maraschino cherry.",
@@ -576,7 +576,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2019-03-06T02:37:47.191Z",
             "description": "Easy to make and refreshingly bitter, the Negroni is said to have been invented in Florence by a dauntless Italian count who demanded that the bartender replace the club soda in his Americano with gin. It was a substitution that launched a thousand riffs.",
             "directions": "Stir with ice, pour into a rocks glass, and garnish with an orange twist.",
@@ -591,7 +591,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2019-03-09T00:05:27.033Z",
             "description": "Swap out the gin in a Negroni for rye whiskey and you get the delicious Boulevardier. It\u2019s equally complex as its gin-based predecessor, but the whiskey adds warmth, making it perfect for autumn and winter drinking.",
             "directions": "Stir with ice, pour into a cocktail coupe with a large ice cube, garnish with an orange twist.",
@@ -606,7 +606,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2019-03-09T00:07:52.874Z",
             "description": "This whiskey drink was invented in Paris while the U.S. suffered through Prohibition.",
             "directions": "Shake with ice, strain into a cocktail glass.",
@@ -621,7 +621,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2019-03-09T00:10:35.534Z",
             "description": "The Daiquiri is simple and sublime, a delicate blend of rum\u2019s sweetness with the raw freshness of sugar and lime juice.",
             "directions": "Shake with ice and strain into a cocktail coupe glass.  Garnish with a lime twist.",
@@ -636,7 +636,7 @@
     {
         "fields": {
             "added_by": 1,
-            "block": 1,
+            "book": 1,
             "created": "2019-03-09T00:14:44.940Z",
             "description": "The Vieux Carr\u00e9 was first stirred to life at New Orleans\u2019 legendary Hotel Monteleone in the 1930s. Like so many classic cocktails from that city, the recipe represents the crosscurrents of America at the time: brandy and liqueur from France, Italian vermouth, rye whiskey from just up the Mississippi and Caribbean bitters. The Vieux Carr\u00e9 is at once boozy, sweet, bitter and smooth\u2014in other words, New Orleans.",
             "directions": "Stir with ice, strain into a rocks glass, garnish with a lemon peel.",

@@ -9,9 +9,10 @@ from rest_framework import routers
 
 from drinks.views import index, IngredientViewSet, RecipeViewSet, \
     UserViewSet, CommentViewSet, TagViewSet, UserListViewSet, \
-    UserListRecipeViewSet, UomViewSet
+    UserListRecipeViewSet, UomViewSet, BookViewSet
 
 router = routers.DefaultRouter()
+router.register(r'books', BookViewSet)
 router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipes', RecipeViewSet)
 router.register(r'comments', CommentViewSet)

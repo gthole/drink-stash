@@ -5,15 +5,15 @@ from django.db.models import Count, Q
 from drinks.models import Recipe, Quantity, Ingredient, UserIngredient
 from drinks.serializers import RecipeSerializer, RecipeListSerializer
 from drinks.grammar import parse_search_and_filter
-from .base import LazyViewSet, BlockPermission
+from .base import LazyViewSet, BookPermission
 
 
-class RecipePermission(BlockPermission):
-    def get_block_from_body(self, data):
-        return data.get('block')
+class RecipePermission(BookPermission):
+    def get_book_from_body(self, data):
+        return data.get('book')
 
-    def get_block_from_obj(self, obj):
-        return obj.block_id
+    def get_book_from_obj(self, obj):
+        return obj.book_id
 
     def check_user_object(self, obj, user):
         # Recipes can only be modified by the creator or staff
@@ -36,7 +36,7 @@ class RecipeViewSet(LazyViewSet):
 
         # Apply permissions first - users can only see what they're permitted
         # to see, either public or groups they're a member of
-        permissions = Q(block__public=True) | Q(block__users=self.request.user)
+        permissions = Q(book__public=True) | Q(book__users=self.request.user)
         queryset = queryset.filter(permissions)
 
         # Set up eager loading to avoid N+1 selects

@@ -2,7 +2,7 @@ from django.db.models import ForeignKey, TextField, FloatField, CharField, \
     ManyToManyField, Model, IntegerField, BooleanField, Index, SlugField
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-from .blocks import Block
+from .books import Book
 from .tags import Tag
 from .base import DateMixin
 
@@ -32,7 +32,7 @@ class Recipe(DateMixin):
     directions = TextField(blank=True, null=True)
     description = TextField(blank=True, null=True)
 
-    block = ForeignKey(Block)
+    book = ForeignKey(Book)
     added_by = ForeignKey(User, blank=True, null=True)
     tags = ManyToManyField(Tag, related_name='recipes')
 
