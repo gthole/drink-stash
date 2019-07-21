@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Model, ForeignKey
 from .ingredients import Ingredient
 from .base import DateMixin
+from.books import Book, BookUser
 
 
 class UserIngredient(Model):
