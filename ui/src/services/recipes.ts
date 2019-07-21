@@ -109,7 +109,7 @@ class Recipe extends BaseModel {
         return {
             id: this.id,
             name: this.name,
-            book: this.book.id,
+            book: this.book ? this.book.id : null,
             source: this.source,
             directions: this.directions,
             description: this.description,
