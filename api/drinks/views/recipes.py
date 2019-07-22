@@ -9,6 +9,8 @@ from .base import LazyViewSet, BookPermission
 
 
 class RecipePermission(BookPermission):
+    owner_only = True
+
     def get_book_from_body(self, data):
         return data.get('book')
 

@@ -11,6 +11,8 @@ from drinks.models import Book, BookUser
 
 
 class BookPermission(BasePermission):
+    owner_only = False
+
     def get_book_from_body(self, data):
         raise NotImplemented
 
@@ -28,12 +30,17 @@ class BookPermission(BasePermission):
             book_id = self.get_book_from_body(data)
             if book_id is None:
                 return False
-            return BookUser.objects.filter(
-                book_id=book_id,
-                user=request.user.id,
-                owner=True
-            ).exists()
-
+            if self.owner_only:
+                return BookUser.objects.filter(
+                    book_id=book_id,
+                    user=request.user.id,
+                    owner=True
+                ).exists()
+            else:
+                return Book.objects.filter(
+                    Q(public=True) | Q(users=request.user.id),
+                    pk=book_id
+                ).exists()
         return True
 
     def has_object_permission(self, request, view, obj):
