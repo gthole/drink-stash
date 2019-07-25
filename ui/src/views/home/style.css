@@ -19,6 +19,11 @@
   font-size: 3rem;
 }
 
+.hero-text .heading {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 @media only screen and (min-width: 992px) {
     .hero-image {
       height: 700px;
