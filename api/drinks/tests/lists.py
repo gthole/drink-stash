@@ -171,6 +171,25 @@ class UserListTestCase(BaseTestCase):
         )
         self.assertEqual(resp.status_code, 403)
 
+    def test_create_ulr_authorizes_against_books_as_non_owner(self):
+        # Set the recipe onto a private book
+        r = Recipe.objects.get(pk=3)
+        r.book_id = 2
+        r.save()
+
+        # Lydgate has non-owner access to private book id=2, so can still
+        # add recipes from it to his own lists
+        client = self.get_user_client('user')
+        resp = client.post(
+            '/api/v1/list-recipes/',
+            {
+                'recipe': 3,
+                'user_list': 2
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 201)
+
     def test_405_on_ulr_update(self):
         resp = self.client.post(
             '/api/v1/list-recipes/1/',

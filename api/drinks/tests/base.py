@@ -18,17 +18,17 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         "Log in as default as an admin user"
-        auth = self.get_user_token('admin')
-        self.client = APIClient(HTTP_AUTHORIZATION=auth)
+        self.client = self.get_user_client('admin')
 
-    def get_user_token(self, username):
+    def get_user_client(self, username):
         "Fetch a user token from the API"
         client = APIClient()
         resp = client.post(
             '/api/v1/auth/',
             {'username': username, 'password': 'negroni'}
         )
-        return 'JWT %s' % resp.json()['token']
+        token = 'JWT %s' % resp.json()['token']
+        return APIClient(HTTP_AUTHORIZATION=token)
 
     def update_recipe_book(self, recipe_id, book_id):
         r = Recipe.objects.get(pk=recipe_id)

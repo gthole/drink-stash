@@ -508,8 +508,7 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual([t for t in recipe.tags.all()], tags)
 
     def test_nonadmin_cannot_update_recipe_not_owned(self):
-        token = self.get_user_token('user')
-        client = APIClient(HTTP_AUTHORIZATION=token)
+        client = self.get_user_client('user')
 
         recipe = Recipe.objects.get(name='Special Counsel')
         resp = client.put(
@@ -791,8 +790,7 @@ class RecipeTestCase(BaseTestCase):
         Create a recipe in a private book, ensure book member can see it
         via get and get list
         """
-        token = self.get_user_token('user')
-        client = APIClient(HTTP_AUTHORIZATION=token)
+        client = self.get_user_client('user')
 
         recipe = Recipe.objects.get(name='Last Word')
         recipe.book_id = 2

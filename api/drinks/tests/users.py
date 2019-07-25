@@ -88,8 +88,7 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(User.objects.all().count(), 2)
 
     def test_cannot_change_nonself_user(self):
-        token = self.get_user_token('user')
-        client = APIClient(HTTP_AUTHORIZATION=token)
+        client = self.get_user_client('user')
         resp = client.put(
             '/api/v1/users/1/',
             {
@@ -105,8 +104,7 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 403)
 
     def test_cannot_change_is_staff(self):
-        token = self.get_user_token('user')
-        client = APIClient(HTTP_AUTHORIZATION=token)
+        client = self.get_user_client('user')
         resp = client.put(
             '/api/v1/users/2/',
             {
