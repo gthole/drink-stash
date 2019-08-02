@@ -9,6 +9,9 @@ class BookUser(Model):
     book = ForeignKey('Book')
     owner = BooleanField(default=False)
 
+    def __str__(self):
+        return 'Permission for %s to %s' % (self.user.username, self.book.name)
+
 
 class Book(DateMixin):
     name = CharField(max_length=255, db_index=True)

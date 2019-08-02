@@ -32,7 +32,7 @@ class UserListRecipeViewSet(LazyViewSet):
         qs = super(UserListRecipeViewSet, self).get_queryset()
         permissions = Q(recipe__book__public=True) | \
                       Q(recipe__book__users=self.request.user)
-        return qs.filter(permissions)
+        return qs.filter(permissions).distinct()
 
 
 class UserListPermission(BasePermission):

@@ -35,4 +35,4 @@ class CommentViewSet(LazyViewSet):
         # Set up eager loading to avoid N+1 selects
         if self.request.method == 'GET':
             queryset = self.get_serializer_class().setup_eager_loading(queryset)
-        return queryset
+        return queryset.distinct()
