@@ -3,8 +3,16 @@ from .models import Ingredient, Quantity, Recipe, Book, \
     BookUser, Tag, Uom
 
 
+class ButtonMixin(object):
+    """
+    Prevent double-clicking button double save
+    """
+    class Media:
+        js = ('js/admin.js',)
+
+
 @admin.register(Ingredient)
-class IngredientAdmin(admin.ModelAdmin):
+class IngredientAdmin(admin.ModelAdmin, ButtonMixin):
     list_display = ('name', 'category')
     exclude = ('description', 'generic')
     search_fields = ('name',)
@@ -12,14 +20,14 @@ class IngredientAdmin(admin.ModelAdmin):
 
 
 @admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(admin.ModelAdmin, ButtonMixin):
     list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
 
 
 @admin.register(Uom)
-class UomAdmin(admin.ModelAdmin):
+class UomAdmin(admin.ModelAdmin, ButtonMixin):
     list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
@@ -54,7 +62,7 @@ class BookUserInline(admin.TabularInline):
 
 
 @admin.register(Book)
-class BookAdmin(admin.ModelAdmin):
+class BookAdmin(admin.ModelAdmin, ButtonMixin):
     search_fields = ('name',)
     ordering = ('name',)
     list_display = ('name', 'id', 'recipe_count')
@@ -73,7 +81,7 @@ class QuantityInline(admin.TabularInline):
 
 
 @admin.register(Recipe)
-class RecipeAdmin(admin.ModelAdmin):
+class RecipeAdmin(admin.ModelAdmin, ButtonMixin):
     search_fields = ('name',)
     ordering = ('name',)
     list_display = ('name', 'id', 'added_by', 'book')
