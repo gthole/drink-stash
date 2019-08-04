@@ -402,6 +402,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'Negroni',
                 'source': 'Classic Cocktail',
+                'url': 'https://www.example.com/negroni',
                 'book': 1,
                 'description': 'The classic cocktail from the count himself',
                 'directions': 'Stir with ice and garnish with an orange peel',
@@ -417,6 +418,7 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 201)
         recipe = Recipe.objects.get(name='Negroni')
         self.assertEqual(recipe.source, 'Classic Cocktail')
+        self.assertEqual(recipe.url, 'https://www.example.com/negroni')
         self.assertEqual(recipe.quantity_set.count(), 3)
         self.assertEqual([t for t in recipe.tags.all()], [tag])
 
@@ -459,6 +461,7 @@ class RecipeTestCase(BaseTestCase):
             {
                 'name': 'From Russia With Love',
                 'source': 'Greg, August 2018',
+                'url': 'https://www.example.com/russia-with-love',
                 'book': 1,
                 'directions': recipe.directions,
                 'description': recipe.description,
@@ -475,6 +478,7 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 200)
         recipe = Recipe.objects.get(name='From Russia With Love')
         self.assertEqual(recipe.slug, 'from-russia-with-love')
+        self.assertEqual(recipe.url, 'https://www.example.com/russia-with-love')
 
     def test_update_recipe(self):
         tags = [
@@ -557,6 +561,7 @@ class RecipeTestCase(BaseTestCase):
                 'id': recipe.id,
                 'slug': 'special-counsel',
                 'name': 'Special Counsel',
+                'url': None,
                 'source': 'Greg',
                 'directions': recipe.directions,
                 'description': recipe.description,

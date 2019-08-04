@@ -43,6 +43,7 @@ class Recipe extends BaseModel {
     slug: string;
     name: string;
     source: string;
+    url: string;
     book: Book;
     directions: string;
     description: string;
@@ -58,6 +59,7 @@ class Recipe extends BaseModel {
         this.slug = payload.slug;
         this.name = payload.name;
         this.source = payload.source;
+        this.url = payload.url;
         this.book = payload.book;
         this.description = payload.description;
         this.directions = payload.directions;
@@ -76,6 +78,8 @@ class Recipe extends BaseModel {
         const r = new Recipe({
             id: null,
             name: '',
+            source: '',
+            url: '',
             description: '',
             notes: '',
             directions: '',
@@ -111,6 +115,7 @@ class Recipe extends BaseModel {
             name: this.name,
             book: this.book ? this.book.id : null,
             source: this.source,
+            url: this.url,
             directions: this.directions,
             description: this.description,
             quantity_set: this.quantities,

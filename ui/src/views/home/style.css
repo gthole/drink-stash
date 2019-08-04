@@ -16,7 +16,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 3rem;
+}
+
+.hero-title {
+    font-family: 'Niconne', cursive;
+    font-size: 6rem;
 }
 
 .hero-text .heading {

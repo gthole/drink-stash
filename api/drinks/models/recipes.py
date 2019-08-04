@@ -1,5 +1,6 @@
 from django.db.models import ForeignKey, TextField, FloatField, CharField, \
-    ManyToManyField, Model, IntegerField, BooleanField, Index, SlugField
+    ManyToManyField, Model, IntegerField, BooleanField, Index, SlugField, \
+    URLField
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from .books import Book
@@ -28,7 +29,8 @@ class Recipe(DateMixin):
 
     name = CharField(max_length=255, unique=True)
     slug = SlugField(unique=True)
-    source = CharField(max_length=255)
+    source = CharField(max_length=255, blank=True, null=True)
+    url = URLField(blank=True, null=True)
     directions = TextField(blank=True, null=True)
     description = TextField(blank=True, null=True)
 

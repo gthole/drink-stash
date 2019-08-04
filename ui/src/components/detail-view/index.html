@@ -5,7 +5,12 @@
     </a>
 
     <h1 class="title title-size">{{ recipe.name }}</h1>
-    <div class="mt-2 text-gray-800"><i>{{ recipe.source }}</i></div>
+    <div class="mt-2 text-gray-800">
+        <span *ngIf="recipe.url">
+            <a href="{{ recipe.url }}"><i>{{ recipe.source || recipe.url.split('/')[2] }}</i></a>
+        </span>
+        <span *ngIf="!recipe.url"><i>{{ recipe.source }}</i></span>
+    </div>
     <table class="my-6 mx-2">
         <tr *ngFor="let q of showQuantities">
             <td class="align-bottom" style="text-align: right; padding: 5px 8px 5px 0; border-right: 1px solid #999; min-width: 62px" class="mr-2">

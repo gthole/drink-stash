@@ -124,6 +124,7 @@ class RecipeSerializer(RecipeListSerializer):
             'slug',
             'name',
             'source',
+            'url',
             'directions',
             'description',
             'quantity_set',
@@ -161,6 +162,7 @@ class RecipeSerializer(RecipeListSerializer):
         # Update base fields
         recipe.name = validated_data.get('name', recipe.name)
         recipe.source = validated_data.get('source', recipe.source)
+        recipe.url = validated_data.get('url', recipe.url)
         recipe.directions = validated_data.get('directions', recipe.directions)
         recipe.description = validated_data.get('description', recipe.description)
         recipe.book = validated_data.get('book', recipe.book)

@@ -1,24 +1,5 @@
 <div class="width-container bg-white sm:shadow sm:p-10" *ngIf="!loading">
 <form class="width-container w-full max-w-md">
-  <div class="flex flex-wrap -mx-3 mb-1">
-    <div class="w-full md:w-1/2 px-3 mb-2">
-      <label class="forms mb-2" for="name">
-        Name
-      </label>
-      <input class="forms mb-3" id="name" type="text" name="name" [(ngModel)]="recipe.name" (change)="nameChange(recipe.name)" [ngClass]="{'border-red': errors && errors.name}">
-      <p *ngIf="errors && errors.name" class="text-red-500 text-xs italic">{{ errors.name }}</p>
-    </div>
-  </div>
-
-  <div class="flex flex-wrap -mx-3 mb-1">
-    <div class="w-full md:w-1/2 px-3 mb-3">
-      <label class="forms mb-2" for="name">
-        Source
-      </label>
-      <input class="forms mb-3" id="name" type="text" name="source" [(ngModel)]="recipe.source">
-    </div>
-  </div>
-
   <div class="flex flex-wrap mb-6">
     <div class="w-full md:w-1/2 px-3 mb-3 -mx-3">
       <label class="forms mb-2" for="name">
@@ -32,6 +13,32 @@
             {{ b.name }}
         </option>
     </select>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-1">
+    <div class="w-full md:w-1/2 px-3 mb-2">
+      <label class="forms mb-2" for="name">
+        Name
+      </label>
+      <input class="forms mb-3" id="name" type="text" name="name" [(ngModel)]="recipe.name" (change)="nameChange(recipe.name)" [ngClass]="{'border-red': errors && errors.name}">
+      <p *ngIf="errors && errors.name" class="text-red-500 text-xs italic">{{ errors.name }}</p>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-1">
+    <div class="w-full md:w-1/2 px-3 mb-3">
+      <label class="forms mb-2" for="source">
+        Source
+      </label>
+      <input class="forms mb-3" id="source" type="text" name="source" [(ngModel)]="recipe.source">
+    </div>
+
+    <div class="w-full md:w-1/2 px-3 mb-3">
+      <label class="forms mb-2" for="url">
+        URL
+      </label>
+      <input class="forms mb-3" id="url" type="text" name="url" [(ngModel)]="recipe.url">
+    </div>
   </div>
 
   <div class="flex flex-wrap -mx-3 mb-1">
