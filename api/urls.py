@@ -25,6 +25,7 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     url(r'^api/v1/auth/', obtain_jwt_token),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^favicon.ico$', RedirectView.as_view(
         url=settings.STATIC_URL + 'assets/favicon.ico',
