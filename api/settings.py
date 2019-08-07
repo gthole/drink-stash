@@ -42,7 +42,7 @@ JWT_AUTH = {
     'JWT_PAYLOAD_HANDLER': 'drinks.auth.jwt_payload_handler'
 }
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.gzip.GZipMiddleware',
@@ -64,6 +64,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             '/src/app-build/',
+            '/src/drinks/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

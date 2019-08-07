@@ -12,7 +12,7 @@ class UserList(DateMixin):
             ('name', 'user'),
         )
 
-    user = ForeignKey(User, blank=True, null=True)
+    user = ForeignKey(User, blank=True, null=True, on_delete=CASCADE)
     name = CharField(max_length=255)
     description = TextField(blank=True, null=True)
     recipes = ManyToManyField(Recipe, through='UserListRecipe')

@@ -1,6 +1,6 @@
 from django.db.models import ForeignKey, TextField, FloatField, CharField, \
     ManyToManyField, Model, IntegerField, BooleanField, Index, SlugField, \
-    URLField
+    URLField, CASCADE, DO_NOTHING
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from .books import Book
@@ -10,10 +10,10 @@ from .base import DateMixin
 
 class Quantity(Model):
     amount = FloatField()
-    unit = ForeignKey('Uom')
-    ingredient = ForeignKey('Ingredient')
+    unit = ForeignKey('Uom', on_delete=CASCADE)
+    ingredient = ForeignKey('Ingredient', on_delete=CASCADE)
+    recipe = ForeignKey('Recipe', on_delete=CASCADE)
     hidden = BooleanField(default=False)
-    recipe = ForeignKey('Recipe')
 
     def __str__(self):
         return '%s %s' % (self.amount, self.ingredient)
@@ -34,8 +34,8 @@ class Recipe(DateMixin):
     directions = TextField(blank=True, null=True)
     description = TextField(blank=True, null=True)
 
-    book = ForeignKey(Book)
-    added_by = ForeignKey(User, blank=True, null=True)
+    book = ForeignKey(Book, on_delete=DO_NOTHING)
+    added_by = ForeignKey(User, blank=True, null=True, on_delete=DO_NOTHING)
     tags = ManyToManyField(Tag, related_name='recipes')
 
     def __str__(self):

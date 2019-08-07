@@ -1,12 +1,12 @@
 from django.db.models import ForeignKey, CharField, ManyToManyField, Model, \
-    BooleanField
+    BooleanField, CASCADE
 from django.contrib.auth.models import User
 from .base import DateMixin
 
 
 class BookUser(Model):
-    user = ForeignKey(User)
-    book = ForeignKey('Book')
+    user = ForeignKey(User, on_delete=CASCADE)
+    book = ForeignKey('Book', on_delete=CASCADE)
     owner = BooleanField(default=False)
 
     def __str__(self):

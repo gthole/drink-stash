@@ -1,4 +1,4 @@
-django==1.11
+django==2.2
 djangorestframework==3.7.3
 djangorestframework-jwt==1.11.0
 python-dateutil

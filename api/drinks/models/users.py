@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from django.db.models import Model, ForeignKey
+from django.db.models import Model, ForeignKey, CASCADE
 from .ingredients import Ingredient
 from .base import DateMixin
 from.books import Book, BookUser
@@ -13,8 +13,8 @@ class UserIngredient(Model):
             ('user', 'ingredient'),
         )
 
-    user = ForeignKey(User, related_name='ingredient_set')
-    ingredient = ForeignKey(Ingredient)
+    user = ForeignKey(User, related_name='ingredient_set', on_delete=CASCADE)
+    ingredient = ForeignKey(Ingredient, on_delete=CASCADE)
 
 
 @receiver(post_save, sender=User)
