@@ -10,9 +10,27 @@
             color: #4a5568;
             padding: 20px;
         }
+        .navbar {
+            background-color: #44337a;
+            position: fixed; /* Set the navbar to fixed position */
+            top: 0; /* Position the navbar at the top of the page */
+            left: 0;
+            width: 100%; /* Full width */
+            z-index: 10;
+            text-align: center;
+            padding: 1.4rem;
+            font-size: 1.25rem;
+        }
+        .navbar a {
+            font-family: 'Roboto script=all rev=1', serif, cursive;
+            color: #fff;
+        }
+        .navbar a:visited {
+            color: #fff;
+        }
         .container {
             padding: 30px;
-            margin: 0 auto;
+            margin: 70px auto 0 auto;
             max-width: 20em;
             background-color: #fff;
         }
@@ -83,6 +101,10 @@
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <!--TODO: fix alignment -->
+        <i><a href="/">Drink Stash</a>&nbsp;&nbsp;&nbsp;&nbsp;</i>
+    </div>
     <div class="container">
         <h2>{% block title %}{% endblock %}</h2>
         {% block content %}{% endblock %}
