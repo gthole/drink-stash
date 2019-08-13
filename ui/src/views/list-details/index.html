@@ -11,7 +11,7 @@
                 </a>
 
                 <a routerLink="/users/{{ list.user.username }}">
-                    <img class="min-img w-10 h-10 rounded-full inline" src="https://www.gravatar.com/avatar/{{ list.user.user_hash }}.jpg?d=mp&size=64">
+                    <img class="min-img w-10 h-10 rounded-full inline" src="{{ list.user.image || '/static/img/generic.png' }}">
                 </a>
                 <span class="ml-3 align-top">
                 by <a class="align-top h-full" routerLink="/users/{{ list.user.username }}">{{ list.user.first_name }} {{list.user.last_name}}</a>

@@ -70,8 +70,6 @@ class SelfUserSerializer(UserSerializer):
 
 
 class NestedUserSerializer(UserSerializer):
-    image = CharField(source='profile.image.url', read_only=True)
-
     class Meta:
         model = User
         fields = (

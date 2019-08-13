@@ -36,7 +36,7 @@ class RecipeTestCase(BaseTestCase):
                     'first_name': 'Dorothea',
                     'last_name': 'Brooke',
                     'id': 1,
-                    'user_hash': 'd41d8cd98f00b204e9800998ecf8427e'
+                    'image': None
                 },
                 'comment_count': 0,
                 'created': '2019-02-09T23:56:01.918000Z',
@@ -553,7 +553,7 @@ class RecipeTestCase(BaseTestCase):
                     'first_name': 'Dorothea',
                     'last_name': 'Brooke',
                     'id': 1,
-                    'user_hash': 'd41d8cd98f00b204e9800998ecf8427e'
+                    'image': None
                 },
                 'book': {'id': 1, 'name': 'Public Recipes'},
                 'comment_count': 0,

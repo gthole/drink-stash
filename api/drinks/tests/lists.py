@@ -116,8 +116,8 @@ class UserListTestCase(BaseTestCase):
             'user': {
                 'first_name': 'Tertius',
                  'id': 2,
+                 'image': None,
                  'last_name': 'Lydgate',
-                 'user_hash': 'd41d8cd98f00b204e9800998ecf8427e',
                  'username': 'user'
             },
             'user_list': {'id': 2, 'name': 'Recipes I Hate'},
