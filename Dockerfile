@@ -16,12 +16,14 @@ RUN npm run compile
 # API
 FROM python:3.6-alpine3.7
 
-RUN apk add --update --no-cache dumb-init build-base python-dev py-pip jpeg-dev zlib-dev
+WORKDIR /tmp
+ADD ./api/reqs.pip /tmp
 ENV LIBRARY_PATH=/lib:/usr/lib
 
-ADD ./api/reqs.pip /tmp
-WORKDIR /tmp
-RUN pip install -r reqs.pip
+RUN apk add --update --no-cache dumb-init build-base python-dev jpeg-dev zlib-dev && \
+    pip install -r reqs.pip && \
+    apk del build-base python-dev && \
+    rm -rf /var/cache/apk/*
 
 COPY ./api /src
 WORKDIR /src
