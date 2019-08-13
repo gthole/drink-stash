@@ -16,14 +16,35 @@ class UserTestCase(BaseTestCase):
             resp.json(),
             {
                 'comment_count': 0,
+                'email': 'dodo@brooke.net',
+                'image': None,
                 'recipe_count': 6,
                 'first_name': 'Dorothea',
                 'id': 1,
                 'ingredient_set': [],
                 'is_staff': True,
                 'last_name': 'Brooke',
-                'user_hash': 'd41d8cd98f00b204e9800998ecf8427e',
                 'username': 'admin'
+            }
+        )
+
+    def test_get_other_user(self):
+        """
+        Non-self users should not include the email address
+        """
+        resp = self.client.get('/api/v1/users/2/')
+        self.assertEqual(
+            resp.json(),
+            {
+                'comment_count': 0,
+                'image': None,
+                'recipe_count': 0,
+                'first_name': 'Tertius',
+                'id': 2,
+                'ingredient_set': [],
+                'is_staff': False,
+                'last_name': 'Lydgate',
+                'username': 'user'
             }
         )
 
@@ -38,6 +59,7 @@ class UserTestCase(BaseTestCase):
                 'first_name': 'Dodo',
                 'id': 1,
                 'last_name': 'Brooke',
+                'email': 'dodo@example.com',
                 'username': 'admin'
             },
             format='json'
@@ -53,6 +75,7 @@ class UserTestCase(BaseTestCase):
                 'ingredient_set': [],
                 'is_staff': True,
                 'last_name': 'User',
+                'email': 'user@example.com',
                 'username': 'fake'
             },
             format='json'
@@ -69,6 +92,7 @@ class UserTestCase(BaseTestCase):
                 'ingredient_set': [],
                 'is_staff': True,
                 'last_name': 'User',
+                'email': 'user@example.com',
                 'username': 'fake'
             },
             format='json'
@@ -86,6 +110,7 @@ class UserTestCase(BaseTestCase):
                 'ingredient_set': [],
                 'is_staff': False,
                 'last_name': 'Brooke',
+                'email': 'dodo@example.com',
                 'username': 'admin'
             },
             format='json'
@@ -102,6 +127,7 @@ class UserTestCase(BaseTestCase):
                 'ingredient_set': [],
                 'is_staff': True,
                 'last_name': 'Lydgate',
+                'email': 'lydgate@example.com',
                 'username': 'user'
             },
             format='json'
@@ -181,32 +207,10 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(UserIngredient.objects.filter(user_id=1).count(), 0)
 
-    def test_reset_password(self):
-        resp = self.client.put(
-            '/api/v1/users/1/reset_password/',
-            {'current_password': 'negroni', 'new_password': 'fegroni'},
-            format='json'
-        )
-        self.assertEqual(resp.status_code, 200)
-        u = User.objects.get(pk=1)
-        self.assertTrue(u.check_password('fegroni'))
-
-    def test_check_password_on_reset(self):
-        resp = self.client.put(
-            '/api/v1/users/1/reset_password/',
-            {'current_password': 'ginandtonic', 'new_password': 'fegroni'},
-            format='json'
-        )
-        self.assertEqual(resp.status_code, 401)
-        u = User.objects.get(pk=1)
-        self.assertFalse(u.check_password('fegroni'))
-
-    def test_no_reset_password_other_users(self):
-        resp = self.client.put(
-            '/api/v1/users/2/reset_password/',
-            {'current_password': 'negroni', 'new_password': 'fegroni'},
-            format='json'
-        )
-        self.assertEqual(resp.status_code, 403)
-        u = User.objects.get(pk=2)
-        self.assertFalse(u.check_password('fegroni'))
+    def test_upload_profile_image(self):
+        with open('./drinks/fixtures/profile.png', 'rb') as fp:
+            resp = self.client.put(
+                '/api/v1/users/1/profile_image/',
+                {'image': fp}
+            )
+            self.assertEqual(resp.status_code, 200)

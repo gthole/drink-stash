@@ -16,12 +16,6 @@ h1 {
   margin: 0.67em 0;
 }
 
-hr {
-  box-sizing: content-box; 
-  height: 0; 
-  overflow: visible; 
-}
-
 a {
   background-color: transparent;
 }
@@ -1007,10 +1001,6 @@ img {
   width: 6rem;
 }
 
-.w-1\/2 {
-  width: 50%;
-}
-
 .w-1\/5 {
   width: 20%;
 }
@@ -1086,7 +1076,6 @@ img {
 .btn-outline-primary {
   background-color: transparent;
   color: #9f7aea;
-  font-weight: 600;
   border-width: 1px;
   border-color: #805ad5;
 }

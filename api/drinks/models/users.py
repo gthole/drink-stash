@@ -1,7 +1,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from django.db.models import Model, ForeignKey, CASCADE
+from django.db.models import Model, ForeignKey, CASCADE, OneToOneField, \
+    ImageField
 from .ingredients import Ingredient
 from .base import DateMixin
 from.books import Book, BookUser
@@ -24,16 +25,22 @@ class UserIngredient(Model):
         )
 
 
+class Profile(Model):
+    user = OneToOneField(User, on_delete=CASCADE)
+    image = ImageField(upload_to='profiles/', null=True, blank=True)
+
+    @property
+    def profile(self):
+        if self.image:
+            return self.image.url;
+
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
+        # Profile.objects.create(user=instance)
         public = Book.objects.create(
-            name='%s\'s Public Drinks' % instance.first_name,
+            name='%s\'s Drinks' % instance.first_name,
             public=True
         )
         BookUser.objects.create(book=public, user=instance, owner=True)
-        private = Book.objects.create(
-            name='%s\'s Private Drinks' % instance.first_name,
-            public=False
-        )
-        BookUser.objects.create(book=private, user=instance, owner=True)

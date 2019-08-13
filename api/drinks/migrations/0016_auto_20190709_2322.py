@@ -19,16 +19,10 @@ def create_default_book(apps, schema_editor):
     User = apps.get_model('auth', 'User')
     for user in User.objects.iterator():
         public = Book.objects.create(
-            name='%s\'s Public Drinks' % user.first_name,
+            name='%s\'s Drinks' % user.first_name,
             public=True
         )
         BookUser.objects.create(book=public, user=user, owner=True)
-        private = Book.objects.create(
-            name='%s\'s Private Drinks' % user.first_name,
-            public=False
-        )
-        BookUser.objects.create(book=private, user=user, owner=True)
-
 
 class Migration(migrations.Migration):
 

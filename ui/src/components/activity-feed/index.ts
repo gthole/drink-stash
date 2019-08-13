@@ -8,7 +8,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 interface Activity {
     id: number;
-    user_hash: string;
+    image: string;
     username: string;
     name: string;
     type: string;
@@ -51,7 +51,7 @@ export class ActivityFeedViewComponent {
                 return {
                     id: r.id,
                     slug: r.slug,
-                    user_hash: r.added_by.user_hash,
+                    image: r.added_by.image,
                     username: r.added_by.username,
                     name: `${r.added_by.first_name} ${r.added_by.last_name}`,
                     type: 'recipe',
@@ -63,7 +63,7 @@ export class ActivityFeedViewComponent {
         const commentActivities: Activity[] = this.comments.map((c) => {
             return {
                 id: c.id,
-                user_hash: c.user.user_hash,
+                image: c.user.image,
                 username: c.user.username,
                 name: `${c.user.first_name} ${c.user.last_name}`,
                 type: 'comment',
@@ -76,7 +76,7 @@ export class ActivityFeedViewComponent {
         const lrActivities: Activity[] = this.listRecipes.map((lr) => {
             return {
                 id: lr.list.id,
-                user_hash: lr.user.user_hash,
+                image: lr.user.image,
                 username: lr.user.username,
                 name: `${lr.user.first_name} ${lr.user.last_name}`,
                 type: 'listrecipe',

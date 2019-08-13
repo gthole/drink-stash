@@ -134,6 +134,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'app-build/'),
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/data/media/'
+
 # Overrides from ENV
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 DEBUG = (os.environ.get('DEBUG') == 'True')

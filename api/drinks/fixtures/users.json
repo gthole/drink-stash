@@ -1,9 +1,18 @@
 [
     {
+        "model": "drinks.profile",
+        "pk": 1,
+        "fields": {
+            "user_id": 1,
+            "image": null
+        }
+    },
+    {
         "model": "auth.user",
         "pk": 1,
         "fields": {
             "first_name": "Dorothea",
+            "email": "dodo@brooke.net",
             "last_name": "Brooke",
             "username": "admin",
             "password": "password",

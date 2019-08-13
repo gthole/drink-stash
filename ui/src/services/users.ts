@@ -7,25 +7,27 @@ import { AuthService } from './auth';
 class User extends BaseModel {
     id: number;
     username: string;
-    user_hash: string;
+    image: string;
     first_name: string;
     last_name: string;
     ingredient_set: string[];
     is_staff: boolean;
     comment_count: boolean;
     recipe_count: boolean;
+    email?: string;
 
     constructor(payload) {
         super();
         this.id = payload.id;
         this.username = payload.username;
-        this.user_hash = payload.user_hash;
+        this.image = payload.image;
         this.first_name = payload.first_name;
         this.last_name = payload.last_name;
         this.ingredient_set = payload.ingredient_set;
         this.is_staff = payload.is_staff;
         this.comment_count = payload.comment_count;
         this.recipe_count = payload.recipe_count;
+        this.email = payload.email;
 
         this.setHash();
     }
@@ -35,6 +37,7 @@ class User extends BaseModel {
             id: this.id,
             first_name: this.first_name,
             last_name: this.last_name,
+            email: this.email,
         }
     }
 }

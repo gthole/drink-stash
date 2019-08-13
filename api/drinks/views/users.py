@@ -5,13 +5,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, \
     HTTP_403_FORBIDDEN
+
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
-
 from django.contrib.auth.models import User
-from drinks.models import UserIngredient, Ingredient
+
+from PIL import Image
+from io import BytesIO
+
+from drinks.models import UserIngredient, Ingredient, Profile
 from drinks.serializers import UserSerializer, UserIngredientSerializer, \
-    PasswordSerializer
+    SelfUserSerializer
 from drinks.views.base import LazyViewSet
 
 
@@ -36,6 +40,15 @@ class UserViewSet(ModelViewSet):
         queryset = queryset.annotate(recipe_count=Count('recipe', distinct=True))
         return queryset
 
+    def get_serializer_class(self):
+        paths = (
+            '/api/v1/users/%s/' % self.request.user.username,
+            '/api/v1/users/%d/' % self.request.user.id,
+        )
+        if self.request.path in paths:
+            return SelfUserSerializer
+        return self.serializer_class
+
     def get_object(self):
         """
         Get user by username or PK
@@ -52,21 +65,6 @@ class UserViewSet(ModelViewSet):
         obj = get_object_or_404(queryset, **filter)
         self.check_object_permissions(self.request, obj)
         return obj
-
-    @action(detail=True, methods=['put'])
-    def reset_password(self, request, pk=None):
-        user = self.get_object()
-        if user.id != request.user.id:
-            return Response(status=HTTP_403_FORBIDDEN)
-        serializer = PasswordSerializer(data=request.data)
-        if serializer.is_valid():
-            if not user.check_password(serializer.data['current_password']):
-                return Response(status=HTTP_401_UNAUTHORIZED)
-            user.set_password(serializer.data['new_password'])
-            user.save()
-            return Response({'status': 'password set'})
-        else:
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['put'])
     def cabinet(self, request, pk=None):
@@ -97,3 +95,39 @@ class UserViewSet(ModelViewSet):
             return Response({'status': 'cabinet updated'})
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['put'])
+    def profile_image(self, request, pk=None):
+        user = self.get_object()
+        if user.id != request.user.id:
+            return Response(status=HTTP_403_FORBIDDEN)
+
+        (profile, created) = Profile.objects.get_or_create(user=user)
+
+        image = request.FILES['image']
+
+        im = Image.open(image)
+        width, height = im.size
+
+        if width > height:
+            offset = (width - height) / 2
+            box = (offset, 0, offset + height, height)
+        else:
+            offset = ((height - width) * 3) / 10
+            box = (0, offset, width, offset + width)
+        im = im.crop(box)
+
+        im.resize((128, 128), Image.LANCZOS)
+
+        if im.mode in ('RGBA', 'LA'):
+            background = Image.new(im.mode[:-1], im.size, 'white')
+            background.paste(im, im.split()[-1])
+            im = background
+
+        content = BytesIO()
+        im.save(content, 'JPEG')
+
+        profile.image.save('%s.jpg' % user.username, content)
+        profile.save()
+
+        return Response({'status': 'OK'})

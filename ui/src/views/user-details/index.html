@@ -2,7 +2,7 @@
     <div class="bg-white sm:shadow sm:p-10 flex mb-6 flex-wrap content-start w-full lg:w-1/2">
         <div class="flex w-full lg:mb-10">
             <img style="max-height: 128px" class="flex-no-shrink rounded-full mr-4"
-                 src="https://www.gravatar.com/avatar/{{ user.user_hash }}.jpg?d=mp&size=128">
+                 src="{{ user.image || '/static/img/generic.png' }}">
 
             <div class="w-full mx-3">
                 <div class="mb-6">
@@ -12,7 +12,9 @@
                     <p class="text-gray-600">Made {{ user.comment_count }}
                     <span [innerHTML]="user.comment_count === 1 ? 'comment' : 'comments'"></span>.</p>
                     <p *ngIf="activeUser.user_id === user.id" class="mt-3">
-                        <a routerLink="/users/{{user.username}}/edit">Edit your profile</a>
+                        <a routerLink="/users/{{user.username}}/edit" class="btn btn-outline-primary">
+            				Edit your profile
+            			</a>
                     </p>
                 </div>
             </div>

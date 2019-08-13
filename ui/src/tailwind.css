@@ -41,7 +41,7 @@
 /* Outline */
 
 .btn-outline-primary {
-    @apply bg-transparent text-purple-500 font-semibold border border-purple-600;
+    @apply bg-transparent text-purple-500 border border-purple-600;
 }
 .btn-outline-primary:hover {
     @apply bg-purple-600 text-white border-transparent;

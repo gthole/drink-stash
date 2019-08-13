@@ -1,6 +1,7 @@
 django==2.2
 djangorestframework==3.9.4
 djangorestframework-jwt==1.11.0
+pillow
 python-dateutil
 django_filter
 jsonschema==2.6.0

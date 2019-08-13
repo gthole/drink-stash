@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
@@ -22,7 +23,8 @@ router.register(r'list-recipes', UserListRecipeViewSet)
 router.register(r'uom', UomViewSet)
 router.register(r'users', UserViewSet)
 
-urlpatterns = [
+# TODO: Serve media images with another method
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     url(r'^api/v1/auth/', obtain_jwt_token),
     url(r'^api/v1/', include(router.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
