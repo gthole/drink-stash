@@ -1,6 +1,9 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User, Group
+
 from .models import Ingredient, Quantity, Recipe, Book, \
-    BookUser, Tag, Uom
+    BookUser, Tag, Uom, Profile
 
 
 class ButtonMixin(object):
@@ -96,5 +99,36 @@ class RecipeAdmin(admin.ModelAdmin, ButtonMixin):
             instance.added_by = request.user
         super(RecipeAdmin, self).save_model(request, instance, form, change)
 
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+
+
+class CustomUserAdmin(UserAdmin):
+    list_display = (
+        'username',
+        'first_name',
+        'last_name',
+        'is_staff',
+        'last_seen',
+    )
+
+    inlines = (ProfileInline, )
+
+    def last_seen(self, obj):
+        return obj.profile.last_seen
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
+
+admin.site.unregister(Group)
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 
 admin.site.site_header = 'Drink Stash Admin'

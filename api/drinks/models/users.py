@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.db.models import Model, ForeignKey, CASCADE, OneToOneField, \
-    ImageField
+    ImageField, DateTimeField
 from .ingredients import Ingredient
 from .base import DateMixin
 from.books import Book, BookUser
@@ -28,11 +28,15 @@ class UserIngredient(Model):
 class Profile(Model):
     user = OneToOneField(User, on_delete=CASCADE)
     image = ImageField(upload_to='profiles/', null=True, blank=True)
+    last_seen = DateTimeField(null=True, blank=True)
 
     @property
     def profile(self):
         if self.image:
             return self.image.url;
+
+    def __str__(self):
+        return 'Profile for %s' % self.user.username
 
 
 @receiver(post_save, sender=User)
