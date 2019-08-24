@@ -46,7 +46,7 @@ class UserListPermission(BasePermission):
 
 class UserListViewSet(LazyViewSet):
     permission_classes = (IsAuthenticated, UserListPermission)
-    queryset = UserList.objects.all().order_by('-created')
+    queryset = UserList.objects.all().order_by('-updated')
     serializer_class = UserListSerializer
     filter_fields = ('user',)
 
