@@ -113,7 +113,7 @@ class UserViewSet(ModelViewSet):
             offset = (width - height) / 2
             box = (offset, 0, offset + height, height)
         else:
-            offset = ((height - width) * 3) / 10
+            offset = (height - width) / 2
             box = (0, offset, width, offset + width)
         im = im.crop(box)
 
