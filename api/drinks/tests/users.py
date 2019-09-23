@@ -1,6 +1,6 @@
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
-from drinks.models import UserIngredient, Ingredient
+from drinks.models import UserIngredient, Ingredient, Book, BookUser, Profile
 from django.utils.timezone import now
 from .base import BaseTestCase
 
@@ -214,3 +214,18 @@ class UserTestCase(BaseTestCase):
                 {'image': fp}
             )
             self.assertEqual(resp.status_code, 200)
+
+    def test_create_user_creates_book(self):
+        """
+        Test the signal that creates a user profile and a public book for the
+        user to add recipes to
+        """
+        u = User(first_name='Celia', last_name='Brooke', username='celia')
+        u.save()
+        self.assertTrue(Profile.objects.filter(user=u).exists())
+        self.assertTrue(Book.objects.filter(name='Celia\'s Drinks').exists())
+        b = Book.objects.get(name='Celia\'s Drinks')
+        self.assertTrue(b.public)
+        self.assertTrue(BookUser.objects.filter(book=b, user=u).exists());
+        bp = BookUser.objects.get(book=b, user=u)
+        self.assertTrue(bp.owner)

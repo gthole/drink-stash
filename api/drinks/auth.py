@@ -7,4 +7,5 @@ def jwt_payload_handler(user):
     """
     payload = base(user)
     payload['is_staff'] = user.is_staff
+    payload['image'] = user.profile.profile
     return payload

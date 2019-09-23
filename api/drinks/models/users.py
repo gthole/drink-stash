@@ -5,7 +5,7 @@ from django.db.models import Model, ForeignKey, CASCADE, OneToOneField, \
     ImageField, DateTimeField
 from .ingredients import Ingredient
 from .base import DateMixin
-from.books import Book, BookUser
+from .books import Book, BookUser
 
 
 class UserIngredient(Model):
@@ -42,7 +42,7 @@ class Profile(Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        # Profile.objects.create(user=instance)
+        Profile.objects.get_or_create(user=instance)
         public = Book.objects.create(
             name='%s\'s Drinks' % instance.first_name,
             public=True
