@@ -1,6 +1,6 @@
 Hello and welcome to Drink Stash!
 
-Here is your username: {{ user.email }}.
+Here is your username: {{ user.username }}.
 
 Follow the link below to set your password:
 {{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}

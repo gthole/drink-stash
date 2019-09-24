@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User, Group
 
 from .models import Ingredient, Quantity, Recipe, Book, \
@@ -99,6 +100,21 @@ class RecipeAdmin(admin.ModelAdmin, ButtonMixin):
             instance.added_by = request.user
         super(RecipeAdmin, self).save_model(request, instance, form, change)
 
+class EmailRequiredMixin(object):
+    def __init__(self, *args, **kwargs):
+        super(EmailRequiredMixin, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
+
+class NewUserCreationForm(EmailRequiredMixin, UserCreationForm):
+    pass
+
+
+class NewUserChangeForm(EmailRequiredMixin, UserChangeForm):
+    pass
+
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -108,6 +124,20 @@ class ProfileInline(admin.StackedInline):
 
 
 class CustomUserAdmin(UserAdmin):
+    form = NewUserChangeForm
+    add_form = NewUserCreationForm
+    add_fieldsets = ((None, {
+        'fields': (
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'password1',
+            'password2'
+        ),
+        'classes': ('wide',)
+    }),)
+
     list_display = (
         'username',
         'first_name',
