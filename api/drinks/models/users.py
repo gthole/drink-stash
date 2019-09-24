@@ -1,6 +1,9 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordResetForm
 from django.db.models import Model, ForeignKey, CASCADE, OneToOneField, \
     ImageField, DateTimeField
 from .ingredients import Ingredient
@@ -48,3 +51,13 @@ def create_user_profile(sender, instance, created, **kwargs):
             public=True
         )
         BookUser.objects.create(book=public, user=instance, owner=True)
+
+        if instance.email:
+            form = PasswordResetForm({'email': instance.email})
+            if form.is_valid():
+                form.save(
+                    subject_template_name='registration/welcome_subject.txt',
+                    email_template_name='registration/welcome_email.html',
+                    domain_override=settings.ALLOWED_HOSTS[0],
+                    use_https=True
+                )

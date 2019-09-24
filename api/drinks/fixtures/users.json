@@ -12,7 +12,6 @@
         "pk": 1,
         "fields": {
             "first_name": "Dorothea",
-            "email": "dodo@brooke.net",
             "last_name": "Brooke",
             "username": "admin",
             "password": "password",

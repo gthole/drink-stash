@@ -1,4 +1,5 @@
 from rest_framework.test import APIClient
+from django.core import mail
 from django.contrib.auth.models import User
 from drinks.models import UserIngredient, Ingredient, Book, BookUser, Profile
 from django.utils.timezone import now
@@ -16,7 +17,7 @@ class UserTestCase(BaseTestCase):
             resp.json(),
             {
                 'comment_count': 0,
-                'email': 'dodo@brooke.net',
+                'email': '',
                 'image': None,
                 'recipe_count': 6,
                 'first_name': 'Dorothea',
@@ -220,7 +221,12 @@ class UserTestCase(BaseTestCase):
         Test the signal that creates a user profile and a public book for the
         user to add recipes to
         """
-        u = User(first_name='Celia', last_name='Brooke', username='celia')
+        u = User(
+            first_name='Celia',
+            last_name='Brooke',
+            email='celia@brooke.net',
+            username='celia'
+        )
         u.save()
         self.assertTrue(Profile.objects.filter(user=u).exists())
         self.assertTrue(Book.objects.filter(name='Celia\'s Drinks').exists())
@@ -229,3 +235,7 @@ class UserTestCase(BaseTestCase):
         self.assertTrue(BookUser.objects.filter(book=b, user=u).exists());
         bp = BookUser.objects.get(book=b, user=u)
         self.assertTrue(bp.owner)
+
+        # Test that the welcome email was sent
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Welcome to Drink Stash!')
