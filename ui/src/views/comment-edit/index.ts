@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Component, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Comment, CommentService } from '../../services/comments';
 import { Router } from '@angular/router';

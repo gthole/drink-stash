@@ -5,8 +5,8 @@ import { Recipe, RecipeService } from '../../services/recipes';
 import { Comment, CommentService } from '../../services/comments';
 import { List, ListService, ListRecipe, ListRecipeService } from '../../services/lists';
 import { User, UserService } from '../../services/users';
-import { faHeart, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { faSquare, faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faCheckSquare, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faSquare } from '@fortawesome/free-regular-svg-icons';
 
 
 @Component({
@@ -30,16 +30,18 @@ export class RecipeDetailViewComponent {
     @Output() output: EventEmitter<Recipe> = new EventEmitter<Recipe>();
 
     showQuantities: any[] = [];
-    faHeart = faHeart;
     faCheckSquare = faCheckSquare;
     faSquare = faSquare;
-    faEdit = faEdit;
+    faEllipsisV = faEllipsisV;
 
     editingTags: boolean = false;
     updatedTags: string[];
     canEdit: boolean;
     user: User;
     comments: Comment[];
+    supportedMultipliers = [2, 4, 6, 8, 12];
+    multiplier: number = 1;
+    showMenu: boolean = false;
     showModal: boolean = false;
     lists: List[];
     listRecipes: ListRecipe[];
@@ -49,6 +51,9 @@ export class RecipeDetailViewComponent {
     ngOnChanges() {
         this.showQuantities = this.recipe.quantities.filter(q => !q.hidden);
         this.comments = null;
+        this.multiplier = 1;
+        this.showMenu = false;
+        this.showModal = false;
         this.canComment = false;
         this.editingTags = false;
         this.commentText = '';
@@ -103,6 +108,23 @@ export class RecipeDetailViewComponent {
     cancelTags() {
         this.editingTags = false;
         this.updatedTags = null;
+    }
+
+    /*
+     * Menu
+     */
+
+    toggleMenu(ev) {
+        ev.stopPropagation();
+        this.showMenu = !this.showMenu;
+    }
+
+    closeMenu() {
+        this.showMenu = false;
+    }
+
+    setMultiplier(multiplier) {
+        this.multiplier = this.multiplier === multiplier ? 1 : multiplier;
     }
 
     /*

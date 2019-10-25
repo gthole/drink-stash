@@ -1,8 +1,22 @@
-<div *ngIf="recipe">
+<div *ngIf="recipe" (click)="closeMenu()">
 <div class="bg-white sm:shadow sm:p-10">
-    <a *ngIf="canEdit && showEdit" routerLink="/recipes/{{ recipe.slug }}/edit" class="float-right text-2xl md:text-3xl mt-1" style="color: #794acf">
-        <fa-icon [icon]="faEdit"></fa-icon>
-    </a>
+    <div class="float-right detail-menu">
+      <button style="color: #794acf" class="text-2xl" (click)="toggleMenu($event)">
+          <fa-icon [icon]="faEllipsisV"></fa-icon>
+      </button>
+      <div class="detail-menu-content border border-gray-200 text-left shadow-xl bg-white block" *ngIf="showMenu">
+          <div class="block w-full py-3 px-4"
+               [ngClass]="{'hover:bg-teal-500 hover:text-white': m !== multiplier,
+                           'bg-teal-500 text-white hover:bg-gray-400 hover:text-black': m === multiplier}"
+                  *ngFor="let m of supportedMultipliers"
+                  (click)="setMultiplier(m)">
+              Large format - {{ m }}
+          </div>
+          <div class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white border-t border-gray-500" *ngIf="canEdit && showEdit">
+              <a routerLink="/recipes/{{ recipe.slug }}/edit">Edit this recipe</a>
+          </div>
+      </div>
+    </div>
 
     <h1 class="title title-size">{{ recipe.name }}</h1>
     <div class="mt-2 text-gray-800">
@@ -14,8 +28,9 @@
     <table class="my-6 mx-2">
         <tr *ngFor="let q of showQuantities">
             <td class="align-bottom" style="text-align: right; padding: 5px 8px 5px 0; border-right: 1px solid #999; min-width: 62px" class="mr-2">
-                <span class="font-bold" [innerHTML]="q.amount | fractions"></span>
-                <span class="text-gray-800 text-s">&nbsp;{{ q.unit }}</span>
+                <span class="font-bold" [innerHTML]="q.amount | multiplierAmount: multiplier : q.unit | fractions"></span>
+                &nbsp;
+                <span class="text-gray-800 text-s">{{ q.unit | multiplierUnit: multiplier : q.amount }}</span>
             </td>
             <td class="align-bottom" style="padding: 10px 0 10px 8px;">{{ q.ingredient }}</td>
         </tr>

@@ -20,6 +20,7 @@ import { UomService } from '../services/uom';
 import { UserService } from '../services/users';
 
 import { FractionPipe } from '../pipes/fractions';
+import { MultiplierAmountPipe, MultiplierUnitPipe } from '../pipes/multiplier';
 
 import { AppComponent } from './app.component';
 import { AutoCompleteComponent } from '../components/autocomplete';
@@ -76,6 +77,8 @@ export class MyHammerConfig extends HammerGestureConfig  {
         UserDetailsViewComponent,
         UserEditViewComponent,
         FractionPipe,
+        MultiplierAmountPipe,
+        MultiplierUnitPipe,
     ],
     imports: [
         BrowserModule,
