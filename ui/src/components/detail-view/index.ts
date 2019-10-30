@@ -26,7 +26,7 @@ export class RecipeDetailViewComponent {
     ) {}
 
     @Input() recipe: Recipe;
-    @Input() showEdit: boolean = true;
+    @Input() showMenuButton: boolean = true;
     @Output() output: EventEmitter<Recipe> = new EventEmitter<Recipe>();
 
     showQuantities: any[] = [];

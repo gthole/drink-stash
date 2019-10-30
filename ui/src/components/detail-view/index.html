@@ -1,6 +1,6 @@
 <div *ngIf="recipe" (click)="closeMenu()">
 <div class="bg-white sm:shadow sm:p-10">
-    <div class="float-right detail-menu">
+    <div *ngIf="showMenuButton" class="float-right detail-menu">
       <button style="color: #794acf" class="text-2xl" (click)="toggleMenu($event)">
           <fa-icon [icon]="faEllipsisV"></fa-icon>
       </button>
@@ -12,7 +12,7 @@
                   (click)="setMultiplier(m)">
               Large format - {{ m }}
           </div>
-          <div class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white border-t border-gray-500" *ngIf="canEdit && showEdit">
+          <div class="block w-full py-3 px-4 hover:bg-teal-500 hover:text-white border-t border-gray-500" *ngIf="canEdit">
               <a routerLink="/recipes/{{ recipe.slug }}/edit">Edit this recipe</a>
           </div>
       </div>

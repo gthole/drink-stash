@@ -3,7 +3,7 @@
         Shuffle
     </button>
 
-    <recipe-detail-view [recipe]="recipe" [showEdit]="false"></recipe-detail-view>
+    <recipe-detail-view [recipe]="recipe" [showMenuButton]="false"></recipe-detail-view>
 </div>
 <div *ngIf="loading === false && !recipe" class="width-container text-center text-gray-500 px-12">
     <p>Whoops - doesn't look like there are any recipes here yet!</p>
