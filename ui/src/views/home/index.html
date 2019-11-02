@@ -21,9 +21,9 @@
                 <a class="bg-purple-800 text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/recipes">
                     <img class="w-10 h-10" type="image/svg+xml" src="/static/assets/drink.svg" />
                 </a>
-                <div class="w-full text-center mt-5 text-gray-800 mh-140 p-5 bg-white rounded-lg shadow-md">
+                <div class="w-full text-center mt-5 mh-140 p-5 bg-white rounded-lg shadow-md">
                     <p class="text-xl font-bold"><a routerLink="/recipes">Recipes</a></p>
-                    <p class="text-sm mt-1 text-gray-800">
+                    <p class="text-sm mt-1 text-gray-600">
                         Search the cocktail recipes and find something new.
                     </p>
                 </div>
@@ -35,11 +35,11 @@
                 <a class="bg-purple-800 text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/users/{{ activeUser.username }}/lists">
                     <fa-icon [icon]="faBookmark"></fa-icon>
                 </a>
-                <div class="w-full text-center mt-5 text-gray-800 mh-140 p-5 bg-white rounded-lg shadow-md">
+                <div class="w-full text-center mt-5 mh-140 p-5 bg-white rounded-lg shadow-md">
                     <p class="text-xl font-bold">
                         <a routerLink="/users/{{ activeUser.username }}/lists">Build Lists</a>
                     </p>
-                    <p class="text-sm mt-1 text-gray-800">
+                    <p class="text-sm mt-1 text-gray-600">
                         Keep track of what you've tried and what you like, or
                         bookmark drinks to try later.</p>
                 </div>
@@ -51,10 +51,10 @@
                 <a class="bg-purple-800 text-white w-24 h-24 rounded-full text-4xl font-semibold flex items-center justify-center shadow-md" routerLink="/new">
                     <fa-icon [icon]="faPlus"></fa-icon>
                 </a>
-                <div class="w-full text-center mt-5 text-gray-800 mh-140 p-5 bg-white rounded-lg shadow-md">
+                <div class="w-full text-center mt-5 mh-140 p-5 bg-white rounded-lg shadow-md">
                     <p class="text-xl font-bold">
                         <a routerLink="/new">Add Recipes</a></p>
-                    <p class="text-sm mt-1 text-gray-800">Add your favorite recipes to the database
+                    <p class="text-sm mt-1 text-gray-600">Add your favorite recipes to the database
                         and share with others.</p>
                 </div>
             </div>
@@ -66,9 +66,9 @@
                    routerLink="/random"                                                                 [queryParams]="{search: 'LIKE list = favorites'}">
                     <fa-icon [icon]="faRandom"></fa-icon>
                 </a>
-                <div class="w-full text-center mt-5 text-gray-800 mh-140 p-5 bg-white rounded-lg shadow-md">
+                <div class="w-full text-center mt-5 mh-140 p-5 bg-white rounded-lg shadow-md">
                     <p class="text-xl font-bold"><a routerLink="/random">Discover</a></p>
-                    <p class="text-sm mt-1 text-gray-800">
+                    <p class="text-sm mt-1 text-gray-600">
                         Get a random cocktail recipe similar
                         to the ones you've added to your favorites.</p>
                 </div>
