@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
 import _ from 'lodash';
 import 'rxjs/add/operator/do';
 
-const BADR_MSG = 'Whoops, something looks wrong with your request.  Please check it and try again.',
+const BADR_MSG = 'Whoops, something looks wrong with your request. Please check it and try again.',
       AUTH_MSG = 'Hmm - what you\'re trying to do doesn\'t look right.',
-      ERR_MSG = 'Darn. Something went wrong on the server.  Please try again later.';
+      ERR_MSG = 'Darn. Something went wrong on the server. Please try again later.';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -47,7 +47,12 @@ export class AuthInterceptor implements HttpInterceptor {
                     // Warn the user that they're trying to do something wrong
                     this.alertService.warning(AUTH_MSG);
                     break;
+                case 0:
+                    // Warn the user that we can't connect to the server
+                    this.alertService.notConnected();
+                    break;
                 default:
+                    console.log(err);
                     // Show generic error message to user
                     this.alertService.error(ERR_MSG);
                     break;

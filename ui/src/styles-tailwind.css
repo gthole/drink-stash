@@ -293,6 +293,10 @@ img {
   background-color: #fff;
 }
 
+.bg-gray-100 {
+  background-color: #f7fafc;
+}
+
 .bg-gray-200 {
   background-color: #edf2f7;
 }

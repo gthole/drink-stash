@@ -39,7 +39,7 @@ export class AppComponent {
         private router: Router,
     ) {
         this.setLoggedInState();
-        this.alertService.alertTopic.subscribe(alrt => this.alerts.push(alrt));
+        this.alertService.alertTopic.subscribe(alrt => this.addAlert(alrt));
         this.authService.authUpdates.subscribe(() => this.setLoggedInState());
 
         if (this.loggedIn) {
@@ -56,6 +56,9 @@ export class AppComponent {
         // Prevent duplicate errors that already displayed
         if (this.alerts.filter((a) => a.header === alrt.header).length === 0) {
             this.alerts.push(alrt);
+            setTimeout(() => {
+                this.alerts = this.alerts.filter((a) => a.header !== alrt.header);
+            }, 3000);
         }
     }
 

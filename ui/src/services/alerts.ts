@@ -9,6 +9,13 @@ export class AlertService {
     private alertSubject = new Subject<Alert>();
     alertTopic = this.alertSubject.asObservable();
 
+    notConnected(): void {
+        this.alertSubject.next({
+            header: 'Not Connected',
+            message: 'Could not connect to the server.'
+        });
+    }
+
     error(message: string = 'Whoops - something went wrong'): void {
         this.alertSubject.next({header: 'Error', message});
     }
