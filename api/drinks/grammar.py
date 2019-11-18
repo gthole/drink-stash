@@ -130,7 +130,8 @@ def parse_tree(tree, user):
         rgx = '\\b%s\\b' % data[0]
         return Q(quantity__ingredient__name__iregex=rgx) | \
             Q(name__icontains=data[0]) | \
-            Q(description__iregex=rgx)
+            Q(description__iregex=rgx) | \
+            Q(directions__iregex=rgx)
 
     if tree.data == 'attr_constraint':
         [attr, op, amount] = data
