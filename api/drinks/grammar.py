@@ -47,17 +47,17 @@ grammar = Lark('''
         attr_search
 
     attr_constraint.2: NUM_ATTR OPERATOR NUMBER
-    list_constraint.2: "list" "=" SEARCH_TERM
-    tags_constraint.2: "tags" "=" SEARCH_TERM
-    cabinet: "cabinet" "=" ("true" | "1") | "cabinet"
+    list_constraint.2: "list"i "=" SEARCH_TERM
+    tags_constraint.2: ("tag"i | "tags"i) "=" SEARCH_TERM
+    cabinet: "cabinet"i "=" ("true"i | "1") | "cabinet"i
     constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
     search_term: SEARCH_TERM
     attr_search: ATTR "=" SEARCH_TERM
 
     // Tokens
     COMBINER: ("AND" | "OR")
-    NUM_ATTR.2: "comments"
-    ATTR: ("name" | "description" | "directions" | "source")
+    NUM_ATTR.2: "comments"i
+    ATTR: ("name"i | "description"i | "directions"i | "source"i)
     SEARCH_TERM: /((?!AND|OR|NOT|LIKE)[^<=> ])+(\s((?!AND|OR|NOT)[^<=> ])+)*/
     OPERATOR: ("<="|">="|"="|"<"|">")
     UNIT: ("%s"i)
@@ -157,7 +157,7 @@ def parse_tree(tree, user):
             [search, op, amount, unit] = data
         else:
             [search, op, amount] = data
-            unit = 1
+            unit = 'oz'
         kwargs = {
             'quantity__ingredient__name__icontains': search,
             'quantity__unit': unit

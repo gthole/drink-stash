@@ -84,6 +84,20 @@ class RecipeTestCase(BaseTestCase):
             ['Manhattan', 'Sazerac', 'Toronto']
         )
 
+    def test_fetch_recipes_search_constraint_with_default_uom(self):
+        """
+        Search finds a recipe with an ingredient constraint and default uom
+        """
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'rye > 1.5'}
+        )
+        self.assertEqual(len(resp.json()['results']), 3)
+        self.assertEqual(
+            [r['name'] for r in resp.json()['results']],
+            ['Manhattan', 'Sazerac', 'Toronto']
+        )
+
     def test_fetch_recipes_search_fractional_constraint(self):
         """
         Search finds a recipe with ingredient constraints in fractional form
@@ -322,11 +336,19 @@ class RecipeTestCase(BaseTestCase):
         Return recipes with matching tags
         """
         recipe = Recipe.objects.get(name='Last Word')
-        tag = Tag.objects.create(name='bitter')
+        tag = Tag.objects.create(name='herbal')
         recipe.tags.add(tag)
         resp = self.client.get(
             '/api/v1/recipes/',
-            {'search': 'tags = bitter'}
+            {'search': 'tags = herbal'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        result = resp.json()['results'][0]
+        self.assertEqual(result['name'], 'Last Word')
+
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'Tag = herbal'}
         )
         self.assertEqual(len(resp.json()['results']), 1)
         result = resp.json()['results'][0]
