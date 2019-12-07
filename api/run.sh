@@ -1,5 +1,8 @@
 # /bin/sh
 set -e
 
+# Apply any migrations before launching the listener
 ./manage.py migrate
-./manage.py runserver 0.0.0.0:8000
+
+# Run the application
+gunicorn -w 2 --bind=0.0.0.0 wsgi:application

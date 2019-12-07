@@ -7,3 +7,4 @@ django_filter
 jsonschema==2.6.0
 whitenoise==4.1
 lark-parser==0.6.6
+gunicorn==20.0.4
