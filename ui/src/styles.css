@@ -1,12 +1,22 @@
 body {
     font-family: 'Roboto script=all rev=1', sans-serif;
     background: #fff;
+    color: #2b2c34;
 }
 
 @media only screen and (min-width: 575px) {
     body {
-        background: #edf2f7;
+        background-color: #d1d1e9;
+        /* background: #edf2f7; */
     }
+}
+
+.bg-primary {
+    background-color: #6246ea;
+}
+
+.bg-secondary {
+    background-color: #d1d1e9;
 }
 
 input:focus {outline:0;}

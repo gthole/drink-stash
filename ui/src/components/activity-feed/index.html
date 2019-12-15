@@ -1,7 +1,7 @@
 <div *ngIf="activityFeed.length">
-    <p class="mt-12 lg:mt-0 mb-3 block uppercase tracking-wide font-bold text-gray-800 text-center">{{ title }}</p>
-    <div class="bg-gray-200 -mx-4 lg:mx-0 px-4 py-3 mt-3">
-        <div class="shadow mt-6 mb-6 lg:mx-5 flex bg-white p-5" *ngFor="let a of activityFeed">
+    <p class="lg:mt-0 mb-3 block uppercase tracking-wide font-bold text-gray-800 text-center">{{ title }}</p>
+    <div class="bg-secondary -mx-4 lg:mx-0 px-4 py-3 mt-3">
+        <div class="rounded shadow mt-6 mb-6 lg:mx-5 flex bg-white p-5" *ngFor="let a of activityFeed">
             <div class="mr-4" *ngIf="includeImage">
                 <a routerLink="/users/{{ a.username }}">
                     <img class="min-img w-10 h-10 rounded-full" src="{{ a.image || '/static/img/generic.png' }}">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="text-center text-sm mt-6 mb-6">
-            <a *ngIf="activityFeed.length < allActivities.length" class="btn btn-outline-primary" (click)="loadMore()">Load more</a>
+            <a *ngIf="activityFeed.length < allActivities.length" class="btn btn-primary" (click)="loadMore()">Load more</a>
         </div>
     </div>
 </div>

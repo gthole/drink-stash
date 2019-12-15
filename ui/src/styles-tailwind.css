@@ -341,10 +341,6 @@ img {
   background-color: #553c9a;
 }
 
-.bg-purple-900 {
-  background-color: #44337a;
-}
-
 .hover\:bg-gray-400:hover {
   background-color: #cbd5e0;
 }
@@ -779,11 +775,6 @@ img {
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
-}
-
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
 }
 
 .px-10 {
@@ -1256,6 +1247,11 @@ textarea.forms:focus {
   .md\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .md\:py-10 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
 
   .md\:w-1\/2 {
