@@ -6,7 +6,7 @@
     </div>
     <div class="recipe-sidebar" id="recipe-sidebar">
 
-        <div id="wrapper" class="meta bg-white sm:shadow sm:px-6 py-10">
+        <div id="wrapper" class="meta bg-white sm:shadow sm:px-6 py-2 md:py-10">
             <h1 class="title title-size">Recipes</h1>
             <div class="flex mt-1 items-center border-b border-b-2 border-teal-500 py-2">
                 <input id="search" class="appearance-none bg-transparent border-none w-full text-gray-800 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Filter {{ count }} {{ count === 1 ? 'recipe' : 'recipes' }} (e.g. {{ example }})" [(ngModel)]="filter" (change)="addSearchFilter()" id="searchbar" [ngClass]="{'hide-placeholder': loading}">
