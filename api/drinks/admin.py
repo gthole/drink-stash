@@ -12,7 +12,7 @@ class ButtonMixin(object):
     Prevent double-clicking button double save
     """
     class Media:
-        js = ('js/admin.js',)
+        js = ('js/admin-button.js',)
 
 
 @admin.register(Ingredient)
@@ -116,6 +116,16 @@ class NewUserChangeForm(EmailRequiredMixin, UserChangeForm):
     pass
 
 
+class BookUserInline(admin.TabularInline):
+    model = BookUser
+    verbose_name_plural = 'Books'
+    fk_name = 'user'
+    ordering = ('book__name',)
+
+    def get_extra(self, request, obj=None, **kwargs):
+        return 0;
+
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
@@ -146,7 +156,7 @@ class CustomUserAdmin(UserAdmin):
         'last_seen',
     )
 
-    inlines = (ProfileInline, )
+    inlines = (ProfileInline, BookUserInline)
 
     def last_seen(self, obj):
         return obj.profile.last_seen
