@@ -69,7 +69,7 @@ services:
             DJANGO_SUPERUSER_PASSWORD=changeme
             DJANGO_SUPERUSER_FIRST_NAME=<first>
             DJANGO_SUPERUSER_LAST_NAME=<last>
-            INITIAL_FIXTURES=classic-cocktails
+            INITIAL_FIXTURES=recipes
         ports:
             - '8000'
         volumes:
