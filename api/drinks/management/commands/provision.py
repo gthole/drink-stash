@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from drinks.models import Recipe
 from django.core.management import call_command
+import os
 
 
 class Command(BaseCommand):
@@ -15,7 +16,11 @@ class Command(BaseCommand):
             User.objects.count() == 0
         )
         if create_user:
-            call_command('createsuperuser')
+            call_command('createsuperuser', interactive=False)
+            u = User.objects.get(pk=1)
+            u.first_name = os.environ.get('DJANGO_SUPERUSER_FIRST_NAME', 'admin')
+            u.last_name = os.environ.get('DJANGO_SUPERUSER_LAST_NAME', 'user')
+            u.save()
 
         if Recipe.objects.count() == 0 and os.environ.get('INITIAL_FIXTURES'):
             fixtures = os.environ.get('INITIAL_FIXTURES').split(',')

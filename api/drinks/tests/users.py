@@ -209,7 +209,7 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(UserIngredient.objects.filter(user_id=1).count(), 0)
 
     def test_upload_profile_image(self):
-        with open('./drinks/fixtures/profile.png', 'rb') as fp:
+        with open('./drinks/fixtures/test/profile.png', 'rb') as fp:
             resp = self.client.put(
                 '/api/v1/users/1/profile_image/',
                 {'image': fp}

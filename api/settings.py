@@ -146,7 +146,10 @@ ADMINS = os.environ['ADMINS'].split(',') if os.environ.get('ADMINS') else []
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if os.environ.get('EMAIL_HOST') and not DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = os.environ.get(
+        'EMAIL_BACKEND',
+        'django.core.mail.backends.smtp.EmailBackend'
+    )
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
     EMAIL_HOST = os.environ.get('EMAIL_HOST')

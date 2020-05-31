@@ -30,6 +30,26 @@ services:
             - './data:/data'
 ```
 
+## Settings
+
+Drink Stash imports settings from environment variables. Values that are arrays
+(e.g. `ALLOWED_HOST`) are interpreted to be a comma separated list. A limited
+set of variables are currently supported.
+
+For example:
+
+```
+EMAIL_HOST=mail.mydomain.com
+EMAIL_HOST_USER=no-reply@mydomain.com
+EMAIL_HOST_PASSWORD=emailpassword
+DEFAULT_FROM_EMAIL=Drink Stash <no-reply@mydomain.com>
+SERVER_EMAIL=no-reply@mydomain.com
+TIME_ZONE=America/Los_Angeles
+ALLOWED_HOSTS=drinks.mydomain.com
+DEBUG=False
+ADMINS=me@mydomain.com,someone@mydomain.com
+```
+
 ## Provisioning
 You can also provide some environment variables to the docker container to
 provision an initial user and some recipes to get started with:
@@ -47,6 +67,8 @@ services:
             DJANGO_SUPERUSER_USERNAME=<yourusername>
             DJANGO_SUPERUSER_EMAIL=<youremail>
             DJANGO_SUPERUSER_PASSWORD=changeme
+            DJANGO_SUPERUSER_FIRST_NAME=<first>
+            DJANGO_SUPERUSER_LAST_NAME=<last>
             INITIAL_FIXTURES=classic-cocktails
         ports:
             - '8000'
@@ -55,7 +77,8 @@ services:
 ```
 
 This will run a provisioning script on startup that creates a superuser if no
-users exist, and creates initial recipes to search.
+users exist, and creates initial recipes to search. On subsequent container
+starts you can remove the `DJANGO_SUPERUSER_*` and `INITIAL_FIXTURES` variables.
 
 
 ## Development Environment
