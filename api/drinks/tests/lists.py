@@ -4,7 +4,7 @@ from drinks.models import Recipe, UserList, UserListRecipe
 
 
 class UserListTestCase(BaseTestCase):
-    fixtures = ['users', 'test-recipes', 'lists']
+    fixtures = ['test/users', 'test/recipes', 'test/lists']
 
     def test_list_user_lists(self):
         resp = self.client.get('/api/v1/lists/')

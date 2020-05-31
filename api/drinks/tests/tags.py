@@ -5,7 +5,7 @@ from drinks.models import Tag
 from .base import BaseTestCase
 
 
-class TagTestCase(BaseTestCase):
+class TagestCase(BaseTestCase):
     def test_fetch_tags(self):
         Tag.objects.create(name='sour')
         Tag.objects.create(name='bitter')

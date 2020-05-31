@@ -835,7 +835,7 @@ class RecipeTestCase(BaseTestCase):
 
 
 class FixturesTestCase(TestCase):
-    fixtures = ['users.json', 'classic-cocktails.json']
+    fixtures = ['test/users', 'classic-cocktails']
 
     def test_classic_cocktail_fixtures_should_load(self):
         Recipe.objects.count() > 0

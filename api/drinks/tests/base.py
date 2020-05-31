@@ -5,7 +5,7 @@ from drinks.models import Recipe
 
 
 class BaseTestCase(TestCase):
-    fixtures = ['users.json', 'test-recipes.json']
+    fixtures = ['test/users', 'test/recipes']
     client = None
 
     @classmethod

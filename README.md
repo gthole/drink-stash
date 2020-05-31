@@ -31,19 +31,31 @@ services:
 ```
 
 ## Provisioning
-Once you've got the server started, add a user and some classic cocktail
-recipes to get started with.
+You can also provide some environment variables to the docker container to
+provision an initial user and some recipes to get started with:
 
 ```
-# Create all the tables
-$ docker-compose run --rm api ./manage.py migrate
+version: '3'
 
-# Create an admin user
-$ docker-compose run --rm api ./manage.py createsuperuser
-
-# Add some recipes to get started with
-$ docker-compose run --rm api ./manage.py loaddata classic-cocktails
+services:
+    api:
+        image: 'gthole/drink-stash:latest'
+        restart: 'always'
+        environment:
+            SECRET_KEY=<yourlongsecretkey>
+            ALLOWED_HOSTS=<yourhostname>
+            DJANGO_SUPERUSER_USERNAME=<yourusername>
+            DJANGO_SUPERUSER_EMAIL=<youremail>
+            DJANGO_SUPERUSER_PASSWORD=changeme
+            INITIAL_FIXTURES=classic-cocktails
+        ports:
+            - '8000'
+        volumes:
+            - './data:/data'
 ```
+
+This will run a provisioning script on startup that creates a superuser if no
+users exist, and creates initial recipes to search.
 
 
 ## Development Environment
