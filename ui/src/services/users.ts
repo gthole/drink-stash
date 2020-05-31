@@ -1,5 +1,3 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { CacheService } from './cache';
 import { AuthService } from './auth';
@@ -16,7 +14,7 @@ class User extends BaseModel {
     recipe_count: boolean;
     email?: string;
 
-    constructor(payload) {
+    constructor(payload: any) {
         super();
         this.id = payload.id;
         this.username = payload.username;
@@ -28,8 +26,6 @@ class User extends BaseModel {
         this.comment_count = payload.comment_count;
         this.recipe_count = payload.recipe_count;
         this.email = payload.email;
-
-        this.setHash();
     }
 
     toPayload() {
@@ -42,53 +38,42 @@ class User extends BaseModel {
     }
 }
 
-@Injectable()
 class UserService extends BaseService {
-
-    constructor(
-        public http: HttpClient,
-        public cacheService: CacheService,
-        public authService: AuthService,
-    ) {
-        super();
-        this.authService.authUpdates.subscribe((state) => {
-            if (!state) {
-                this._self = null;
-            }
-        });
-    }
-
     baseUrl = '/api/v1/users/';
     model = User;
-    _self: User;
 
     getSelf() {
-        if (this._self) {
-            return Promise.resolve(this._self);
+        const cached = this.cacheService.get('self');
+        if (cached) {
+            return Promise.resolve(cached);
         }
         return this.getById(this.authService.getUserData().user_id)
             .then((user) => {
-                this._self = user;
+                this.cacheService.set('self', user);
                 return user;
             });
     }
 
     updateSelf(user: User) {
-        this._self = user;
+        this.cacheService.set('self', user);
         return this.update(user);
     }
 
     updateCabinet(ingredients: string[]): Promise<Object> {
         const user_id = this.authService.getUserData().user_id;
-        return this.http.put(`${this.baseUrl}${user_id}/cabinet/`, ingredients)
-            .toPromise();
+        return fetch(`${this.baseUrl}${user_id}/cabinet/`, {
+            method: 'PUT',
+            body: JSON.stringify(ingredients)
+        });
     }
 
     resetPassword(current_password: string, new_password: string): Promise<Object> {
         const user_id = this.authService.getUserData().user_id;
         const payload = {current_password, new_password};
-        return this.http.put(`${this.baseUrl}${user_id}/reset_password/`, payload)
-            .toPromise();
+        return fetch(`${this.baseUrl}${user_id}/reset_password/`, {
+            method: 'PUT',
+            body: JSON.stringify(payload)
+        });
     }
 }
 

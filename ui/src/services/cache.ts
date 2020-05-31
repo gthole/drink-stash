@@ -1,10 +1,4 @@
-import { Injectable } from '@angular/core';
-
-@Injectable()
 export class CacheService {
-    constructor(
-    ) { }
-
     set(name: string, value: any): void {
         sessionStorage.setItem(name, JSON.stringify(value));
     }
@@ -15,7 +9,7 @@ export class CacheService {
         return JSON.parse(item);
     }
 
-    remove(name): void {
+    remove(name: string): void {
         sessionStorage.clearItem(name);
     }
 

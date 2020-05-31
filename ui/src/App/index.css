@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  color: #fff;
+}
+
+.App .App-header {
+    padding: 10px;
+}
+
+.App .App-header a {
+    color: #fff;
+    padding-right: 5px;
+    text-decoration: none;
+}
+
+.App .App-header a.home-link {
+    font-weight: bold;
+}

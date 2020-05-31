@@ -1,5 +1,3 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from '@angular/core';
 import { RecipeStub } from './recipes';
 import { BaseModel, BaseService } from './base';
 import { CacheService } from './cache';
@@ -10,11 +8,11 @@ export class List extends BaseModel {
     name: string;
     description: string
     recipe_count: number;
-    added_to_recipe: boolean;
     created: string;
     updated: string;
+    added_to_recipe: boolean;
 
-    constructor(payload) {
+    constructor(payload: any) {
         super();
         this.id = payload.id;
         this.user = payload.user;
@@ -23,8 +21,7 @@ export class List extends BaseModel {
         this.recipe_count = payload.recipe_count;
         this.created = payload.created;
         this.updated = payload.updated;
-
-        this.setHash();
+        this.added_to_recipe = false;
     }
 
     toPayload() {
@@ -36,18 +33,10 @@ export class List extends BaseModel {
     }
 }
 
-@Injectable()
 export class ListService extends BaseService {
-
-    constructor(
-        public http: HttpClient,
-        public cacheService: CacheService,
-    ) { super(); }
-
     baseUrl = '/api/v1/lists/';
     model = List;
 }
-
 
 export class ListRecipe extends BaseModel {
     id: number;
@@ -60,7 +49,7 @@ export class ListRecipe extends BaseModel {
 
     editing: boolean = false;
 
-    constructor(payload) {
+    constructor(payload: any) {
         super();
         this.id = payload.id;
         this.recipe = new RecipeStub(payload.recipe);
@@ -69,8 +58,6 @@ export class ListRecipe extends BaseModel {
         this.user = payload.user;
         this.created = payload.created;
         this.updated = payload.updated;
-
-        this.setHash();
     }
 
     toPayload() {
@@ -83,14 +70,7 @@ export class ListRecipe extends BaseModel {
     }
 }
 
-@Injectable()
 export class ListRecipeService extends BaseService {
-
-    constructor(
-        public http: HttpClient,
-        public cacheService: CacheService,
-    ) { super(); }
-
     baseUrl = '/api/v1/list-recipes/';
     model = ListRecipe;
 }

@@ -1,11 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from '@angular/core';
 import { RecipeStub } from './recipes';
 import { BaseModel, BaseService } from './base';
 import { CacheService } from './cache';
 
-
-class Comment extends BaseModel {
+export class Comment extends BaseModel {
     id: number;
     user: any;
     recipe: RecipeStub;
@@ -14,7 +11,7 @@ class Comment extends BaseModel {
     created: string;
     updated?: string;
 
-    constructor(payload) {
+    constructor(payload: any) {
         super();
         this.id = payload.id;
         this.user = payload.user;
@@ -23,7 +20,6 @@ class Comment extends BaseModel {
         this.text = payload.text;
         this.updated = payload.updated;
         this.created = payload.created;
-        this.setHash();
     }
 
     toPayload() {
@@ -36,16 +32,7 @@ class Comment extends BaseModel {
     }
 }
 
-@Injectable()
-class CommentService extends BaseService {
-
-    constructor(
-        public http: HttpClient,
-        public cacheService: CacheService,
-    ) { super(); }
-
+export class CommentService extends BaseService {
     baseUrl = '/api/v1/comments/';
     model = Comment;
 }
-
-export { Comment, CommentService };

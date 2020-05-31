@@ -1,12 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { Book } from './books';
 import { CacheService } from './cache';
 import { stringify } from 'querystring';
 
-
-class RecipeStub extends BaseModel {
+export class RecipeStub extends BaseModel {
     id: number;
     slug: string;
     name: string;
@@ -16,7 +13,7 @@ class RecipeStub extends BaseModel {
     added_by: any;
     tags: string[];
 
-    constructor(payload) {
+    constructor(payload: any) {
         super();
         this.id = payload.id;
         this.slug = payload.slug;
@@ -27,8 +24,11 @@ class RecipeStub extends BaseModel {
         this.tags = payload.tags;
         this.created = payload.created;
     }
-}
 
+    toPayload(): any {
+        throw new Error('Not implemented');
+    }
+}
 
 interface Quantity {
     amount: number;
@@ -38,40 +38,24 @@ interface Quantity {
     hidden?: boolean;
 }
 
-class Recipe extends BaseModel {
-    id: number;
-    slug: string;
-    name: string;
+export class Recipe extends RecipeStub {
     source: string;
     url: string;
     book: Book;
     directions: string;
     description: string;
-    created: string;
-    added_by: any;
-    comment_count: number;
     quantities: Quantity[];
-    tags: string[];
 
-    constructor(payload) {
-        super();
-        this.id = payload.id;
-        this.slug = payload.slug;
-        this.name = payload.name;
+    constructor(payload: any) {
+        super(payload);
         this.source = payload.source;
         this.url = payload.url;
         this.book = payload.book;
-        this.description = payload.description;
         this.directions = payload.directions;
-        this.added_by = payload.added_by;
-        this.created = payload.created;
-        this.comment_count = payload.comment_count;
+        this.description = payload.description;
         this.quantities = payload.quantity_set;
-        this.tags = payload.tags;
 
         this.quantities.forEach((q) => q.name = this.quantityName());
-
-        this.setHash();
     }
 
     static createNew(): Recipe {
@@ -91,13 +75,12 @@ class Recipe extends BaseModel {
     }
 
     addQuantity() {
-        let amount = 1,
-            unit = 'oz';
+        let unit = 'oz';
         if (this.quantities.length) {
             unit = this.quantities.slice(-1)[0].unit;
         }
         this.quantities.push({
-            amount: null,
+            amount: 0,
             unit: unit,
             ingredient: '',
             name: this.quantityName(),
@@ -124,18 +107,8 @@ class Recipe extends BaseModel {
     }
 }
 
-
-@Injectable()
-class RecipeService extends BaseService {
-
-    constructor(
-        public http: HttpClient,
-        public cacheService: CacheService,
-    ) { super(); }
-
+export class RecipeService extends BaseService {
     baseUrl = '/api/v1/recipes/';
     model = Recipe;
     listModel = RecipeStub;
 }
-
-export { Recipe, RecipeStub, RecipeService };

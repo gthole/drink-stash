@@ -1,9 +1,8 @@
-FROM node:12-alpine
+FROM node:12.4-alpine
 
-ENV PATH ./node_modules/.bin:$PATH
-
-WORKDIR /app
-ADD ./package.json ./package-lock.json /app/
+WORKDIR /ui
+COPY package* ./
 RUN npm install
+COPY ./ ./
 
-ENV PATH ./node_modules/.bin:$PATH
+CMD ["npm", "start"]

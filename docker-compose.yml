@@ -5,20 +5,19 @@ services:
         build: '.'
         command: 'python manage.py runserver 0.0.0.0:8000'
         volumes:
-            - './api:/src'
+            - './api:/api'
             - './.data:/data'
-            - './.public:/public'
         env_file: './api/.env'
         environment:
             DEBUG: 'True'
-        ports:
-            - '80:8000'
     # Development watch & compile
     ui:
         build: './ui'
         command: ['npm', 'start']
         volumes:
-            - './ui:/app'
-            - './api:/api'
-            - '/app/node_modules'
-
+            - './ui:/ui'
+            - '/ui/node_modules'
+        ports:
+            - '80:3000'
+        links:
+            - 'api'

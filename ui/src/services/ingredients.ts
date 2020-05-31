@@ -1,22 +1,18 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from '@angular/core';
 import { BaseModel, BaseService } from './base';
 import { CacheService } from './cache';
 
-
-class Ingredient extends BaseModel {
+export class Ingredient extends BaseModel {
     name: string;
     category: number;
     usage: number;
     substitutions: string[];
 
-    constructor(payload) {
+    constructor(payload: any) {
         super();
         this.name = payload.name;
         this.category = payload.category;
         this.usage = payload.usage;
         this.substitutions = payload.substitutions;
-        this.setHash();
     }
 
     toPayload() {
@@ -28,16 +24,7 @@ class Ingredient extends BaseModel {
     }
 }
 
-@Injectable()
-class IngredientService extends BaseService {
-
-    constructor(
-        public http: HttpClient,
-        public cacheService: CacheService,
-    ) { super(); }
-
+export class IngredientService extends BaseService {
     baseUrl = '/api/v1/ingredients/';
     model = Ingredient
 }
-
-export { Ingredient, IngredientService };
