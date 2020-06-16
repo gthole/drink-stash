@@ -22,6 +22,6 @@ class Command(BaseCommand):
             u.last_name = os.environ.get('DJANGO_SUPERUSER_LAST_NAME', 'user')
             u.save()
 
-        if Recipe.objects.count() == 0 and os.environ.get('INITIAL_FIXTURES'):
+        if os.environ.get('INITIAL_FIXTURES') and Recipe.objects.count() == 0:
             fixtures = os.environ.get('INITIAL_FIXTURES').split(',')
             call_command('loaddata', *fixtures)
