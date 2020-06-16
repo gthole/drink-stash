@@ -26,8 +26,11 @@ class Recipe(DateMixin):
             Index(fields=['name']),
             Index(fields=['slug'])
         ]
+        unique_together=[
+            ['name', 'book']
+        ]
 
-    name = CharField(max_length=255, unique=True)
+    name = CharField(max_length=255)
     slug = SlugField(unique=True)
     source = CharField(max_length=255, blank=True, null=True)
     url = URLField(blank=True, null=True)
