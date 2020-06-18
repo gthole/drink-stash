@@ -49,7 +49,6 @@ export class RecipeEditComponent {
                 } else {
                     this.recipe = Recipe.createNew();
                     this.recipe.book = this.books[0];
-                    console.log(this.recipe.book);
                     this.doneLoading();
                 }
             });
@@ -61,9 +60,10 @@ export class RecipeEditComponent {
             delete this.errors.name;
             return;
         }
-        this.recipeService.getPage({name}).then((resp) => {
+        // Check that the recipe is not already in the book
+        this.recipeService.getPage({name, book_id: this.recipe.book.id}).then((resp) => {
             if (resp.results.length && this.recipe.id !== resp.results[0].id) {
-                this.errors.name = 'That name is already taken.';
+                this.errors.name = 'That name is already taken in this book.';
             } else {
                 delete this.errors.name;
             }
@@ -73,7 +73,6 @@ export class RecipeEditComponent {
     fetchId(slug: string) {
         this.recipeService.getById(slug).then((recipe) => {
             this.recipe = recipe;
-            console.log(this.recipe.book);
             this.doneLoading();
         });
     }

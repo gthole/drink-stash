@@ -8,7 +8,8 @@
     </div>
     <select class="forms w-full md:w-1/2"
         [compareWith]="byId"
-        [(ngModel)]="recipe.book" name="book">
+        [(ngModel)]="recipe.book" name="book"
+        (change)="nameChange(recipe.name)">
         <option *ngFor="let b of books" [ngValue]="b">
             {{ b.name }}
         </option>

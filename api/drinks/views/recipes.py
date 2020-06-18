@@ -30,7 +30,8 @@ class RecipeViewSet(LazyViewSet):
 
     filter_fields = {
         'id': ['in'],
-        'name': ['exact']
+        'name': ['exact'],
+        'book_id': ['exact']
     }
 
     def get_queryset(self):
