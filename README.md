@@ -28,7 +28,13 @@ services:
             - '8000'
         volumes:
             - './data:/data'
+            - './public:/public'
 ```
+
+The [SECRET\_KEY](https://docs.djangoproject.com/en/3.0/ref/settings/#secret-key)
+should be a long random string of characters, and the
+[ALLOWED\_HOSTS](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts)
+is a comma-separated list of hostnames you plan to use to access the app.
 
 ## Settings
 
@@ -74,6 +80,7 @@ services:
             - '8000'
         volumes:
             - './data:/data'
+            - './public:/public'
 ```
 
 This will run a provisioning script on startup that creates a superuser if no
