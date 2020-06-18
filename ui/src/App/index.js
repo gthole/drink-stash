@@ -1,8 +1,10 @@
 import React from 'react';
 import './index.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Recipes } from './components/recipes';
-import { Home } from './components/home';
+import { PrivateRoute } from './common/PrivateRoute';
+import { RecipeList } from './components/RecipeList';
+import { Home } from './components/Home';
+import { Login } from './components/Login';
 
 function App() {
     return (
@@ -13,8 +15,9 @@ function App() {
                     <Link to="/recipes">Recipes</Link>
                 </header>
                 <Switch>
-                    <Route path="/recipes" children={<Recipes />} />
-                    <Route path="/" children={<Home />} />
+                	<Route path="/login" children={<Login />} />
+                    <PrivateRoute path="/recipes" children={<RecipeList />} />
+                    <PrivateRoute path="/" children={<Home />} />
                 </Switch>
             </Router>
         </div>

@@ -1,19 +1,19 @@
 export class CacheService {
-    set(name: string, value: any): void {
+    set(name, value) {
         sessionStorage.setItem(name, JSON.stringify(value));
     }
 
-    get(name: string): any {
+    get(name) {
         const item = sessionStorage.getItem(name);
         if (!item) return;
         return JSON.parse(item);
     }
 
-    remove(name: string): void {
+    remove(name) {
         sessionStorage.clearItem(name);
     }
 
-    clear(): void {
+    clear() {
         sessionStorage.clear();
     }
 }

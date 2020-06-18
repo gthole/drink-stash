@@ -1,17 +1,9 @@
 import { RecipeStub } from './recipes';
-import { BaseModel, BaseService } from './base';
+import { BaseService } from './base';
 import { CacheService } from './cache';
 
-export class Comment extends BaseModel {
-    id: number;
-    user: any;
-    recipe: RecipeStub;
-    rating: number;
-    text: string;
-    created: string;
-    updated?: string;
-
-    constructor(payload: any) {
+export class Comment {
+    constructor(payload) {
         super();
         this.id = payload.id;
         this.user = payload.user;

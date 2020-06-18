@@ -1,20 +1,9 @@
-import { BaseModel, BaseService } from './base';
+import { BaseService } from './base';
 import { CacheService } from './cache';
 import { AuthService } from './auth';
 
-class User extends BaseModel {
-    id: number;
-    username: string;
-    image: string;
-    first_name: string;
-    last_name: string;
-    ingredient_set: string[];
-    is_staff: boolean;
-    comment_count: boolean;
-    recipe_count: boolean;
-    email?: string;
-
-    constructor(payload: any) {
+class User {
+    constructor(payload) {
         super();
         this.id = payload.id;
         this.username = payload.username;

@@ -2,25 +2,10 @@ import { stringify } from 'querystring';
 import { AuthService } from './auth';
 import { CacheService } from './cache';
 
-interface ServiceResponse<K> {
-    fetched: string;
-    count: number;
-    results: K[];
-}
-
-export abstract class BaseModel {
-    abstract toPayload(): {[k: string]: any};
-}
-
-export abstract class BaseService {
-    protected cacheService: CacheService = new CacheService();
-    protected authService: AuthService = new AuthService();
-    // private csrfToken: string;
-
-    protected abstract baseUrl: string;
-    protected model: any = null;
-
+export class BaseService {
     constructor() {
+        this.cacheService = new CacheService();
+        this.authService = new AuthService();
         /*
         this.csrfToken = _.fromPairs(document.cookie.split('; ').map(
             (c) => c.split('=')
@@ -28,44 +13,41 @@ export abstract class BaseService {
          */
     }
 
-    getPage(query: any): Promise<ServiceResponse<any> | undefined> {
-        const model: any = this.model;
+    getPage(query) {
+        const model = this.listModel || this.model;
         const qs = stringify(query);
         const url = `${this.baseUrl}?${qs}`
 
         let cached = this.cacheService.get(url);
-        const headers: {[header: string]: string} = this.getHeaders();
+        const headers = this.getHeaders();
         if (cached) {
             headers['If-Modified-Since'] = cached.fetched;
             headers['X-Count'] = '' + cached.count;
         }
 
-        function format(response: ServiceResponse<any>): ServiceResponse<any> {
+        function format(response) {
             if (model) {
                 response.results = response.results.map(a => new model(a));
             }
             return response;
         }
 
-        return fetch(url, {headers})
-            .then((res) => res.json())
-            .then((res) => {
-                const response = {
-                    fetched: new Date(res.headers.get('Date')).toISOString(),
-                    count: res.body.count,
-                    results: res.body.results
-                };
-                this.cacheService.set(url, response);
-                return format(response);
-            })
-            .catch((err) => {
-                if (err.status === 304 && cached) {
-                    return format(cached);
-                }
-            });
+        return fetch(url, {headers}).then(async (res) => {
+            if (res.status === 304) {
+                return format(cached);
+            }
+            const body = await res.json();
+            const response = {
+                fetched: new Date(res.headers.get('Date')).toISOString(),
+                count: body.count,
+                results: body.results
+            };
+            this.cacheService.set(url, response);
+            return format(response);
+        });
     }
 
-    getById(id: number | string): Promise<any> {
+    getById(id) {
         return fetch(`${this.baseUrl}${id}/`, {
             headers: this.getHeaders()
         })
@@ -73,7 +55,7 @@ export abstract class BaseService {
         .then(res => new this.model(res));
     }
 
-    create(obj: any): Promise<any> {
+    create(obj) {
         const payload = obj.toPayload();
         return fetch(this.baseUrl, {
             method: 'POST',
@@ -84,7 +66,7 @@ export abstract class BaseService {
         .then(res => new this.model(res));
     }
 
-    update(obj: any): Promise<any> {
+    update(obj) {
         const payload = obj.toPayload();
         return fetch(`${this.baseUrl}${obj.id}/`, {
             method: 'PUT',
@@ -95,16 +77,17 @@ export abstract class BaseService {
         .then(res => new this.model(res));
     }
 
-    remove(obj: any): Promise<any> {
+    remove(obj) {
         return fetch(`${this.baseUrl}${obj.id}/`, {
             method: 'DELETE',
             headers: this.getHeaders(),
         });
     }
 
-    protected getHeaders() {
+    getHeaders() {
         return {
             Authorization: 'JWT ' + this.authService.getToken(),
+            'Content-Type': 'application/json',
             // 'X-CSRFToken': this.token
         };
     }

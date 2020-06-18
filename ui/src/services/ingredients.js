@@ -1,13 +1,8 @@
-import { BaseModel, BaseService } from './base';
+import { BaseService } from './base';
 import { CacheService } from './cache';
 
-export class Ingredient extends BaseModel {
-    name: string;
-    category: number;
-    usage: number;
-    substitutions: string[];
-
-    constructor(payload: any) {
+export class Ingredient {
+    constructor(payload) {
         super();
         this.name = payload.name;
         this.category = payload.category;

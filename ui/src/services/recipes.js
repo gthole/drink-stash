@@ -1,20 +1,8 @@
-import { BaseModel, BaseService } from './base';
+import { BaseService } from './base';
 import { Book } from './books';
-import { CacheService } from './cache';
-import { stringify } from 'querystring';
 
-export class RecipeStub extends BaseModel {
-    id: number;
-    slug: string;
-    name: string;
-    comment_count: number;
-    ingredients: string[];
-    created: string;
-    added_by: any;
-    tags: string[];
-
-    constructor(payload: any) {
-        super();
+export class RecipeStub {
+    constructor(payload) {
         this.id = payload.id;
         this.slug = payload.slug;
         this.name = payload.name;
@@ -30,27 +18,12 @@ export class RecipeStub extends BaseModel {
     }
 }
 
-interface Quantity {
-    amount: number;
-    unit: string;
-    ingredient: string;
-    name?: string;
-    hidden?: boolean;
-}
-
 export class Recipe extends RecipeStub {
-    source: string;
-    url: string;
-    book: Book;
-    directions: string;
-    description: string;
-    quantities: Quantity[];
-
-    constructor(payload: any) {
+    constructor(payload) {
         super(payload);
         this.source = payload.source;
         this.url = payload.url;
-        this.book = payload.book;
+        this.book = new Book(payload.book);
         this.directions = payload.directions;
         this.description = payload.description;
         this.quantities = payload.quantity_set;
@@ -58,7 +31,7 @@ export class Recipe extends RecipeStub {
         this.quantities.forEach((q) => q.name = this.quantityName());
     }
 
-    static createNew(): Recipe {
+    static createNew() {
         const r = new Recipe({
             id: null,
             name: '',
@@ -88,6 +61,7 @@ export class Recipe extends RecipeStub {
         });
     }
 
+    // TODO: still need this?
     quantityName() {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
     }

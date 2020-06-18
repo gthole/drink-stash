@@ -1,0 +1,16 @@
+.SearchBar {
+    padding: 20px 10px;
+    display: flex;
+}
+
+.SearchBar input {
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid teal;
+    appearance: none;
+    outline: none;
+    padding: 10px 20px;
+}

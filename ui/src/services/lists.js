@@ -1,17 +1,8 @@
 import { RecipeStub } from './recipes';
-import { BaseModel, BaseService } from './base';
+import { BaseService } from './base';
 import { CacheService } from './cache';
 
-export class List extends BaseModel {
-    id: number;
-    user: any;
-    name: string;
-    description: string
-    recipe_count: number;
-    created: string;
-    updated: string;
-    added_to_recipe: boolean;
-
+export class List {
     constructor(payload: any) {
         super();
         this.id = payload.id;
@@ -39,16 +30,6 @@ export class ListService extends BaseService {
 }
 
 export class ListRecipe extends BaseModel {
-    id: number;
-    recipe: RecipeStub;
-    list: {id: number, name: string};
-    notes: string
-    user: any;
-    created: string;
-    updated: string;
-
-    editing: boolean = false;
-
     constructor(payload: any) {
         super();
         this.id = payload.id;

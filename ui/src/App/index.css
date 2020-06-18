@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    background: #fff;
+    color: #2b2c34;
 }
 
 .App-header {

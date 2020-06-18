@@ -1,37 +1,32 @@
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { decode } from 'jwt-decode';
 import { CacheService } from './cache';
-
-const helper = new JwtHelperService();
-
-interface UserData {
-
-}
 
 export class AuthService {
     cache: CacheService = new CacheService();
 
-    isLoggedIn(): boolean {
+    isLoggedIn() {
         const token = this.getToken();
-        return Boolean(token) && !helper.isTokenExpired(token as string);
+        return Boolean(token);
     }
 
-    getToken(): string | null {
+    getToken() {
         return localStorage.getItem('token');
     }
 
-    getUserData(): any {
-        return helper.decodeToken(this.getToken() as string);
+    getUserData() {
+        return decode(this.getToken());
     }
 
-    logout(): void {
+    logout() {
         localStorage.clear();
         this.cache.clear();
     }
 
-    login(payload: {username: string, password: string}): Promise<any> {
+    login(payload) {
         return fetch('/api/v1/auth/', {
             method: 'POST',
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            headers: {'Content-Type': 'application/json'}
         })
         .then((res: any) => res.json())
         .then((res: any) => localStorage.setItem('token', res.token));
