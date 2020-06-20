@@ -1,0 +1,8 @@
+.RecipeSearch {
+    max-width: 512px;
+    background: #fffffe;
+}
+
+.RecipeSearch .loading {
+    opacity: 0.2;
+}

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.css';
 
-export function SearchBar({value, setValue}) {
+export function SearchBar({value, setValue, total}) {
+    const [inner, setInner] = useState('');
+
+    function keyDown(ev) {
+        const key = ev.keyCode || ev.which;
+        if (key === 13) {
+            setValue(inner);
+            setInner('');
+        }
+    }
+
+    const placeholder = total ? `Search ${total} recipes` : '';
+
     return (
         <div className="SearchBar">
             <input
-                value={value || ''}
-                onChange={(ev) => setValue(ev.target.value)}
+                placeholder={placeholder}
+                value={value || inner}
+                onChange={(ev) => setInner(ev.target.value)}
+                onKeyDown={keyDown}
             />
         </div>
     );

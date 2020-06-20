@@ -1,17 +1,16 @@
 .App {
     font-family: 'Roboto script=all rev=1', sans-serif;
-    background: #fff;
-    color: #2b2c34;
+    color: #16161a;
 }
 
 .App-header {
-  background-color: #282c34;
-  display: flex;
-  color: #fff;
+    background-color: #553c9a;
+    display: flex;
+    color: #fffffe;
 }
 
 .App .App-header {
-    padding: 10px;
+    padding: 20px 20px;
 }
 
 .App .App-header a {

@@ -1,0 +1,17 @@
+.RecipeInfo .title {
+    font-family: 'Libre Baskerville';
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.RecipeInfo .directions {
+    color: #72757a;
+    margin: 20px 0;
+    line-height: 1.5em;
+}
+
+.RecipeInfo .description {
+    padding: 20px;
+    background-color: #d1d1e9;
+    line-height: 1.5em;
+}

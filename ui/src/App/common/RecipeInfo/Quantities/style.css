@@ -1,0 +1,33 @@
+.Quantities {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.Quantities div div:not(:first-child) {
+    margin-top: 20px;
+}
+
+.Quantities .QuantityRow {
+    display: table-row;
+    height: 40px;
+}
+
+.Quantities .QuantityRow div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.Quantities .QuantityRow .ingredient {
+    padding-left: 10px;
+}
+
+.Quantities .QuantityRow .amount {
+    text-align: right;
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #72757a;
+}
+
+.Amount {
+    margin-right: 8px;
+}

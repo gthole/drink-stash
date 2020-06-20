@@ -4,13 +4,18 @@
 }
 
 .SearchBar input {
+    line-height: 1.25;
     width: calc(100% - 20px);
-    box-sizing: border-box;
+    outline: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: 1px solid teal;
-    appearance: none;
-    outline: none;
-    padding: 10px 20px;
+    border-bottom: 2px solid #2cb67d;
+    padding: 10px 5px;
+    font-size: 16px;
+    background-color: #fffffe;
+    color: #16161a;
 }

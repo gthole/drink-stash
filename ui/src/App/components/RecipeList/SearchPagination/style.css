@@ -1,0 +1,9 @@
+.ListPagination {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.ListPagination.hasNext {
+    flex-direction: row-reverse;
+}

@@ -1,0 +1,11 @@
+.Button {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.Button.outline {
+    color: #553c9a;
+    border: 1px solid #553c9a;
+    background-color: #fffffe;
+    border-radius: 5px;
+}
