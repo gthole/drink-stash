@@ -1,0 +1,24 @@
+.RecipeEdit .input-row {
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 512px) {
+    .RecipeEdit .input-row {
+        flex-direction: row;
+    }
+
+    .RecipeEdit .input-row .FormWrapper:not(:first-child) {
+        margin-left: 30px;
+    }
+
+    .RecipeEdit .input-row .FormWrapper {
+        flex-grow: 1;
+        max-width: calc(50% - 15px);
+    }
+}
+
+.RecipeEdit .save-buttons {
+    display: flex;
+    justify-content: space-between;
+}

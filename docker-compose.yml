@@ -7,6 +7,7 @@ services:
         volumes:
             - './api:/api'
             - './.data:/data'
+            - './.public/public'
         env_file: './api/.env'
         ports:
             - '8000:8000'

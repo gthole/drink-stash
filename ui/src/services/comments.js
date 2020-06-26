@@ -1,10 +1,8 @@
 import { RecipeStub } from './recipes';
 import { BaseService } from './base';
-import { CacheService } from './cache';
 
 export class Comment {
     constructor(payload) {
-        super();
         this.id = payload.id;
         this.user = payload.user;
         this.recipe = new RecipeStub(payload.recipe);

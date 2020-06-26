@@ -1,0 +1,41 @@
+.App-header {
+    background-color: #553c9a;
+    display: flex;
+    justify-content: space-between;
+    color: #fffffe;
+}
+
+.App .App-header {
+    padding: 20px 20px;
+    font-size: 1.5rem;
+}
+
+.App .App-header a {
+    color: #fff;
+    padding-right: 5px;
+    text-decoration: none;
+}
+
+.App .App-header a.home-link {
+    font-family: 'Niconne',cursive;
+}
+
+.App .App-header .header-back {
+    cursor: pointer;
+}
+
+.App .App-header .header-menu {
+    cursor: pointer;
+}
+
+.App a {
+    text-decoration: none;
+    color: #553c9a;
+    font-weight: 500;
+}
+
+.App .page-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}

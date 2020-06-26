@@ -1,10 +1,8 @@
 import { RecipeStub } from './recipes';
 import { BaseService } from './base';
-import { CacheService } from './cache';
 
 export class List {
-    constructor(payload: any) {
-        super();
+    constructor(payload) {
         this.id = payload.id;
         this.user = payload.user;
         this.name = payload.name;
@@ -29,9 +27,8 @@ export class ListService extends BaseService {
     model = List;
 }
 
-export class ListRecipe extends BaseModel {
-    constructor(payload: any) {
-        super();
+export class ListRecipe {
+    constructor(payload) {
         this.id = payload.id;
         this.recipe = new RecipeStub(payload.recipe);
         this.notes = payload.notes;

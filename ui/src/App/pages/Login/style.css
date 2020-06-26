@@ -1,0 +1,64 @@
+.Login {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/splash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Login .login-inner {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5vh;
+}
+
+.Login .login-auth-form {
+    background-color: rgba(255, 255, 255, 0.4);
+    max-width: 400px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.Login .login-header {
+    font-family: 'Niconne',cursive;
+    font-size: 60px;
+    color: #fffffe;
+    margin-bottom: 40px;
+    margin-left: 20px;
+}
+
+.Login .button-row .Button {
+    font-weight: bold;
+}
+
+.Login .button-row .forgot-password {
+    margin-top: 15px;
+}
+
+.Login .button-row a {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.Login .login-photo-credit {
+    font-size: 12px;
+    color: #fffffe;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.Login .login-photo-credit a {
+    color: #fffffe;
+}
+
+@media only screen and (min-width: 512px) {
+    .Login .login-inner {
+        margin-left: 100px;
+        padding-top: 20vh;
+    }
+
+    .Login .button-row a {
+        color: rgba(255, 255, 255, 0.5);
+    }
+}

@@ -1,0 +1,33 @@
+.QuantityRow {
+    display: flex;
+}
+
+.QuantityRow .amount {
+    width: 20%;
+    margin-right: 10px;
+}
+
+.QuantityRow .unit {
+    width: 20%;
+    margin-right: 10px;
+}
+
+.QuantityRow .ingredient {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.QuantityRow .ingredient .AutoComplete {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.QuantityRow .ingredient .Button {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 10px;
+    height: 44px;
+}
+
+

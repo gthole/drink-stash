@@ -1,8 +1,10 @@
-import { decode } from 'jwt-decode';
+import decode from 'jwt-decode';
 import { CacheService } from './cache';
 
 export class AuthService {
-    cache: CacheService = new CacheService();
+    constructor() {
+        this.cache = new CacheService();
+    }
 
     isLoggedIn() {
         const token = this.getToken();
@@ -14,10 +16,16 @@ export class AuthService {
     }
 
     getUserData() {
-        return decode(this.getToken());
+        const token = this.getToken();
+        if (!token) return;
+
+        if (this.user) return this.user;
+        this.user = decode(token);
+        return this.user;
     }
 
     logout() {
+        this.user = null;
         localStorage.clear();
         this.cache.clear();
     }

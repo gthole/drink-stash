@@ -1,0 +1,161 @@
+/*
+ * FormWrapper
+ */
+
+.FormWrapper {
+    margin-bottom: 40px;
+}
+
+.Forms.FormWrapper label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: #72757a;
+    display:inline-block;
+    margin-bottom: 10px;
+}
+
+.Forms.FormWrapper .subtext {
+    margin-top: 5px;
+    font-size: 0.875rem;
+    color: #72757a;
+    font-style: italic;
+}
+
+/* TODO: Make Input/TextArea/Select attributes common */
+
+/*
+ * Input
+ */
+
+.Forms .Input {
+    background-color: #f5f5f5;
+    line-height: 1.25;
+    font-size: 16px;
+    width: calc(100% - 20px);
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #2cb67d;
+    padding: 10px 10px;
+}
+
+.Input:focus::placeholder {
+  color: transparent;
+}
+
+/*
+ * TextArea
+ */
+.Forms .TextArea {
+    background-color: #f5f5f5;
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    line-height: 1.25;
+    font-size: 16px;
+    width: calc(100% - 20px);
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #2cb67d;
+    padding: 10px 10px;
+    resize: vertical;
+    transition: height .2s ease-out;
+    height: 1.25rem;
+}
+
+.Forms .TextArea.textarea-large {
+    height: 8.5rem;
+}
+
+.TextArea::-webkit-input-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea:-ms-input-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea:-moz-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea::-moz-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea:focus::placeholder {
+  color: transparent;
+}
+
+/*
+ * Select
+ */
+
+.Select {
+    display: block;
+    appearance: none;
+    width: 100%;
+    line-height: 1.25;
+    padding: 10px;
+    font-size: 16px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #2cb67d;
+    background-color: #f5f5f5;
+}
+
+/*
+ * Button
+ */
+
+.Button {
+    appearance: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.875rem;
+}
+
+.Button.button-outline {
+    color: #553c9a;
+    border: 1px solid #553c9a;
+    background-color: #fffffe;
+}
+
+.Button.button-outline:focus,
+.Button.button-outline:hover {
+    color: #fffffe;
+    background-color: #553c9a;
+}
+
+.Button.button-primary {
+    color: #fffffe;
+    border: 1px solid #2cb67d;
+    background-color: #2cb67d;
+}
+
+.Button.button-primary:focus,
+.Button.button-primary:hover {
+    background-color: #269d6c;
+}
+
+.Button.button-danger {
+    color: #fffffe;
+    border: 1px solid #e45858;
+    background-color: #e45858;
+}
+
+.Button.button-danger:focus,
+.Button.button-danger:hover {
+    background-color: #c82020;
+}

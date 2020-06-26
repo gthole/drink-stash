@@ -1,0 +1,12 @@
+/* Only body should go in this file */
+body {
+    margin: 0;
+    background-color: #fffffe;
+    color: #2b2c34;
+}
+
+@media only screen and (min-width: 512px) {
+    body {
+    	background-color: #2b2c34;
+    }
+}

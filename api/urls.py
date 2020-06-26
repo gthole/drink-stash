@@ -37,6 +37,6 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
         url=settings.STATIC_URL + 'assets/apple-touch-icon.png',
         permanent=True
     )),
-    url(r'', index),  # Angular routing
-    url(r'^$', index),  # Angular routing
+    url(r'', index),  # React routing
+    url(r'^$', index),  # React routing
 ]

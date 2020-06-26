@@ -1,9 +1,7 @@
 import { BaseService } from './base';
-import { CacheService } from './cache';
 
 export class Ingredient {
     constructor(payload) {
-        super();
         this.name = payload.name;
         this.category = payload.category;
         this.usage = payload.usage;

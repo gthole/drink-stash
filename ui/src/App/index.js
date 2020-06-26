@@ -1,23 +1,26 @@
 import React from 'react';
-import './index.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { PrivateRoute } from './common/PrivateRoute';
-import { RecipeDetails } from './components/RecipeDetails';
-import { RecipeList } from './components/RecipeList';
-import { Home } from './components/Home';
-import { Login } from './components/Login';
+import './style.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { AppHeader } from './components/AppHeader';
+import { PrivateRoute } from './components/PrivateRoute';
+import { CommentEdit } from './pages/CommentEdit';
+import { RecipeDetails } from './pages/RecipeDetails';
+import { RecipeEdit } from './pages/RecipeEdit';
+import { Recipes } from './pages/Recipes';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
 
 function App() {
     return (
         <div className="App">
             <Router>
-                <header className="App-header">
-                    <Link to="/recipes" className="home-link">Drink Stash</Link>
-                </header>
+                <AppHeader />
                 <Switch>
                     <Route path="/login" children={<Login />} />
-                    <PrivateRoute path="/recipes/:slug" children={<RecipeDetails/>} />
-                    <PrivateRoute path="/recipes" children={<RecipeList />} />
+                    <PrivateRoute path="/comments/:id" children={<CommentEdit />} />
+                    <PrivateRoute path="/recipes/:slug/edit" children={<RecipeEdit />} />
+                    <PrivateRoute path="/recipes/:slug" children={<RecipeDetails />} />
+                    <PrivateRoute path="/recipes" children={<Recipes />} />
                     <PrivateRoute path="/" children={<Home />} />
                 </Switch>
             </Router>
