@@ -159,3 +159,9 @@
 .Button.button-danger:hover {
     background-color: #c82020;
 }
+
+.Button.button-clear {
+    color: #553c9a;
+    background-color: #fffffe;
+    border: 1px solid #fffffe;
+}

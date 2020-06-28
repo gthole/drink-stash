@@ -31,29 +31,13 @@ export class Recipe extends RecipeStub {
         this.quantities.forEach((q) => q.name = this.quantityName());
     }
 
-    static createNew() {
-        const r = new Recipe({
-            id: null,
-            name: '',
-            source: '',
-            url: '',
-            description: '',
-            notes: '',
-            directions: '',
-            quantity_set: [],
-            tags: [],
-        });
-        r.addQuantity();
-        return r;
-    }
-
     addQuantity() {
         let unit = 'oz';
         if (this.quantities.length) {
             unit = this.quantities.slice(-1)[0].unit;
         }
         this.quantities.push({
-            amount: 0,
+            amount: '',
             unit: unit,
             ingredient: '',
             name: this.quantityName(),
@@ -85,4 +69,21 @@ export class RecipeService extends BaseService {
     baseUrl = '/api/v1/recipes/';
     model = Recipe;
     listModel = RecipeStub;
+
+    static createNew() {
+        const r = new Recipe({
+            id: null,
+            book: new Book({}),
+            name: '',
+            source: '',
+            url: '',
+            description: '',
+            notes: '',
+            directions: '',
+            quantity_set: [],
+            tags: [],
+        });
+        r.addQuantity();
+        return r;
+    }
 }

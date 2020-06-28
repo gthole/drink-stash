@@ -21,7 +21,7 @@ Purple: #553c9a
 - Links
 - Icons
 
-Light Purple:
+Light Purple: #d1d1e9
 - Sections
 - Tags
 

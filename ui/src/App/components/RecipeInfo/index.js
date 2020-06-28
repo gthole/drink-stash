@@ -4,6 +4,8 @@ import { Activity } from '../Activity';
 import { Card } from '../Card';
 import { CommentForm } from './CommentForm';
 import { Quantities } from './Quantities';
+import { RecipeMenu } from './RecipeMenu';
+import { Source } from './Source';
 import { AuthService } from '../../../services/auth';
 import { BookService } from '../../../services/books';
 import { Comment, CommentService } from '../../../services/comments';
@@ -16,6 +18,7 @@ const listRecipeService = new ListRecipeService();
 
 export function RecipeInfo({recipe, refresh}) {
     const [content, setContent] = useState({});
+    const [multiplier, setMultiplier] = useState(1);
 
     useEffect(() => {
         if (!recipe) return;
@@ -30,7 +33,7 @@ export function RecipeInfo({recipe, refresh}) {
             setContent({
                 recipe_id: recipe.id,
                 can_comment: !Boolean(c),
-                con_edit: Boolean(b),
+                can_edit: Boolean(b),
                 comments: commentResp.results,
                 listRecipes: listRecipeResp.results
             });
@@ -54,10 +57,20 @@ export function RecipeInfo({recipe, refresh}) {
     return (
         <div className="RecipeInfo">
             <Card>
+                <RecipeMenu
+                    recipe={ recipe }
+                    canEdit={ content.can_edit }
+                    multiplier={ multiplier }
+                    setMultiplier={ setMultiplier }
+                />
                 <div className="title">
                     { recipe.name }
                 </div>
-                <Quantities quantities={recipe.quantities} />
+                <Source recipe={recipe} />
+                <Quantities
+                    quantities={ recipe.quantities }
+                    multiplier={ multiplier }
+                />
                 <div className="directions">
                     { recipe.directions }
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ActivityRecipeCards } from '../ActivityRecipeCards';
-import { ActivityHeader } from '../ActivityHeader';
+import { ActivityRow } from '../ActivityRow';
 
 // A user created one or more recipes
 export function ListRecipeActivity({ listRecipes, showTitle }) {
@@ -25,13 +25,11 @@ export function ListRecipeActivity({ listRecipes, showTitle }) {
     const recipes = listRecipes.map(lr => lr.recipe);
 
     return (
-        <div className="ListRecipeActivity activity">
-            <ActivityHeader
-                user={ lr.user }
-                text={ header }
-                date={ lr.created }
-            />
-            <ActivityRecipeCards show={showTitle} recipes={recipes} />
-        </div>
+        <ActivityRow
+            user={ lr.user }
+            text={ header }
+            date={ lr.created }
+            body={ <ActivityRecipeCards show={showTitle} recipes={recipes} /> }
+        />
     );
 }

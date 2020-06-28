@@ -1,22 +1,14 @@
 import React from 'react';
 import './style.css';
 import * as n2f from 'num2fraction';
+import { fracCodes, pluralize } from './constants';
 
-const fracCodes = {
-    '1/2': '&#189;',
-    '1/3': '&#8531;',
-    '2/3': '&#8532;',
-    '1/4': '&#188;',
-    '3/4': '&#190;',
-    '1/5': '&#8533;',
-    '2/5': '&#8534;',
-    '3/5': '&#8535;',
-    '4/5': '&#8536;',
-    '1/6': '&#8537;',
-    '5/6': '&#8538;',
-};
+function Amount({amount, unit, multiplier}) {
+    let value = amount * multiplier;
+    if (unit === 'oz' && value > 4) {
+        value /= 4;
+    }
 
-function Amount({value}) {
     const whole = Math.floor(value);
     const part = value - whole;
 
@@ -45,12 +37,25 @@ function Amount({value}) {
     );
 }
 
-export function Quantities({quantities}) {
+function Unit({amount, unit, multiplier}) {
+    let res = unit;
+    const value = amount * multiplier
+    if (unit === 'oz' && value > 4) {
+        res = 'cup';
+    }
+    // Pluralize
+    if (value > 1) {
+        res = pluralize(res);
+    }
+    return res;
+}
+
+export function Quantities({quantities, multiplier}) {
     const qs = quantities.map((q, i) => (
         <div className="QuantityRow" key={'quantity-' + i}>
             <div className="amount">
-                <Amount value={ q.amount } />
-                { q.unit }
+                <Amount amount={ q.amount } multiplier={ multiplier } unit={ q.unit } />
+                <Unit amount={ q.amount } multiplier={ multiplier } unit={ q.unit } />
             </div>
             <div className="ingredient">{ q.ingredient }</div>
         </div>

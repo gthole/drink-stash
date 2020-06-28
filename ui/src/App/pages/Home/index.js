@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './style.css';
 import { Activity } from '../../components/Activity';
 import { Card } from '../../components/Card';
+import { Loading } from '../../components/Loading';
 import { Button } from '../../components/Forms';
 import { SearchBar } from '../../components/SearchBar';
-import { CommentService } from '../../../services/comments';
-import { ListRecipeService } from '../../../services/lists';
-import { RecipeService } from '../../../services/recipes';
-
-const commentService = new CommentService();
-const listRecipeService = new ListRecipeService();
-const recipeService = new RecipeService();
+import { NavGroup } from './NavGroup';
+import { services } from '../../../services';
 
 export function Home() {
     const [content, setContent] = useState(null);
@@ -25,9 +21,9 @@ export function Home() {
             orderring: '-created'
         };
         Promise.all([
-            commentService.getPage(params),
-            listRecipeService.getPage(params),
-            recipeService.getPage(params),
+            services.comments.getPage(params),
+            services.listRecipes.getPage(params),
+            services.recipes.getPage(params),
         ]).then(([cResp, lrResp, rResp]) => {
             setContent({
                 page: page,
@@ -39,7 +35,7 @@ export function Home() {
         });
     }, [page]);
 
-    let activity = '';
+    let activity = <Loading />;
     if (content) {
         activity = (
             <div>
@@ -64,6 +60,7 @@ export function Home() {
                     subtext={ 'e.g. cynar, Last Word, or mezcal' }
                     setValue={ (q) => history.push('/recipes/?search=' + encodeURIComponent(q), {}) }
                 />
+                <NavGroup />
             </Card>
             <Card className="home-activity">
                 { activity }

@@ -28,7 +28,7 @@
 }
 
 .Menu .menu-inner a {
-    margin-bottom: 20px;
+    padding: 10px 0;
 }
 
 .Menu .menu-inner a:hover {
@@ -43,4 +43,8 @@
 
 .Menu svg {
     cursor: pointer;
+}
+
+.Menu a.bordered {
+    border-top: 1px solid #72757a;
 }

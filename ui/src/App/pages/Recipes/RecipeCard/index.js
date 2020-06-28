@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import { Card } from '../../../components/Card';
 
 export function RecipeCard({recipe, selectRecipe, onClick}) {
     let comments = '';
@@ -12,7 +13,7 @@ export function RecipeCard({recipe, selectRecipe, onClick}) {
     }
 
     return (
-        <div className="RecipeCard" onClick={onClick}>
+        <Card className="RecipeCard" onClick={onClick}>
             { comments }
             <div className="recipe-name">
                 { recipe.name }
@@ -31,6 +32,6 @@ export function RecipeCard({recipe, selectRecipe, onClick}) {
                     ))
                 }
             </div>
-        </div>
+        </Card>
     )
 }

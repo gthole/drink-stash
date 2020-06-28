@@ -1,0 +1,31 @@
+.NavSection {
+    display: flex;
+    margin-top: 40px;
+}
+
+.NavSection .nav-section-icon {
+    border-radius: 9999px;
+    color: #fffffe;
+    font-size: 2rem;
+    background-color: #553c9a;
+    padding: 40px;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NavSection .nav-section-title {
+    margin-bottom: 10px;
+}
+
+.NavSection .nav-section-icon svg {
+    margin: 0 auto;
+}
+
+.NavSection .nav-section-description {
+    color: #72757a;
+
+}

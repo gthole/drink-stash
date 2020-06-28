@@ -18,7 +18,12 @@
     }
 }
 
+.RecipeEdit .quantity-button {
+    margin-bottom: 40px;
+}
+
 .RecipeEdit .save-buttons {
     display: flex;
     justify-content: space-between;
 }
+

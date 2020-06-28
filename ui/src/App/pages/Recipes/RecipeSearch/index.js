@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import { Loading } from '../../../components/Loading';
 import { SearchBar } from '../../../components/SearchBar';
 import { RecipeCard } from '../RecipeCard';
 import { SearchPills } from '../SearchPills';
@@ -26,9 +27,14 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
         setParams(params);
     }
 
-    const rows = recipes.map((r, i) => (
-        <RecipeCard key={'recipe-' + i} recipe={r} onClick={() => selectRecipe(r.slug)}/>
-    ));
+    let rows = <Loading />
+    if (recipes) {
+        rows = recipes.map((r, i) => (
+            <RecipeCard key={'recipe-' + i} recipe={r} onClick={() => selectRecipe(r.slug)}/>
+        ));
+    } else if (recipes && recipes.length === 0) {
+        rows = <div>No recipes found</div>
+    }
 
     return (
         <div className="RecipeSearch">

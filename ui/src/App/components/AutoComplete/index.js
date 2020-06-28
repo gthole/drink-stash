@@ -69,13 +69,14 @@ export function AutoComplete({index, value, dataSource, setValue}) {
                 onChange={ (ev) => setValue(ev.target.value) }
                 onKeyDown={ onKeyDown }
                 onFocus={ () => setIsFocused(true) }
-                onBlur={ () => setIsFocused(false) }
+                onBlur={ () => setTimeout(() => setIsFocused(false), 100) }
             />
             <div className="suggestions">
                 {
                     suggestions.map((s, i) => (
                         <div
                             key={'autosuggest-' + i}
+                            onClick={ () => select(i) }
                             className={ i === selected ? 'selected' : '' }>
                             { s }
                         </div>

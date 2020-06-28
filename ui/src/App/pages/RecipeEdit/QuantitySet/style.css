@@ -1,3 +1,7 @@
+.QuantitySet > .Forms.FormWrapper {
+    margin-bottom: 0;
+}
+
 .QuantityRow {
     display: flex;
 }
@@ -23,11 +27,8 @@
     margin-right: 10px;
 }
 
-.QuantityRow .ingredient .Button {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 5px 10px;
-    height: 44px;
+.QuantityRow .ingredient .remove-quantity {
+    cursor: pointer;
+    color: #72757a;
+    padding: 10px 5px;
 }
-
-

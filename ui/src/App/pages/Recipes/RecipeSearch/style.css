@@ -6,3 +6,7 @@
 .RecipeSearch .loading {
     opacity: 0.2;
 }
+
+.RecipeSearch .SearchBar {
+    padding: 5px 10px;
+}

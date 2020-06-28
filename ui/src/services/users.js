@@ -1,10 +1,7 @@
 import { BaseService } from './base';
-import { CacheService } from './cache';
-import { AuthService } from './auth';
 
 class User {
     constructor(payload) {
-        super();
         this.id = payload.id;
         this.username = payload.username;
         this.image = payload.image;

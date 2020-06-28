@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import { parseSearch, stringifySearch } from './search';
 import { useHistory } from 'react-router-dom';
-import { RecipeService } from '../../../services/recipes';
 import { RecipeSearch } from './RecipeSearch';
 import { RecipeInfo } from '../../components/RecipeInfo';
+import { services } from '../../../services';
 
-const recipeService = new RecipeService();
 
 export function Recipes() {
     const history = useHistory();
@@ -25,7 +24,7 @@ export function Recipes() {
         setLoading(true);
         history.replace(`/recipes/?${stringifySearch(params, slug)}`);
         const qp = Object.assign({per_page: 10}, params);
-        recipeService.getPage(qp).then((resp) => {
+        services.recipes.getPage(qp).then((resp) => {
             setResp(resp);
             setLoading(false);
             setTimeout(() => window.scrollTo({top: 0, behavior: 'smooth'}), 0);
@@ -40,7 +39,7 @@ export function Recipes() {
             return history.push(`/recipes/${slug}`, {})
         }
         history.replace(`/recipes/?${stringifySearch(params, slug)}`);
-        recipeService.getById(slug).then(setRecipe);
+        services.recipes.getById(slug).then(setRecipe);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug, history]);
 
@@ -48,8 +47,8 @@ export function Recipes() {
         <div className="RecipeList">
             <div className="search-wrapper">
                 <RecipeSearch
-                    recipes={resp ? resp.results : []}
-                    total={resp ? resp.count : 0}
+                    recipes={resp ? resp.results : null}
+                    total={resp ? resp.count : null}
                     loading={loading}
                     params={params}
                     setParams={(p) => setParams(Object.assign({}, p))}

@@ -5,17 +5,8 @@ import { Select, Input, TextArea, Button } from '../../components/Forms';
 import { Card } from '../../components/Card';
 import { TagSet } from '../../components/TagSet';
 import { QuantitySet } from './QuantitySet';
-import { BookService } from '../../../services/books';
-import { IngredientService } from '../../../services/ingredients';
+import { services } from '../../../services';
 import { RecipeService } from '../../../services/recipes';
-import { TagService } from '../../../services/tags';
-import { UomService } from '../../../services/uom';
-
-const bookService = new BookService();
-const ingredientService = new IngredientService();
-const recipeService = new RecipeService();
-const tagService = new TagService();
-const uomService = new UomService();
 
 export function RecipeEdit() {
     const [content, setContent] = useState(null);
@@ -25,18 +16,18 @@ export function RecipeEdit() {
 
     useEffect(() => {
         async function getRecipe() {
-            if (slug === 'new') {
+            if (!slug) {
                 return RecipeService.createNew();
             }
-            return await recipeService.getById(slug);
+            return await services.recipes.getById(slug);
         }
 
         Promise.all([
             getRecipe(),
-            bookService.getPage(),
-            ingredientService.getPage(),
-            tagService.getPage(),
-            uomService.getPage(),
+            services.books.getPage(),
+            services.ingredients.getPage(),
+            services.tags.getPage(),
+            services.uom.getPage(),
         ]).then(([recipe, bookResp, ingredientResp, tagResp, uomResp]) => {
             const ingredients = ingredientResp.results.sort((a, b) => (
                 a.usage > b.usage ? -1 : 1
@@ -55,9 +46,9 @@ export function RecipeEdit() {
         setSaving(true);
         let saved;
         if (content.recipe.id) {
-            saved = await recipeService.update(content.recipe);
+            saved = await services.recipes.update(content.recipe);
         } else {
-            saved = await recipeService.create(content.recipe);
+            saved = await services.recipes.create(content.recipe);
         }
         setSaving(false);
         return saved;
@@ -80,6 +71,12 @@ export function RecipeEdit() {
     function update(attr, value) {
         content.recipe[attr] = value;
         setContent(Object.assign({}, content));
+    }
+
+    function addQuantity() {
+        content.recipe.addQuantity();
+        setContent(Object.assign({}, content));
+        setTimeout(() => document.querySelectorAll(".QuantityRow:last-child .amount input")[0].focus(), 200)
     }
 
     if (!content) {
@@ -121,6 +118,12 @@ export function RecipeEdit() {
                     ingredients={ content.ingredients }
                     uom={ content.uom }
                     setQuantities={ (quantities) => update('quantities', quantities) }
+                />
+                <Button
+                    className="quantity-button"
+                    type="primary"
+                    onClick={ () => addQuantity() }
+                    children={<b>+</b>}
                 />
                 <TextArea
                     label="Directions"

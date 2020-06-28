@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import './style.css';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { Input, Button } from '../../components/Forms';
-import { AuthService } from '../../../services/auth';
+import { services } from '../../../services';
 
-const authService = new AuthService();
-
-export function Login() {
+export function Login({refreshUser}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const history = useHistory();
-    const location = useLocation();
-    const { from } = location.state || { from: { pathname: "/" } };
-
-    authService.logout();
+    if (services.auth.isLoggedIn()) {
+        history.push('/', {});
+    }
 
     async function submit() {
-        await authService.login({username, password});
-        history.replace(from);
+        try {
+            await services.auth.login({username, password});
+            refreshUser();
+            history.push('/', {});
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (

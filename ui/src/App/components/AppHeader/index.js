@@ -4,14 +4,11 @@ import { useHistory, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { Menu } from './Menu';
-import { AuthService } from '../../../services/auth';
 
-const authService = new AuthService();
-
-export function AppHeader() {
+export function AppHeader({user, setUser}) {
     const history = useHistory();
 
-    if (!authService.isLoggedIn()) {
+    if (!user) {
         return '';
     }
 
@@ -21,7 +18,7 @@ export function AppHeader() {
                 <FontAwesomeIcon icon={ faChevronLeft }/>
             </div>
             <Link to="/" className="home-link">Drink Stash</Link>
-            <Menu />
+            <Menu user={user} setUser={setUser}/>
         </header>
     );
 }

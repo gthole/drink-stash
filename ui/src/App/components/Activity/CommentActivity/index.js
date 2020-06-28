@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActivityHeader } from '../ActivityHeader';
+import { ActivityRow } from '../ActivityRow';
 import { AuthService } from '../../../../services/auth';
 
 const authService = new AuthService();
@@ -18,25 +18,20 @@ export function CommentActivity({ comments, showTitle }) {
         edit = <Link to={ `/comments/${comment.id}` }>(edit)</Link>;
     }
 
-    let header;
-    if (showTitle) {
-        header = (
-            <span>
-                commented on <Link to={ `/recipes/${ comment.recipe.slug }` }>{ comment.recipe.name }</Link> { edit }
-            </span>
-        );
-    } else {
-        header = edit;
-    }
+    const body = (
+        <div>
+            <Link to={ `/recipes/${ comment.recipe.slug }` }>{ comment.recipe.name }</Link>
+            <div>{ comment.text }</div>
+        </div>
+    );
+    const header = <span>made a comment { edit }</span>
 
     return (
-        <div className="ListRecipeActivity activity">
-            <ActivityHeader
-                user={ comment.user }
-                text={ header }
-                date={ comment.created }
-            />
-            <div className="activity-body">{ comment.text }</div>
-        </div>
+        <ActivityRow
+            user={ comment.user }
+            text={ header }
+            date={ comment.created }
+            body={ body }
+        />
     );
 }

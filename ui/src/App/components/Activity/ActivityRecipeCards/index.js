@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import './style.css';
 import { Link } from 'react-router-dom';
 
 export function CardRow({ recipe }) {
     return (
-        <div className="CardRow">
+        <div className="ActivityRecipeCardRow">
             <Link to={ `/recipes/${recipe.slug}` }>{ recipe.name }</Link>
             <div className="activity-ingredients">
                 {

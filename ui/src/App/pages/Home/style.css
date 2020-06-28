@@ -7,6 +7,10 @@
     width: 100%;
 }
 
+.Home .NavGroup {
+    margin-bottom: 20px;
+}
+
 @media only screen and (min-width: 512px) {
     .Home {
         margin: 25px 20px;

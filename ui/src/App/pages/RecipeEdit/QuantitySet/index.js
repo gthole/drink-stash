@@ -1,7 +1,9 @@
 import React from 'react';
 import './style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { AutoComplete } from '../../../components/AutoComplete';
-import { FormWrapper, Input, Select, Button } from '../../../components/Forms';
+import { FormWrapper, Input, Select } from '../../../components/Forms';
 
 export function QuantityRow({index, quantity, ingredients, uom, setQuantity, removeQuantity}) {
     function update(attr, value) {
@@ -30,9 +32,9 @@ export function QuantityRow({index, quantity, ingredients, uom, setQuantity, rem
                     setValue={ (v) => update('ingredient', v) }
                     dataSource={ ingredients.map(i => i.name) }
                 />
-                <Button onClick={ removeQuantity } type="primary">
-                    &times;
-                </Button>
+                <div className="remove-quantity" onClick={ () => removeQuantity() }>
+                    <FontAwesomeIcon icon={ faTimes } />
+                </div>
             </div>
         </div>
     );

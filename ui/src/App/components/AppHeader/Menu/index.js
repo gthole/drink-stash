@@ -1,47 +1,48 @@
 import React, { useState } from 'react';
 import './style.css'
 import { Link } from 'react-router-dom';
+import OutsideClickHandler from 'react-outside-click-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { AuthService } from '../../../../services/auth';
+import { services } from '../../../../services';
 
-const authService = new AuthService();
-
-export function Menu() {
+export function Menu({user, setUser}) {
     const [open, setOpen] = useState(false);
-    const user = authService.getUserData();
-    const admin = '';
+    const admin = user.is_staff ? <Link className="bordered" to="/admin/">Site Admin</Link> : '';
 
     function signout(ev) {
-        authService.logout();
+        services.auth.logout();
+        setUser(null);
     }
 
     return (
         <div className='Menu'>
             <FontAwesomeIcon icon={ faBars } onClick={ () => setOpen(true) }/>
-            <div className={'menu-content ' + (open ? 'menu-open' : 'menu-closed') }>
-                <div className="menu-inner">
-                    <div className="menu-close-button" onClick={ () => setOpen(false) }>
-                        <FontAwesomeIcon icon={ faTimes } onClick={ () => setOpen(true) }/>
+            <OutsideClickHandler onOutsideClick={() => setOpen(false)}>
+                <div className={'menu-content ' + (open ? 'menu-open' : 'menu-closed') }>
+                    <div className="menu-inner" onClick={ () => setOpen(false) } >
+                        <div className="menu-close-button">
+                            <FontAwesomeIcon icon={ faTimes } />
+                        </div>
+                        <Link to={`/users/${ user.username }`}>
+                            Your profile
+                        </Link>
+                        <Link to="/new">
+                            Add new recipes
+                        </Link>
+                        <Link to={`/users/${ user.username }/lists`}>
+                            Your lists
+                        </Link>
+                        <Link to={`/users/${ user.username }/cabinet`}>
+                            Manage your liquor cabinet
+                        </Link>
+                        { admin }
+                        <a href="/" className="bordered" onClick={ signout }>
+                            Sign out
+                        </a>
                     </div>
-                    <Link to={`/users/${ user.username }`}>
-                        Your profile
-                    </Link>
-                    <Link to="/new">
-                        Add new recipes
-                    </Link>
-                    <Link to={`/users/${ user.username }/lists`}>
-                        Your lists
-                    </Link>
-                    <Link to={`/users/${ user.username }/cabinet`}>
-                        Manage your liquor cabinet
-                    </Link>
-                    { admin }
-                    <a href="/" onClick={ signout }>
-                        Sign out
-                    </a>
                 </div>
-            </div>
+            </OutsideClickHandler>
         </div>
     );
 }

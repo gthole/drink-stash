@@ -47,10 +47,12 @@ export function Select({label, subtext, choices, display, select, defaultValue, 
     );
 }
 
-export function Button({ type, href, onClick, children }) {
+export function Button({ type, href, onClick, children, className}) {
     return (
-        <button className={'Button button-' + type} onClick={ onClick }>
-            {children}
-        </button>
+        <button
+            className={'Button button-' + type + (className ? ' ' + className : '')}
+            onClick={ onClick }
+            children={children}
+        />
     );
 }
