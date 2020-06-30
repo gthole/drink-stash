@@ -17,7 +17,7 @@ export function CommentEdit() {
 
     function remove() {
         services.comments.remove(comment).then(() => {
-            history.push('/', {});
+            history.push(`/recipes/${ comment.recipe.slug }`, {});
         });
     }
 
@@ -38,6 +38,7 @@ export function CommentEdit() {
             <Card>
                 <TextArea
                     value={ comment.text }
+                    expanded={ true }
                     onChange={ (ev) => {
                         comment.text = ev.target.value;
                         setComment(Object.assign({}, comment));

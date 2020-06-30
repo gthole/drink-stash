@@ -38,15 +38,16 @@ export function Home() {
     let activity = <Loading />;
     if (content) {
         activity = (
-            <div>
+            <div className="activity-pane">
                 <Activity
                     showTitle={ true }
                     comments={ content.comments }
                     listRecipes={ content.listRecipes }
                     recipes={ content.recipes }
                 />
+                { /* TODO: Fix how we load more activities */ }
                 <Button type="primary" onClick={ () => setPage(page + 1) }>
-                    Next
+                    More
                 </Button>
             </div>
         );

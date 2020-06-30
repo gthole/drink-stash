@@ -24,6 +24,7 @@ export function Recipes() {
         setLoading(true);
         history.replace(`/recipes/?${stringifySearch(params, slug)}`);
         const qp = Object.assign({per_page: 10}, params);
+        qp.search = qp.search.map(s => s.split('[')[0]);
         services.recipes.getPage(qp).then((resp) => {
             setResp(resp);
             setLoading(false);

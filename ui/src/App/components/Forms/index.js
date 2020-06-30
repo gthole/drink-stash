@@ -12,7 +12,6 @@ export function FormWrapper({label, subtext, children}) {
 }
 
 export function TextArea({label, subtext, expanded, ...rest}) {
-    // TODO: Flag to prevent auto expand
     return (
         <FormWrapper label={label} subtext={subtext}>
             <textarea

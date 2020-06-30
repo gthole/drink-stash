@@ -15,5 +15,10 @@
 }
 
 .SearchPills .pill.negation {
-    background-color: #ed8936;
+    /* background-color: #ed8936; */
+    background-color: #e45858;
+}
+
+.SearchPills .pill.constraint {
+    background-color: #553c9a;
 }

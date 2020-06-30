@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { Button } from '../../../components/Forms';
 import { Loading } from '../../../components/Loading';
 import { SearchBar } from '../../../components/SearchBar';
 import { RecipeCard } from '../RecipeCard';
+import { RecipeFilters } from '../RecipeFilters';
 import { SearchPills } from '../SearchPills';
 import { SearchPagination } from '../SearchPagination';
 
 export function RecipeSearch({ recipes, total, loading, params, setParams, selectRecipe }) {
+    const [showFilters, setShowFilters] = useState(false);
 
     function addSearchTerm(value) {
         if (!params.search.includes(value)) {
@@ -14,6 +19,7 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
             params.page = 1;
         }
         setParams(params);
+        // setShowFilters(false);
     }
 
     function removeSearchTerm(term) {
@@ -38,6 +44,9 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
 
     return (
         <div className="RecipeSearch">
+            <Button type="clear" onClick={ () => setShowFilters(!showFilters) }>
+                <FontAwesomeIcon icon={ showFilters ? faCaretDown : faCaretUp }/>
+            </Button>
             <SearchBar
                 total={ total }
                 value={ params.q }
@@ -46,6 +55,11 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
             <SearchPills
                 terms={ params.search }
                 remove={ removeSearchTerm }
+            />
+            <RecipeFilters
+                expanded={ showFilters }
+                setExpanded={ setShowFilters }
+                addFilter={ (val) => addSearchTerm(val) }
             />
             <div className={ loading ? 'loading' : ''}>
                 { rows }

@@ -5,9 +5,9 @@ services:
         build: '.'
         command: 'python manage.py runserver 0.0.0.0:8000'
         volumes:
-            - './api:/api'
+            - './api:/src'
             - './.data:/data'
-            - './.public/public'
+            - './.public:/public'
         env_file: './api/.env'
         ports:
             - '8000:8000'

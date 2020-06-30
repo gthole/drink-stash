@@ -6,7 +6,7 @@ Dark Gray: #2b2c34
 - Background
 - Primary font color
 
-Light Gray: #72757a
+Dark Gray: #72757a
 - Muted text
 
 Very Light Gray: #f5f5f5

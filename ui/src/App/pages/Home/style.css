@@ -11,6 +11,12 @@
     margin-bottom: 20px;
 }
 
+.Home .activity-pane {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 @media only screen and (min-width: 512px) {
     .Home {
         margin: 25px 20px;

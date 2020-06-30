@@ -162,6 +162,6 @@
 
 .Button.button-clear {
     color: #553c9a;
-    background-color: #fffffe;
-    border: 1px solid #fffffe;
+    background-color: rgba(255, 255, 255, 0.0);
+    border: none;
 }

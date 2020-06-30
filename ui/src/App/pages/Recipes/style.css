@@ -13,6 +13,12 @@
     display: none;
 }
 
+@media only screen and (max-width: 512px) {
+    .search-wrapper {
+        width: 100%;
+    }
+}
+
 @media only screen and (min-width: 512px) {
     .search-wrapper {
         min-width: 512px;

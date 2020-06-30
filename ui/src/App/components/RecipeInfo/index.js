@@ -49,7 +49,7 @@ export function RecipeInfo({recipe, refresh}) {
         content.comments.push(created);
         content.can_comment = false;
         setContent(Object.assign({}, content));
-        refresh();
+        if (refresh) refresh();
     }
 
     if (!recipe) return '';

@@ -40,6 +40,7 @@ grammar = Lark('''
         nested | \
         attr_constraint | \
         list_constraint | \
+        book_constraint | \
         tags_constraint | \
         cabinet | \
         constraint | \
@@ -48,6 +49,7 @@ grammar = Lark('''
 
     attr_constraint.2: NUM_ATTR OPERATOR NUMBER
     list_constraint.2: "list"i "=" SEARCH_TERM
+    book_constraint.2: "book"i "=" SEARCH_TERM
     tags_constraint.2: ("tag"i | "tags"i) "=" SEARCH_TERM
     cabinet: "cabinet"i "=" ("true"i | "1") | "cabinet"i
     constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
@@ -79,7 +81,6 @@ def parse_search_and_filter(term, qs, user):
         tree = grammar.parse(term)
         return qs.filter(parse_tree(tree, user))
     except Exception as e:
-        print(e)
         return qs.none()
 
 
@@ -144,6 +145,12 @@ def parse_tree(tree, user):
         if term.isdigit():
             return Q(userlist__id=term)
         return Q(userlist__name__icontains=term, userlist__user=user)
+
+    if tree.data == 'book_constraint':
+        term = data[0]
+        if term.isdigit():
+            return Q(book_id=int(term))
+        return Q(book__name__icontains=term)
 
     if tree.data == 'tags_constraint':
         tags = [t.strip() for t in data[0].split(',')]
