@@ -1,13 +1,36 @@
-/* Only body should go in this file */
 body {
     margin: 0;
-    background-color: #fffffe;
     color: #2b2c34;
+    background-color: #fffffe;
+    max-width: 100vw;
 }
 
 @media only screen and (min-width: 512px) {
     body {
-        /* background-color: #2b2c34; */
         background-color: #d1d1e9;
+    }
+}
+
+.App {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #16161a;
+    line-height: 1.25;
+}
+
+.App a {
+    text-decoration: none;
+    color: #553c9a;
+    font-weight: 500;
+}
+
+.App .page-container {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (min-width: 512px) {
+    .App .AppContent {
+        margin: 25px 20px;
     }
 }

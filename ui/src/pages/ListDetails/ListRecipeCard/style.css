@@ -1,0 +1,28 @@
+.ListRecipeCard {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d1d1e9;
+}
+
+.ListRecipeCard .recipe-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.ListRecipeCard .list-recipe-edit-note .FormWrapper {
+    margin-bottom: 0;
+}
+
+.ListRecipeCard .list-recipe-edit-note {
+    margin-bottom: 30px;
+}
+
+.ListRecipeCard .list-recipe-edit-note .Button {
+    margin-top: 10px;
+    float: right;
+}
+
+.ListRecipeCard .list-recipe-note .Button {
+    padding-left: 0;
+}

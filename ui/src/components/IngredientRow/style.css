@@ -1,0 +1,13 @@
+.IngredientRow span {
+    color: #72757a;
+    line-height: 1.5;
+    margin-right: 7px;
+}
+
+.IngredientRow span:not(:first-child)::before {
+    content: '•';
+    vertical-align: middle;
+    margin-right: 7px;
+}
+
+

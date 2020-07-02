@@ -1,0 +1,11 @@
+.TagList {
+    margin-top: 10px;
+}
+
+.TagList > span {
+    border-radius: 1em;
+    padding: 3px 6px;
+    font-size: 0.75em;
+    background-color: #d1d1e9;
+    margin-right: 5px;
+}
