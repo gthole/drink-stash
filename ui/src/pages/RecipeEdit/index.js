@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import { useParams, useHistory } from 'react-router-dom';
 import { Select, Input, TextArea, Button, FormWrapper } from 'components/Forms';
-import { Card } from 'components/Card';
+import { Card } from 'components/Structure';
 import { TagSet } from 'pages/RecipeEdit/TagSet';
 import { QuantitySet } from 'pages/RecipeEdit/QuantitySet';
 import { services } from 'services';

@@ -165,8 +165,6 @@
     background-color: #2cb67d;
 }
 
-
-
 .Button.button-danger {
     color: #fffffe;
     border: 1px solid #e45858;
@@ -182,4 +180,13 @@
     color: #553c9a;
     background-color: rgba(255, 255, 255, 0.0);
     border: none;
+}
+
+.ButtonRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.CheckBox.selected {
+    color: #2cb67d;
 }

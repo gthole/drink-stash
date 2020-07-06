@@ -1,14 +1,19 @@
 import React from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function NavSection({icon, title, description, href}) {
     return (
         <div className="NavSection">
             <Link to={ href }>
                 <div className="nav-section-icon">
-                    <FontAwesomeIcon icon={ icon } />
+                    <img
+                        type="image/svg+xml"
+                        width="60"
+                        height="60"
+                        alt={ icon }
+                        src={ `/img/${icon}.svg` }
+                    />
                 </div>
             </Link>
             <div className="nav-section-content">

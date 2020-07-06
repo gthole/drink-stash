@@ -1,5 +1,9 @@
 import React from 'react';
 import './style.css';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSquare } from '@fortawesome/free-regular-svg-icons';
 
 export function FormWrapper({label, subtext, children}) {
     return (
@@ -46,12 +50,32 @@ export function Select({label, subtext, choices, display, select, defaultValue, 
     );
 }
 
-export function Button({ type, href, onClick, children, className}) {
+export function Button({ type, to, className, ...rest}) {
+    if (to) {
+        return (
+            <Link
+                to={to}
+                className={'Button button-' + type + (className ? ' ' + className : '')}
+                {...rest}
+            />
+        );
+    }
     return (
         <button
             className={'Button button-' + type + (className ? ' ' + className : '')}
-            onClick={ onClick }
-            children={children}
+            {...rest}
         />
+    );
+}
+
+export function ButtonRow({children, ...rest}) {
+    return <div className="ButtonRow">{ children }</div>;
+}
+
+export function CheckBox({value, ...rest}) {
+    return (
+        <div className={ 'CheckBox' + (value ? ' selected' : '') }>
+            <FontAwesomeIcon icon={ value ? faCheckSquare : faSquare } {...rest}/>
+        </div>
     );
 }

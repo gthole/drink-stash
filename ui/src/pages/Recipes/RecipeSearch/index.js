@@ -5,6 +5,7 @@ import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'components/Forms';
 import { Loading } from 'components/Loading';
 import { SearchBar } from 'components/SearchBar';
+import { Placeholder } from 'components/Structure';
 import { RecipeCard } from 'pages/Recipes/RecipeCard';
 import { RecipeFilters } from 'pages/Recipes/RecipeFilters';
 import { SearchPills } from 'pages/Recipes/SearchPills';
@@ -38,8 +39,6 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
         rows = recipes.map((r, i) => (
             <RecipeCard key={'recipe-' + i} recipe={r} onClick={() => selectRecipe(r.slug)}/>
         ));
-    } else if (recipes && recipes.length === 0) {
-        rows = <div>No recipes found</div>
     }
 
     return (
@@ -63,6 +62,10 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
             />
             <div className={ loading ? 'loading' : ''}>
                 { rows }
+                <Placeholder
+                    condition={ recipes && recipes.length === 0 }
+                    children={ 'No recipes found.' }
+                />
             </div>
             <SearchPagination
                 page={params.page}

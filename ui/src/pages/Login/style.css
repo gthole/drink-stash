@@ -40,15 +40,15 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-.Login .login-photo-credit {
+.Login .credits {
     font-size: 12px;
     color: #fffffe;
     position: absolute;
-    bottom: 20px;
+    bottom: 40px;
     right: 20px;
 }
 
-.Login .login-photo-credit a {
+.Login .credits a {
     color: #fffffe;
 }
 

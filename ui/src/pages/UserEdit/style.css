@@ -1,0 +1,47 @@
+#avatar {
+    display: none;
+}
+
+.UserEdit {
+    display: flex;
+    flex-direction: column;
+}
+
+.ProfileImageUpload canvas {
+    margin: 0 auto 20px auto;
+}
+
+.ProfileImageUpload .slider {
+    margin-bottom: 30px;
+}
+
+.UserEdit .change-password {
+    border-top: 1px solid #d1d1e9;
+    margin-top: 30px;
+    padding-top: 30px;
+}
+
+.ProfileImageUpload {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 512px) {
+    .ProfileImageUpload .ReactCrop {
+        width: 256px;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .UserEdit {
+        justify-content: center;
+        flex-direction: row;
+    }
+
+
+    .UserEdit > .user-details-edit {
+        width: 50%;
+        margin-left: 20px;
+    }
+}

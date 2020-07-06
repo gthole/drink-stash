@@ -1,0 +1,25 @@
+.UserDetails .first-pane {
+    min-width: 40%;
+}
+
+.UserDetails .user-data {
+    display: flex;
+}
+
+.UserDetails .user-details {
+    margin-left: 20px;
+}
+
+.UserDetails .edit-link {
+    margin-top: 20px;
+}
+
+.UserDetails .list-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.UserDetails .user-stats > div {
+    margin-top: 5px;
+    color: #72757a;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.css';
-import { Card } from 'components/Card';
+import { Card } from 'components/Structure';
 import { IngredientRow } from 'components/IngredientRow';
 import { TagList } from 'components/TagList';
 

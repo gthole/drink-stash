@@ -10,14 +10,14 @@
     flex-wrap: wrap;
 }
 
-.ManageLists .list-links .list-link:not(:first-child) {
-    margin-left: 10px;
+.ManageLists .list-links .list-link {
+    margin-right: 10px;
 }
 
-.ManageLists .list-links .list-link:not(:first-child):before {
+.ManageLists .list-links .list-link:after {
     content: '•';
     vertical-align: middle;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 
@@ -82,10 +82,6 @@
 
 .ManageListsModal .modal-body .ManageListsRow .list-select {
     margin-right: 10px;
-}
-
-.ManageListsModal .modal-body .ManageListsRow .selected {
-    color: #2cb67d;
 }
 
 .ManageListsModal .modal-footer {

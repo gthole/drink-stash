@@ -1,21 +1,19 @@
 import React, { useState, useContext } from 'react';
 import './style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTimes, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { faSquare } from '@fortawesome/free-regular-svg-icons';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { Button } from 'components/Forms';
+import { Button, CheckBox } from 'components/Forms';
 import { SectionTitle } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 import { ListRecipe } from 'services/lists';
 
 function ManageListsRow({list, toggleList}) {
-    const icon = list.added_to_recipe ? faCheckSquare : faSquare;
     return (
         <div className="ManageListsRow" onClick={ () => toggleList(list) }>
             <div className={ 'list-select' + (list.added_to_recipe ? ' selected' : '') } >
-                <FontAwesomeIcon icon={ icon } />
+                <CheckBox value={ list.added_to_recipe }/>
             </div>
             <div>{ list.name }</div>
         </div>
@@ -65,7 +63,7 @@ export function ManageLists({ recipe, listRecipes, lists, setContent }) {
 
     const listLinks = userLrs.map((lr, i) => (
         <span className="list-link" key={ `list-link-${i}` }>
-            <Link to={ `/user/${currentUser.username}/lists/${lr.list.id}` }>
+            <Link to={ `/users/${currentUser.username}/lists/${lr.list.id}` }>
                 { lr.list.name }
             </Link>
         </span>

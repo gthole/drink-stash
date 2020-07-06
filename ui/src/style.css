@@ -23,14 +23,14 @@ body {
     font-weight: 500;
 }
 
-.App .page-container {
+.App div.page-container {
     max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 @media only screen and (min-width: 512px) {
-    .App .AppContent {
-        margin: 25px 20px;
+    .App .AppContent > div:not(.Login) {
+        margin: 20px 20px 0 20px;
     }
 }

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './style.css';
 import { Activity } from 'components/Activity';
-import { Card } from 'components/Card';
 import { Loading } from 'components/Loading';
 import { Button } from 'components/Forms';
 import { SearchBar } from 'components/SearchBar';
+import { Card } from 'components/Structure';
 import { NavGroup } from 'pages/Home/NavGroup';
 import { services } from 'services';
 
@@ -46,9 +46,11 @@ export function Home() {
                     recipes={ content.recipes }
                 />
                 { /* TODO: Fix how we load more activities */ }
+                <div style={{ textAlign: 'center' }}>
                 <Button type="primary" onClick={ () => setPage(page + 1) }>
                     More
                 </Button>
+                </div>
             </div>
         );
     }

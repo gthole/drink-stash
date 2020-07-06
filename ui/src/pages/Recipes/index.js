@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './style.css';
 import { parseSearch, stringifySearch } from './search';
 import { useHistory } from 'react-router-dom';
 import { RecipeInfo } from 'components/RecipeInfo';
+import { SidePanelList } from 'components/Structure';
 import { RecipeSearch } from 'pages/Recipes/RecipeSearch';
 import { services } from 'services';
 
@@ -45,8 +45,9 @@ export function Recipes() {
     }, [slug, history]);
 
     return (
-        <div className="RecipeList">
-            <div className="search-wrapper">
+        <SidePanelList
+            className="RecipeList"
+            left={
                 <RecipeSearch
                     recipes={resp ? resp.results : null}
                     total={resp ? resp.count : null}
@@ -55,13 +56,13 @@ export function Recipes() {
                     setParams={(p) => setParams(Object.assign({}, p))}
                     selectRecipe={setSlug}
                 />
-            </div>
-            <div className="info-wrapper">
+            }
+            right={
                 <RecipeInfo
                     recipe={ recipe }
                     refresh={ () => setParams(Object.assign({}, params)) }
                 />
-            </div>
-        </div>
+            }
+        />
     );
 }

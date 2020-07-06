@@ -10,7 +10,6 @@ export class List {
         this.recipe_count = payload.recipe_count;
         this.created = payload.created;
         this.updated = payload.updated;
-        this.added_to_recipe = false;
     }
 
     toPayload() {
@@ -36,6 +35,7 @@ export class ListRecipe {
         this.user = payload.user;
         this.created = payload.created;
         this.updated = payload.updated;
+        this.added_to_recipe = false;
     }
 
     toPayload() {

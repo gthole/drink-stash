@@ -28,37 +28,12 @@ class UserService extends BaseService {
     baseUrl = '/api/v1/users/';
     model = User;
 
-    getSelf() {
-        const cached = this.cacheService.get('self');
-        if (cached) {
-            return Promise.resolve(cached);
-        }
-        return this.getById(this.authService.getUserData().user_id)
-            .then((user) => {
-                this.cacheService.set('self', user);
-                return user;
-            });
-    }
-
-    updateSelf(user: User) {
-        this.cacheService.set('self', user);
-        return this.update(user);
-    }
-
     updateCabinet(ingredients: string[]): Promise<Object> {
         const user_id = this.authService.getUserData().user_id;
         return fetch(`${this.baseUrl}${user_id}/cabinet/`, {
             method: 'PUT',
-            body: JSON.stringify(ingredients)
-        });
-    }
-
-    resetPassword(current_password: string, new_password: string): Promise<Object> {
-        const user_id = this.authService.getUserData().user_id;
-        const payload = {current_password, new_password};
-        return fetch(`${this.baseUrl}${user_id}/reset_password/`, {
-            method: 'PUT',
-            body: JSON.stringify(payload)
+            body: JSON.stringify(ingredients),
+            headers: this.getHeaders()
         });
     }
 }

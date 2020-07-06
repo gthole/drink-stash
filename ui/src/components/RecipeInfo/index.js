@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './style.css';
 import { Activity } from 'components/Activity';
-import { Card } from 'components/Card';
-import { Description } from 'components/Structure';
+import { Card, Description } from 'components/Structure';
 import { TagList } from 'components/TagList';
 import { CommentForm } from 'components/RecipeInfo/CommentForm';
 import { Quantities } from 'components/RecipeInfo/Quantities';

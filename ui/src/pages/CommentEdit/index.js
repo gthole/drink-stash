@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './style.css';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
-import { Card } from 'components/Card';
-import { TextArea, Button } from 'components/Forms';
+import { TextArea, Button, ButtonRow } from 'components/Forms';
+import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 
@@ -44,14 +43,14 @@ export function CommentEdit() {
                         setComment(Object.assign({}, comment));
                     }}
                 />
-                <div className="comment-buttons">
+                <ButtonRow>
                     <Button type="danger" onClick={ () => remove() }>
                         Delete
                     </Button>
                     <Button type="primary" onClick={ () => save() }>
                         Save
                     </Button>
-                </div>
+                </ButtonRow>
             </Card>
         </div>
     );

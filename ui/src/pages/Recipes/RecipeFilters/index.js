@@ -73,6 +73,30 @@ function TagFilterOptions({tags, addFilter}) {
     );
 }
 
+/*
+// TODO: Support this
+function CommentFilterOptions({tags, addFilter}) {
+    const [value, setValue] = useState(tags[0]);
+
+    return (
+        <div>
+            <Select
+                label={ 'Choose Tag' }
+                choices={[
+                    'Commented by Me',
+                    'Commented by Others',
+                    'Not Commented by Me',
+                    'No Comments Yet',
+                ]}
+                value={ value }
+                onChange={(ev) => setValue(ev.target.value) }
+            />
+            <FilterButton onClick={ () => addFilter(`Tag = ${value}`) }/>
+        </div>
+    );
+}
+*/
+
 export function RecipeFilters({addFilter, expanded, setExpanded}) {
     const [filterType, setFilterType] = useState('Book');
     const [content, setContent] = useState(null);

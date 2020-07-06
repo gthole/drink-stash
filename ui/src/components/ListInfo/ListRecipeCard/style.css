@@ -15,6 +15,7 @@
 }
 
 .ListRecipeCard .list-recipe-edit-note {
+    margin-top: 10px;
     margin-bottom: 30px;
 }
 
@@ -23,6 +24,16 @@
     float: right;
 }
 
+.ListRecipeCard .list-recipe-note {
+    display: flex;
+    flex-direction: column;
+}
+
 .ListRecipeCard .list-recipe-note .Button {
+    display: inline-block;
     padding-left: 0;
+}
+
+.ListRecipeCard .list-recipe-note .Description {
+    margin-bottom: 5px;
 }

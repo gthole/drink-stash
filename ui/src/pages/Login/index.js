@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './style.css';
 import { Redirect } from 'react-router-dom';
-import { Card } from 'components/Card';
+import { Card } from 'components/Structure';
 import { Input, Button } from 'components/Forms';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
@@ -46,8 +46,13 @@ export function Login() {
                         </div>
                     </div>
                 </Card>
-                <div className="login-photo-credit">
-                    Photo by <a href="https://unsplash.com/@arobj?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Adam Jaime</a> on <a href="/s/photos/cocktail?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>
+                <div className="credits">
+                    <div className="login-photo-credit">
+                        Photo by <a href="https://unsplash.com/@arobj?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Adam Jaime</a> on <a href="/s/photos/cocktail?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>
+                    </div>
+                    <div>
+                        Icons by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> on <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a>
+                    </div>
                 </div>
             </div>
         </div>
