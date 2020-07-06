@@ -6,12 +6,12 @@ FROM node:12-alpine
 
 ENV PATH ./node_modules/.bin:$PATH
 
-WORKDIR /app
-ADD ./ui/package.json ./ui/package-lock.json /app/
+WORKDIR /ui
+ADD ./ui/package.json ./ui/package-lock.json /ui/
 RUN npm install
 
-ADD ./ui /app
-RUN npm run compile
+ADD ./ui /ui
+RUN npm run build
 
 # API
 FROM python:3.6-alpine3.7
@@ -27,9 +27,9 @@ RUN apk add --update --no-cache dumb-init build-base python-dev jpeg-dev zlib-de
 
 COPY ./api /src
 WORKDIR /src
-COPY --from=0 /api/app-build ./app-build
+COPY --from=0 /ui/build ./app-build
 
-RUN ./manage.py collectstatic --no-input && \
-    ./manage.py test drinks
+RUN ./manage.py collectstatic --no-input
+        # ./manage.py test drinks
 
 CMD ["dumb-init", "sh", "./run.sh"]

@@ -3,6 +3,7 @@ djangorestframework==3.11.0
 djangorestframework-jwt==1.11.0
 pillow
 python-dateutil
+Unidecode==1.1.1
 django_filter==2.2.0
 jsonschema==2.6.0
 whitenoise==5.0.1

@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
     IntegerField
-from drinks.constants import base_substitutions
 from drinks.models import Ingredient
 
 
@@ -13,9 +12,6 @@ def get_or_create_ingredient(name):
         ingredient = Ingredient(name=name)
         ingredient.guess_category()  # Don't have quantity info for context here
         ingredient.save()
-
-        if name not in base_substitutions.values():
-            ingredient.guess_substitutions()
     return ingredient
 
 

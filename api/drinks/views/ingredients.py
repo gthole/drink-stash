@@ -16,4 +16,4 @@ class IngredientViewSet(LazyViewSet):
     def get_queryset(self):
         qs = super(IngredientViewSet, self).get_queryset()
         qs = qs.annotate(usage=Count('quantity'))
-        return qs.order_by('name')
+        return qs.order_by('-usage')

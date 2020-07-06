@@ -22,6 +22,7 @@ class IngredientAdmin(admin.ModelAdmin, ButtonMixin):
     exclude = ('description', 'generic')
     search_fields = ('name',)
     ordering = ('name',)
+    list_filter = ('generic', 'category')
 
 
 @admin.register(Tag)

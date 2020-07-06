@@ -22,7 +22,7 @@ class UserListRecipePermission(BookPermission):
 
 
 class UserListRecipeViewSet(LazyViewSet):
-    http_method_names = ['get', 'head', 'post', 'delete']
+    http_method_names = ['get', 'head', 'post', 'put', 'delete']
     permission_classes = (IsAuthenticated, UserListRecipePermission)
     queryset = UserListRecipe.objects.all().order_by('-created')
     serializer_class = UserListRecipeSerializer
