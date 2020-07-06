@@ -40,7 +40,7 @@ export function QuantityRow({index, quantity, ingredients, uom, setQuantity, rem
     );
 }
 
-export function QuantitySet({quantities, ingredients, uom, setQuantities}) {
+export function QuantitySet({quantities, ingredients, error, uom, setQuantities}) {
     function setQuantity(q, index) {
         quantities[index] = q;
         setQuantities(quantities);
@@ -53,7 +53,7 @@ export function QuantitySet({quantities, ingredients, uom, setQuantities}) {
 
     return (
         <div className="QuantitySet">
-            <FormWrapper label="Ingredients">
+            <FormWrapper label="Ingredients" error={ error }>
                 {
                     quantities.map((q, i) => (
                         <QuantityRow

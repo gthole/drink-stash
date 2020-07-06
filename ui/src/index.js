@@ -84,4 +84,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// TODO: Re-introduce service worker
+// TODO eventually: Re-introduce service worker

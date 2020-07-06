@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { faSquare } from '@fortawesome/free-regular-svg-icons';
 
-export function FormWrapper({label, subtext, children}) {
+export function FormWrapper({label, subtext, children, error}) {
     return (
-        <div className="Forms FormWrapper">
+        <div className={ 'Forms FormWrapper' + (error ? ' form-error' : '') }>
             { label ? <label htmlFor={''}>{ label }</label> : '' }
             { children }
             { subtext ? <div className="subtext">{ subtext }</div> : '' }
@@ -15,9 +15,9 @@ export function FormWrapper({label, subtext, children}) {
     );
 }
 
-export function TextArea({label, subtext, expanded, ...rest}) {
+export function TextArea({label, subtext, error, expanded, ...rest}) {
     return (
-        <FormWrapper label={label} subtext={subtext}>
+        <FormWrapper label={label} subtext={subtext} error={error}>
             <textarea
                 className={'TextArea' + (expanded ? ' textarea-large' : '')}
                 {...rest}
@@ -26,17 +26,17 @@ export function TextArea({label, subtext, expanded, ...rest}) {
     );
 }
 
-export function Input({label, subtext, ...rest}) {
+export function Input({label, subtext, error, ...rest}) {
     return (
-        <FormWrapper label={label} subtext={subtext}>
+        <FormWrapper label={label} subtext={subtext} error={ error }>
             <input className="Input" {...rest}/>
         </FormWrapper>
     );
 }
 
-export function Select({label, subtext, choices, display, select, defaultValue, value, ...rest}) {
+export function Select({label, subtext, error, choices, display, select, defaultValue, value, ...rest}) {
     return (
-        <FormWrapper label={label} subtext={subtext}>
+        <FormWrapper label={label} subtext={subtext} error={ error }>
             <select className="Select" value={ value } {...rest}>
                 {
                     choices.map((c, i) => (

@@ -21,6 +21,13 @@
     font-style: italic;
 }
 
+.Forms.FormWrapper.form-error .Input,
+.Forms.FormWrapper.form-error .TextArea,
+.Forms.FormWrapper.form-error .Select {
+    border-bottom: 2px solid #e45858;
+}
+
+
 /* TODO: Make Input/TextArea/Select attributes common */
 
 /*

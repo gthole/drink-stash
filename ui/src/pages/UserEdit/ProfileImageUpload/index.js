@@ -32,7 +32,6 @@ export function ProfileImageUpload({ user, update, addAlert }) {
         setDisabled(false);
         setSelected(null);
         setScale('1');
-        // TODO: Add alert
     }
 
     function onSelectFile(e) {

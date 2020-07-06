@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './style.css';
 import { useParams, useHistory } from 'react-router-dom';
 import { Select, Input, TextArea, Button, FormWrapper } from 'components/Forms';
 import { Card } from 'components/Structure';
+import { AppContext } from 'context/AppContext';
 import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { TagSet } from 'pages/RecipeEdit/TagSet';
 import { QuantitySet } from 'pages/RecipeEdit/QuantitySet';
@@ -10,8 +11,10 @@ import { services } from 'services';
 import { RecipeService } from 'services/recipes';
 
 export function RecipeEdit() {
+    const { addAlert } = useContext(AppContext);
     const [content, setContent] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [errors, setErrors] = useState({});
     const { slug } = useParams();
     const history = useHistory();
 
@@ -45,6 +48,16 @@ export function RecipeEdit() {
         });
     }, [slug]);
 
+    async function handleError(e) {
+        setSaving(false);
+        if (e.status === 400) {
+            setErrors(await e.json());
+        } else {
+            addAlert('error', 'An unexpected error occured. Please try again later.');
+        }
+        setTimeout(() => window.scrollTo({top: 0, behavior: 'smooth'}), 0);
+    }
+
     async function _save() {
         setSaving(true);
         let saved;
@@ -58,24 +71,46 @@ export function RecipeEdit() {
     }
 
     async function save() {
-        const saved = await _save();
-        history.push(`/recipes/${ saved.slug }`, {});
+        try {
+            const saved = await _save();
+            history.push(`/recipes/${ saved.slug }`, {});
+        } catch (e) {
+            handleError(e);
+        }
     }
 
     async function saveAndNew() {
-        await _save();
-        const r = RecipeService.createNew();
-        r.book = content.recipe.book;
-        r.source = content.recipe.source;
-        content.recipe = r;
-        setContent(Object.assign({}, content));
+        try {
+            await _save();
+            const r = RecipeService.createNew();
+            r.book = content.recipe.book;
+            r.source = content.recipe.source;
+            content.recipe = r;
+            setContent(Object.assign({}, content));
+            document.getElementById('recipe-name').focus();
+        } catch (e) {
+            handleError(e);
+        }
     }
 
     function update(attr, value) {
         content.recipe[attr] = value;
         setContent(Object.assign({}, content));
-        // TODO: Check for the same name / book pair
-        // TODO: Validation
+    }
+
+    async function checkName() {
+        if (!content.recipe.name) return
+        const r = await services.recipes.getPage({
+            name: content.recipe.name,
+            book_id: content.recipe.book.id,
+            per_page: 1,
+        });
+        if (r.results.length && content.recipe.id !== r.results[0].id) {
+            addAlert(
+                'warn',
+                'A recipe with that name already exists in this book'
+            );
+        }
     }
 
     function addQuantity() {
@@ -137,23 +172,29 @@ export function RecipeEdit() {
                     select="id"
                     value={ content.recipe.book.id }
                     onChange={ (ev) => update('book', {id: ev.target.value}) }
+                    onBlur={ checkName }
                 />
                 <div className="input-row">
                     <Input
                         label="Name"
                         value={ content.recipe.name }
+                        error={ errors.name }
                         onChange={ (ev) => update('name', ev.target.value) }
+                        onBlur={ checkName }
+                        id="recipe-name"
                     />
                 </div>
                 <div className="input-row">
                     <Input
                         label="Source"
                         value={ content.recipe.source }
+                        error={ errors.source }
                         onChange={ (ev) => update('source', ev.target.value) }
                     />
                     <Input
                         label="URL"
                         value={ content.recipe.url || '' }
+                        error={ errors.url }
                         onChange={ (ev) => update('url', ev.target.value) }
                     />
                 </div>
@@ -161,6 +202,7 @@ export function RecipeEdit() {
                     quantities={ content.recipe.quantities }
                     ingredients={ content.ingredients }
                     uom={ content.uom }
+                    error={ errors.quantity_set }
                     setQuantities={ (quantities) => update('quantities', quantities) }
                 />
                 <Button
@@ -172,6 +214,7 @@ export function RecipeEdit() {
                 <TextArea
                     label="Directions"
                     subtext="Shaken or stirred? Glassware? Garnish?"
+                    error={ errors.directions }
                     expanded={ true }
                     value={ content.recipe.directions }
                     onChange={ (ev) => update('directions', ev.target.value) }
@@ -186,6 +229,7 @@ export function RecipeEdit() {
                 <TextArea
                     label="Description"
                     subtext="Tasting notes, cocktail type, whatever you want."
+                    error={ errors.description }
                     expanded={ true }
                     value={ content.recipe.description }
                     onChange={ (ev) => update('description', ev.target.value) }
