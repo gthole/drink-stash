@@ -3,6 +3,7 @@ import './style.css';
 import { RecipeActivity } from 'components/Activity/RecipeActivity';
 import { ListRecipeActivity } from 'components/Activity/ListRecipeActivity';
 import { CommentActivity } from 'components/Activity/CommentActivity';
+import { Placeholder } from 'components/Structure';
 
 const SIX_HOURS = 6 * 60 * 60 * 1000;
 
@@ -29,7 +30,7 @@ function reduceBy(type, objs, compare) {
     }, []);
 }
 
-export function Activity({ recipes, listRecipes, comments, showTitle, showImage }) {
+export function Activity({ recipes, listRecipes, comments, showTitle, showPlaceholder }) {
     // User adds several recipes at once
     const rGroups = reduceBy('recipe', recipes || [], (p, o) => (
         p.added_by.id === o.added_by.id
@@ -63,5 +64,13 @@ export function Activity({ recipes, listRecipes, comments, showTitle, showImage 
             }
         });
 
-    return <div className="Activity">{ activities }</div>;
+    return (
+        <div className="Activity">
+            { activities }
+            <Placeholder
+                children="No activity yet."
+                condition={ showPlaceholder && activities.length === 0 }
+            />
+        </div>
+    );
 }

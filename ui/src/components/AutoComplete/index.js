@@ -5,26 +5,14 @@ import { Input } from 'components/Forms';
 
 export function AutoComplete({value, dataSource, setValue, onSelect}) {
     const [selected, setSelected] = useState(-1);
-    const [cleaned, setCleaned] = useState(null);
     const [isFocused, setIsFocused] = useState(false);
 
-    // TODO Eventually - use the cleaned value on ingredients (or tags)
-    if (!cleaned) {
-        const cleaned = dataSource.reduce((res, s) => {
-            const k = diacriticsRemove(s.trim()).toLowerCase()
-            res[k] = s;
-            return res;
-        }, {});
-        setCleaned(cleaned);
-        return ''; // TODO check this
-    }
-
     const suggestions = [];
-    if (isFocused) {
+    if (isFocused && value.trim().length > 1) {
         const cleanedVal = diacriticsRemove(value.trim()).toLowerCase();
-        for (const c of Object.keys(cleaned)) {
-            if (c.includes(cleanedVal)) {
-                suggestions.push(cleaned[c]);
+        for (const c of dataSource) {
+            if (c.cleaned.includes(cleanedVal)) {
+                suggestions.push(c.name);
                 if (suggestions.length >= 5) {
                     break;
                 }

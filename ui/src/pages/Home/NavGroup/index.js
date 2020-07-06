@@ -6,7 +6,6 @@ export function NavGroup() {
     const { currentUser } = useContext(AppContext);
     return (
         <div className="NavGroup">
-            { /* TODO: Use custom emoji here */ }
             <NavSection
                 icon="sazerac"
                 title="Recipes"

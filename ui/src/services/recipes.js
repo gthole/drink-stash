@@ -27,8 +27,6 @@ export class Recipe extends RecipeStub {
         this.directions = payload.directions;
         this.description = payload.description;
         this.quantities = payload.quantity_set;
-
-        this.quantities.forEach((q) => q.name = this.quantityName());
     }
 
     addQuantity() {
@@ -40,14 +38,8 @@ export class Recipe extends RecipeStub {
             amount: '',
             unit: unit,
             ingredient: '',
-            name: this.quantityName(),
             hidden: false
         });
-    }
-
-    // TODO: still need this?
-    quantityName() {
-        return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
     }
 
     toPayload() {

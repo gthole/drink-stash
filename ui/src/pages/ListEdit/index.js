@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { Input, TextArea, Button, ButtonRow } from 'components/Forms';
 import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { List } from 'services/lists';
 import { services } from 'services';
 
@@ -12,7 +13,7 @@ export function ListEdit() {
     const history = useHistory();
     const [list, setList] = useState(null);
 
-    useEffect(() => {
+    useAlertedEffect(async () => {
         if (!id) {
             const l = new List({
                 name: '',
@@ -21,7 +22,8 @@ export function ListEdit() {
             })
             return setList(l);
         }
-        services.lists.getById(id).then((l) => setList(l));
+        const l = await services.lists.getById(id);
+        setList(l);
     }, [id, currentUser]);
 
     function remove() {

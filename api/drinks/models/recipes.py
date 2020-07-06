@@ -48,7 +48,7 @@ class Recipe(DateMixin):
         slug = slugify(self.name)
         if slug.isdigit():
             slug = '_%s' % slug
-        existing = Recipe.objects.filter(slug__regex=r'%s-\d+' % slug).count()
+        existing = Recipe.objects.filter(slug__regex=r'%s(-\d+)?' % slug).count()
         if existing:
             slug = '%s-%d' % (slug, existing + 1)
         return slug

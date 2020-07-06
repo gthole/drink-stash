@@ -48,3 +48,28 @@
 .Menu a.bordered {
     border-top: 1px solid #72757a;
 }
+
+.Menu .badge {
+    color: #e45858;
+    font-size: 12px;
+}
+
+.Menu .hamburger {
+    position: relative;
+}
+
+.Menu .hamburger .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+.Menu .profile-link {
+    display: flex;
+}
+
+.Menu .profile-link .badge {
+    margin-left: 12px;
+    padding-top: 11px;
+}
+

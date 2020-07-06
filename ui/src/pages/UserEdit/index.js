@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './style.css';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { Button } from 'components/Forms';
 import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { ProfileImageUpload } from 'pages/UserEdit/ProfileImageUpload';
 import { UserDetailEdit } from 'pages/UserEdit/UserDetailEdit';
 import { User } from 'services/users';
 import { services } from 'services';
 
 export function UserEdit() {
-    const { currentUser } = useContext(AppContext);
+    const { currentUser, addAlert } = useContext(AppContext);
     const { username } = useParams();
     const history = useHistory();
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        services.users.getById(username).then((u) => setUser(u));
+    useAlertedEffect(async () => {
+        const u = await services.users.getById(username);
+        setUser(u);
     }, [username]);
 
     function save() {
@@ -32,13 +34,13 @@ export function UserEdit() {
 
     const update = (u) => setUser(new User(u));
 
-    // TODO: Remove nbsp
     return (
         <div className="UserEdit">
             <Card className="profile-image">
                 <ProfileImageUpload
                     user={ user }
                     update={ update }
+                    addAlert={ addAlert }
                 />
             </Card>
             <Card className="user-details-edit">

@@ -30,7 +30,7 @@ export function QuantityRow({index, quantity, ingredients, uom, setQuantity, rem
                     index={ index }
                     value={ quantity.ingredient }
                     setValue={ (v) => update('ingredient', v) }
-                    dataSource={ ingredients.map(i => i.cleaned) }
+                    dataSource={ ingredients }
                 />
                 <div className="remove-quantity" onClick={ () => removeQuantity() }>
                     <FontAwesomeIcon icon={ faTimes } />

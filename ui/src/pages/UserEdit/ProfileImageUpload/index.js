@@ -3,7 +3,7 @@ import AvatarEditor from 'react-avatar-editor'
 import { Button, ButtonRow } from 'components/Forms';
 import { services } from 'services';
 
-export function ProfileImageUpload({ user, update }) {
+export function ProfileImageUpload({ user, update, addAlert }) {
     const [disabled, setDisabled] = useState(false);
     const [editor, setEditor] = useState();
     const [scale, setScale] = useState('1');
@@ -27,6 +27,8 @@ export function ProfileImageUpload({ user, update }) {
         sessionStorage.clear();
         const u = await services.users.getById(user.username);
         update(u);
+        console.log('hi!');
+        addAlert('success', 'Profile image saved!');
         setDisabled(false);
         setSelected(null);
         setScale('1');
@@ -42,7 +44,7 @@ export function ProfileImageUpload({ user, update }) {
     }
 
     return (
-        <div className="ProfileImageUpload">
+        <div className={ 'ProfileImageUpload' + (user.image ? '' : ' attention') }>
             <AvatarEditor
                 ref={ (ref) => setEditor(ref) }
                 image={ selected || user.image }

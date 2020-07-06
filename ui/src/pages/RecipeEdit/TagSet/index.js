@@ -15,7 +15,9 @@ export function TagSet({tags, setTags, initialEdit, sourceTags}) {
                     setTags(tags.concat([val]));
                     setValue('');
                 }}
-                dataSource={ sourceTags }
+                dataSource={ sourceTags.map((t) => (
+                    {name: t, cleaned: t.toLowerCase()}
+                ))}
             />
             <TagList tags={ tags } />
         </div>

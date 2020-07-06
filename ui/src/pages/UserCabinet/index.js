@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './style.css';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { SidePanelList } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { CategoryList } from 'pages/UserCabinet/CategoryList';
 import { IngredientCategory } from 'pages/UserCabinet/IngredientCategory';
 import { services } from 'services';
@@ -15,19 +16,19 @@ export function UserCabinet() {
     const [selected, setSelected] = useState(selectedParam);
     const [filter, setFilter] = useState('');
 
-    useEffect(() => {
-        Promise.all([
+    useAlertedEffect(async () => {
+        const [user, ingResp] = await Promise.all([
             services.users.getById(username),
             services.ingredients.getPage(),
-        ]).then(([user, ingResp]) => {
-            const grouped = ingResp.results.reduce((g, i) => {
-                i.user_has = user.ingredient_set.includes(i.name);
-                if (!g[i.category]) g[i.category] = [];
-                g[i.category].push(i);
-                return g;
-            }, {});
-            setContent({user, grouped});
-        });
+        ]);
+
+        const grouped = ingResp.results.reduce((g, i) => {
+            i.user_has = user.ingredient_set.includes(i.name);
+            if (!g[i.category]) g[i.category] = [];
+            g[i.category].push(i);
+            return g;
+        }, {});
+        setContent({user, grouped});
     }, [username]);
 
     if (!content.grouped) return '';

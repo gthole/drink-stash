@@ -3,7 +3,7 @@ import './style.css'
 import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faTimes, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { services } from 'services';
 
 export function Menu({currentUser}) {
@@ -14,9 +14,21 @@ export function Menu({currentUser}) {
         services.auth.logout();
     }
 
+    let badge;
+    if (!currentUser.image) {
+        badge = (
+            <div className="badge">
+                <FontAwesomeIcon icon={ faCircle }/>
+            </div>
+        );
+    }
+
     return (
         <div className='Menu'>
-            <FontAwesomeIcon icon={ faBars } onClick={ () => setOpen(true) }/>
+            <div className="hamburger">
+                <FontAwesomeIcon icon={ faBars } onClick={ () => setOpen(true) }/>
+                { badge }
+            </div>
             <OutsideClickHandler onOutsideClick={() => setOpen(false)}>
                 <div className={'menu-content ' + (open ? 'menu-open' : 'menu-closed') }>
                     <div className="menu-inner" onClick={ () => setOpen(false) } >
@@ -26,6 +38,12 @@ export function Menu({currentUser}) {
                         <Link to={`/users/${ currentUser.username }`}>
                             Your profile
                         </Link>
+                        <div className="profile-link">
+                            <Link to={`/users/${ currentUser.username }/edit`}>
+                                Update your profile
+                            </Link>
+                            { badge }
+                        </div>
                         <Link to="/new">
                             Add new recipes
                         </Link>

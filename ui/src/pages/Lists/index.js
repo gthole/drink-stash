@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 import { parse } from 'querystring';
 import { useParams, useHistory } from 'react-router-dom';
 import { ListInfo } from 'components/ListInfo';
 import { SidePanelList } from 'components/Structure';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { ListOfLists } from 'pages/Lists/ListOfLists';
 import { services } from 'services';
 
@@ -13,16 +14,13 @@ export function Lists() {
     const [content, setContent] = useState(null);
     const [selected, setSelected] = useState(null);
 
-    useEffect(() => {
-        async function fetch() {
-            const user = await services.users.getById(listUsername);
-            const listResp = await services.lists.getPage({user: user.id});
-            setContent({
-                user: user,
-                lists: listResp.results
-            });
-        }
-        fetch();
+    useAlertedEffect(async () => {
+        const user = await services.users.getById(listUsername);
+        const listResp = await services.lists.getPage({user: user.id});
+        setContent({
+            user: user,
+            lists: listResp.results
+        });
     }, [listUsername]);
 
     if (!content) return '';

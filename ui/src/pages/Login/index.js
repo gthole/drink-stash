@@ -7,7 +7,7 @@ import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 
 export function Login() {
-    const { currentUser, refreshUser } = useContext(AppContext);
+    const { currentUser, refreshUser, addAlert } = useContext(AppContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,7 +18,7 @@ export function Login() {
     function submit() {
         services.auth.login({username, password})
             .then(() => refreshUser())
-            .catch((e) => console.log(e));
+            .catch((e) => addAlert('warn', 'Login was unsuccessful.'));
     }
 
     return (

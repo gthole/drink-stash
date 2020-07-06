@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Alerts } from 'components/Alerts';
 import { AppHeader } from 'components/AppHeader';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { AppContext } from 'context/AppContext';
@@ -25,8 +26,8 @@ function App() {
     const context = {
         currentUser: user,
         refreshUser: () => { setUser(services.auth.getUserData()) },
-        addAlert: (a) => {
-            alerts.push(a);
+        addAlert: (type, message) => {
+            alerts.push({type, message, ts: Date.now()});
             setAlerts([...alerts]);
         }
     };
@@ -66,6 +67,7 @@ function App() {
             <AppContext.Provider value={context}>
                 <Router>
                     <AppHeader />
+                    <Alerts alerts={ alerts } setAlerts={ setAlerts }/>
                     <div className="AppContent">
                         { routes }
                     </div>

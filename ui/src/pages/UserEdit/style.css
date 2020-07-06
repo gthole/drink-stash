@@ -11,6 +11,10 @@
     margin: 0 auto 20px auto;
 }
 
+.ProfileImageUpload.attention canvas {
+    border: 3px solid #e45858;
+}
+
 .ProfileImageUpload .slider {
     margin-bottom: 30px;
 }

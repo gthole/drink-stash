@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { TextArea, Button, ButtonRow } from 'components/Forms';
 import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { services } from 'services';
 
 export function CommentEdit() {
@@ -11,8 +12,9 @@ export function CommentEdit() {
     const history = useHistory();
     const [comment, setComment] = useState(null);
 
-    useEffect(() => {
-        services.comments.getById(id).then((c) => setComment(c));
+    useAlertedEffect(async () => {
+        const c = await services.comments.getById(id);
+        setComment(c);
     }, [id]);
 
     function remove() {

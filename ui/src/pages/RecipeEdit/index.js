@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 import { useParams, useHistory } from 'react-router-dom';
 import { Select, Input, TextArea, Button, FormWrapper } from 'components/Forms';
 import { Card } from 'components/Structure';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { TagSet } from 'pages/RecipeEdit/TagSet';
 import { QuantitySet } from 'pages/RecipeEdit/QuantitySet';
 import { services } from 'services';
@@ -14,7 +15,7 @@ export function RecipeEdit() {
     const { slug } = useParams();
     const history = useHistory();
 
-    useEffect(() => {
+    useAlertedEffect(async () => {
         async function getRecipe() {
             if (!slug) {
                 return RecipeService.createNew();
@@ -22,26 +23,25 @@ export function RecipeEdit() {
             return await services.recipes.getById(slug);
         }
 
-        Promise.all([
+        const [recipe, bookResp, ingredientResp, tagResp, uomResp] = await Promise.all([
             getRecipe(),
             services.books.getPage(),
             services.ingredients.getPage(),
             services.tags.getPage(),
             services.uom.getPage(),
-        ]).then(([recipe, bookResp, ingredientResp, tagResp, uomResp]) => {
-            const ingredients = ingredientResp.results.sort((a, b) => (
-                a.usage > b.usage ? -1 : 1
-            ));
-            if (!recipe.book || !recipe.book.id) {
-                recipe.book = bookResp.results[0];
-            }
-            setContent({
-                recipe,
-                books: bookResp.results,
-                ingredients: ingredients,
-                tags: tagResp.results,
-                uom: uomResp.results,
-            });
+        ]);
+
+        const ingredients = ingredientResp.results.sort((a, b) => a.usage > b.usage ? -1 : 1);
+        if (!recipe.book || !recipe.book.id) {
+            recipe.book = bookResp.results[0];
+        }
+
+        setContent({
+            recipe,
+            books: bookResp.results,
+            ingredients: ingredients,
+            tags: tagResp.results,
+            uom: uomResp.results,
         });
     }, [slug]);
 
@@ -102,9 +102,13 @@ export function RecipeEdit() {
             <div className="save-buttons">
                 <Button
                     type="danger"
-                    onClick={ () => history.goBack() }
+                    onClick={ () => {
+                        services.recipes.removeById(content.recipe.id).then(() => {
+                            history.push('/', {});
+                        });
+                    }}
                     disabled={ saving }>
-                    Cancel
+                    Delete
                 </Button>
                 { saveButton }
             </div>

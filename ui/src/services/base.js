@@ -32,7 +32,7 @@ export class BaseService {
             return response;
         }
 
-        return fetch(url, {headers}).then(async (res) => {
+        return this.request(url, {headers}).then(async (res) => {
             if (res.status === 304) {
                 return format(cached);
             }
@@ -48,7 +48,7 @@ export class BaseService {
     }
 
     getById(id) {
-        return fetch(`${this.baseUrl}${id}/`, {
+        return this.request(`${this.baseUrl}${id}/`, {
             headers: this.getHeaders()
         })
         .then(res => res.json())
@@ -57,7 +57,7 @@ export class BaseService {
 
     create(obj) {
         const payload = obj.toPayload();
-        return fetch(this.baseUrl, {
+        return this.request(this.baseUrl, {
             method: 'POST',
             headers: this.getHeaders(),
             body: JSON.stringify(payload)
@@ -68,7 +68,7 @@ export class BaseService {
 
     update(obj) {
         const payload = obj.toPayload();
-        return fetch(`${this.baseUrl}${obj.id}/`, {
+        return this.request(`${this.baseUrl}${obj.id}/`, {
             method: 'PUT',
             headers: this.getHeaders(),
             body: JSON.stringify(payload)
@@ -77,11 +77,23 @@ export class BaseService {
         .then(res => new this.model(res));
     }
 
-    remove(obj) {
-        return fetch(`${this.baseUrl}${obj.id}/`, {
+    removeById(id) {
+        return this.request(`${this.baseUrl}${id}/`, {
             method: 'DELETE',
             headers: this.getHeaders(),
         });
+    }
+
+    remove(obj) {
+        return this.removeById(obj.id);
+    }
+
+    request(url, options) {
+        return fetch(url, options)
+            .then((res) => {
+                if (res.status >= 400) throw res;
+                return res;
+            })
     }
 
     getHeaders() {

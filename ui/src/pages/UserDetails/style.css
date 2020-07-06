@@ -2,6 +2,10 @@
     min-width: 40%;
 }
 
+.UserDetails .second-pane {
+    flex-grow: 1;
+}
+
 .UserDetails .user-data {
     display: flex;
 }
