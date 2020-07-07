@@ -12,7 +12,7 @@ export function ActivityRow({text, user, date, body, className}) {
     return (
         <div className={'ActivityRow ' + (className || '')}>
             <div className="activity-header-img">
-                <ProfileImage user={ user } />
+                <ProfileImage user={ user } size={ 52 }/>
             </div>
             <div className="activity-header-text">
                 <div className="activity-header-content">
