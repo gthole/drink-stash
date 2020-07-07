@@ -50,22 +50,16 @@ export function Select({label, subtext, error, choices, display, select, default
     );
 }
 
-export function Button({ type, to, className, ...rest}) {
-    if (to) {
-        return (
-            <Link
-                to={to}
-                className={'Button button-' + type + (className ? ' ' + className : '')}
-                {...rest}
-            />
-        );
+export function Button({ type, to, href, className, ...rest}) {
+    const cn = 'Button button-' + type + (className ? ' ' + className : '')
+    if (href) {
+        const {children, ...other} = rest;
+        return <a href={href} className={cn} {...other}>{ children }</a>
     }
-    return (
-        <button
-            className={'Button button-' + type + (className ? ' ' + className : '')}
-            {...rest}
-        />
-    );
+    if (to) {
+        return <Link to={to} className={cn} {...rest}/>
+    }
+    return <button className={ cn } {...rest} />
 }
 
 export function ButtonRow({children, ...rest}) {

@@ -16,7 +16,8 @@ export function Login() {
         return <Redirect to="/" />
     }
 
-    function submit() {
+    function submit(ev) {
+        if (ev) ev.preventDefault();
         services.auth.login({username, password})
             .then(() => refreshUser())
             .catch((e) => addAlert('warn', 'Login was unsuccessful.'));
@@ -31,23 +32,25 @@ export function Login() {
                     Drink<br/>Stash
                 </div>
                 <Card className="login-auth-form">
-                    <Input
-                        value={username}
-                        placeholder={'Username'}
-                        onChange={(ev) => setUsername(ev.target.value)}
-                    />
-                    <Input
-                        type="password"
-                        placeholder={'Password'}
-                        value={password}
-                        onChange={(ev) => setPassword(ev.target.value)}
-                    />
-                    <div className="button-row">
-                        <Button type="primary" onClick={() => submit()}>Login</Button>
-                        <div className="forgot-password">
-                            <a href="/accounts/password_reset/">Forgot password?</a>
+                    <form onSubmit={ submit }>
+                        <Input
+                            value={username}
+                            placeholder={'Username'}
+                            onChange={(ev) => setUsername(ev.target.value)}
+                        />
+                        <Input
+                            type="password"
+                            placeholder={'Password'}
+                            value={password}
+                            onChange={(ev) => setPassword(ev.target.value)}
+                        />
+                        <div className="button-row">
+                            <Button type="primary" onClick={() => submit()}>Login</Button>
+                            <div className="forgot-password">
+                                <a href="/accounts/password_reset/">Forgot password?</a>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </Card>
                 <div className="credits">
                     <div className="login-photo-credit">

@@ -27,11 +27,9 @@ export function ProfileImageUpload({ user, update, addAlert }) {
         sessionStorage.clear();
         const u = await services.users.getById(user.username);
         update(u);
-        console.log('hi!');
         addAlert('success', 'Profile image saved!');
         setDisabled(false);
         setSelected(null);
-        setScale('1');
     }
 
     function onSelectFile(e) {

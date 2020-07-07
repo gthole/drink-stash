@@ -23,6 +23,7 @@ export function UserEdit() {
 
     function save() {
         services.users.update(user).then(() => {
+            sessionStorage.clear();
             history.push(`/users/${user.username}`, {});
         });
     }
