@@ -60,7 +60,7 @@ export function UserDetails() {
                         { editButton }
                     </div>
                 </Card>
-                <div class="user-lists">
+                <div className="user-lists">
                     <ListOfLists
                         lists={ content.lists }
                         user={ content.user }

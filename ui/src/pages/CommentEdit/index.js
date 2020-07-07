@@ -4,6 +4,7 @@ import { TextArea, Button, ButtonRow } from 'components/Forms';
 import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
 import { useAlertedEffect } from 'hooks/useAlertedEffect';
+import { Comment } from 'services/comments';
 import { services } from 'services';
 
 export function CommentEdit() {
@@ -42,7 +43,7 @@ export function CommentEdit() {
                     expanded={ true }
                     onChange={ (ev) => {
                         comment.text = ev.target.value;
-                        setComment(Object.assign({}, comment));
+                        setComment(new Comment(comment));
                     }}
                 />
                 <ButtonRow>

@@ -33,12 +33,11 @@ export function ListEdit() {
     }
 
     function save() {
-        const l = new List(list);
         let promise;
         if (list.id) {
-            promise = services.lists.update(l);
+            promise = services.lists.update(list);
         } else {
-            promise = services.lists.create(l);
+            promise = services.lists.create(list);
         }
         promise.then((saved) => {
             history.push(`/users/${currentUser.username}/lists/${saved.id}`, {});
@@ -58,7 +57,7 @@ export function ListEdit() {
                     value={ list.name }
                     onChange={ (ev) => {
                         list.name = ev.target.value;
-                        setList(Object.assign({}, list));
+                        setList(new List(list));
                     }}
                 />
                 <TextArea
@@ -67,7 +66,7 @@ export function ListEdit() {
                     expanded={ true }
                     onChange={ (ev) => {
                         list.description = ev.target.value;
-                        setList(Object.assign({}, list));
+                        setList(new List(list));
                     }}
                 />
                 <ButtonRow>

@@ -10,6 +10,16 @@
     margin-bottom: 5px;
 }
 
+.ListRecipeCard .lr-card-title-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ListRecipeCard .lr-card-title-row svg {
+    cursor: pointer;
+    color: #72757a;
+}
+
 .ListRecipeCard .list-recipe-edit-note .FormWrapper {
     margin-bottom: 0;
 }

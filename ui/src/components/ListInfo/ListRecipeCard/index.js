@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { Button, ButtonRow, TextArea } from 'components/Forms';
 import { Description } from 'components/Structure';
 import { IngredientRow } from 'components/IngredientRow';
@@ -55,14 +57,26 @@ export function ListRecipeNotes({listRecipe, canEdit, update}) {
     );
 }
 
-export function ListRecipeCard({listRecipe, canEdit, update}) {
+export function ListRecipeCard({listRecipe, canEdit, update, remove}) {
     if (!listRecipe) return '';
+
+    function removeLr() {
+        services.listRecipes.removeById(listRecipe.id);
+        remove(listRecipe);
+    }
 
     return (
         <div className="ListRecipeCard">
-            <Link className="recipe-name" to={ `/recipes/${listRecipe.recipe.slug}` }>
-                { listRecipe.recipe.name }
-            </Link>
+            <div className="lr-card-title-row">
+                <Link className="recipe-name" to={ `/recipes/${listRecipe.recipe.slug}` }>
+                    { listRecipe.recipe.name }
+                </Link>
+                {
+                    canEdit ?
+                    <FontAwesomeIcon icon={ faTimes } onClick={ removeLr }/> :
+                    ''
+                }
+            </div>
             <IngredientRow ingredients={ listRecipe.recipe.ingredients }/>
             <ListRecipeNotes
                 listRecipe={ listRecipe }

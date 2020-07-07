@@ -37,6 +37,7 @@ export function ListInfo({ list, listUsername }) {
                             listRecipe={ lr }
                             canEdit={ canEdit }
                             update={ () => setListRecipes([...listRecipes]) }
+                            remove={ (lr) => setListRecipes(listRecipes.filter(l => l.id !== lr.id)) }
                         />
                     ))
                 }
