@@ -4,5 +4,6 @@ WORKDIR /ui
 COPY package* ./
 RUN npm install
 COPY ./ ./
+ENV PUBLIC_URL /static
 
 CMD ["npm", "start"]

@@ -9,6 +9,7 @@ ENV PATH ./node_modules/.bin:$PATH
 WORKDIR /ui
 ADD ./ui/package.json ./ui/package-lock.json /ui/
 RUN npm install
+ENV PUBLIC_URL=/static/
 
 ADD ./ui /ui
 RUN npm run build
@@ -29,7 +30,7 @@ COPY ./api /src
 WORKDIR /src
 COPY --from=0 /ui/build ./app-build
 
-RUN ./manage.py collectstatic --no-input
-        # ./manage.py test drinks
+RUN ./manage.py collectstatic --no-input && \
+    ./manage.py test drinks
 
 CMD ["dumb-init", "sh", "./run.sh"]

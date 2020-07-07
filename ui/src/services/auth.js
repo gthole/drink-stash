@@ -36,7 +36,10 @@ export class AuthService {
             body: JSON.stringify(payload),
             headers: {'Content-Type': 'application/json'}
         })
-        .then((res: any) => res.json())
+        .then((res: any) => {
+            if (res.status !== 200) throw res;
+            return res.json();
+        })
         .then((res: any) => localStorage.setItem('token', res.token));
     }
 }

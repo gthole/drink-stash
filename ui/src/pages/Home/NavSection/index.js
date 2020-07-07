@@ -12,7 +12,7 @@ export function NavSection({icon, title, description, href}) {
                         width="60"
                         height="60"
                         alt={ icon }
-                        src={ `/img/${icon}.svg` }
+                        src={ icon }
                     />
                 </div>
             </Link>

@@ -18,7 +18,7 @@ export function UserDetails() {
 
     useAlertedEffect(async () => {
         const user = await services.users.getById(username);
-        const [commentResp, listResp, lrResp] = Promise.all([
+        const [commentResp, listResp, lrResp] = await Promise.all([
             services.comments.getPage({user: user.id, per_page: 20}),
             services.lists.getPage({user: user.id, per_page: 5}),
             services.listRecipes.getPage({user_list__user: user.id, per_page: 20})

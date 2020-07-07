@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import './style.css';
+import splash from './img/splash.jpg';
 import { Redirect } from 'react-router-dom';
 import { Card } from 'components/Structure';
 import { Input, Button } from 'components/Forms';
@@ -22,7 +23,9 @@ export function Login() {
     }
 
     return (
-        <div className="Login">
+        <div
+                className="Login"
+                style={{backgroundImage: `url(${splash})`}}>
             <div className="login-inner">
                 <div className="login-header">
                     Drink<br/>Stash

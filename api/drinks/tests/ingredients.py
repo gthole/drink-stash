@@ -14,10 +14,10 @@ class IngredientTestCase(BaseTestCase):
         self.assertEqual(
             resp.json()['results'][0],
             {
-                "category": 2,
-                "name": "Angostura Bitters",
+                "category": 1,
+                "name": "Rye",
                 "substitutions": [],
-                "usage": 2
+                "usage": 4
             }
         )
 
