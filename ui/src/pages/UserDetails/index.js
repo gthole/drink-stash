@@ -60,7 +60,7 @@ export function UserDetails() {
                         { editButton }
                     </div>
                 </Card>
-                <Card>
+                <div class="user-lists">
                     <ListOfLists
                         lists={ content.lists }
                         user={ content.user }
@@ -77,16 +77,16 @@ export function UserDetails() {
                         </div> :
                         ''
                     }
-                </Card>
+                </div>
             </div>
             <Card className="second-pane">
-                  <Activity
-                      showTitle={ true }
-                      showImage={ false }
-                      showPlaceholder={ true }
-                      comments={ content.comments }
-                      listRecipes={ content.listRecipes }
-                  />
+              <Activity
+                  showTitle={ true }
+                  showImage={ false }
+                  showPlaceholder={ true }
+                  comments={ content.comments }
+                  listRecipes={ content.listRecipes }
+              />
             </Card>
         </ResponsivePanes>
     );

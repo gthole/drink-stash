@@ -8,10 +8,27 @@
 
 .UserDetails .user-data {
     display: flex;
+    flex-direction: column;
 }
 
-.UserDetails .user-details {
-    margin-left: 20px;
+.UserDetails .user-data .PageTitle {
+    margin-top: 10px;
+}
+
+@media only screen and (min-width: 320px) {
+    .UserDetails .user-data {
+        flex-direction: row;
+    }
+
+    .UserDetails .user-details {
+        margin-left: 20px;
+    }
+}
+
+.UserDetails .user-lists {
+    background-color: #fffffe;
+    padding-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .UserDetails .edit-link {

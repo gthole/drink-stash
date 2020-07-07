@@ -8,7 +8,7 @@ import { services } from 'services';
 
 export function Menu({currentUser}) {
     const [open, setOpen] = useState(false);
-    const admin = currentUser.is_staff ? <Link className="bordered" to="/admin/">Site Admin</Link> : '';
+    const admin = currentUser.is_staff ? <a className="bordered" href="/admin/">Site Admin</a> : '';
 
     function signout(ev) {
         services.auth.logout();
