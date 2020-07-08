@@ -43,6 +43,7 @@ export function ListRecipeNotes({listRecipe, canEdit, update}) {
             <TextArea
                 value={ notes }
                 expanded={ true }
+                subtext="Add notes about the recipe for this list."
                 onChange={ (ev) => setNotes(ev.target.value) }
             />
             <ButtonRow>

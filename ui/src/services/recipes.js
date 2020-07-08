@@ -42,6 +42,25 @@ export class Recipe extends RecipeStub {
         });
     }
 
+    parseQuantity(iq) {
+        const q = {...iq};
+        q.ingredient = q.ingredient.trim();
+        try {
+            const parsed = parseFloat(q.amount);
+            if (q.amount.includes('/')) {
+                const [num, den] = q.amount.split('/');
+                q.amount = parseInt(num, 10) / parseInt(den, 10);
+            } else if (!isNaN(parsed) && parsed > 0 && parsed < 100) {
+                q.amount = parsed
+            } else {
+                throw new Error('Cannot parse amount: ' + q.amount);
+            }
+        } catch (e) {
+            q.amount = null;
+        }
+        return q;
+    }
+
     toPayload() {
         return {
             id: this.id,
@@ -51,7 +70,7 @@ export class Recipe extends RecipeStub {
             url: this.url,
             directions: this.directions,
             description: this.description,
-            quantity_set: this.quantities,
+            quantity_set: this.quantities.map(q => this.parseQuantity(q)),
             tags: this.tags
         }
     }

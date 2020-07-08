@@ -3,7 +3,7 @@ import './style.css';
 import { RecipeActivity } from 'components/Activity/RecipeActivity';
 import { ListRecipeActivity } from 'components/Activity/ListRecipeActivity';
 import { CommentActivity } from 'components/Activity/CommentActivity';
-import { Placeholder } from 'components/Structure';
+import { SectionTitle, Placeholder } from 'components/Structure';
 
 const SIX_HOURS = 6 * 60 * 60 * 1000;
 
@@ -66,6 +66,7 @@ export function Activity({ recipes, listRecipes, comments, showTitle, showPlaceh
 
     return (
         <div className="Activity">
+            { showTitle ? <SectionTitle children="Activities"/> : '' }
             { activities }
             <Placeholder
                 children="No activity yet."

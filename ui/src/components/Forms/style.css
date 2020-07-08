@@ -21,6 +21,13 @@
     font-style: italic;
 }
 
+.Forms.FormWrapper .error-message {
+    margin-top: 5px;
+    font-size: 0.875rem;
+    color: #e45858;
+    font-style: italic;
+}
+
 .Forms.FormWrapper.form-error .Input,
 .Forms.FormWrapper.form-error .TextArea,
 .Forms.FormWrapper.form-error .Select {

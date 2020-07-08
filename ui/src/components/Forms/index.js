@@ -11,6 +11,7 @@ export function FormWrapper({label, subtext, children, error}) {
             { label ? <label htmlFor={''}>{ label }</label> : '' }
             { children }
             { subtext ? <div className="subtext">{ subtext }</div> : '' }
+            { Array.isArray(error) ? <div className="error-message">{ error[0] }</div> : '' }
         </div>
     );
 }

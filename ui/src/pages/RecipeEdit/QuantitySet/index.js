@@ -5,7 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { AutoComplete } from 'components/AutoComplete';
 import { FormWrapper, Input, Select } from 'components/Forms';
 
-export function QuantityRow({index, quantity, ingredients, uom, setQuantity, removeQuantity}) {
+export function QuantityRow({index, quantity, ingredients, uom, error, setQuantity, removeQuantity}) {
     function update(attr, value) {
         quantity[attr] = value;
         setQuantity(quantity);
@@ -16,6 +16,7 @@ export function QuantityRow({index, quantity, ingredients, uom, setQuantity, rem
                 <Input
                     value={ quantity.amount }
                     onChange={ (ev) => update('amount', ev.target.value) }
+                    error={ error ? error.amount : null }
                 />
             </div>
             <div className="unit">
@@ -23,6 +24,7 @@ export function QuantityRow({index, quantity, ingredients, uom, setQuantity, rem
                     choices={ uom }
                     value={ quantity.unit }
                     onChange={ (ev) => update('unit', ev.target.value) }
+                    error={ error ? error.unit : null }
                 />
             </div>
             <div className="ingredient">
@@ -31,6 +33,7 @@ export function QuantityRow({index, quantity, ingredients, uom, setQuantity, rem
                     value={ quantity.ingredient }
                     setValue={ (v) => update('ingredient', v) }
                     dataSource={ ingredients }
+                    error={ error ? error.ingredient : null }
                 />
                 <div className="remove-quantity" onClick={ () => removeQuantity() }>
                     <FontAwesomeIcon icon={ faTimes } />
@@ -53,7 +56,7 @@ export function QuantitySet({quantities, ingredients, error, uom, setQuantities}
 
     return (
         <div className="QuantitySet">
-            <FormWrapper label="Ingredients" error={ error }>
+            <FormWrapper label="Ingredients">
                 {
                     quantities.map((q, i) => (
                         <QuantityRow
@@ -64,6 +67,7 @@ export function QuantitySet({quantities, ingredients, error, uom, setQuantities}
                             quantity={ q }
                             setQuantity={ (q) => setQuantity(q, i) }
                             removeQuantity={ () => removeQuantity(i) }
+                            error={ error ? error[i] : null }
                         />
                     ))
                 }
