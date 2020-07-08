@@ -4,6 +4,7 @@ export function ProfileImage({user, size}) {
     if (!user.image) {
         return (
             <div
+                className="ProfileImage"
                 style={{
                     width: (size || 40) + 'px',
                     height: (size || 40) + 'px',
@@ -26,6 +27,7 @@ export function ProfileImage({user, size}) {
     }
     return (
         <img
+            className="ProfileImage"
             style={{
                 width: (size || 40) + 'px',
                 height: (size || 40) + 'px',

@@ -64,7 +64,7 @@ export function UserDetails() {
                     <ListOfLists
                         lists={ content.lists }
                         user={ content.user }
-                        onClick={ (l) => history.push(`/users/${username}/lists/${l.id}`, {}) }
+                        select={ (l) => history.push(`/users/${username}/lists/${l.id}`, {}) }
                     />
                     {
                         content.lists.length ?

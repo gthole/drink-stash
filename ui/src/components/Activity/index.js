@@ -66,7 +66,7 @@ export function Activity({ recipes, listRecipes, comments, showTitle, showPlaceh
 
     return (
         <div className="Activity">
-            { showTitle ? <SectionTitle children="Activities"/> : '' }
+            { showTitle ? <SectionTitle children="Activity"/> : '' }
             { activities }
             <Placeholder
                 children="No activity yet."
