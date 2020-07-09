@@ -1,8 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export function ProfileImage({user, size}) {
-    if (!user.image) {
-        return (
+    let img;
+    if (user.image) {
+        img = (
+            <img
+                className="ProfileImage"
+                style={{
+                    width: (size || 40) + 'px',
+                    height: (size || 40) + 'px',
+                    borderRadius: '999px',
+                    border: '1px solid #72757a',
+                }}
+                src={ user.image || "/static/img/generic.png" }
+                alt={ `${user.first_name} ${user.last_name}` }
+            />
+        );
+    } else {
+        img = (
             <div
                 className="ProfileImage"
                 style={{
@@ -25,17 +41,5 @@ export function ProfileImage({user, size}) {
             />
         );
     }
-    return (
-        <img
-            className="ProfileImage"
-            style={{
-                width: (size || 40) + 'px',
-                height: (size || 40) + 'px',
-                borderRadius: '999px',
-                border: '1px solid #72757a',
-            }}
-            src={ user.image || "/static/img/generic.png" }
-            alt={ `${user.first_name} ${user.last_name}` }
-        />
-    );
+    return <Link to={ `/users/${user.username}` }>{ img }</Link>;
 }
