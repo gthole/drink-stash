@@ -4,14 +4,15 @@ import { Input, TextArea, Button, ButtonRow } from 'components/Forms';
 import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
 import { useAlertedEffect } from 'hooks/useAlertedEffect';
-import { List } from 'services/lists';
+import { List, ListRecipe } from 'services/lists';
 import { services } from 'services';
 
-export function ListEdit() {
+export function ListEdit({location}) {
     const { currentUser } = useContext(AppContext);
     const { id } = useParams();
     const history = useHistory();
     const [list, setList] = useState(null);
+    const initial = location.state ? location.state.initial : null;
 
     useAlertedEffect(async () => {
         if (!id) {
@@ -39,7 +40,14 @@ export function ListEdit() {
         } else {
             promise = services.lists.create(list);
         }
-        promise.then((saved) => {
+        promise.then(async (saved) => {
+            if (initial) {
+                const toCreate = new ListRecipe({
+                    user_list: {id: saved.id},
+                    recipe: initial
+                });
+                await services.listRecipes.create(toCreate)
+            }
             history.push(`/users/${currentUser.username}/lists/${saved.id}`, {});
         });
     }
@@ -69,6 +77,13 @@ export function ListEdit() {
                         setList(new List(list));
                     }}
                 />
+                {
+                    initial ?
+                    <div style={{ marginBottom: '20px', color: '#72757a' }}>
+                        With initial recipe: { initial.name }
+                    </div> :
+                    ''
+                }
                 <ButtonRow>
                     <Button type="danger" onClick={ () => remove() }>
                         Delete

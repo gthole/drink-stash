@@ -165,6 +165,7 @@
 .Button.button-primary:focus,
 .Button.button-primary:hover {
     background-color: #269d6c;
+    border: 1px solid #269d6c;
 }
 
 .Button.button-primary-outline {
@@ -188,6 +189,7 @@
 .Button.button-danger:focus,
 .Button.button-danger:hover {
     background-color: #c82020;
+    border: 1px solid #c82020;
 }
 
 .Button.button-clear {

@@ -27,6 +27,7 @@ function App() {
         currentUser: user,
         refreshUser: () => { setUser(services.auth.getUserData()) },
         addAlert: (type, message) => {
+            if (alerts.find(a => a.message === message)) return;
             alerts.push({type, message, ts: Date.now()});
             setAlerts([...alerts]);
         }
@@ -44,21 +45,21 @@ function App() {
 
     const routes = (
         <Switch>
-            <Route path="/login" children={<Login />} />
-            <PrivateRoute path="/comments/:id" children={<CommentEdit />} />
-            <PrivateRoute path="/users/:listUsername/lists/:id/edit" children={<ListEdit />} />
-            <PrivateRoute path="/users/:listUsername/lists/new" children={<ListEdit />} />
-            <PrivateRoute path="/users/:listUsername/lists/:id" children={<ListDetails />} />
-            <PrivateRoute path="/users/:listUsername/lists" children={<Lists />} />
-            <PrivateRoute path="/users/:username/cabinet/:selectedParam" children={<UserCabinet />} />
-            <PrivateRoute path="/users/:username/cabinet" children={<UserCabinet />} />
-            <PrivateRoute path="/users/:username/edit" children={<UserEdit />} />
-            <PrivateRoute path="/users/:username" children={<UserDetails />} />
-            <PrivateRoute path="/new" children={<RecipeEdit />} />
-            <PrivateRoute path="/recipes/:slug/edit" children={<RecipeEdit />} />
-            <PrivateRoute path="/recipes/:slug" children={<RecipeDetails />} />
-            <PrivateRoute path="/recipes" children={<Recipes />} />
-            <PrivateRoute path="/" children={<Home />} />
+            <Route path="/login" component={Login} />
+            <PrivateRoute path="/comments/:id" component={CommentEdit} />
+            <PrivateRoute path="/users/:listUsername/lists/:id/edit" component={ListEdit} />
+            <PrivateRoute path="/users/:listUsername/lists/new" component={ListEdit} />
+            <PrivateRoute path="/users/:listUsername/lists/:id" component={ListDetails} />
+            <PrivateRoute path="/users/:listUsername/lists" component={Lists} />
+            <PrivateRoute path="/users/:username/cabinet/:selectedParam" component={UserCabinet} />
+            <PrivateRoute path="/users/:username/cabinet" component={UserCabinet} />
+            <PrivateRoute path="/users/:username/edit" component={UserEdit} />
+            <PrivateRoute path="/users/:username" component={UserDetails} />
+            <PrivateRoute path="/new" component={RecipeEdit} />
+            <PrivateRoute path="/recipes/:slug/edit" component={RecipeEdit} />
+            <PrivateRoute path="/recipes/:slug" component={RecipeDetails} />
+            <PrivateRoute path="/recipes" component={Recipes} />
+            <PrivateRoute path="/" component={Home} />
         </Switch>
     );
 
