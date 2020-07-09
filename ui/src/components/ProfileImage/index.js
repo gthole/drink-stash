@@ -31,7 +31,8 @@ export function ProfileImage({user, size}) {
             style={{
                 width: (size || 40) + 'px',
                 height: (size || 40) + 'px',
-                borderRadius: '999px'
+                borderRadius: '999px',
+                border: '1px solid #72757a',
             }}
             src={ user.image || "/static/img/generic.png" }
             alt={ `${user.first_name} ${user.last_name}` }
