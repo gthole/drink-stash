@@ -30,7 +30,6 @@ COPY ./api /src
 WORKDIR /src
 COPY --from=0 /ui/build ./app-build
 
-RUN ./manage.py collectstatic --no-input && \
-    ./manage.py test drinks
+RUN ./manage.py collectstatic --no-input
 
 CMD ["dumb-init", "sh", "./run.sh"]
