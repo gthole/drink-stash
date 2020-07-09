@@ -17,6 +17,7 @@ services:
     ui:
         build: './ui'
         command: ['npm', 'start']
+        stdin_open: true
         volumes:
             - './ui:/ui'
             - '/ui/node_modules'
