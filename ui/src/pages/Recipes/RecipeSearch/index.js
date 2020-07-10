@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'components/Forms';
 import { Loading } from 'components/Loading';
 import { SearchBar } from 'components/SearchBar';
@@ -44,7 +44,7 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
     return (
         <div className="RecipeSearch">
             <Button type="clear" onClick={ () => setShowFilters(!showFilters) }>
-                <FontAwesomeIcon icon={ showFilters ? faCaretDown : faCaretUp }/>
+                <FontAwesomeIcon icon={ showFilters ? faMinus : faPlus }/>
             </Button>
             <SearchBar
                 total={ total }
