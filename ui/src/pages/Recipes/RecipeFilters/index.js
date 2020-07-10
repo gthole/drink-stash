@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './style.css';
 import { Select, Button } from 'components/Forms';
@@ -100,6 +100,7 @@ function CommentFilterOptions({tags, addFilter}) {
 export function RecipeFilters({addFilter, expanded, setExpanded}) {
     const [filterType, setFilterType] = useState('Book');
     const [content, setContent] = useState(null);
+    const nodeRef = useRef(null);
     const user_id = services.auth.getUserData().user_id;
 
     useEffect(() => {
@@ -140,11 +141,12 @@ export function RecipeFilters({addFilter, expanded, setExpanded}) {
 
     return (
         <CSSTransition
+                    nodeRef={ nodeRef }
                     in={ expanded }
                     timeout={400}
                     classNames='openSection'
                     unmountOnExit>
-            <div className="RecipeFilters">
+            <div className="RecipeFilters" ref={ nodeRef }>
                 <Select
                     label={'Filter by'}
                     choices={['Book', 'Cabinet', 'List', 'Tag']}
