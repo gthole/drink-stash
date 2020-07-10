@@ -19,7 +19,7 @@ export function Home() {
         const params = {
             page,
             per_page: 30,
-            orderring: '-created'
+            ordering: '-created'
         };
         const [cResp, lrResp, rResp] = await Promise.all([
             services.comments.getPage(params),
