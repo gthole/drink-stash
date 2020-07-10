@@ -2,13 +2,12 @@
     color: #72757a;
     line-height: 1.5;
     margin-right: 7px;
-    display: inline-block;
 }
 
 .IngredientRow span:not(:last-child)::after {
     content: '•';
     vertical-align: middle;
-    margin-left: 7px;
+    margin-left: 10px;
 }
 
 
