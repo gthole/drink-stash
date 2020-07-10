@@ -38,22 +38,33 @@
 /* TODO: Make Input/TextArea/Select attributes common */
 
 /*
- * Input
+ * Common
  */
 
-.Forms .Input {
+.Forms .Input,
+.Forms .TextArea,
+.Forms .Select {
     background-color: #f5f5f5;
+    outline: none;
+    appearance: none;
     line-height: 1.25;
     font-size: 16px;
-    width: calc(100% - 20px);
-    appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
     border-top: none;
     border-left: none;
     border-right: none;
     border-bottom: 2px solid #2cb67d;
+    width: calc(100% - 20px);
     padding: 10px 10px;
+    font-family: 'Roboto script=all rev=1', sans-serif;
+}
+
+/*
+ * Input
+ */
+
+.Forms .Input {
 }
 
 .Input:focus::placeholder {
@@ -64,22 +75,8 @@
  * TextArea
  */
 .Forms .TextArea {
-    background-color: #f5f5f5;
-    font-family: 'Roboto script=all rev=1', sans-serif;
-    line-height: 1.25;
-    font-size: 16px;
-    width: calc(100% - 20px);
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid #2cb67d;
-    padding: 10px 10px;
     resize: vertical;
     transition: height .2s ease-out;
-    height: 1.25rem;
 }
 
 .Forms .TextArea.textarea-large {
@@ -116,18 +113,7 @@
 
 .Select {
     display: block;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     width: 100%;
-    line-height: 1.25;
-    padding: 10px;
-    font-size: 16px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid #2cb67d;
-    background-color: #f5f5f5;
 }
 
 /*
