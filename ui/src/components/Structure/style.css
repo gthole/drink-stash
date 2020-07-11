@@ -53,6 +53,7 @@
     margin-left: auto;
     margin-right: auto;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .SidePanelList > .right {
