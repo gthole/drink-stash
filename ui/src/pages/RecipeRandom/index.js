@@ -19,7 +19,7 @@ export function RecipeRandom() {
 
         const index = Math.floor(Math.random() * state.count) + 1;
         const params = {
-            search: `LIKE list = ${state.list.id}`,
+            search: [`LIKE list = ${state.list.id}`, `NOT commenter = ${currentUser.user_id}`],
             per_page: 1,
             page: index
         };
@@ -39,7 +39,7 @@ export function RecipeRandom() {
     useAlertedEffect(async () => {
         if (!state.list) return;
         const params = {
-            search: `LIKE list = ${state.list.id}`,
+            search: [`LIKE list = ${state.list.id}`, `NOT commenter = ${currentUser.user_id}`],
             per_page: 0
         };
         const resp = await services.recipes.getPage(params);

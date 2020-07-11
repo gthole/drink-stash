@@ -51,14 +51,14 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
                 value={ params.q }
                 setValue={ addSearchTerm }
             />
-            <SearchPills
-                terms={ params.search }
-                remove={ removeSearchTerm }
-            />
             <RecipeFilters
                 expanded={ showFilters }
                 setExpanded={ setShowFilters }
                 addFilter={ (val) => addSearchTerm(val) }
+            />
+            <SearchPills
+                terms={ params.search }
+                remove={ removeSearchTerm }
             />
             <div className={ loading ? 'loading' : ''}>
                 { rows }

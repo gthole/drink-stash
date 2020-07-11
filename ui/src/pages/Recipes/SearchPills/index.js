@@ -16,7 +16,7 @@ export function SearchPills({terms, remove}) {
         let cn = 'pill';
         if (term.startsWith('NOT ')) {
             cn += ' negation';
-        } else if (term.match(/^(book|list|tag|cabinet) ?= ?/i)) {
+        } else if (term.match(/^(book|list|tag|cabinet|comment(s|er)) ?= ?/i)) {
             cn += ' constraint';
         }
         const m = term.match(/\[(.*)\]$/);

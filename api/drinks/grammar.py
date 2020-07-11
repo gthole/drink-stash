@@ -39,6 +39,7 @@ grammar = Lark('''
     query: \
         nested | \
         attr_constraint | \
+        commenter_constraint | \
         list_constraint | \
         book_constraint | \
         tags_constraint | \
@@ -48,6 +49,7 @@ grammar = Lark('''
         attr_search
 
     attr_constraint.2: NUM_ATTR OPERATOR NUMBER
+    commenter_constraint.2: "commenter"i "=" NUMBER
     list_constraint.2: "list"i "=" SEARCH_TERM
     book_constraint.2: "book"i "=" SEARCH_TERM
     tags_constraint.2: ("tag"i | "tags"i) "=" SEARCH_TERM
@@ -139,6 +141,9 @@ def parse_tree(tree, user):
         kwargs = {}
         kwargs['%s__%s' % (attr, op)] = amount
         return Q(**kwargs)
+
+    if tree.data == 'commenter_constraint':
+        return Q(comments__user_id=int(data[0]))
 
     if tree.data == 'list_constraint':
         term = data[0]
