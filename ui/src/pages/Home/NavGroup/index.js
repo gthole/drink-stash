@@ -4,6 +4,7 @@ import { NavSection } from '../NavSection';
 import jigger from '../img/jigger.svg';
 import liquor from '../img/liquor.svg';
 import menu from '../img/menu.svg';
+import random from '../img/random.svg';
 import sazerac from '../img/sazerac.svg';
 
 export function NavGroup() {
@@ -33,6 +34,12 @@ export function NavGroup() {
                 title="Add Recipes"
                 description="Add your favorite recipes to the database and share with others."
                 href="/new"
+            />
+            <NavSection
+                icon={ random }
+                title="Discover"
+                description="Get a random cocktail recipe similar to the ones you've added to your favorites."
+                href="/discover"
             />
         </div>
     );

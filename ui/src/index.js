@@ -12,6 +12,7 @@ import { ListEdit } from 'pages/ListEdit';
 import { Lists } from 'pages/Lists';
 import { RecipeDetails } from 'pages/RecipeDetails';
 import { RecipeEdit } from 'pages/RecipeEdit';
+import { RecipeRandom } from 'pages/RecipeRandom';
 import { Recipes } from 'pages/Recipes';
 import { Home } from 'pages/Home';
 import { Login } from 'pages/Login';
@@ -47,6 +48,7 @@ function App() {
         <Switch>
             <Route path="/login" component={Login} />
             <PrivateRoute path="/comments/:id" component={CommentEdit} />
+            <PrivateRoute path="/discover" component={RecipeRandom} />
             <PrivateRoute path="/users/:listUsername/lists/:id/edit" component={ListEdit} />
             <PrivateRoute path="/users/:listUsername/lists/new" component={ListEdit} />
             <PrivateRoute path="/users/:listUsername/lists/:id" component={ListDetails} />

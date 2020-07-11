@@ -47,7 +47,7 @@ export class Recipe extends RecipeStub {
         q.ingredient = q.ingredient.trim();
         try {
             const parsed = parseFloat(q.amount);
-            if (q.amount.includes('/')) {
+            if (typeof q === 'string' && q.amount.includes('/')) {
                 const [num, den] = q.amount.split('/');
                 q.amount = parseInt(num, 10) / parseInt(den, 10);
             } else if (!isNaN(parsed) && parsed > 0 && parsed < 100) {
@@ -56,6 +56,7 @@ export class Recipe extends RecipeStub {
                 throw new Error('Cannot parse amount: ' + q.amount);
             }
         } catch (e) {
+            console.log(e);
             q.amount = null;
         }
         return q;

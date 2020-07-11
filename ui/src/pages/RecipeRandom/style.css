@@ -1,0 +1,10 @@
+.RecipeRandom .list-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.RecipeRandom .list-select .FormWrapper {
+    width: 50%;
+    margin-bottom: 10px;
+}
