@@ -45,6 +45,8 @@ class Recipe(DateMixin):
         return '%s (%s)' % (self.name, self.id)
 
     def _get_unique_slug(self):
+        if self.slug:
+            return self.slug
         slug = slugify(self.name)
         if slug.isdigit():
             slug = '_%s' % slug
