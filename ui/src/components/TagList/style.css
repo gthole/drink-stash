@@ -1,5 +1,4 @@
 .TagList {
-    margin-top: 10px;
 }
 
 .TagList > span {
@@ -8,4 +7,34 @@
     font-size: 0.75em;
     background-color: #d1d1e9;
     margin-right: 5px;
+}
+
+.TagList > span svg {
+    font-size: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.TagListEdit {
+    display: flex;
+    align-items: center;
+}
+
+.TagListEdit .FormWrapper {
+    margin-bottom: 0;
+    /*
+    background-color: #fffffe;
+    border-bottom: 2px solid #d1d1e9;
+    */
+}
+
+.TagListEdit .AutoComplete {
+    width: 100px;
+    margin-left: 10px;
+}
+
+
+.TagListEdit .TagList > span {
+    padding: 5px 10px;
+    font-size: 0.875em;
 }

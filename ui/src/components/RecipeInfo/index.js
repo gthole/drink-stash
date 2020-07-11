@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import './style.css';
 import { Activity } from 'components/Activity';
 import { Card, Description } from 'components/Structure';
-import { TagList } from 'components/TagList';
 import { CommentForm } from 'components/RecipeInfo/CommentForm';
 import { Quantities } from 'components/RecipeInfo/Quantities';
 import { ManageLists } from 'components/RecipeInfo/ManageLists';
+import { ManageTags } from 'components/RecipeInfo/ManageTags';
 import { RecipeMenu } from 'components/RecipeInfo/RecipeMenu';
 import { Source } from 'components/RecipeInfo/Source';
 import { AppContext } from 'context/AppContext';
@@ -72,7 +72,7 @@ export function RecipeInfo({recipe, refresh}) {
                 <div className="directions">
                     { recipe.directions }
                 </div>
-                <TagList tags={ recipe.tags } />
+                <ManageTags recipe={ recipe } canEdit={ content.can_edit } />
                 <Description>{ recipe.description }</Description>
                 <ManageLists
                     recipe={ recipe }

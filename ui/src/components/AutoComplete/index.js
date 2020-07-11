@@ -21,7 +21,6 @@ export function AutoComplete({value, dataSource, setValue, onSelect}) {
     }
 
     function select(index) {
-        if (index === 0) console.log('selecting! ' + index);
         const val = suggestions[index];
         if (!val) return;
         setValue(val);

@@ -6,10 +6,11 @@
 
 .RecipeInfo .directions {
     color: #72757a;
-    margin: 20px 0;
+    margin: 20px 0 10px 0;
     line-height: 1.5em;
 }
 
 .RecipeInfo .TagList {
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

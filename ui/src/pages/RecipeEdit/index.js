@@ -5,7 +5,7 @@ import { Select, Input, TextArea, Button, FormWrapper } from 'components/Forms';
 import { Card } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
 import { useAlertedEffect } from 'hooks/useAlertedEffect';
-import { TagSet } from 'pages/RecipeEdit/TagSet';
+import { TagListEdit } from 'components/TagList';
 import { QuantitySet } from 'pages/RecipeEdit/QuantitySet';
 import { services } from 'services';
 import { RecipeService } from 'services/recipes';
@@ -220,7 +220,7 @@ export function RecipeEdit() {
                     onChange={ (ev) => update('directions', ev.target.value) }
                 />
                 <FormWrapper label="Tags">
-                    <TagSet
+                    <TagListEdit
                         tags={ content.recipe.tags }
                         sourceTags={ content.tags }
                         setTags={ (tags) => update('tags', tags) }

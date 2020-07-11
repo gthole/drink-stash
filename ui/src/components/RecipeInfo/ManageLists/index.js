@@ -55,7 +55,14 @@ export function ManageLists({ recipe, listRecipes, lists, setContent }) {
     const [showModal, setShowModal] = useState(false);
     const { currentUser } = useContext(AppContext);
 
-    if (!listRecipes) return '';
+    if (!listRecipes) {
+        return (
+            <div className="ManageLists">
+                <SectionTitle children="Lists"/>
+                <div className="list-links"/>
+            </div>
+        );
+    }
     const userLrs = listRecipes.filter(lr => lr.user.id === currentUser.user_id);
     lists.forEach((l) => {
         l.added_to_recipe = Boolean(userLrs.find(lr => lr.list.id === l.id));

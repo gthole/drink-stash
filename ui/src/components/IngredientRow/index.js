@@ -9,8 +9,8 @@ export function IngredientRow({ingredients}) {
         <div className="IngredientRow">
             {
                 ingredients.map((ingredient, i) => (
-                    <React.Fragment>
-                        <span key={'q-' + i}>{ingredient}</span>
+                    <React.Fragment key={'q-' + i}>
+                        <span >{ingredient}</span>
                         { ' ' }
                     </React.Fragment>
                 ))
