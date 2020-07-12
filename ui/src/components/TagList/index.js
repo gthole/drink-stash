@@ -39,7 +39,9 @@ export function TagListEdit({tags, setTags, sourceTags}) {
                 value={ value }
                 setValue={ (val) => setValue(val) }
                 onSelect={ (val) => {
-                    setTags(tags.concat([val]));
+                    if (sourceTags.includes(val)) {
+                        setTags([...tags, val]);
+                    }
                     setValue('');
                 }}
                 dataSource={ sourceTags.map((t) => ({

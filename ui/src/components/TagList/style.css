@@ -22,15 +22,15 @@
 
 .TagListEdit .FormWrapper {
     margin-bottom: 0;
-    /*
+}
+
+.TagListEdit .Input {
     background-color: #fffffe;
-    border-bottom: 2px solid #d1d1e9;
-    */
+    border-bottom: 1px solid #2cb67d;
 }
 
 .TagListEdit .AutoComplete {
     width: 100px;
-    margin-left: 10px;
 }
 
 

@@ -65,7 +65,7 @@ export function AutoComplete({value, dataSource, setValue, onSelect}) {
                     suggestions.map((s, i) => (
                         <div
                             key={'autosuggest-' + i}
-                            onClick={ () => select(i) }
+                            onMouseDown={ (ev) => select(i) }
                             className={ i === selected ? 'selected' : '' }>
                             { s }
                         </div>

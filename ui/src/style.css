@@ -1,8 +1,7 @@
 body {
     margin: 0;
     color: #2b2c34;
-    /* This is for progressive web app settings */
-    background-color: #553c9a;
+    background-color: #fffffe;
     max-width: 100vw;
 }
 
@@ -14,12 +13,10 @@ body {
     font-family: 'Roboto script=all rev=1', sans-serif;
     color: #16161a;
     line-height: 1.25;
-    background-color: #fffffe;
-    min-height: 100vh;
 }
 
 @media only screen and (min-width: 512px) {
-    .App {
+    body {
         background-color: #d1d1e9;
     }
 }
