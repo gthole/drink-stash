@@ -26,7 +26,7 @@ function App() {
     const [alerts, setAlerts] = useState([]);
     const context = {
         currentUser: user,
-        refreshUser: () => { setUser(services.auth.getUserData()) },
+        refreshUser: () => { setUser({...services.auth.getUserData()}) },
         addAlert: (type, message) => {
             if (alerts.find(a => a.message === message)) return;
             alerts.push({type, message, ts: Date.now()});
