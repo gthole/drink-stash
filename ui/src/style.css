@@ -1,7 +1,8 @@
 body {
     margin: 0;
     color: #2b2c34;
-    background-color: #fffffe;
+    /* This is for progressive web app settings */
+    background-color: #553c9a;
     max-width: 100vw;
 }
 
@@ -9,16 +10,18 @@ body {
     outline: none;
 }
 
-@media only screen and (min-width: 512px) {
-    body {
-        background-color: #d1d1e9;
-    }
-}
-
 .App {
     font-family: 'Roboto script=all rev=1', sans-serif;
     color: #16161a;
     line-height: 1.25;
+    background-color: #fffffe;
+    min-height: 100vh;
+}
+
+@media only screen and (min-width: 512px) {
+    .App {
+        background-color: #d1d1e9;
+    }
 }
 
 .App a {
