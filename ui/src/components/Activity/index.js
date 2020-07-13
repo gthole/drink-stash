@@ -35,10 +35,9 @@ export function Activity({ recipes, listRecipes, comments, showTitle, showPlaceh
     const rGroups = reduceBy('recipe', recipes || [], (p, o) => (
         p.added_by.id === o.added_by.id
     ));
-    // User puts a bunch of recipes into a list
-    // Consider: User puts one recipe into a bunch of lists
+    // User puts a bunch of recipes into lists
     const lGroups = reduceBy('list', listRecipes || [], (p, o) => (
-        p.user.id === o.user.id && p.list.id === o.list.id
+        p.user.id === o.user.id
     ));
     // Comments are always displayed one at a time
     const cGroups = (comments || []).map((c) => (

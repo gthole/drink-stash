@@ -14,13 +14,14 @@ export function RecipeActivity({ recipes, showTitle }) {
     } else {
         header = <span>added { recipes.length } recipes</span>;
     }
+    const rows = recipes.map((recipe) => ({recipe, user: recipe.added_by}));
 
     return (
         <ActivityRow
             user={ recipes[0].added_by }
             text={ header }
             date={ recipes[0].created }
-            body={ <ActivityRecipeCards recipes={recipes} show={showTitle}/> }
+            body={ <ActivityRecipeCards rows={rows} show={showTitle}/> }
         />
     );
 }

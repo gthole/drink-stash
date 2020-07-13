@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
+import { Button } from 'components/Forms';
 
-export function CardRow({ recipe }) {
+export function CardRow({ recipe, list, user }) {
+    const rLink = <Link to={ `/recipes/${recipe.slug}` }>{ recipe.name }</Link>;
     return (
         <div className="ActivityRecipeCardRow">
-            <Link to={ `/recipes/${recipe.slug}` }>{ recipe.name }</Link>
+            <div className="activity-recipe-card-row-header">
+                {
+                    list ?
+                    <div>
+                        { rLink } added to <Link
+                            to={ `/users/${user.username}/lists/${list.id}` }
+                            children={ list.name }
+                        />
+                    </div> :
+                    rLink
+                }
+            </div>
             <div className="activity-ingredients">
                 {
                     recipe.ingredients.map((i, k) => (
@@ -17,19 +30,19 @@ export function CardRow({ recipe }) {
     );
 }
 
-export function ActivityRecipeCards({ recipes, show }) {
+export function ActivityRecipeCards({ rows, show }) {
     const [expanded, setExpanded] = useState(false);
     if (!show) return '';
 
-    const rows = expanded ? recipes : recipes.slice(0, 1);
+    const displayRows = expanded ? rows : rows.slice(0, 1);
     return (
         <div className="ActivityRecipeCards">
-            { rows.map((r, i) => <CardRow key={'arc-' + i} recipe={r} />) }
+            { displayRows.map((r, i) => <CardRow key={'arc-' + i} {...r} />) }
             {
-                recipes.length > 1 ?
-                <div onClick={() => setExpanded(!expanded)}>
+                rows.length > 1 ?
+                <Button type="outline small" onClick={() => setExpanded(!expanded)}>
                     { expanded ? 'show less' : 'show all' }
-                </div> :
+                </Button> :
                 ''
             }
         </div>

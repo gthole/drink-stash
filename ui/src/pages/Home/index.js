@@ -18,7 +18,7 @@ export function Home() {
     useAlertedEffect(async () => {
         const params = {
             page,
-            per_page: 30,
+            created__gt: new Date(Date.now() - (page * 30 * 24 * 60 * 60 * 1000)).toISOString(),
             ordering: '-created'
         };
         const [cResp, lrResp, rResp] = await Promise.all([

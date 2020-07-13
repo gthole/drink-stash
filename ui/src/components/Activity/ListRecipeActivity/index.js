@@ -17,12 +17,15 @@ export function ListRecipeActivity({ listRecipes, showTitle }) {
             "{lr.list.name}"
         </Link>
     );
+
+    const allOneList = new Set(listRecipes.map(lr => lr.list.id)).size === 1;
     if (listRecipes.length === 1) {
         header = <span>added { showTitle ? 'a' : 'this' } recipe to {link}</span>;
-    } else {
+    } else if (allOneList) {
         header = <span>added {listRecipes.length} recipes to {link}</span>;
+    } else {
+        header = <span>added {listRecipes.length} recipes to several lists</span>;
     }
-    const recipes = listRecipes.map(lr => lr.recipe);
 
     return (
         <ActivityRow
@@ -30,7 +33,7 @@ export function ListRecipeActivity({ listRecipes, showTitle }) {
             user={ lr.user }
             text={ header }
             date={ lr.created }
-            body={ <ActivityRecipeCards show={showTitle} recipes={recipes} /> }
+            body={ <ActivityRecipeCards show={showTitle} rows={listRecipes} /> }
         />
     );
 }
