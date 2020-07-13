@@ -25,6 +25,7 @@ class CommentViewSet(LazyViewSet):
     filter_fields = {
         'recipe': ['exact'],
         'user': ['exact'],
+        'created': ['gt', 'lt'],
     }
 
     def get_queryset(self):
