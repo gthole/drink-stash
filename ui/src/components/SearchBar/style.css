@@ -1,0 +1,12 @@
+.SearchBar {
+    padding: 5px 0;
+}
+
+.SearchBar .FormWrapper .Input {
+    background-color: #fffffe;
+}
+
+.SearchBar .FormWrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

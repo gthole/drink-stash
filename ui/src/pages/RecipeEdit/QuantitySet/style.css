@@ -1,0 +1,34 @@
+.QuantitySet > .Forms.FormWrapper {
+    margin-bottom: 0;
+}
+
+.QuantityRow {
+    display: flex;
+}
+
+.QuantityRow .amount {
+    width: 20%;
+    margin-right: 10px;
+}
+
+.QuantityRow .unit {
+    width: 20%;
+    margin-right: 10px;
+}
+
+.QuantityRow .ingredient {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.QuantityRow .ingredient .AutoComplete {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.QuantityRow .ingredient .remove-quantity {
+    cursor: pointer;
+    color: #72757a;
+    padding: 10px 5px;
+}

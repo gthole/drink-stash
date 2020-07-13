@@ -1,0 +1,75 @@
+.Menu .menu-content {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #2b2c34;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.Menu .menu-inner {
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    white-space: pre;
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+.Menu .menu-closed {
+    width: 0;
+}
+
+.Menu .menu-open {
+    width: 240px;
+}
+
+.Menu .menu-inner a {
+    padding: 10px 0;
+}
+
+.Menu .menu-inner a:hover {
+    color: #2cb67d;
+}
+
+.Menu .menu-close-button {
+    text-align: right;
+    padding: 0 20px 10px 20px;
+    cursor: pointer;
+}
+
+.Menu svg {
+    cursor: pointer;
+}
+
+.Menu a.bordered {
+    border-top: 1px solid #72757a;
+}
+
+.Menu .badge {
+    color: #e45858;
+    font-size: 12px;
+}
+
+.Menu .hamburger {
+    position: relative;
+}
+
+.Menu .hamburger .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+.Menu .profile-link {
+    display: flex;
+}
+
+.Menu .profile-link .badge {
+    margin-left: 12px;
+    padding-top: 11px;
+}
+

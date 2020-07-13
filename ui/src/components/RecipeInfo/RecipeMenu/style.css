@@ -1,0 +1,52 @@
+.RecipeMenu {
+    position: relative;
+}
+
+.RecipeMenu .recipe-menu-button {
+    font-size: 1.5rem;
+    float: right;
+}
+
+.RecipeMenu .recipe-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 180px;
+    z-index: 20;
+    text-align: left;
+    background-color: #fffffe;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,.1),0 10px 10px -5px rgba(0,0,0,.04);
+    border: 1px solid #d1d1e9;
+}
+
+.RecipeMenu .recipe-menu > div {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.RecipeMenu .recipe-menu .selected-multiplier {
+    background-color: #2cb67d;
+    color: #fffffe;
+}
+
+.RecipeMenu .recipe-menu .selected-multiplier:hover {
+    background-color: #72757a;
+    color: #fffffe;
+}
+
+.RecipeMenu .recipe-menu > div:hover {
+    background-color: #2cb67d;
+    color: #fffffe;
+}
+
+.RecipeMenu .recipe-menu a {
+    color: #16161a;
+}
+
+.RecipeMenu .recipe-menu a:hover {
+    color: #fffffe;
+}
+
+.RecipeMenu .recipe-menu div.bordered {
+    border-top: 1px solid #72757a;
+}

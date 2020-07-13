@@ -1,0 +1,88 @@
+.PageTitle {
+    font-size: 1.5em;
+}
+
+.Card {
+    padding: 20px;
+    background: #fffffe;
+    margin-bottom: 20px;
+}
+
+.SectionTitle {
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    color: #72757a;
+}
+
+.Description {
+    padding: 20px;
+    background-color: #d1d1e9;
+    color: #2b2c34;
+    line-height: 1.5em;
+}
+
+.Placeholder {
+    color: #72757a;
+    text-align: center;
+}
+
+.ResponsivePanes {
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 1024px) {
+    .ResponsivePanes {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .ResponsivePanes > *:not(:first-child) {
+        margin-left: 20px;
+    }
+}
+
+.SidePanelList {
+    display: flex;
+}
+
+.SidePanelList > .left {
+    max-width: 512px;
+    max-height: calc(100vh - 70px);
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.SidePanelList > .right {
+    display: none;
+}
+
+@media only screen and (max-width: 512px) {
+    .SidePanelList > .left {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 512px) {
+    .SidePanelList > .left {
+        min-width: 512px;
+        max-height: calc(100vh - 110px);
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .SidePanelList > .left {
+        margin-right: 20px;
+    }
+
+    .SidePanelList > .right {
+        display: block;
+        flex-grow: 1;
+        max-height: calc(100vh - 90px);
+        overflow-y: scroll;
+    }
+}
+

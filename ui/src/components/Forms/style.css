@@ -1,0 +1,196 @@
+/*
+ * FormWrapper
+ */
+
+.FormWrapper {
+    margin-bottom: 40px;
+}
+
+.Forms.FormWrapper label {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: #72757a;
+    display:inline-block;
+    margin-bottom: 10px;
+}
+
+.Forms.FormWrapper .subtext {
+    margin-top: 5px;
+    font-size: 0.875rem;
+    color: #72757a;
+    font-style: italic;
+}
+
+.Forms.FormWrapper .error-message {
+    margin-top: 5px;
+    font-size: 0.875rem;
+    color: #e45858;
+    font-style: italic;
+}
+
+.Forms.FormWrapper.form-error .Input,
+.Forms.FormWrapper.form-error .TextArea,
+.Forms.FormWrapper.form-error .Select {
+    border-bottom: 2px solid #e45858;
+}
+
+
+/* TODO: Make Input/TextArea/Select attributes common */
+
+/*
+ * Common
+ */
+
+.Forms .Input,
+.Forms .TextArea,
+.Forms .Select {
+    background-color: #f5f5f5;
+    outline: none;
+    appearance: none;
+    line-height: 1.25;
+    font-size: 16px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #2cb67d;
+    width: calc(100% - 20px);
+    padding: 10px 10px;
+    font-family: 'Roboto script=all rev=1', sans-serif;
+}
+
+/*
+ * Input
+ */
+
+.Forms .Input {
+}
+
+.Input:focus::placeholder {
+  color: transparent;
+}
+
+/*
+ * TextArea
+ */
+.Forms .TextArea {
+    resize: vertical;
+    transition: height .2s ease-out;
+}
+
+.Forms .TextArea.textarea-large {
+    height: 8.5rem;
+}
+
+.TextArea::-webkit-input-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea:-ms-input-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea:-moz-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea::-moz-placeholder {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #72757a;
+}
+
+.TextArea:focus::placeholder {
+  color: transparent;
+}
+
+/*
+ * Select
+ */
+
+.Select {
+    display: block;
+    width: 100%;
+}
+
+/*
+ * Button
+ */
+
+.Button {
+    appearance: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.875rem;
+}
+
+.Button.small {
+    padding: 5px 8px;
+}
+
+.Button.button-outline {
+    color: #553c9a;
+    border: 1px solid #553c9a;
+    background-color: #fffffe;
+}
+
+.Button.button-outline:focus,
+.Button.button-outline:hover {
+    color: #fffffe;
+    background-color: #553c9a;
+}
+
+.Button.button-primary {
+    color: #fffffe;
+    border: 1px solid #2cb67d;
+    background-color: #2cb67d;
+}
+
+.Button.button-primary:focus,
+.Button.button-primary:hover {
+    background-color: #269d6c;
+    border: 1px solid #269d6c;
+}
+
+.Button.button-primary-outline {
+    color: #2cb67d;
+    border: 1px solid #2cb67d;
+    background-color: #fffffe;
+}
+
+.Button.button-primary-outline:focus,
+.Button.button-primary-outline:hover {
+    color: #fffffe;
+    background-color: #2cb67d;
+}
+
+.Button.button-danger {
+    color: #fffffe;
+    border: 1px solid #e45858;
+    background-color: #e45858;
+}
+
+.Button.button-danger:focus,
+.Button.button-danger:hover {
+    background-color: #c82020;
+    border: 1px solid #c82020;
+}
+
+.Button.button-clear {
+    color: #553c9a;
+    background-color: rgba(255, 255, 255, 0.0);
+    border: none;
+}
+
+.ButtonRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.CheckBox.selected {
+    color: #2cb67d;
+}

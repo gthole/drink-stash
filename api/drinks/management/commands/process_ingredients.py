@@ -1,17 +1,18 @@
 from django.core.management.base import BaseCommand, CommandError
-from drinks.models import Recipe, Quantity, Ingredient
-from drinks.constants import base_substitutions
+from drinks.models import Ingredient
 
 
 class Command(BaseCommand):
     help = 'Create substitutions and add categories'
 
     def handle(self, *args, **options):
-        for name in base_substitutions.values():
-            Ingredient.objects.get_or_create(name=name)
-        qs = Ingredient.objects.exclude(name__in=base_substitutions.values())
+        qs = Ingredient.objects.exclude(generic=True)
         for ingredient in qs.iterator():
-            ingredient.guess_substitutions()
             ingredient.guess_category()
-            if ingredient.category:
+            if ingredient.category > 1:
                 ingredient.save()
+        uncat = Ingredient.objects.filter(category=1).count()
+        print('Remaining uncategorize: %d' % uncat)
+        categorized = Ingredient.objects.filter(category__gt=1).count()
+        print('Categorized: %d' % categorized)
+        print('Percent: %s' % (100 * (categorized / (uncat + categorized))))

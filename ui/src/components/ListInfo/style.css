@@ -1,0 +1,42 @@
+.ListInfo .Card:last-child {
+    flex-grow: 1;
+}
+
+.ListInfo .Description {
+    margin-bottom: 20px;
+}
+
+.ListInfo .ListCount {
+    margin-bottom: 20px;
+}
+
+.ListInfo .list-owner-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ListInfo .list-owner {
+    display: flex;
+}
+
+.ListInfo .list-owner .ProfileImage {
+    margin-right: 10px;
+}
+
+.ListInfo .list-info-details .list-searches {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.ListInfo .list-info-details .list-searches a {
+    margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 1024px) {
+    .ListInfo > div:first-child {
+        min-width: 40%;
+    }
+}
+

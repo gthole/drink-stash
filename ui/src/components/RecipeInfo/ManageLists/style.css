@@ -1,0 +1,107 @@
+.ManageLists {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+}
+
+.ManageLists .list-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 30px;
+}
+
+.ManageLists .list-links .list-link {
+    margin-right: 10px;
+}
+
+.ManageLists .list-links .list-link:after {
+    content: '•';
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+
+/*
+ * Modal Content
+ */
+
+.ManageListsModal {
+    font-size: 1rem;
+    position: fixed; /* Stay in place */
+    z-index: 20; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+
+.ManageListsModal .modal-content {
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fffffe;
+    width: 300px;
+}
+
+.ManageListsModal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.ManageListsModal .modal-header .SectionTitle {
+    margin-bottom: 0;
+}
+
+.ManageListsModal .modal-body {
+    height: 330px;
+    overflow-y: scroll;
+}
+
+.ManageListsModal .modal-body .ManageListsRow {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid #d1d1e9;
+    cursor: pointer;
+}
+
+.ManageListsModal .modal-body .ManageListsRow:last-child {
+    border-bottom: 1px solid #d1d1e9;
+}
+
+.ManageListsModal .modal-body .ManageListsRow .list-select {
+    margin-right: 10px;
+}
+
+.ManageListsModal .modal-footer {
+    padding: 20px
+}
+
+.modal-footer svg {
+    margin-right: 5px;
+}
+
+/* Add Animation */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+

@@ -10,9 +10,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from django.contrib.auth.models import User
 
-from PIL import Image
-from io import BytesIO
-
 from drinks.models import UserIngredient, Ingredient, Profile
 from drinks.serializers import UserSerializer, UserIngredientSerializer, \
     SelfUserSerializer
@@ -105,29 +102,7 @@ class UserViewSet(ModelViewSet):
         (profile, created) = Profile.objects.get_or_create(user=user)
 
         image = request.FILES['image']
-
-        im = Image.open(image)
-        width, height = im.size
-
-        if width > height:
-            offset = (width - height) / 2
-            box = (offset, 0, offset + height, height)
-        else:
-            offset = (height - width) / 2
-            box = (0, offset, width, offset + width)
-        im = im.crop(box)
-
-        im.resize((128, 128), Image.LANCZOS)
-
-        if im.mode in ('RGBA', 'LA'):
-            background = Image.new(im.mode[:-1], im.size, 'white')
-            background.paste(im, im.split()[-1])
-            im = background
-
-        content = BytesIO()
-        im.save(content, 'JPEG')
-
-        profile.image.save('%s.jpg' % user.username, content)
+        profile.image.save('%s.jpg' % user.username, image)
         profile.save()
 
         return Response({'status': 'OK'})

@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    color: #2b2c34;
+    background-color: #fffffe;
+    max-width: 100vw;
+}
+
+*:focus {
+    outline: none;
+}
+
+.App {
+    font-family: 'Roboto script=all rev=1', sans-serif;
+    color: #16161a;
+    line-height: 1.25;
+}
+
+@media only screen and (min-width: 512px) {
+    body {
+        background-color: #d1d1e9;
+    }
+}
+
+.App a {
+    text-decoration: none;
+    color: #553c9a;
+    font-weight: 500;
+}
+
+.App div.page-container {
+    max-width: 800px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+@media only screen and (min-width: 512px) and (max-width: 840px) {
+    .App div.page-container {
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+    }
+}
+
+@media only screen and (min-width: 512px) {
+    .App .AppContent > div:not(.Login) {
+        margin: 20px 20px 0 20px;
+    }
+}

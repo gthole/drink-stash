@@ -1,0 +1,15 @@
+.ManageTags {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    min-height: 60px;
+}
+
+.ManageTags.editing > * {
+    margin-right: 10px;
+}
+
+.ManageTags.show-button > button {
+    color: #a0aec0;
+    padding-left: 0;
+}

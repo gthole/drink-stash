@@ -1,0 +1,39 @@
+.CategoryRow {
+    padding: 15px 0 15px 0;
+    border-bottom: 1px solid #d1d1e9;
+    cursor: pointer;
+    font-size: 1.125rem;
+}
+
+.CategoryList .categories {
+    margin-top: 20px;
+}
+
+.UserCabinetCategory .category-title {
+    font-size: 1.125rem;
+    margin-bottom: 15px;
+}
+
+.IngredientCabinetRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid #d1d1e9;
+}
+
+.IngredientCabinetRow.category-header {
+    color: #72757a;
+}
+
+.IngredientCabinetRow .CheckBox {
+    margin-right: 10px;
+}
+
+.IngredientCabinetRow > div:first-child {
+    flex-grow: 1;
+    display: flex;
+}
+
+.IngredientCabinetRow > div:last-child {
+    text-align: right;
+}

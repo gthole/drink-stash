@@ -1,0 +1,22 @@
+.NavSection {
+    display: flex;
+    margin-top: 40px;
+}
+
+.NavSection .nav-section-icon {
+    padding-right: 30px;
+}
+
+.NavSection .nav-section-title {
+    font-size: 1.125rem;
+    margin-bottom: 10px;
+}
+
+.NavSection .nav-section-icon svg {
+    margin: 0 auto;
+}
+
+.NavSection .nav-section-description {
+    color: #72757a;
+    font-size: 0.875rem;
+}

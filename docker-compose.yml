@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     # API
     api:
@@ -9,16 +9,19 @@ services:
             - './.data:/data'
             - './.public:/public'
         env_file: './api/.env'
+        ports:
+            - '8000:8000'
         environment:
             DEBUG: 'True'
-        ports:
-            - '80:8000'
     # Development watch & compile
     ui:
         build: './ui'
         command: ['npm', 'start']
+        stdin_open: true
         volumes:
-            - './ui:/app'
-            - './api:/api'
-            - '/app/node_modules'
-
+            - './ui:/ui'
+            - '/ui/node_modules'
+        ports:
+            - '80:3000'
+        links:
+            - 'api'

@@ -1,0 +1,40 @@
+.Lists .ListInfo {
+    flex-direction: column;
+}
+
+.Lists .ListInfo .Card:last-child {
+    margin-left: 0;
+}
+
+.Lists .ListInfo > div {
+    min-width: calc(100% - 40px);
+}
+
+.ListOfLists {
+    background-color: #fffffe;
+}
+
+.ListOfLists .list-of-lists-header {
+    padding: 20px;
+    background-color: #fffffe;
+}
+
+.ListOfLists .list-of-lists-header .new-list {
+    margin-top: 20px;
+}
+
+.ListCard {
+    padding: 20px;
+    border-bottom: 1px solid #d1d1e9;
+    cursor: pointer;
+}
+
+.ListCard .list-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.ListCard .list-description {
+    color: #72757a;
+}

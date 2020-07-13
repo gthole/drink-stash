@@ -1,0 +1,24 @@
+.SearchPills {
+    padding: 10px 20px 15px 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.SearchPills .pill {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    background-color: #2cb67d;
+    color: #fffffe;
+}
+
+.SearchPills .pill.negation {
+    /* background-color: #ed8936; */
+    background-color: #e45858;
+}
+
+.SearchPills .pill.constraint {
+    background-color: #553c9a;
+}
