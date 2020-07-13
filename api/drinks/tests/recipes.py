@@ -530,6 +530,7 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(resp.status_code, 200)
         recipe = Recipe.objects.get(name='Special Counsel')
         self.assertEqual(recipe.source, 'Greg, August 2018')
+        self.assertEqual(recipe.slug, 'special-counsel')
         self.assertEqual(recipe.quantity_set.count(), 4)
         self.assertEqual([t for t in recipe.tags.all()], tags)
 
