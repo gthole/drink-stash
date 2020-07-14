@@ -19,10 +19,13 @@ export function ListRecipeActivity({ listRecipes, showTitle }) {
     );
 
     const allOneList = new Set(listRecipes.map(lr => lr.list.id)).size === 1;
+    const allOneRecipe = new Set(listRecipes.map(lr => lr.recipe.id)).size === 1;
     if (listRecipes.length === 1) {
         header = <span>added { showTitle ? 'a' : 'this' } recipe to {link}</span>;
     } else if (allOneList) {
         header = <span>added {listRecipes.length} recipes to {link}</span>;
+    } else if (allOneRecipe) {
+        header = <span>added { showTitle ? 'a' : 'this' } recipe to several lists</span>;
     } else {
         header = <span>added {listRecipes.length} recipes to several lists</span>;
     }

@@ -69,7 +69,7 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
             </div>
             <SearchPagination
                 page={params.page}
-                per_page={10}
+                per_page={params.per_page}
                 total={total}
                 setPage={setPage}
             />
