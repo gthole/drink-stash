@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from 'context/AppContext';
+import { services } from 'services';
 
 const BADREQ = 'Whoops, something looks wrong with your request. ' +
                'Please check it and try again.',
@@ -10,7 +11,7 @@ const BADREQ = 'Whoops, something looks wrong with your request. ' +
       ERROR = 'Darn. Something went wrong on the server. Please try again later.';
 
 export function useAlertedEffect(func, deps) {
-    const { addAlert } = useContext(AppContext);
+    const { addAlert, refreshUser } = useContext(AppContext);
     const history = useHistory();
 
     useEffect(() => {
@@ -21,7 +22,11 @@ export function useAlertedEffect(func, deps) {
                     addAlert('warn', BADREQ);
                     break;
                 case 401:
-                    history.push('/login', {});
+                    // TODO: Fix this - test by restarting API with different
+                    // API key
+                    services.auth.logout();
+                    refreshUser();
+                    window.location = '/login';
                     break;
                 case 403:
                     addAlert('warn', AUTH);
