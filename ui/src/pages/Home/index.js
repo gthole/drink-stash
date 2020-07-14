@@ -28,7 +28,6 @@ export function Home() {
         ]);
         setContent({
             page: page,
-            total: rResp.count,
             recipes: rResp.results,
             listRecipes: lrResp.results,
             comments: cResp.results,
@@ -59,7 +58,7 @@ export function Home() {
         <div className="Home">
             <Card className="home-main">
                 <SearchBar
-                    total={ content ? content.total : null }
+                    total={ null }
                     subtext={ 'e.g. cynar, Last Word, or mezcal' }
                     setValue={ (q) => history.push('/recipes/?search=' + encodeURIComponent(q), {}) }
                 />
