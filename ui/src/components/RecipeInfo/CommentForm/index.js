@@ -10,6 +10,7 @@ export function CommentForm({show, submit}) {
 
     function onClick() {
         submit(content);
+        setContent('');
     }
 
     function closeMaybe(ev) {
