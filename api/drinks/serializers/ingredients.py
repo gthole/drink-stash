@@ -10,8 +10,8 @@ def get_or_create_ingredient(name):
         )
     except:
         ingredient = Ingredient(name=name)
-        ingredient.guess_category()  # Don't have quantity info for context here
         ingredient.save()
+        ingredient.guess_category()  # Don't have quantity info for context here
     return ingredient
 
 

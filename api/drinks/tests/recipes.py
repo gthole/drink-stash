@@ -444,6 +444,36 @@ class RecipeTestCase(BaseTestCase):
         self.assertEqual(recipe.quantity_set.count(), 3)
         self.assertEqual([t for t in recipe.tags.all()], [tag])
 
+    def test_create_recipe_with_new_ingredients(self):
+        tag = Tag.objects.create(name='bitter')
+        resp = self.client.post(
+            '/api/v1/recipes/',
+            {
+                'name': 'Tequila Negroni',
+                'source': 'Classic Cocktail',
+                'url': 'https://www.example.com/negroni',
+                'book': 1,
+                'description': 'The classic cocktail from the count himself',
+                'directions': 'Stir with ice and garnish with an orange peel',
+                'tags': ['bitter'],
+                'quantity_set': [
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Casamigos Blanco Tequila'},
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Campari'},
+                    {'amount': 1, 'unit': 'oz', 'ingredient': 'Sweet Vermouth'}
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 201)
+        recipe = Recipe.objects.get(name='Tequila Negroni')
+        self.assertEqual(recipe.source, 'Classic Cocktail')
+        self.assertEqual(recipe.quantity_set.count(), 3)
+        self.assertEqual([t for t in recipe.tags.all()], [tag])
+        i = Ingredient.objects.get(name='Casamigos Blanco Tequila')
+        subs = i.substitutions.all()
+        self.assertEqual(len(subs), 1)
+        self.assertEqual(subs[0].name, 'White Tequila')
+
     def test_400_for_empty_quantities(self):
         tag = Tag.objects.create(name='bitter')
         resp = self.client.post(

@@ -46,6 +46,7 @@ class Ingredient(Model):
                         generic.category = category_map[category_name]
                         generic.save()
                     self.substitutions.add(generic)
+                self.save()
                 break
 
         # Bail if we found something
