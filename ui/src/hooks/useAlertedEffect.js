@@ -1,5 +1,4 @@
 import { useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 
@@ -12,7 +11,6 @@ const BADREQ = 'Whoops, something looks wrong with your request. ' +
 
 export function useAlertedEffect(func, deps) {
     const { addAlert, refreshUser } = useContext(AppContext);
-    const history = useHistory();
 
     useEffect(() => {
         if (!func) return;
