@@ -142,9 +142,12 @@ MEDIA_ROOT = '/public/media/'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 DEBUG = (os.environ.get('DEBUG') == 'True')
 SECRET_KEY = os.environ.get('SECRET_KEY', 'foo')
-ADMINS = os.environ['ADMINS'].split(',') if os.environ.get('ADMINS') else []
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if os.environ.get('ADMINS'):
+    ADMINS = [a.split(':') for a in os.environ['ADMINS'].split(',')]
+else:
+    ADMINS = []
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 if os.environ.get('EMAIL_HOST') and not DEBUG:
     EMAIL_BACKEND = os.environ.get(
         'EMAIL_BACKEND',
