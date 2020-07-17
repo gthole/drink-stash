@@ -6,6 +6,12 @@
     background-color: #fffffe;
 }
 
+.SearchBar .FormWrapper .Input:focus {
+    border-top: 1px solid #fffffe;
+    border-left: 1px solid #fffffe;
+    border-right: 1px solid #fffffe;
+}
+
 .SearchBar .FormWrapper {
     margin-top: 10px;
     margin-bottom: 10px;

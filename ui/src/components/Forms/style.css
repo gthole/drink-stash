@@ -51,21 +51,27 @@
     font-size: 16px;
     -moz-appearance: none;
     -webkit-appearance: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
+    border-top: 1px solid #fffffe;
+    border-left: 1px solid #fffffe;
+    border-right: 1px solid #fffffe;
     border-bottom: 2px solid #2cb67d;
     width: calc(100% - 20px);
     padding: 10px 10px;
     font-family: 'Roboto script=all rev=1', sans-serif;
 }
 
+.Forms .Input:focus,
+.Forms .TextArea:focus,
+.Forms .Select:focus {
+    border-top: 1px solid rgba(44, 182, 125, 0.2);
+    border-left: 1px solid rgba(44, 182, 125, 0.2);
+    border-right: 1px solid rgba(44, 182, 125, 0.2);
+    background-color: #fffffe;
+}
+
 /*
  * Input
  */
-
-.Forms .Input {
-}
 
 .Input:focus::placeholder {
   color: transparent;
@@ -75,8 +81,11 @@
  * TextArea
  */
 .Forms .TextArea {
+    height: 2rem;
     resize: vertical;
-    transition: height .2s ease-out;
+    transition: height 0.2s ease-out;
+    -moz-transition: height 0.2s ease-out;
+    -webkit-transition: height 0.2s ease-out;
 }
 
 .Forms .TextArea.textarea-large {
