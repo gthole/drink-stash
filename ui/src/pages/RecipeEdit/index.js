@@ -87,6 +87,7 @@ export function RecipeEdit() {
             r.source = content.recipe.source;
             content.recipe = r;
             setContent(Object.assign({}, content));
+            setErrors({});
             document.getElementById('recipe-name').focus();
         } catch (e) {
             handleError(e);
@@ -167,6 +168,7 @@ export function RecipeEdit() {
             <Card>
                 <Select
                     label="Book"
+                    subtext="(Required) Which book does this recipe belong to?"
                     choices={ content.books }
                     display="name"
                     select="id"
@@ -174,25 +176,26 @@ export function RecipeEdit() {
                     onChange={ (ev) => update('book', {id: ev.target.value}) }
                     onBlur={ checkName }
                 />
+                <Input
+                    label="Name"
+                    subtext="(Required) What is the name of the recipe? The name must be unique within the book."
+                    value={ content.recipe.name }
+                    error={ errors.name }
+                    onChange={ (ev) => update('name', ev.target.value) }
+                    onBlur={ checkName }
+                    id="recipe-name"
+                />
                 <div className="input-row">
                     <Input
-                        label="Name"
-                        value={ content.recipe.name }
-                        error={ errors.name }
-                        onChange={ (ev) => update('name', ev.target.value) }
-                        onBlur={ checkName }
-                        id="recipe-name"
-                    />
-                </div>
-                <div className="input-row">
-                    <Input
-                        label="Source"
+                        label="Source Notes"
+                        subtext="Any additional source information?"
                         value={ content.recipe.source }
                         error={ errors.source }
                         onChange={ (ev) => update('source', ev.target.value) }
                     />
                     <Input
                         label="URL"
+                        subtext="A URL to view the original recipe if available."
                         value={ content.recipe.url || '' }
                         error={ errors.url }
                         onChange={ (ev) => update('url', ev.target.value) }
