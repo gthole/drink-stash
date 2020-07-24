@@ -17,6 +17,10 @@ export function ManageTags({recipe, canEdit, refresh}) {
         setSourceTags(tagResp.results);
     }, []);
 
+    if (!canEdit && !recipe.tags.length) {
+        return '';
+    }
+
     if (!canEdit || !sourceTags) {
         return (
             <div className="ManageTags">
