@@ -4,9 +4,10 @@ import * as n2f from 'num2fraction';
 import { fracCodes, pluralize } from './constants';
 
 function Amount({amount, unit, multiplier}) {
+    // We start displaying cups after 1/2 cup (4oz), and 1 cup = 8oz
     let value = amount * multiplier;
     if (unit === 'oz' && value > 4) {
-        value /= 4;
+        value /= 8;
     }
 
     const whole = Math.floor(value);
