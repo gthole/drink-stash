@@ -30,7 +30,7 @@ class UserListRecipeViewSet(LazyViewSet):
         'user_list': ['exact'],
         'recipe': ['exact'],
         'user_list__user': ['exact'],
-        'created': ['gt', 'lt'],
+        'created': ['gte', 'gt', 'lt'],
     }
 
     def get_queryset(self):

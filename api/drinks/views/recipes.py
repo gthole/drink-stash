@@ -32,7 +32,7 @@ class RecipeViewSet(LazyViewSet):
         'id': ['in'],
         'name': ['exact'],
         'book_id': ['exact'],
-        'created': ['gt', 'lt'],
+        'created': ['gte', 'gt', 'lt'],
     }
 
     def get_queryset(self):

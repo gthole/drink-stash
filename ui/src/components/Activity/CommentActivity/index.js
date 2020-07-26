@@ -4,38 +4,31 @@ import { ActivityRow } from 'components/Activity/ActivityRow';
 import { AppContext } from 'context/AppContext';
 
 // A user made a comment
-export function CommentActivity({ comments, showTitle }) {
+export function CommentActivity({ activity, showTitle }) {
     const { currentUser } = useContext(AppContext);
 
-    if (comments.length === 0) {
-        return '';
-    }
-
-    const comment = comments[0];
-
     let edit;
-    if (comment.user.id === currentUser.user_id) {
-        edit = <Link to={ `/comments/${comment.id}` }>(edit)</Link>;
+    if (activity.user.id === currentUser.user_id) {
+        edit = <Link to={ `/comments/${activity.last_id}` }>(edit)</Link>;
     }
 
     let body;
     if (showTitle) {
         body = (
             <div>
-                <Link to={ `/recipes/${ comment.recipe.slug }` }>{ comment.recipe.name }</Link>
-                <div>{ comment.text }</div>
+                <Link to={ `/recipes/${ activity.recipe.slug }` }>{ activity.recipe.name }</Link>
+                <div>{ activity.body }</div>
             </div>
         );
     } else {
-        body = <div>{ comment.text }</div>
+        body = <div>{ activity.body }</div>
     }
     const header = <span>made a comment { edit }</span>
 
     return (
         <ActivityRow
-            user={ comment.user }
+            activity={ activity }
             text={ header }
-            date={ comment.created }
             body={ body }
         />
     );

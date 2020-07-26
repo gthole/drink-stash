@@ -1,3 +1,4 @@
+from .activity import ActivityView
 from .base import index
 from .books import BookViewSet
 from .comments import CommentViewSet

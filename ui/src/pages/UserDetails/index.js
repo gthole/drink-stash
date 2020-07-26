@@ -84,8 +84,7 @@ export function UserDetails() {
                   showTitle={ true }
                   showImage={ false }
                   showPlaceholder={ true }
-                  comments={ content.comments }
-                  listRecipes={ content.listRecipes }
+                  params={{ user: content.user.id }}
               />
             </Card>
         </ResponsivePanes>

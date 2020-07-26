@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './style.css';
 import { Activity } from 'components/Activity';
 import { Card, Description } from 'components/Structure';
@@ -8,6 +8,7 @@ import { ManageLists } from 'components/RecipeInfo/ManageLists';
 import { ManageTags } from 'components/RecipeInfo/ManageTags';
 import { RecipeMenu } from 'components/RecipeInfo/RecipeMenu';
 import { Source } from 'components/RecipeInfo/Source';
+import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 import { Comment } from 'services/comments';
@@ -17,25 +18,24 @@ export function RecipeInfo({recipe, refresh}) {
     const [content, setContent] = useState({});
     const [multiplier, setMultiplier] = useState(1);
 
-    useEffect(() => {
+    useAlertedEffect(async () => {
         if (!recipe) return;
-        Promise.all([
+        const [commentResp, listRecipeResp, listResp, bookResp] = await Promise.all([
             services.comments.getPage({recipe: recipe.id}),
             services.listRecipes.getPage({recipe: recipe.id}),
             services.lists.getPage({user: currentUser.user_id}),
             services.books.getPage({owner: true})
-        ]).then(([commentResp, listRecipeResp, listResp, bookResp]) => {
-            const c = commentResp.results.find(c => c.user.id === currentUser.user_id);
-            const b = bookResp.results.find(b => b.id === recipe.book.id);
-            setContent({
-                recipe_id: recipe.id,
-                can_comment: !Boolean(c),
-                can_edit: Boolean(b),
-                comments: commentResp.results,
-                lists: listResp.results,
-                listRecipes: listRecipeResp.results
-            });
-        })
+        ]);
+        const c = commentResp.results.find(c => c.user.id === currentUser.user_id);
+        const b = bookResp.results.find(b => b.id === recipe.book.id);
+        setContent({
+            recipe_id: recipe.id,
+            can_comment: !Boolean(c),
+            can_edit: Boolean(b),
+            comments: commentResp.results,
+            listRecipes: listRecipeResp.results,
+            lists: listResp.results,
+        });
     }, [recipe, currentUser.user_id])
 
     async function submitComment(text) {
@@ -88,8 +88,7 @@ export function RecipeInfo({recipe, refresh}) {
                 />
                 <Activity
                     showTitle={ false }
-                    comments={ content.comments }
-                    listRecipes={ content.listRecipes }
+                    params={{ recipe: recipe.id }}
                 />
             </Card>
         </div>

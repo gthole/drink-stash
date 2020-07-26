@@ -29,6 +29,12 @@
     }
 }
 
+@media only screen and (min-width: 512px) {
+    .UserDetails .first-pane {
+        max-width: 40%;
+    }
+}
+
 .UserDetails .user-lists {
     background-color: #fffffe;
     padding-bottom: 25px;

@@ -10,10 +10,6 @@
     margin-right: 7px;
 }
 
-.ActivityRecipeCardRow .activity-recipe-card-row-header div {
-    display: flex;
-}
-
 .ActivityRecipeCardRow .activity-recipe-card-row-header a:not(:first-child) {
     font-weight: 500;
 }

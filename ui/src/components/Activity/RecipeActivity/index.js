@@ -1,27 +1,21 @@
 import React from 'react';
-import { ActivityRecipeCards } from 'components/Activity/ActivityRecipeCards';
+import { CardRow } from 'components/Activity/ActivityRecipeCards';
 import { ActivityRow } from 'components/Activity/ActivityRow';
 
 // A user created one or more recipes
-export function RecipeActivity({ recipes, showTitle }) {
-    if (recipes.length === 0) {
-        return '';
-    }
-
+export function RecipeActivity({ activity, showTitle }) {
     let header;
-    if (recipes.length === 1) {
+    if (activity.count === 1) {
         header = <span>added { showTitle ? 'a' : 'this' } recipe</span>;
     } else {
-        header = <span>added { recipes.length } recipes</span>;
+        header = <span>added { activity.count } recipes</span>;
     }
-    const rows = recipes.map((recipe) => ({recipe, user: recipe.added_by}));
 
     return (
         <ActivityRow
-            user={ recipes[0].added_by }
+            activity={ activity }
             text={ header }
-            date={ recipes[0].created }
-            body={ <ActivityRecipeCards rows={rows} show={showTitle}/> }
+            body={ <CardRow recipe={ activity.recipe } user={ activity.user }/> }
         />
     );
 }

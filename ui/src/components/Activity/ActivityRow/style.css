@@ -40,3 +40,7 @@
         overflow-wrap: break-word;
     }
 }
+
+.ActivityRow .activity-details-link {
+    margin-top: 15px;
+}

@@ -6,6 +6,7 @@ import { Alerts } from 'components/Alerts';
 import { AppHeader } from 'components/AppHeader';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { AppContext } from 'context/AppContext';
+import { ActivityDetails } from 'pages/ActivityDetails';
 import { CommentEdit } from 'pages/CommentEdit';
 import { ListDetails } from 'pages/ListDetails';
 import { ListEdit } from 'pages/ListEdit';
@@ -47,6 +48,7 @@ function App() {
     const routes = (
         <Switch>
             <Route path="/login" component={Login} />
+            <PrivateRoute path="/activities/:activityType" component={ActivityDetails} />
             <PrivateRoute path="/comments/:id" component={CommentEdit} />
             <PrivateRoute path="/discover" component={RecipeRandom} />
             <PrivateRoute path="/users/:listUsername/lists/:id/edit" component={ListEdit} />

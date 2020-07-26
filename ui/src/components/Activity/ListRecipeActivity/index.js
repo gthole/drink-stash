@@ -1,42 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActivityRecipeCards } from 'components/Activity/ActivityRecipeCards';
+import { CardRow } from 'components/Activity/ActivityRecipeCards';
 import { ActivityRow } from 'components/Activity/ActivityRow';
 
 // A user created one or more recipes
-export function ListRecipeActivity({ listRecipes, showTitle }) {
-    if (listRecipes.length === 0) {
-        return '';
-    }
-
-    const lr = listRecipes[0];
-
+export function ListRecipeActivity({ activity, showTitle }) {
     let header;
     const link = (
-        <Link to={ `/users/${ lr.user.username }/lists/${ lr.list.id }` }>
-            "{lr.list.name}"
+        <Link to={ `/users/${ activity.user.username }/lists/${ activity.list.id }` }>
+            "{activity.list.name}"
         </Link>
     );
 
-    const allOneList = new Set(listRecipes.map(lr => lr.list.id)).size === 1;
-    const allOneRecipe = new Set(listRecipes.map(lr => lr.recipe.id)).size === 1;
-    if (listRecipes.length === 1) {
-        header = <span>added { showTitle ? 'a' : 'this' } recipe to {link}</span>;
-    } else if (allOneList) {
-        header = <span>added {listRecipes.length} recipes to {link}</span>;
-    } else if (allOneRecipe) {
-        header = <span>added { showTitle ? 'a' : 'this' } recipe to several lists</span>;
+    if (activity.count === 1) {
+        header = <span>added { showTitle ? 'a' : 'this' } recipe to { link }</span>;
     } else {
-        header = <span>added {listRecipes.length} recipes to several lists</span>;
+        header = <span>added { activity.count } recipes to lists</span>;
     }
 
     return (
         <ActivityRow
             className="ListRecipeActivity"
-            user={ lr.user }
+            activity={ activity }
             text={ header }
-            date={ lr.created }
-            body={ <ActivityRecipeCards show={showTitle} rows={listRecipes} /> }
+            body={
+                <CardRow
+                    recipe={ activity.recipe }
+                    user={ activity.user }
+                    list={ activity.list }
+                />
+            }
         />
     );
 }

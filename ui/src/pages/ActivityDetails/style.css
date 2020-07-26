@@ -1,0 +1,25 @@
+.ActivityDetails a {
+    font-weight: bold;
+}
+
+.ActivityDetails .ActivityRecipeCardRow {
+    padding: 20px 0;
+    border-bottom: 1px solid #d1d1e9;
+}
+
+.ActivityDetails .activity-recipe-card-row-header {
+    margin-bottom: 5px;
+}
+
+.ActivityDetails {
+    color: #72757a;
+}
+
+.ActivityDetails .user-section {
+    display: flex;
+}
+
+
+.ActivityDetails .user-section > div {
+    margin-left: 20px;
+}

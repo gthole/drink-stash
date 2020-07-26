@@ -1,3 +1,4 @@
+import { ActivityService } from './activities';
 import { AuthService } from './auth';
 import { BookService } from './books';
 import { CommentService } from './comments';
@@ -9,6 +10,7 @@ import { UomService } from './uom';
 import { UserService } from './users';
 
 export const services = {
+    activities: new ActivityService(),
     auth: new AuthService(),
     books: new BookService(),
     comments: new CommentService(),
