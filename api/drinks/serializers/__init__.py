@@ -1,3 +1,4 @@
+from .activities import ActivitySerializer
 from .books import BookSerializer
 from .comments import CommentSerializer
 from .ingredients import IngredientSerializer

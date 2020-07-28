@@ -10,9 +10,10 @@ from rest_framework import routers
 
 from drinks.views import index, IngredientViewSet, RecipeViewSet, \
     UserViewSet, CommentViewSet, TagViewSet, UserListViewSet, \
-    UserListRecipeViewSet, UomViewSet, BookViewSet, ActivityView
+    UserListRecipeViewSet, UomViewSet, BookViewSet, ActivityViewSet
 
 router = routers.DefaultRouter()
+router.register(r'activities', ActivityViewSet)
 router.register(r'books', BookViewSet)
 router.register(r'ingredients', IngredientViewSet)
 router.register(r'recipes', RecipeViewSet)
@@ -26,7 +27,6 @@ router.register(r'users', UserViewSet)
 # TODO: Serve media images with another method
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     url(r'^api/v1/auth/', obtain_jwt_token),
-    url(r'^api/v1/activities/', ActivityView.as_view()),
     url(r'^api/v1/', include(router.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),

@@ -6,14 +6,11 @@ import { SearchBar } from 'components/SearchBar';
 import { Card } from 'components/Structure';
 import { NavGroup } from 'pages/Home/NavGroup';
 
-const DAY = 24 * 60 * 60 * 1000;
 
 export function Home() {
     const history = useHistory();
 
-    const params = {
-        start: new Date(Date.now() - (30 * DAY)).toISOString(),
-    };
+    const params = {};
 
     return (
         <div className="Home">

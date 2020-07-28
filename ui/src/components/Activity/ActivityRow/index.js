@@ -13,7 +13,8 @@ export function ActivityRow({activity, text, body, className}) {
 
     let search;
     if (activity.count > 1) {
-        const s = new Date(activity.group);
+        const lastTs = new Date(activity.last_ts).valueOf();
+        const s = new Date(lastTs - (lastTs % (60 * 60 * 1000)));
         const params = {
             created__gte: s.toISOString(),
             created__lt: new Date(s.valueOf() + (60 * 60 * 1000)).toISOString()

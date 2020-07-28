@@ -1,3 +1,4 @@
+from .activities import Activity
 from .books import Book, BookUser
 from .recipes import Quantity, Recipe
 from .lists import UserList, UserListRecipe

@@ -2,13 +2,12 @@ import { BaseService } from './base';
 
 export class Activity {
     constructor(payload) {
-        this.group = payload.group;
         this.count = payload.count;
         this.body = payload.body;
         this.type = payload.type;
-        this.last_id = payload.last_id;
-        this.last_ts = payload.last_ts;
-        this.list = payload.list;
+        this.last_id = payload.id;
+        this.last_ts = payload.created;
+        this.list = payload.user_list;
         this.recipe = payload.recipe;
         this.user = payload.user;
     }
