@@ -45,16 +45,16 @@ class Recipe(DateMixin):
         return '%s (%s)' % (self.name, self.id)
 
     def _get_unique_slug(self):
-        # TODO: Revisit this
-        slug = slugify(self.name)
-        if slug.isdigit():
-            slug = '_%s' % slug
-        existing = Recipe.objects \
-            .exclude(id=self.id) \
-            .filter(slug__regex=r'%s(-\d+)?' % slug) \
-            .count()
-        if existing:
-            slug = '%s-%d' % (slug, existing + 1)
+        base_slug = slugify(self.name)
+        if base_slug.isdigit():
+            base_slug = '_%s' % base_slug
+
+        # Work through the database looking for an unassigned slug
+        slug = base_slug
+        count = 0
+        while Recipe.objects.exclude(id=self.id).filter(slug=slug).exists():
+            count += 1
+            slug = '%s_%d' % (base_slug, count)
         return slug
 
     def save(self, *args, **kwargs):
