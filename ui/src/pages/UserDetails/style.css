@@ -29,7 +29,7 @@
     }
 }
 
-@media only screen and (min-width: 512px) {
+@media only screen and (min-width: 1024px) {
     .UserDetails .first-pane {
         max-width: 40%;
     }
