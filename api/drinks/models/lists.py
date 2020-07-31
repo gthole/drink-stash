@@ -38,8 +38,9 @@ class UserListRecipe(DateMixin):
         return '%s (%s)' % (self.name, self.id)
 
     def update_list(self):
-        self.user_list.updated = self.updated
-        self.user_list.save()
+        UserList.objects \
+            .filter(pk=self.user_list_id) \
+            .update(updated=self.updated)
 
     def delete(self, *args, **kwargs):
         self.update_list()

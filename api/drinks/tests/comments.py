@@ -1,3 +1,4 @@
+from django.test import TransactionTestCase
 from django.utils.timezone import now
 from .base import BaseTestCase
 from drinks.models import Recipe, Comment
@@ -55,6 +56,27 @@ class CommentTestCase(BaseTestCase):
     def test_create_comment_authorizes_against_books_for_non_owner(self):
         # Set the recipe onto a private book
         r = Recipe.objects.get(pk=1)
+        r.book_id = 2
+        r.save()
+
+        # Lydgate has non-owner access to private book id=2, so can still
+        # add recipes from it to his own lists
+        client = self.get_user_client('user')
+        resp = client.post(
+            '/api/v1/comments/',
+            {'recipe': 1, 'text': 'Mediocre!'},
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 201)
+
+    def test_create_comment_on_recipe_with_non_unique_name(self):
+        """
+        This test case checks a unique constraint error caused by updating
+        the recipe
+        """
+        # Set the recipe onto a private book
+        r = Recipe.objects.get(pk=1)
+        r.id = None
         r.book_id = 2
         r.save()
 

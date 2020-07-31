@@ -20,5 +20,5 @@ class Comment(DateMixin):
 
     def save(self, *args, **kwargs):
         super(Comment, self).save(*args, **kwargs)
-        self.recipe.updated = self.updated
-        self.recipe.save()
+        # Set recipe "updated" field to match to break browser session caches
+        Recipe.objects.filter(pk=self.recipe_id).update(updated=self.updated)
