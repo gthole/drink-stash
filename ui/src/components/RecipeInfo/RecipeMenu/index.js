@@ -28,6 +28,9 @@ export function RecipeMenu({recipe, canEdit, multiplier, setMultiplier}) {
             <OutsideClickHandler onOutsideClick={() => setOpen(false)}>
                 <div className="recipe-menu">
                     { multiplierOptions }
+                    <div className="bordered" onClick={ () => history.push('/new', {recipe}) }>
+                        Make a variation
+                    </div>
                     { canEdit ?
                       <div className="bordered" onClick={ () => history.push(`/recipes/${recipe.slug}/edit/` ) }>
                           Edit this Recipe

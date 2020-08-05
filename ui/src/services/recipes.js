@@ -82,20 +82,21 @@ export class RecipeService extends BaseService {
     model = Recipe;
     listModel = RecipeStub;
 
-    static createNew() {
+    static createNew(copyFrom) {
         const r = new Recipe({
             id: null,
             book: new Book({}),
             name: '',
             source: '',
             url: '',
-            description: '',
-            notes: '',
-            directions: '',
-            quantity_set: [],
-            tags: [],
+            description: copyFrom ? copyFrom.description : '',
+            directions: copyFrom ? copyFrom.directions : '',
+            quantity_set: copyFrom ? copyFrom.quantities : [],
+            tags: copyFrom ? copyFrom.tags : [],
         });
-        r.addQuantity();
+        if (!copyFrom) {
+            r.addQuantity();
+        }
         return r;
     }
 }

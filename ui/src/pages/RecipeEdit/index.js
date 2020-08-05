@@ -10,18 +10,19 @@ import { QuantitySet } from 'pages/RecipeEdit/QuantitySet';
 import { services } from 'services';
 import { RecipeService } from 'services/recipes';
 
-export function RecipeEdit() {
+export function RecipeEdit({location}) {
     const { addAlert } = useContext(AppContext);
     const [content, setContent] = useState(null);
     const [saving, setSaving] = useState(false);
     const [errors, setErrors] = useState({});
     const { slug } = useParams();
     const history = useHistory();
+    const initial = location.state ? location.state.recipe : null;
 
     useAlertedEffect(async () => {
         async function getRecipe() {
             if (!slug) {
-                return RecipeService.createNew();
+                return RecipeService.createNew(initial);
             }
             return await services.recipes.getById(slug);
         }
