@@ -89,7 +89,7 @@ export class RecipeService extends BaseService {
             name: '',
             source: '',
             url: '',
-            description: copyFrom ? copyFrom.description : '',
+            description: '',
             directions: copyFrom ? copyFrom.directions : '',
             quantity_set: copyFrom ? copyFrom.quantities : [],
             tags: copyFrom ? copyFrom.tags : [],

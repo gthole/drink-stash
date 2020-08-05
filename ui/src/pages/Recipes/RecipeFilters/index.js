@@ -10,18 +10,27 @@ function FilterButton({onClick}) {
 }
 
 function ListFilterOptions({lists, addFilter}) {
-    const [value, setValue] = useState(lists[0].id);
+    const { currentUser } = useContext(AppContext);
+    const [value, setValue] = useState(0);
+    const noVal = {
+        name: 'Not in any of your lists yet',
+        id: 0
+    };
 
     function onClick() {
         const list = lists.find(l => ('' + l.id) === ('' + value));
-        addFilter(`list = ${list.id}[List = ${list.name}]`);
+        if (value === 0) {
+            addFilter(`NOT List Owner = ${currentUser.user_id}`);
+        } else {
+            addFilter(`list = ${list.id}[List = ${list.name}]`);
+        }
     }
 
     return (
         <div>
             <Select
                 label={'Choose List'}
-                choices={ lists }
+                choices={ [noVal].concat(lists) }
                 display="name"
                 select="id"
                 value={ value }
