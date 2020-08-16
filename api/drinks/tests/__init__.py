@@ -1,6 +1,7 @@
-from .ingredients import IngredientTestCase
-from .recipes import RecipeTestCase, FixturesTestCase
+from .activities import ActivityTestCase
 from .comments import CommentTestCase
+from .ingredients import IngredientTestCase
 from .lists import UserListTestCase
-from .users import UserTestCase
+from .recipes import RecipeTestCase, FixturesTestCase
 from .tags import TagTestCase
+from .users import UserTestCase
