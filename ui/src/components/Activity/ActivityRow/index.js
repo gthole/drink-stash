@@ -22,7 +22,7 @@ export function ActivityRow({activity, text, body, className}) {
         if (activity.type === 'recipe') {
             params.added_by = activity.user.id;
         } else if (activity.type === 'listrecipe') {
-            params.user_list__user_id = activity.user.id;
+            params.user_list__user = activity.user.id;
         }
         search = stringify(params);
     }

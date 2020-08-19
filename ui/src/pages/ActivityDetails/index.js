@@ -16,7 +16,7 @@ export function ActivityDetails() {
 
     useAlertedEffect(async () => {
         if (!params) return;
-        const user_id = params.user_list__user_id || params.added_by;
+        const user_id = params.user_list__user || params.added_by;
         const user = await services.users.getById(user_id);
         setUser(user);
 
