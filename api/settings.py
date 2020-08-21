@@ -42,6 +42,8 @@ JWT_AUTH = {
     'JWT_PAYLOAD_HANDLER': 'drinks.auth.jwt_payload_handler'
 }
 
+AUTHENTICATION_BACKENDS = ['drinks.auth.EmailBackend']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',

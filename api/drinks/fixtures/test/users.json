@@ -13,6 +13,7 @@
         "fields": {
             "first_name": "Dorothea",
             "last_name": "Brooke",
+            "email": "dorothea@brooke.net",
             "username": "admin",
             "password": "password",
             "is_superuser": true,

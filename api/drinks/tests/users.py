@@ -21,6 +21,7 @@ class UserTestCase(BaseTestCase):
                 'image': None,
                 'recipe_count': 6,
                 'first_name': 'Dorothea',
+                'email': 'dorothea@brooke.net',
                 'id': 1,
                 'ingredient_set': [],
                 'is_staff': True,
@@ -239,3 +240,21 @@ class UserTestCase(BaseTestCase):
         # Test that the welcome email was sent
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Welcome to Drink Stash!')
+
+    def test_login_with_email(self):
+        "Fetch a user token from the API with email address"
+        client = APIClient()
+        resp = client.post(
+            '/api/v1/auth/',
+            {'username': 'dorothea@brooke.net', 'password': 'negroni'}
+        )
+        self.assertEqual(resp.status_code, 200)
+
+    def test_login_with_no_email(self):
+        "Fetch a user token from the API with email address"
+        client = APIClient()
+        resp = client.post(
+            '/api/v1/auth/',
+            {'password': 'negroni'}
+        )
+        self.assertEqual(resp.status_code, 400)

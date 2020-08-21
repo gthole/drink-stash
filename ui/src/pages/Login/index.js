@@ -35,7 +35,7 @@ export function Login() {
                     <form onSubmit={ submit }>
                         <Input
                             value={username}
-                            placeholder={'Username'}
+                            placeholder={'Username or Email'}
                             onChange={(ev) => setUsername(ev.target.value)}
                         />
                         <Input
