@@ -47,9 +47,13 @@ export class Recipe extends RecipeStub {
         q.ingredient = q.ingredient.trim();
         try {
             const parsed = parseFloat(q.amount);
-            if (typeof q === 'string' && q.amount.includes('/')) {
-                const [num, den] = q.amount.split('/');
-                q.amount = parseInt(num, 10) / parseInt(den, 10);
+            if (typeof q.amount === 'string' && q.amount.includes('/')) {
+                let [num, den] = q.amount.split('/').map(s => s.trim());
+                let whole = 0;
+                if (num.includes(' ')) {
+                    [whole, num] = num.split(' ');
+                }
+                q.amount = parseInt(whole) + (parseInt(num, 10) / parseInt(den, 10));
             } else if (!isNaN(parsed) && parsed > 0 && parsed < 100) {
                 q.amount = parsed
             } else {
