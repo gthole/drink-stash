@@ -1,5 +1,5 @@
 .ActivityRow:not(:last-child) {
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
 }
 
 .ActivityRow {
@@ -23,7 +23,7 @@
 }
 
 .ActivityRow .activity-body {
-    color: #72757a;
+    color: var(--text-secondary);
     margin-top: 10px;
     line-height: 1.25rem;
     max-width: 100%;

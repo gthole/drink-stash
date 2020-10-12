@@ -5,7 +5,7 @@
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: #2b2c34;
+  background-color: var(--content-background-menu);
   overflow-x: hidden;
   transition: 0.5s;
 }
@@ -32,7 +32,7 @@
 }
 
 .Menu .menu-inner a:hover {
-    color: #2cb67d;
+    color: var(--theme-secondary);
 }
 
 .Menu .menu-close-button {
@@ -46,11 +46,11 @@
 }
 
 .Menu a.bordered {
-    border-top: 1px solid #72757a;
+    border-top: 1px solid var(--theme-muted);
 }
 
 .Menu .badge {
-    color: #e45858;
+    color: var(--theme-danger);
     font-size: 12px;
 }
 

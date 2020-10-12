@@ -11,12 +11,12 @@
 }
 
 .ListOfLists {
-    background-color: #fffffe;
+    background-color: var(--content-background-panels);
 }
 
 .ListOfLists .list-of-lists-header {
     padding: 20px;
-    background-color: #fffffe;
+    background-color: var(--content-background-panels);
 }
 
 .ListOfLists .list-of-lists-header .new-list {
@@ -25,7 +25,7 @@
 
 .ListCard {
     padding: 20px;
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
     cursor: pointer;
 }
 
@@ -36,5 +36,5 @@
 }
 
 .ListCard .list-description {
-    color: #72757a;
+    color: var(--text-secondary);
 }

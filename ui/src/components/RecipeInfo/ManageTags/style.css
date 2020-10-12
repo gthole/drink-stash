@@ -10,6 +10,6 @@
 }
 
 .ManageTags.show-button > button {
-    color: #a0aec0;
+    color: var(--text-tertiary);
     padding-left: 0;
 }

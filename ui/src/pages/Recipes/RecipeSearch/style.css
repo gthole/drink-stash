@@ -1,6 +1,6 @@
 .RecipeSearch {
     position: relative;
-    background: #fffffe;
+    background: var(--content-background-panels);
 }
 
 .RecipeSearch .loading {

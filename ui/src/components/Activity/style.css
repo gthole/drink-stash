@@ -1,6 +1,6 @@
 .Activity {
     font-size: .875rem;
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .Activity .SectionTitle {

@@ -10,15 +10,14 @@
     cursor: pointer;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
-    background-color: #2cb67d;
-    color: #fffffe;
+    background-color: var(--theme-secondary);
+    color: var(--theme-light);
 }
 
 .SearchPills .pill.negation {
-    /* background-color: #ed8936; */
-    background-color: #e45858;
+    background-color: var(--theme-danger);
 }
 
 .SearchPills .pill.constraint {
-    background-color: #553c9a;
+    background-color: var(--theme-primary);
 }

@@ -1,0 +1,50 @@
+:root {
+    /* Primary theme colors */
+    --theme-primary: #553c9a;
+    --theme-primary-focus: #269d6c;
+    --theme-secondary: #2cb67d;
+    --theme-tertiary: #d1d1e9;
+    --theme-danger: #e45858;
+    --theme-danger-focus: #c82020;
+    --theme-muted: #72757a;
+    --theme-dark: #16161a;
+    --theme-light: #fffffe;
+
+    /* Component colors (light mode default) */
+    --body-background: #d1d1e9;
+    --text-primary: #2b2c34;
+    --text-secondary: #72757a;
+    --text-tertiary: #a0aec0;
+    --text-inverse: #fffffe;
+    --links-color: #553c9a;
+    --button-outline: #553c9a;
+    --content-background-panels: #fffffe;
+    --content-background-forms: #f5f5f5;
+    --content-background-menu: #2b2c34;
+    --separator-color: #d1d1e9;
+
+    /* Typography */
+    --text-large: 20px;
+    --text-medium: 16px;
+    --text-small: 14px;
+
+    /* Spacing */
+    /* TODO */
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --body-background: #16161a;
+        --text-primary: #fffffe;
+        --text-secondary: #c7cdd8;
+        --text-inverse: #2b2c34;
+        --links-color: #fffffe;
+        --button-outline: #d1d1e9;
+        --content-background-panels: #2b2c34;
+        --content-background-forms: #2b2c34;
+        --separator-color: #72757a;
+    }
+}
+
+

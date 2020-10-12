@@ -36,7 +36,7 @@
 }
 
 .UserDetails .user-lists {
-    background-color: #fffffe;
+    background-color: var(--content-background-panels);
     padding-bottom: 25px;
     margin-bottom: 20px;
 }
@@ -52,5 +52,5 @@
 
 .UserDetails .user-stats > div {
     margin-top: 5px;
-    color: #72757a;
+    color: var(--text-secondary);
 }

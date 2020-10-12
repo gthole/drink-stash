@@ -9,7 +9,7 @@
 .Forms.FormWrapper label {
     font-size: 0.875rem;
     text-transform: uppercase;
-    color: #72757a;
+    color: var(--text-secondary);
     display:inline-block;
     margin-bottom: 10px;
 }
@@ -17,21 +17,21 @@
 .Forms.FormWrapper .subtext {
     margin-top: 5px;
     font-size: 0.875rem;
-    color: #72757a;
+    color: var(--text-secondary);
     font-style: italic;
 }
 
 .Forms.FormWrapper .error-message {
     margin-top: 5px;
     font-size: 0.875rem;
-    color: #e45858;
+    color: var(--theme-danger);
     font-style: italic;
 }
 
 .Forms.FormWrapper.form-error .Input,
 .Forms.FormWrapper.form-error .TextArea,
 .Forms.FormWrapper.form-error .Select {
-    border-bottom: 2px solid #e45858;
+    border-bottom: 2px solid var(--theme-danger);
 }
 
 
@@ -44,17 +44,18 @@
 .Forms .Input,
 .Forms .TextArea,
 .Forms .Select {
-    background-color: #f5f5f5;
+    color: var(--text-primary);
+    background-color: var(--content-background-forms);
     outline: none;
     appearance: none;
     line-height: 1.25;
     font-size: 16px;
     -moz-appearance: none;
     -webkit-appearance: none;
-    border-top: 1px solid #fffffe;
-    border-left: 1px solid #fffffe;
-    border-right: 1px solid #fffffe;
-    border-bottom: 2px solid #2cb67d;
+    border-top: 1px solid rgba(0, 0, 0, 0);
+    border-left: 1px solid rgba(0, 0, 0, 0);
+    border-right: 1px solid rgba(0, 0, 0, 0);
+    border-bottom: 2px solid var(--theme-secondary);
     width: calc(100% - 20px);
     padding: 10px 10px;
     font-family: 'Roboto script=all rev=1', sans-serif;
@@ -66,7 +67,7 @@
     border-top: 1px solid rgba(44, 182, 125, 0.2);
     border-left: 1px solid rgba(44, 182, 125, 0.2);
     border-right: 1px solid rgba(44, 182, 125, 0.2);
-    background-color: #fffffe;
+    background-color: var(--content-background-forms);
 }
 
 /*
@@ -74,7 +75,7 @@
  */
 
 .Input:focus::placeholder {
-  color: transparent;
+    color: transparent;
 }
 
 /*
@@ -94,22 +95,22 @@
 
 .TextArea::-webkit-input-placeholder {
     font-family: 'Roboto script=all rev=1', sans-serif;
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .TextArea:-ms-input-placeholder {
     font-family: 'Roboto script=all rev=1', sans-serif;
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .TextArea:-moz-placeholder {
     font-family: 'Roboto script=all rev=1', sans-serif;
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .TextArea::-moz-placeholder {
     font-family: 'Roboto script=all rev=1', sans-serif;
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .TextArea:focus::placeholder {
@@ -142,55 +143,55 @@
 }
 
 .Button.button-outline {
-    color: #553c9a;
-    border: 1px solid #553c9a;
-    background-color: #fffffe;
+    color: var(--button-outline);
+    border: 1px solid var(--button-outline);
+    background-color: var(--content-background-panels);
 }
 
 .Button.button-outline:focus,
 .Button.button-outline:hover {
-    color: #fffffe;
-    background-color: #553c9a;
+    color: var(--text-inverse);
+    background-color: var(--button-outline);
 }
 
 .Button.button-primary {
-    color: #fffffe;
-    border: 1px solid #2cb67d;
-    background-color: #2cb67d;
+    color: var(--theme-light);
+    border: 1px solid var(--theme-secondary);
+    background-color: var(--theme-secondary);
 }
 
 .Button.button-primary:focus,
 .Button.button-primary:hover {
-    background-color: #269d6c;
-    border: 1px solid #269d6c;
+    background-color: var(--theme-primary-focus);
+    border: 1px solid var(--theme-primary-focus);
 }
 
 .Button.button-primary-outline {
-    color: #2cb67d;
-    border: 1px solid #2cb67d;
-    background-color: #fffffe;
+    color: var(--theme-secondary);
+    border: 1px solid var(--theme-secondary);
+    background-color: var(--theme-light);
 }
 
 .Button.button-primary-outline:focus,
 .Button.button-primary-outline:hover {
-    color: #fffffe;
-    background-color: #2cb67d;
+    color: var(--theme-light);
+    background-color: var(--theme-secondary);
 }
 
 .Button.button-danger {
-    color: #fffffe;
-    border: 1px solid #e45858;
-    background-color: #e45858;
+    color: var(--theme-light);
+    border: 1px solid var(--theme-danger);
+    background-color: var(--theme-danger);
 }
 
 .Button.button-danger:focus,
 .Button.button-danger:hover {
-    background-color: #c82020;
-    border: 1px solid #c82020;
+    background-color: var(--theme-danger-secondary);
+    border: 1px solid var(--theme-danger-secondary);
 }
 
 .Button.button-clear {
-    color: #553c9a;
+    color: var(--links-color);
     background-color: rgba(255, 255, 255, 0.0);
     border: none;
 }
@@ -201,5 +202,5 @@
 }
 
 .CheckBox.selected {
-    color: #2cb67d;
+    color: var(--theme-secondary);
 }

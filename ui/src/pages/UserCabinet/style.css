@@ -1,6 +1,6 @@
 .CategoryRow {
     padding: 15px 0 15px 0;
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
     cursor: pointer;
     font-size: 1.125rem;
 }
@@ -18,11 +18,11 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0 10px 0;
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
 }
 
 .IngredientCabinetRow.category-header {
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .IngredientCabinetRow .CheckBox {

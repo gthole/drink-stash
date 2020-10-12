@@ -1,5 +1,5 @@
 .IngredientRow span {
-    color: #72757a;
+    color: var(--text-secondary);
     line-height: 1.5;
     margin-right: 7px;
 }

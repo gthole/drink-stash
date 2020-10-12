@@ -22,7 +22,7 @@
 .Login .login-header {
     font-family: 'Niconne',cursive;
     font-size: 60px;
-    color: #fffffe;
+    color: var(--theme-light);
     margin-bottom: 40px;
     margin-left: 20px;
 }
@@ -41,14 +41,24 @@
 
 .Login .credits {
     font-size: 12px;
-    color: #fffffe;
+    color: var(--theme-light);
     position: absolute;
     bottom: 20px;
     right: 20px;
 }
 
 .Login .credits a {
-    color: #fffffe;
+    color: var(--theme-light);
+}
+
+.Login .Input {
+    color: var(--theme-dark);
+    background: var(--theme-light);
+}
+
+.Login .Input:focus {
+    color: var(--theme-dark);
+    background: var(--theme-light);
 }
 
 @media only screen and (max-height: 530px) {

@@ -5,7 +5,7 @@
 }
 
 .RecipeInfo .directions {
-    color: #72757a;
+    color: var(--text-secondary);
     margin: 20px 0 10px 0;
     line-height: 1.5em;
 }

@@ -1,7 +1,7 @@
 .RecipeFilters {
     box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.3) inset, 0 -5px 5px -5px rgba(0, 0, 0, 0.3) inset;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: var(--content-background-forms);
     margin-bottom: 10px;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .RecipeFilters .Forms select.Select {
-    background-color: #fffffe;
+    background-color: var(--content-background-forms);
 }
 
 /*

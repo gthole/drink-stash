@@ -1,8 +1,8 @@
 .App-header {
-    background-color: #553c9a;
+    background-color: var(--theme-primary);
     display: flex;
     justify-content: space-between;
-    color: #fffffe;
+    color: var(--theme-light);
 }
 
 .App .App-header {
@@ -11,7 +11,7 @@
 }
 
 .App .App-header a {
-    color: #fff;
+    color: var(--theme-light);
     padding-right: 5px;
     text-decoration: none;
 }

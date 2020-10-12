@@ -5,7 +5,8 @@
     border-radius: 1em;
     padding: 3px 6px;
     font-size: 0.75em;
-    background-color: #d1d1e9;
+    color: var(--text-inverse);
+    background-color: var(--theme-tertiary);
     margin-right: 5px;
 }
 
@@ -25,8 +26,8 @@
 }
 
 .TagListEdit .Input {
-    background-color: #fffffe;
-    border-bottom: 1px solid #2cb67d;
+    background-color: var(--content-background-forms);
+    border-bottom: 1px solid var(--theme-secondary);
 }
 
 .TagListEdit .AutoComplete {

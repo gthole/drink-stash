@@ -29,6 +29,6 @@
 
 .QuantityRow .ingredient .remove-quantity {
     cursor: pointer;
-    color: #72757a;
+    color: var(--text-secondary);
     padding: 10px 5px;
 }

@@ -1,6 +1,6 @@
 .RecipeCard {
     padding: 20px;
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
     cursor: pointer;
 }
 
@@ -20,6 +20,6 @@
     font-size: 1em;
     margin-top: -5px;
     padding: 5px 10px;
-    background-color: #d1d1e9;
-    color: #fffffe;
+    background-color: var(--theme-tertiary);
+    color: var(--text-inverse);
 }

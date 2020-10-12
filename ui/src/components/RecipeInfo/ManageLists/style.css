@@ -49,7 +49,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fffffe;
+    background-color: var(--content-background-panels);
     width: 300px;
 }
 
@@ -73,12 +73,12 @@
     display: flex;
     align-items: center;
     padding: 20px;
-    border-top: 1px solid #d1d1e9;
+    border-top: 1px solid var(--separator-color);
     cursor: pointer;
 }
 
 .ManageListsModal .modal-body .ManageListsRow:last-child {
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
 }
 
 .ManageListsModal .modal-body .ManageListsRow .list-select {
@@ -103,5 +103,3 @@
   from {opacity: 0}
   to {opacity: 1}
 }
-
-

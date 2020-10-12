@@ -17,7 +17,7 @@
 
 .ListRecipeCard .lr-card-title-row svg {
     cursor: pointer;
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .ListRecipeCard .list-recipe-edit-note .FormWrapper {

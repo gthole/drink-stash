@@ -4,7 +4,7 @@
 
 .ActivityDetails .ActivityRecipeCardRow {
     padding: 20px 0;
-    border-bottom: 1px solid #d1d1e9;
+    border-bottom: 1px solid var(--separator-color);
 }
 
 .ActivityDetails .activity-recipe-card-row-header {
@@ -12,7 +12,7 @@
 }
 
 .ActivityDetails {
-    color: #72757a;
+    color: var(--text-secondary);
 }
 
 .ActivityDetails .user-section {

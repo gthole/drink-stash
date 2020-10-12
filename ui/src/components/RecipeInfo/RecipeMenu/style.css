@@ -14,9 +14,9 @@
     min-width: 180px;
     z-index: 20;
     text-align: left;
-    background-color: #fffffe;
+    background-color: var(--content-background-panels);
     box-shadow: 0 20px 25px -5px rgba(0,0,0,.1),0 10px 10px -5px rgba(0,0,0,.04);
-    border: 1px solid #d1d1e9;
+    border: 1px solid var(--separator-color);
 }
 
 .RecipeMenu .recipe-menu > div {
@@ -25,28 +25,28 @@
 }
 
 .RecipeMenu .recipe-menu .selected-multiplier {
-    background-color: #2cb67d;
-    color: #fffffe;
+    background-color: var(--theme-secondary);
+    color: var(--theme-light);
 }
 
 .RecipeMenu .recipe-menu .selected-multiplier:hover {
-    background-color: #72757a;
-    color: #fffffe;
+    background-color: var(--theme-muted);
+    color: var(--theme-light);
 }
 
 .RecipeMenu .recipe-menu > div:hover {
-    background-color: #2cb67d;
-    color: #fffffe;
+    background-color: var(--theme-secondary);
+    color: var(--text-inverse);
 }
 
 .RecipeMenu .recipe-menu a {
-    color: #16161a;
+    color: var(--theme-dark);
 }
 
 .RecipeMenu .recipe-menu a:hover {
-    color: #fffffe;
+    color: var(--theme-light);
 }
 
 .RecipeMenu .recipe-menu div.bordered {
-    border-top: 1px solid #72757a;
+    border-top: 1px solid var(--theme-muted);
 }

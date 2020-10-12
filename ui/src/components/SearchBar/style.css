@@ -3,13 +3,13 @@
 }
 
 .SearchBar .FormWrapper .Input {
-    background-color: #fffffe;
+    background-color: var(--content-background-forms);
 }
 
 .SearchBar .FormWrapper .Input:focus {
-    border-top: 1px solid #fffffe;
-    border-left: 1px solid #fffffe;
-    border-right: 1px solid #fffffe;
+    border-top: 1px solid rgba(0, 0, 0, 0);
+    border-left: 1px solid rgba(0, 0, 0, 0);
+    border-right: 1px solid rgba(0, 0, 0, 0);
 }
 
 .SearchBar .FormWrapper {

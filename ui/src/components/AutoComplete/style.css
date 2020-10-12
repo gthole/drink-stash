@@ -7,7 +7,7 @@
 
 .AutoComplete .suggestions {
     position: absolute;
-    border: 1px solid #d4d4d4;
+    border: 1px solid var(--theme-dark);
     border-bottom: none;
     border-top: none;
     z-index: 99;
@@ -20,18 +20,19 @@
 .AutoComplete .suggestions > div {
       padding: 8px;
       cursor: pointer;
-      background-color: #fff;
-      border-bottom: 1px solid #d4d4d4;
+      background-color: var(--content-background-panels);
+      border-bottom: 1px solid var(--theme-dark);
 }
 
 .AutoComplete .suggestions > div:hover {
       /*when hovering an item:*/
-      background-color: #e9e9e9;
+      color: var(--text-inverse);
+      background-color: var(--theme-secondary);
 }
 
 .AutoComplete .suggestions > div.selected {
       /*when navigating through the items using the arrow keys:*/
-      background-color: #2cb67d !important;
-      color: #fffffe;
+      background-color: var(--theme-secondary) !important;
+      color: var(--theme-light);
 }
 

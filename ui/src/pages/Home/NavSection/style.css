@@ -17,6 +17,6 @@
 }
 
 .NavSection .nav-section-description {
-    color: #72757a;
+    color: var(--text-secondary);
     font-size: 0.875rem;
 }
