@@ -7,7 +7,7 @@
 
 .AutoComplete .suggestions {
     position: absolute;
-    border: 1px solid var(--theme-dark);
+    border: 1px solid var(--separator-color);
     border-bottom: none;
     border-top: none;
     z-index: 99;
@@ -21,7 +21,7 @@
       padding: 8px;
       cursor: pointer;
       background-color: var(--content-background-panels);
-      border-bottom: 1px solid var(--theme-dark);
+      border-bottom: 1px solid var(--separator-color);
 }
 
 .AutoComplete .suggestions > div:hover {
