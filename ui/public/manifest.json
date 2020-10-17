@@ -6,7 +6,7 @@
     {
       "src": "/static/img/favicon-96.png",
       "type": "image/png",
-      "sizes": "64x64 32x32 24x24 16x16"
+      "sizes": "96x96"
     },
     {
       "src": "/static/img/icon-192.png",
@@ -19,7 +19,7 @@
       "sizes": "512x512"
     }
   ],
-  "display": "minimal-ui",
+  "display": "fullscreen",
   "theme_color": "#553c9a",
   "background_color": "#fffffe"
 }
