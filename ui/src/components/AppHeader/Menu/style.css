@@ -25,6 +25,7 @@
 
 .Menu .menu-open {
     width: 240px;
+    border-left: 1px solid var(--separator-color);
 }
 
 .Menu .menu-inner a {
