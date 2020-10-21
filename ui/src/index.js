@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Alerts } from 'components/Alerts';
 import { AppHeader } from 'components/AppHeader';
 import { PrivateRoute } from 'components/PrivateRoute';
+import { ScrollMemory } from 'components/ScrollMemory';
 import { AppContext } from 'context/AppContext';
 import { ActivityDetails } from 'pages/ActivityDetails';
 import { CommentEdit } from 'pages/CommentEdit';
@@ -72,6 +73,7 @@ function App() {
         <div className="App">
             <AppContext.Provider value={context}>
                 <Router>
+                    <ScrollMemory />
                     <AppHeader />
                     <Alerts alerts={ alerts } setAlerts={ setAlerts }/>
                     <div className="AppContent">

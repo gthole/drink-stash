@@ -1,6 +1,7 @@
 import { ActivityService } from './activities';
 import { AuthService } from './auth';
 import { BookService } from './books';
+import { CacheService } from './cache';
 import { CommentService } from './comments';
 import { IngredientService } from './ingredients';
 import { ListService, ListRecipeService } from './lists';
@@ -13,6 +14,7 @@ export const services = {
     activities: new ActivityService(),
     auth: new AuthService(),
     books: new BookService(),
+    cache: new CacheService(),
     comments: new CommentService(),
     ingredients: new IngredientService(),
     listRecipes: new ListRecipeService(),
