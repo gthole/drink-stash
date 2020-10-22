@@ -51,7 +51,6 @@
     max-width: 512px;
     margin-left: auto;
     margin-right: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
 .SidePanelList > .right {
@@ -67,8 +66,6 @@
 @media only screen and (min-width: 512px) {
     .SidePanelList > .left {
         min-width: 512px;
-        max-height: calc(100vh - 90px);
-        overflow-y: scroll;
     }
 }
 
@@ -76,6 +73,7 @@
     .SidePanelList > .left {
         margin-right: 20px;
         overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
     }
 
     .SidePanelList > .right {
