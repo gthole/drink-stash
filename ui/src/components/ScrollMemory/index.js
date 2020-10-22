@@ -20,19 +20,6 @@ export function ScrollMemory() {
             window.scrollTo(0, 0);
             document.getElementById('root').style['min-height'] = '';
         }
-
-        // Wait until roughly after the rest of the page view has rendered, and
-        // then cache the body height to the session storage. This could be
-        // done more explicitly with a service that subcomponents call when
-        // they've finished loading resources, but that'd be less neatly
-        // contained than this is, even though there's a race condition here.
-        setTimeout(() => {
-            const ph = document.body.scrollHeight;
-            if (ph > window.innerHeight) {
-                services.cache.set(`ph_${pathname}`, `${ph}px`);
-            }
-        }, 1600)
-
     }, [action, pathname]);
 
     return null;

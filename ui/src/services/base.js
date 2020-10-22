@@ -15,16 +15,6 @@ export class BaseService {
         const qs = stringify(query);
         const url = `${this.baseUrl}?${qs}`
 
-        let cached = this.cacheService.get(url);
-        const headers = this.getHeaders();
-        if (cached) {
-            if (Date.now() - cached.fetched < this.cachePeriod) {
-                return format(cached);
-            }
-            headers['If-Modified-Since'] = new Date(cached.fetched).toISOString();
-            headers['X-Count'] = '' + cached.count;
-        }
-
         function format(response) {
             if (model) {
                 response.results = response.results.map(a => new model(a));
@@ -32,19 +22,35 @@ export class BaseService {
             return response;
         }
 
+        let cached = this.cacheService.get(url);
+        const headers = this.getHeaders();
+        if (cached) {
+            if (Date.now() - cached.fetched < this.cachePeriod) {
+                return Promise.resolve(format(cached));
+            }
+            headers['If-Modified-Since'] = new Date(cached.fetched).toISOString();
+            headers['X-Count'] = '' + cached.count;
+        }
+
         return this.request(url, {headers}).then(async (res) => {
             if (res.status === 304) {
+                // Re-store the with an updated fetched time
+                this.cacheResults(url, res, cached);
                 return format(cached);
             }
             const body = await res.json();
             const response = {
-                fetched: new Date(res.headers.get('Date')).valueOf(),
                 count: body.count,
                 results: body.results
             };
-            this.cacheService.set(url, response);
+            this.cacheResults(url, res, response);
             return format(response);
         });
+    }
+
+    cacheResults(url, res, results) {
+        results.fetched = new Date(res.headers.get('Date')).valueOf();
+        this.cacheService.set(url, results);
     }
 
     getById(id) {
