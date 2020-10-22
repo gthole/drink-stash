@@ -21,5 +21,6 @@ export class Ingredient {
 
 export class IngredientService extends BaseService {
     baseUrl = '/api/v1/ingredients/';
+    cachePeriod = 60 * 60 * 1000;
     model = Ingredient
 }

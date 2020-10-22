@@ -16,5 +16,6 @@ export class Book {
 
 export class BookService extends BaseService {
     baseUrl = '/api/v1/books/';
+    cachePeriod = 60 * 60 * 1000;
     model = Book;
 }

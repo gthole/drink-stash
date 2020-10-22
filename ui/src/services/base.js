@@ -3,14 +3,11 @@ import { AuthService } from './auth';
 import { CacheService } from './cache';
 
 export class BaseService {
+    cachePeriod = 10 * 1000;
+
     constructor() {
         this.cacheService = new CacheService();
         this.authService = new AuthService();
-        /*
-        this.csrfToken = _.fromPairs(document.cookie.split('; ').map(
-            (c) => c.split('=')
-        )).csrftoken;
-         */
     }
 
     getPage(query) {
@@ -21,7 +18,10 @@ export class BaseService {
         let cached = this.cacheService.get(url);
         const headers = this.getHeaders();
         if (cached) {
-            headers['If-Modified-Since'] = cached.fetched;
+            if (Date.now() - cached.fetched < this.cachePeriod) {
+                return format(cached);
+            }
+            headers['If-Modified-Since'] = new Date(cached.fetched).toISOString();
             headers['X-Count'] = '' + cached.count;
         }
 
@@ -38,7 +38,7 @@ export class BaseService {
             }
             const body = await res.json();
             const response = {
-                fetched: new Date(res.headers.get('Date')).toISOString(),
+                fetched: new Date(res.headers.get('Date')).valueOf(),
                 count: body.count,
                 results: body.results
             };
