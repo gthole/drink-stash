@@ -27,18 +27,10 @@ export function Recipes() {
 
         const qp = Object.assign({per_page: 50}, params);
         qp.search = qp.search.map(s => s.split('[')[0]);
-        const resp = await services.recipes.getPage(qp);
+        const newResp = await services.recipes.getPage(qp);
 
-        setResp(resp);
+        setResp(newResp);
         setLoading(false);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        setTimeout(() => {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            const el = document.getElementsByClassName('left')[0];
-            if (el) {
-                el.scrollTo({top: 0, behavior: 'smooth'})
-            }
-        }, 0);
     }, [params, history]);
 
     useAlertedEffect(async () => {
