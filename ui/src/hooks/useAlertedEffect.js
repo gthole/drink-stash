@@ -47,6 +47,7 @@ export function useAlertedEffect(func, deps) {
             // then cache the body height to the session storage. The other half
             // of this functionality lives in the ScrollMemory component.
             setTimeout(() => {
+                document.getElementById('root').style['min-height'] = '';
                 const ph = document.body.scrollHeight;
                 if (ph > window.innerHeight) {
                     services.cache.set(`ph_${window.location.pathname}`, `${ph}px`);

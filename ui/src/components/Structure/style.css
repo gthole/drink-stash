@@ -72,6 +72,7 @@
 @media only screen and (min-width: 1024px) {
     .SidePanelList > .left {
         margin-right: 20px;
+        max-height: calc(100vh - 90px);
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
     }

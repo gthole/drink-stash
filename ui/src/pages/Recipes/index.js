@@ -33,6 +33,7 @@ export function Recipes() {
         setLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
         setTimeout(() => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
             const el = document.getElementsByClassName('left')[0];
             if (el) {
                 el.scrollTo({top: 0, behavior: 'smooth'})
