@@ -1,0 +1,13 @@
+{% extends 'email/base.html' %}
+
+{% block header %}Welcome to <br/> Drink Stash!{% endblock %}
+
+{% block leadtext %}
+Your username is <b>{{ user.username }}</b>, although you can use your username or
+email to log in. Get started by following the link below!
+{% endblock %}
+
+{% block linkref %}{{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}{% endblock %}
+{% block linktext %}Set your password{% endblock %}
+
+{% block followtext %}Happy Drinking!{% endblock %}

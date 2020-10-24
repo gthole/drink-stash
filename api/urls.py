@@ -28,6 +28,11 @@ router.register(r'users', UserViewSet)
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     url(r'^api/v1/auth/', obtain_jwt_token),
     url(r'^api/v1/', include(router.urls)),
+    url(r'^accounts/password_reset/$', auth_views.PasswordResetView.as_view(
+        email_template_name='email/password_reset.txt',
+        html_email_template_name='email/password_reset.html',
+        subject_template_name='email/password_reset_subject.txt',
+    ), name='auth_password_reset'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^favicon.ico$', RedirectView.as_view(

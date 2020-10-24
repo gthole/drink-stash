@@ -56,8 +56,9 @@ def create_user_profile(sender, instance, created, **kwargs):
             form = PasswordResetForm({'email': instance.email})
             if form.is_valid():
                 form.save(
-                    subject_template_name='registration/welcome_subject.txt',
-                    email_template_name='registration/welcome_email.html',
+                    subject_template_name='email/welcome_subject.txt',
+                    email_template_name='email/welcome.txt',
+                    html_email_template_name='email/welcome.html',
                     domain_override=settings.ALLOWED_HOSTS[0],
                     use_https=True
                 )
