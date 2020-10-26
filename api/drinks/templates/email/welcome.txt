@@ -1,7 +1,7 @@
 Welcome to Drink Stash!
 
-Your username is {{ user.username }}, although you can use your username or
-email to log in. Get started by following the link below!
+Your username is {{ user.username }}, although you can use your email to log in too.
+Get started by following the link below!
 
 {{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
 

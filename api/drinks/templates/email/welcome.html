@@ -3,8 +3,8 @@
 {% block header %}Welcome to <br/> Drink Stash!{% endblock %}
 
 {% block leadtext %}
-Your username is <b>{{ user.username }}</b>, although you can use your username or
-email to log in. Get started by following the link below!
+Your username is <b>{{ user.username }}</b>, although you can use your
+email to log in too. Get started by following the link below!
 {% endblock %}
 
 {% block linkref %}{{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}{% endblock %}
