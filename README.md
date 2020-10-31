@@ -2,11 +2,23 @@
 A little web app for saving and searching for cocktail recipes.
 
 ## Features
+
 - Built for mobile devices
 - Search for recipes with an expressive (nerdy) query engine
 - Keep lists for menus or of things you love or want to try
 - Track what's in your liquor cabinet so you can easily find what you can make
+- Dark mode
 - Lightweight server, tidily packaged in Docker
+
+## Screenshots
+
+<div style="display: flex; justify-content: space-between;">
+    <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/home.png"/>
+    <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/search.png"/>
+    <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/details.png"/>
+    <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/lists.png"/>
+</div>
+
 
 ## Running
 
