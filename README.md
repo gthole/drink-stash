@@ -7,6 +7,7 @@ A little web app for saving and searching for cocktail recipes.
 - Search for recipes with an expressive (nerdy) query engine
 - Keep lists for menus or of things you love or want to try
 - Track what's in your liquor cabinet so you can easily find what you can make
+- Over a 150 classic cocktails and original recipes to get you started
 - Dark mode
 - Lightweight server, tidily packaged in Docker
 
