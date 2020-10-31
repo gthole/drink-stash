@@ -13,7 +13,7 @@ A little web app for saving and searching for cocktail recipes.
 
 ## Screenshots
 
-<div style="display: flex; justify-content: space-between;">
+<div align="center">
     <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/home.png"/>
     <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/search.png"/>
     <img width="200px" src="https://raw.githubusercontent.com/gthole/drink-stash/master/img/details.png"/>
@@ -66,12 +66,12 @@ SERVER_EMAIL=no-reply@mydomain.com
 TIME_ZONE=America/Los_Angeles
 ALLOWED_HOSTS=drinks.mydomain.com
 DEBUG=False
-ADMINS=me@mydomain.com,someone@mydomain.com
+ADMINS=Me:me@mydomain.com,Someone Else:someone@mydomain.com
 ```
 
 ## Provisioning
-You can also provide some environment variables to the docker container to
-provision an initial user and some recipes to get started with:
+When starting up your container, you should set the following environment
+variables to provision an initial user and some recipes to get started with:
 
 ```
 version: '3'
