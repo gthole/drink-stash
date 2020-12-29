@@ -22,6 +22,7 @@ services:
             - './ui:/ui'
             - '/ui/node_modules'
         ports:
-            - '80:3000'
+            # Using "80:3000" throws weird "RSV1 must be clear" websocket errors
+            - '8100:3000'
         links:
             - 'api'

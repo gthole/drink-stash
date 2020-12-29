@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
 import './style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Button, CheckBox } from 'components/Forms';
+import { Modal } from 'components/Modal';
 import { SectionTitle } from 'components/Structure';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
@@ -20,34 +21,31 @@ function ManageListsRow({list, toggleList}) {
     );
 }
 
-function ManageListsModal({ show, recipe, lists, currentUser, close, toggleList }) {
-    if (!show) return '';
-    const rows = lists.map((l, i) => (
+export function ManageListsModal({ show, recipe, lists, currentUser, close, toggleList }) {
+
+    const body = lists.map((l, i) => (
         <ManageListsRow key={ `list-row-${i}` } list={ l } toggleList={ toggleList }/>
     ));
+
+    const footer = (
+        <Link to={{
+            pathname: `/users/${ currentUser.username }/lists/new`,
+            state: {initial: recipe}
+        }}>
+            <FontAwesomeIcon icon={ faPlus } />
+            Create a new list with this recipe
+        </Link>
+    );
+
     return (
-        <div className="ManageListsModal" onClick={ () => close() }>
-            <div className="modal-content" onClick={ (ev) => ev.stopPropagation() }>
-                <div className="modal-header">
-                    <SectionTitle>Add to Lists</SectionTitle>
-                    <Button type="clear" onClick={ () => close() }>
-                         <FontAwesomeIcon icon={ faTimes } />
-                    </Button>
-                </div>
-                <div className="modal-body">
-                    { rows }
-                </div>
-                <div className="modal-footer">
-                    <Link to={{
-                            pathname: `/users/${ currentUser.username }/lists/new`,
-                            state: {initial: recipe}
-                        }}>
-                        <FontAwesomeIcon icon={ faPlus } />
-                        Create a new list with this recipe
-                    </Link>
-                </div>
-            </div>
-        </div>
+        <Modal
+            show={ show }
+            size='sm'
+            title='Add to Lists'
+            close={ close }
+            body={ body }
+            footer={ footer }
+        />
     );
 }
 

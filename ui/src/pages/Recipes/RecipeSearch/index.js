@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './style.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'components/Forms';
 import { Loading } from 'components/Loading';
 import { SearchBar } from 'components/SearchBar';
 import { Placeholder } from 'components/Structure';
 import { RecipeCard } from 'pages/Recipes/RecipeCard';
-import { RecipeFilters } from 'pages/Recipes/RecipeFilters';
 import { SearchPills } from 'pages/Recipes/SearchPills';
 import { SearchPagination } from 'pages/Recipes/SearchPagination';
 
 export function RecipeSearch({ recipes, total, loading, params, setParams, selectRecipe }) {
-    const [showFilters, setShowFilters] = useState(false);
-
-    function addSearchTerm(value) {
+    function addSearchTerm(value, reset) {
+        if (reset) {
+            params.search = [];
+        }
         if (!params.search.includes(value)) {
             params.search.push(value);
             params.page = 1;
@@ -43,18 +40,10 @@ export function RecipeSearch({ recipes, total, loading, params, setParams, selec
 
     return (
         <div className="RecipeSearch">
-            <Button type="clear" onClick={ () => setShowFilters(!showFilters) }>
-                <FontAwesomeIcon icon={ showFilters ? faMinus : faPlus }/>
-            </Button>
             <SearchBar
                 total={ total }
                 value={ params.q }
                 setValue={ addSearchTerm }
-            />
-            <RecipeFilters
-                expanded={ showFilters }
-                setExpanded={ setShowFilters }
-                addFilter={ (val) => addSearchTerm(val) }
             />
             <SearchPills
                 terms={ params.search }

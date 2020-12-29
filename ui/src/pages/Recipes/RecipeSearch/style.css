@@ -1,5 +1,4 @@
 .RecipeSearch {
-    position: relative;
     background: var(--content-background-panels);
 }
 
@@ -10,11 +9,4 @@
 .RecipeSearch .SearchBar {
     padding: 5px 10px;
     margin: 0 10px;
-}
-
-.RecipeSearch > button {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 16px;
 }

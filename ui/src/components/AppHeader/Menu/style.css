@@ -1,13 +1,13 @@
 .Menu .menu-content {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  background-color: var(--content-background-menu);
-  overflow-x: hidden;
-  transition: 0.5s;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: var(--content-background-menu);
+    overflow-x: hidden;
+    transition: 0.5s;
 }
 
 .Menu .menu-inner {

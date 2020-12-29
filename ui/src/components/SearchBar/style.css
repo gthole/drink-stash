@@ -1,4 +1,5 @@
 .SearchBar {
+    position: relative;
     padding: 5px 0;
 }
 
@@ -15,4 +16,24 @@
 .SearchBar .FormWrapper {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.SearchBar > button.filters {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 16px;
+    padding: 10px 5px;
+}
+
+.SearchBar > button.help {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    font-size: 16px;
+    padding: 10px 5px;
+}
+
+.SearchBar .SearchHelp .help-body {
+    padding: 0 20px;
 }

@@ -14,22 +14,28 @@ export function Home() {
 
     return (
         <div className="Home">
-            <Card className="home-main">
-                <SearchBar
-                    total={ null }
-                    subtext={ 'e.g. cynar, Last Word, or mezcal' }
-                    setValue={ (q) => history.push('/recipes/?search=' + encodeURIComponent(q), {}) }
-                />
-                <NavGroup />
-            </Card>
-            <Card className="home-activity">
-                <div className="activity-pane">
-                    <Activity
-                        showTitle={ true }
-                        params={ params }
+            <div className="home-left">
+                <Card className="home-search">
+                    <SearchBar
+                        total={ null }
+                        subtext={ 'e.g. cynar, Last Word, or mezcal' }
+                        setValue={ (q) => history.push('/recipes/?search=' + encodeURIComponent(q), {}) }
                     />
-                </div>
-            </Card>
+                </Card>
+                <Card className="home-main">
+                    <NavGroup />
+                </Card>
+            </div>
+            <div className="home-right">
+                <Card className="home-activity">
+                    <div className="activity-pane">
+                        <Activity
+                            showTitle={ true }
+                            params={ params }
+                        />
+                    </div>
+                </Card>
+            </div>
         </div>
     );
 }

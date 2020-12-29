@@ -1,0 +1,102 @@
+/*
+ * Modal Content
+ */
+
+.Modal {
+    font-size: 1rem;
+    position: fixed; /* Stay in place */
+    z-index: 20; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+    opacity: 1;
+    transition: all 0.4s;
+    visibility: visible;
+}
+
+.Modal.modal-closed {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.Modal .modal-content {
+    max-height: 80%;
+    position: fixed;
+    background-color: var(--content-background-panels);
+}
+
+.Modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.Modal .modal-header .SectionTitle {
+    margin-bottom: 0;
+}
+
+.Modal .modal-body {
+    max-height: calc(90vh - 230px);
+    overflow-y: scroll;
+}
+
+.Modal .modal-footer {
+    padding: 20px
+}
+
+.Modal .modal-footer svg {
+    margin-right: 5px;
+}
+
+@media only screen and (max-width: 512px) {
+
+    .Modal.modal-closed .modal-content {
+        height: 0;
+        transition: height 0.4s;
+    }
+
+    .Modal .modal-content {
+        width: 100%;
+        border: none;
+        border-top: 1px solid var(--separator-color);
+        bottom: 0;
+        opacity: 1;
+        height: 90vh;
+        transition: height 0.4s;
+    }
+
+    .Modal .modal-body {
+        max-height: calc(90vh - 200px);
+        height: calc(90vh - 200px);
+    }
+}
+
+@media only screen and (min-width: 512px) {
+    .Modal .modal-content.sm {
+        width: 400px;
+    }
+
+    .Modal .modal-content.lg {
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .Modal.modal-closed .modal-content {
+        opacity: 0;
+    }
+
+    .Modal .modal-content {
+        border-radius: 5px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid var(--separator-color);
+        opacity: 1;
+        transition: opacity 0.5s;
+    }
+}

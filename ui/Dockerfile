@@ -1,4 +1,4 @@
-FROM node:12.4-alpine
+FROM node:14.5-alpine
 
 WORKDIR /ui
 COPY package* ./

@@ -17,26 +17,26 @@
  * Expanding Details Transition
  */
 
-.RecipeSearch .openSection-enter {
+.SearchBar .openSection-enter {
   opacity: 0;
   max-height: 0;
 }
 
-.RecipeSearch .openSection-enter-active {
+.SearchBar .openSection-enter-active {
   opacity: 1;
   max-height: 252px;
   overflow-y: hidden;
   transition: max-height 200ms ease-in, opacity 300ms ease-in;
 }
 
-.RecipeSearch .openSection-exit {
+.SearchBar .openSection-exit {
   opacity: 1;
   max-height: 252px;
   /* This prevents there being a jitter at the end. I hate it though. */
   margin-bottom: -40px;
 }
 
-.RecipeSearch .openSection-exit-active {
+.SearchBar .openSection-exit-active {
   opacity: 0;
   max-height: 0;
   overflow-y: hidden;

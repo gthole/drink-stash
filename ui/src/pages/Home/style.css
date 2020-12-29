@@ -1,10 +1,6 @@
 .Home {
     display: flex;
-    flex-wrap: wrap;
-}
-
-.Home > .Card {
-    width: 100%;
+    flex-direction: column;
 }
 
 .Home .NavGroup {
@@ -19,26 +15,34 @@
 
 /* I don't understand this and hate it, but mobile views have a y-scroll otherwise */
 @media only screen and (max-width: 512px) {
-    .Home {
+    .Home > .home-left > .Card {
         padding: 0 20px;
     }
-    .Home > .Card {
+    .Home > .home-right {
         padding: 20px 0;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .Home > .home-left {
+        flex-grow: 1;
     }
 }
 
 @media only screen and (min-width: 1024px) {
     .Home {
         flex-wrap: nowrap;
+        flex-direction: row;
         align-items: flex-start;
     }
 
-    .Home .home-main {
+    .Home .home-left {
+        width: 50%;
         margin-right: 20px;
         padding-top: 0 !important;
     }
 
-    .Home .home-activity {
-        flex-grow: 1;
+    .Home .home-right {
+        width: 50%;
     }
 }
