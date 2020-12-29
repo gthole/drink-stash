@@ -63,7 +63,9 @@ export function ManageLists({ recipe, listRecipes, lists, setContent }) {
     }
     const userLrs = listRecipes.filter(lr => lr.user.id === currentUser.user_id);
     lists.forEach((l) => {
-        l.added_to_recipe = Boolean(userLrs.find(lr => lr.list.id === l.id));
+        const ulr = userLrs.find(lr => lr.list.id === l.id);
+        l.added_to_recipe = Boolean(ulr);
+        l.disabled = Boolean(ulr && !ulr.user.first_name);
     });
 
     const listLinks = userLrs.map((lr, i) => (
@@ -75,22 +77,26 @@ export function ManageLists({ recipe, listRecipes, lists, setContent }) {
     ));
 
     async function toggleList(list) {
+        if (list.disabled) return;
         const lr = listRecipes.find((lr) => lr.list.id === list.id);
-        let lrs;
+
+        // We do setContent up front so that list adding is instantaneous for
+        // the user, then fill in details after the API call completes
         if (lr) {
+            const lrs = listRecipes.filter((lr) => lr.list.id !== list.id);
+            setContent({listRecipes: lrs});
             await services.listRecipes.remove(lr);
-            list.added_to_recipe = false;
-            lrs = listRecipes.filter((lr) => lr.list.id !== list.id);
         } else {
+            const olr = [...listRecipes];
             const toCreate = new ListRecipe({
                 user_list: {id: list.id, name: list.name},
-                recipe: recipe
+                recipe: recipe,
+                user: {id: currentUser.user_id},
             });
+            setContent({listRecipes: [...olr, toCreate]});
             const saved = await services.listRecipes.create(toCreate)
-            list.added_to_recipe = true;
-            lrs = [...listRecipes, saved];
+            setContent({listRecipes: [...olr, saved]});
         }
-        setContent({listRecipes: lrs, lists: [...lists]});
     }
 
     return (

@@ -37,3 +37,7 @@
 .SearchBar .SearchHelp .help-body {
     padding: 0 20px;
 }
+
+.SearchBar .SearchHelp .help-body .SectionTitle {
+    margin-top: 50px;
+}

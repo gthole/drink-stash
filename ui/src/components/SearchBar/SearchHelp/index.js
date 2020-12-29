@@ -1,6 +1,8 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from 'components/Modal';
-import { Description } from 'components/Structure';
+import { SectionTitle, Description } from 'components/Structure';
 
 function HelpExample({description, examples, setValue}) {
     return <div>
@@ -53,11 +55,25 @@ export function SearchHelp({show, close, setValue}) {
                         description="You can filter by ingredient amounts too"
                         examples={ ["lemon juice > 1/2 oz", "orgeat = 1/4 oz"] }
                     />
+                    <SectionTitle children="Operators"/>
                     <HelpExample
                         setValue={ setClose }
                         description="Adding the NOT keyword will exclude any recipes that match the search"
                         examples={ ["NOT juice", "NOT directions = shake"] }
                     />
+                    <HelpExample
+                        setValue={ setClose }
+                        description="Adding the LIKE keyword will find cocktails similar to the ones matched by the search term"
+                        examples={ ["LIKE craigie on main", "LIKE list = favorites"] }
+                    />
+                    <HelpExample
+                        setValue={ setClose }
+                        description="You can match one term or another with the OR operator"
+                        examples={ ["pineapple juice OR lime juice"] }
+                    />
+                    <SectionTitle children="Filters"/>
+                    <p>Filters are available under the &nbsp;<FontAwesomeIcon icon={ faPlus } />&nbsp; icon,
+                       but you can put them directly in the search bar too.</p>
                     <HelpExample
                         setValue={ setClose }
                         description="You can filter to your liquor cabinet"
@@ -68,12 +84,6 @@ export function SearchHelp({show, close, setValue}) {
                         description="Filter to a given list by name or ID"
                         examples={ ["list = favorites", "list = 1"] }
                     />
-                    <HelpExample
-                        setValue={ setClose }
-                        description="Adding the LIKE keyword will find cocktails similar to the ones matched by the search term"
-                        examples={ ["LIKE craigie on main", "LIKE list = favorites"] }
-                    />
-
                 </div>
             }
         />

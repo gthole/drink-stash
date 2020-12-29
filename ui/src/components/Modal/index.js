@@ -1,8 +1,8 @@
 import React from 'react';
 import './style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from 'components/Forms';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Button } from 'components/Forms';
 import { SectionTitle } from 'components/Structure';
 
 export function Modal({show, size, title, body, footer, close}) {
