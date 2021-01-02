@@ -154,7 +154,7 @@ class CustomUserAdmin(UserAdmin):
         'username',
         'first_name',
         'last_name',
-        'is_staff',
+        'is_active',
         'last_seen',
     )
 
@@ -162,6 +162,7 @@ class CustomUserAdmin(UserAdmin):
 
     def last_seen(self, obj):
         return obj.profile.last_seen
+    last_seen.admin_order_field = 'profile__last_seen'
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
