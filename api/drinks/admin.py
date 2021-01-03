@@ -1,4 +1,5 @@
-from django.db.models import Count
+from datetime import datetime, timedelta
+from django.db.models import Q
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -136,6 +137,8 @@ class ProfileInline(admin.StackedInline):
 
 
 class CustomUserAdmin(UserAdmin):
+    change_list_template = 'admin/user_change_list.html'
+
     form = NewUserChangeForm
     add_form = NewUserCreationForm
     add_fieldsets = ((None, {
@@ -159,6 +162,35 @@ class CustomUserAdmin(UserAdmin):
     )
 
     inlines = (ProfileInline, BookUserInline)
+
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(
+            request,
+            extra_context=extra_context,
+        )
+
+        two_weeks = datetime.now() - timedelta(days=14)
+        month = two_weeks - timedelta(days=14)
+        response.context_data['user_summary'] = {
+            'total': User.objects.filter().count(),
+            'active': User.objects.filter(
+                profile__last_seen__gt=two_weeks,
+                is_active=True,
+            ).count(),
+            'falling_off': User.objects.filter(
+                profile__last_seen__lte=two_weeks,
+                profile__last_seen__gt=month,
+                is_active=True,
+            ).count(),
+            'inactive': User.objects.filter(
+                Q(profile__last_seen__lte=month) |
+                Q(profile__last_seen__isnull=True),
+                is_active=True
+            ).count(),
+            'deactivated': User.objects.filter(is_active=False).count(),
+        }
+
+        return response
 
     def last_seen(self, obj):
         return obj.profile.last_seen

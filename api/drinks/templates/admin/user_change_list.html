@@ -1,0 +1,68 @@
+{% extends "admin/change_list.html" %}
+
+{% block search %}
+<style>
+    .user-summary {
+        margin-bottom: 30px;
+    }
+    .user-summary th,
+    .user-summary td {
+        text-align: center;
+    }
+    .user-summary td {
+        padding: 20px;
+        font-size: 24px;
+    }
+</style>
+<div class="results">
+    <h2>User Summary</h2>
+    <table class="user-summary">
+
+    <thead>
+      <tr>
+        <th>
+          <div class="text">
+            <a href="#">Total</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Active, Past Two Weeks</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Active, Past Month</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Not Active Recently</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Deactivated</a>
+          </div>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td> {{ user_summary.total }} </td>
+        <td> {{ user_summary.active }} </td>
+        <td> {{ user_summary.falling_off }} </td>
+        <td> {{ user_summary.inactive }} </td>
+        <td> {{ user_summary.deactivated }} </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<h2 class="results">Users</h2>
+{{ block.super }}
+{% endblock %}
+
+{% block pagination %}{% endblock %}
