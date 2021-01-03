@@ -1,5 +1,6 @@
-version: '3'
+version: '3.7'
 services:
     sut:
         build: '.'
         command: './manage.py test drinks'
+        init: true

@@ -28,11 +28,12 @@ from the base image, storing persistent data in a sqlite database in a
 mounted volume.  With docker-compose:
 
 ```yaml
-version: '3'
+version: '3.7'
 
 services:
     api:
         image: 'gthole/drink-stash:latest'
+        init: true
         restart: 'always'
         environment:
             SECRET_KEY=<yourlongsecretkey>

@@ -21,7 +21,7 @@ WORKDIR /tmp
 ADD ./api/reqs.pip /tmp
 ENV LIBRARY_PATH=/lib:/usr/lib
 
-RUN apk add --update --no-cache dumb-init build-base python-dev jpeg-dev zlib-dev && \
+RUN apk add --update --no-cache build-base python-dev jpeg-dev zlib-dev && \
     pip install -r reqs.pip && \
     apk del build-base python-dev && \
     rm -rf /var/cache/apk/*
@@ -32,4 +32,4 @@ COPY --from=0 /ui/build ./app-build
 
 RUN ./manage.py collectstatic --no-input
 
-CMD ["dumb-init", "sh", "./run.sh"]
+CMD ["sh", "./run.sh"]

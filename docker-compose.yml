@@ -1,9 +1,10 @@
-version: '3'
+version: '3.7'
 services:
     # API
     api:
         build: '.'
         command: 'python manage.py runserver 0.0.0.0:8000'
+        init: true
         volumes:
             - './api:/src'
             - './.data:/data'
@@ -17,6 +18,7 @@ services:
     ui:
         build: './ui'
         command: ['npm', 'start']
+        init: true
         stdin_open: true
         volumes:
             - './ui:/ui'
