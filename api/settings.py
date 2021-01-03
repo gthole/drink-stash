@@ -8,7 +8,6 @@ ALLOWED_HOSTS = ['drinks.local']
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -17,6 +16,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drinks',
+    'django.contrib.admin',
 ]
 
 REST_FRAMEWORK = {

@@ -1,0 +1,71 @@
+{% extends "admin/base_site.html" %}
+{% block extrahead %}
+    <style>
+        #header {
+            color: #fff;
+            background-color: #553c9a;
+        }
+        #header #site-name a:visited,
+        #header #site-name a {
+            color: #fff;
+        }
+        div.breadcrumbs {
+            background-color: #d1d1e9;
+            color: #2b2c34;
+        }
+        div.breadcrumbs a:visited,
+        div.breadcrumbs a:link,
+        div.breadcrumbs a {
+            color: #72757a;
+        }
+
+        .module h2, .module caption, .inline-group h2 {
+            background-color: #d1d1e9;
+            color: #2b2c34;
+        }
+        a.section:visited,
+        a.section:link,
+        a.section {
+            color: #2b2c34;
+        }
+        a:visited, a:link, a {
+            color: #553c9a;
+        }
+
+        .button.default,
+        input[type="submit"].default,
+        .submit-row input.default {
+            border: 1px solid #f8f8f8;
+            background-color: #553c9a;
+            color: #fff;
+        }
+
+        button,
+        input[type="submit"],
+        input[type="button"],
+        .submit-row input,
+        a.button {
+            background-color: #d1d1e9;
+            color: #2b2c34;
+        }
+
+        .button.default:hover,
+        input[type="submit"].default:hover,
+        .submit-row input.default:hover {
+            border: 1px solid #553c9a;
+            background-color: #d1d1e9;
+            color: #2b2c34;
+
+        }
+
+        button:hover,
+        input[type="submit"]:hover,
+        input[type="button"]:hover,
+        .submit-row input:hover,
+        a.button:hover {
+            background-color: #553c9a;
+            color: #fff;
+        }
+
+    </style>
+{% endblock %}
