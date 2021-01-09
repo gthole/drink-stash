@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button } from 'components/Forms';
+import { Input, Button, RadioButtons } from 'components/Forms';
 
 export function UserDetailEdit({user, update, save}) {
     return (
@@ -28,6 +28,17 @@ export function UserDetailEdit({user, update, save}) {
                     user.email = ev.target.value;
                     update(user);
                 }}
+            />
+            <RadioButtons
+                label="Display Mode"
+                name="display_mode"
+                value={ user.display_mode }
+                onChange={ (m) => update({...user, display_mode: m}) }
+                choices={[
+                    {display: 'Light', value: 'light'},
+                    {display: 'System Default', value: 'system'},
+                    {display: 'Dark', value: 'dark'},
+                ]}
             />
             <Button
                 type="primary"

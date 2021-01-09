@@ -18,6 +18,7 @@ class UserTestCase(BaseTestCase):
             {
                 'comment_count': 0,
                 'email': '',
+                'display_mode': 'system',
                 'image': None,
                 'recipe_count': 6,
                 'first_name': 'Dorothea',
@@ -60,6 +61,7 @@ class UserTestCase(BaseTestCase):
             {
                 'first_name': 'Dodo',
                 'id': 1,
+                'display_mode': 'light',
                 'last_name': 'Brooke',
                 'email': 'dodo@example.com',
                 'username': 'admin'
@@ -67,7 +69,9 @@ class UserTestCase(BaseTestCase):
             format='json'
         )
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(User.objects.get(pk=1).first_name, 'Dodo')
+        u = User.objects.get(pk=1)
+        self.assertEqual(u.first_name, 'Dodo')
+        self.assertEqual(u.profile.display_mode, 'light')
 
     def test_cannot_create_users(self):
         resp = self.client.post(
@@ -109,6 +113,7 @@ class UserTestCase(BaseTestCase):
             {
                 'first_name': 'Dorothea',
                 'id': 1,
+                'display_mode': 'light',
                 'ingredient_set': [],
                 'is_staff': False,
                 'last_name': 'Brooke',

@@ -52,6 +52,7 @@ class UserSerializer(ModelSerializer):
 
 class SelfUserSerializer(UserSerializer):
     email = EmailField()
+    display_mode = CharField(source='profile.display_mode', default='system')
 
     class Meta:
         model = User
@@ -66,7 +67,19 @@ class SelfUserSerializer(UserSerializer):
             'comment_count',
             'recipe_count',
             'image',
+            'display_mode',
         )
+
+    def update(self, user, validated_data):
+        user.profile.display_mode = validated_data['profile']['display_mode']
+        user.profile.save()
+
+        user.email = validated_data['email']
+        user.first_name = validated_data['first_name']
+        user.last_name = validated_data['last_name']
+        user.save()
+
+        return user
 
 
 class NestedUserSerializer(UserSerializer):

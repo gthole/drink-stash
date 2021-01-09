@@ -26,16 +26,25 @@ import { services } from 'services';
 
 function App() {
     const [user, setUser] = useState(services.auth.getUserData());
+    const [displayMode, setDisplayMode] = useState('system');
     const [alerts, setAlerts] = useState([]);
     const context = {
         currentUser: user,
-        refreshUser: () => { setUser({...services.auth.getUserData()}) },
+        updateMode: (mode) => setDisplayMode(mode),
+        refreshUser: () => setUser(services.auth.getUserData()),
         addAlert: (type, message) => {
             if (alerts.find(a => a.message === message)) return;
             alerts.push({type, message, ts: Date.now()});
             setAlerts([...alerts]);
         }
     };
+
+    useEffect(() => {
+        if (!user) return;
+        services.users
+            .getById(user.user_id)
+            .then((u) => setDisplayMode(u.display_mode));
+    }, [user]);
 
     // Pre-cache some data
     useEffect(() => {
@@ -69,8 +78,11 @@ function App() {
         </Switch>
     );
 
+    const mode = displayMode === 'light' ? 'light-mode' :
+                 displayMode === 'dark' ? 'dark-mode' : displayMode;
+
     return (
-        <div className="App">
+        <div className={ `App ${mode}` }>
             <AppContext.Provider value={context}>
                 <Router>
                     <ScrollMemory />

@@ -51,6 +51,23 @@ export function Select({label, subtext, error, choices, display, select, default
     );
 }
 
+export function RadioButtons({label, name, value, onChange, choices}) {
+    const buttons = choices.map((c, i) => (
+        <div className="radio-button-choice" key={ `rb-${i}` }>
+            <input
+                type="radio"
+                id={ c.value }
+                name={ name }
+                value={ c.value }
+                checked={ value === c.value }
+                onChange={ () => onChange(c.value) }
+            />
+            <label htmlFor={ c.value }>{ c.display }</label>
+        </div>
+    ));
+    return <FormWrapper label={ label } children={ buttons } />;
+}
+
 export function Button({ type, to, href, className, ...rest}) {
     const cn = 'Button button-' + type + (className ? ' ' + className : '')
     if (href) {

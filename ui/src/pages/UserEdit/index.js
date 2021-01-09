@@ -11,13 +11,14 @@ import { User } from 'services/users';
 import { services } from 'services';
 
 export function UserEdit() {
-    const { currentUser, addAlert } = useContext(AppContext);
+    const { currentUser, updateMode, addAlert } = useContext(AppContext);
     const { username } = useParams();
     const history = useHistory();
     const [user, setUser] = useState(null);
 
     useAlertedEffect(async () => {
         const u = await services.users.getById(username);
+        u.display_mode = currentUser.display_mode || u.display_mode || 'system';
         setUser(u);
     }, [username]);
 
@@ -33,7 +34,10 @@ export function UserEdit() {
         return <Redirect to="/" />
     }
 
-    const update = (u) => setUser(new User(u));
+    const update = (u) => {
+        updateMode(u.display_mode);
+        setUser(new User(u));
+    }
 
     return (
         <div className="UserEdit">

@@ -49,7 +49,7 @@ export function Menu({currentUser}) {
                         </Link>
                         <div className="profile-link">
                             <Link to={`/users/${ currentUser.username }/edit`}>
-                                Update your profile
+                                Edit your profile
                             </Link>
                             { badge }
                         </div>

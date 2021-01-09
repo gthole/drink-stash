@@ -127,6 +127,29 @@
 }
 
 /*
+ * Radio Button
+ */
+
+.FormWrapper .radio-button-choice label {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.FormWrapper .radio-button-choice input[type='radio'] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: 0 0 0 3px var(--theme-muted);
+}
+
+.FormWrapper .radio-button-choice input[type='radio']:checked {
+    box-shadow: 0 0 0 3px var(--theme-secondary);
+}
+
+/*
  * Button
  */
 

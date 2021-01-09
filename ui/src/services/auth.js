@@ -12,7 +12,7 @@ export class AuthService {
     }
 
     getToken() {
-        return localStorage.getItem('token');
+        return this.user || localStorage.getItem('token');
     }
 
     getUserData() {

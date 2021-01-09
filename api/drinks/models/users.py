@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from django.db.models import Model, ForeignKey, CASCADE, OneToOneField, \
-    ImageField, DateTimeField
+    ImageField, DateTimeField, CharField
 from .ingredients import Ingredient
 from .base import DateMixin
 from .books import Book, BookUser
@@ -32,6 +32,11 @@ class Profile(Model):
     user = OneToOneField(User, on_delete=CASCADE)
     image = ImageField(upload_to='profiles/', null=True, blank=True)
     last_seen = DateTimeField(null=True, blank=True)
+    display_mode = CharField(max_length=6, default='system', choices=(
+        ('dark', 'Dark'),
+        ('system', 'System'),
+        ('light', 'Light'),
+    ))
 
     @property
     def profile(self):
