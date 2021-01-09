@@ -130,12 +130,16 @@
  * Radio Button
  */
 
+.FormWrapper .radio-button-choice {
+}
+
 .FormWrapper .radio-button-choice label {
     font-size: 12px;
     margin-left: 5px;
 }
 
 .FormWrapper .radio-button-choice input[type='radio'] {
+    cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
     width: 10px;

@@ -6,6 +6,7 @@ export function UserDetailEdit({user, update, save}) {
         <div className="UserDetailEdit">
             <Input
                 label="First Name"
+                id="firstname"
                 value={ user.first_name }
                 onChange={ (ev) => {
                     user.first_name = ev.target.value;
@@ -14,6 +15,7 @@ export function UserDetailEdit({user, update, save}) {
             />
             <Input
                 label="Last Name"
+                id="lastname"
                 value={ user.last_name }
                 onChange={ (ev) => {
                     user.last_name = ev.target.value;
@@ -22,6 +24,7 @@ export function UserDetailEdit({user, update, save}) {
             />
             <Input
                 label="Email"
+                id="email"
                 type="email"
                 value={ user.email }
                 onChange={ (ev) => {

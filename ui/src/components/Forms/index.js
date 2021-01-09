@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { faSquare } from '@fortawesome/free-regular-svg-icons';
 
-export function FormWrapper({label, subtext, children, error}) {
+export function FormWrapper({label, id, subtext, children, error}) {
     return (
         <div className={ 'Forms FormWrapper' + (error ? ' form-error' : '') }>
-            { label ? <label htmlFor={''}>{ label }</label> : '' }
+            { label ? <label htmlFor={ id || '' }>{ label }</label> : '' }
             { children }
             { subtext ? <div className="subtext">{ subtext }</div> : '' }
             { Array.isArray(error) ? <div className="error-message">{ error[0] }</div> : '' }
@@ -16,29 +16,30 @@ export function FormWrapper({label, subtext, children, error}) {
     );
 }
 
-export function TextArea({label, subtext, error, expanded, ...rest}) {
+export function TextArea({label, id, subtext, error, expanded, ...rest}) {
     return (
-        <FormWrapper label={label} subtext={subtext} error={error}>
+        <FormWrapper label={label} id={id} subtext={subtext} error={error}>
             <textarea
                 className={'TextArea' + (expanded ? ' textarea-large' : '')}
+                id={ id }
                 {...rest}
             />
         </FormWrapper>
     );
 }
 
-export function Input({label, subtext, error, ...rest}) {
+export function Input({label, id, subtext, error, ...rest}) {
     return (
-        <FormWrapper label={label} subtext={subtext} error={ error }>
-            <input className="Input" {...rest}/>
+        <FormWrapper label={label} subtext={subtext} error={ error } id={ id }>
+            <input className="Input" id={ id } {...rest}/>
         </FormWrapper>
     );
 }
 
-export function Select({label, subtext, error, choices, display, select, defaultValue, value, ...rest}) {
+export function Select({label, id, subtext, error, choices, display, select, defaultValue, value, ...rest}) {
     return (
-        <FormWrapper label={label} subtext={subtext} error={ error }>
-            <select className="Select" value={ value } {...rest}>
+        <FormWrapper label={label} id={id} subtext={subtext} error={ error }>
+            <select className="Select" id={id} value={ value } {...rest}>
                 {
                     choices.map((c, i) => (
                         <option key={'opt-' + i} value={ select ? c[select] : c }>

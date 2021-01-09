@@ -169,6 +169,7 @@ export function RecipeEdit({location}) {
             <Card>
                 <Select
                     label="Book"
+                    id="book"
                     subtext="(Required) Which book does this recipe belong to?"
                     choices={ content.books }
                     display="name"
@@ -189,6 +190,7 @@ export function RecipeEdit({location}) {
                 <div className="input-row">
                     <Input
                         label="Source Notes"
+                        id="source"
                         subtext="Any additional source information?"
                         value={ content.recipe.source }
                         error={ errors.source }
@@ -196,6 +198,7 @@ export function RecipeEdit({location}) {
                     />
                     <Input
                         label="URL"
+                        id="url"
                         subtext="A URL to view the original recipe if available."
                         value={ content.recipe.url || '' }
                         error={ errors.url }
@@ -217,6 +220,7 @@ export function RecipeEdit({location}) {
                 />
                 <TextArea
                     label="Directions"
+                    id="directions"
                     subtext="Shaken or stirred? Glassware? Garnish?"
                     error={ errors.directions }
                     expanded={ true }
@@ -232,6 +236,7 @@ export function RecipeEdit({location}) {
                 </FormWrapper>
                 <TextArea
                     label="Description"
+                    id="description"
                     subtext="Tasting notes, cocktail type, whatever you want."
                     error={ errors.description }
                     expanded={ true }
