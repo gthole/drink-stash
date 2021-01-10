@@ -18,7 +18,6 @@ class UserTestCase(BaseTestCase):
             {
                 'comment_count': 0,
                 'email': '',
-                'display_mode': 'system',
                 'image': None,
                 'recipe_count': 6,
                 'first_name': 'Dorothea',
@@ -27,7 +26,10 @@ class UserTestCase(BaseTestCase):
                 'ingredient_set': [],
                 'is_staff': True,
                 'last_name': 'Brooke',
-                'username': 'admin'
+                'username': 'admin',
+                'profile': {
+                    'display_mode': 'system',
+                },
             }
         )
 
@@ -61,10 +63,12 @@ class UserTestCase(BaseTestCase):
             {
                 'first_name': 'Dodo',
                 'id': 1,
-                'display_mode': 'light',
                 'last_name': 'Brooke',
                 'email': 'dodo@example.com',
-                'username': 'admin'
+                'username': 'admin',
+                'profile': {
+                    'display_mode': 'light',
+                }
             },
             format='json'
         )
@@ -72,6 +76,24 @@ class UserTestCase(BaseTestCase):
         u = User.objects.get(pk=1)
         self.assertEqual(u.first_name, 'Dodo')
         self.assertEqual(u.profile.display_mode, 'light')
+
+    def test_update_self_brief(self):
+        resp = self.client.put(
+            '/api/v1/users/1/',
+            {
+                'first_name': 'Dodo',
+                'last_name': 'Casaubon',
+                'email': 'dodo@example.com',
+                'profile': {
+                    'display_mode': 'dark',
+                }
+            },
+            format='json'
+        )
+        self.assertEqual(resp.status_code, 200)
+        u = User.objects.get(pk=1)
+        self.assertEqual(u.last_name, 'Casaubon')
+        self.assertEqual(u.profile.display_mode, 'dark')
 
     def test_cannot_create_users(self):
         resp = self.client.post(
@@ -113,12 +135,14 @@ class UserTestCase(BaseTestCase):
             {
                 'first_name': 'Dorothea',
                 'id': 1,
-                'display_mode': 'light',
                 'ingredient_set': [],
                 'is_staff': False,
                 'last_name': 'Brooke',
                 'email': 'dodo@example.com',
-                'username': 'admin'
+                'username': 'admin',
+                'profile': {
+                    'display_mode': 'light',
+                }
             },
             format='json'
         )
@@ -135,7 +159,10 @@ class UserTestCase(BaseTestCase):
                 'is_staff': True,
                 'last_name': 'Lydgate',
                 'email': 'lydgate@example.com',
-                'username': 'user'
+                'username': 'user',
+                'profile': {
+                	'display_mode': 'dark',
+                }
             },
             format='json'
         )

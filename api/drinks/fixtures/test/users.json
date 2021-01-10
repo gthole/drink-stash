@@ -4,6 +4,7 @@
         "pk": 1,
         "fields": {
             "user_id": 1,
+            "display_mode": "system",
             "image": null
         }
     },

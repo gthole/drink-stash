@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, BaseSerializer, \
     SerializerMethodField, BooleanField, IntegerField, CharField, \
     ValidationError, Serializer, EmailField
-from drinks.models import UserIngredient
+from drinks.models import UserIngredient, Profile
 
 
 class UserIngredientSerializer(BaseSerializer):
@@ -50,9 +50,21 @@ class UserSerializer(ModelSerializer):
         )
 
 
+class ProfileSerializer(ModelSerializer):
+    display_mode = CharField(default='system')
+    show_welcome = BooleanField()
+
+    class Meta:
+        model = Profile
+        fields = (
+            'display_mode',
+            'show_welcome',
+        )
+
+
 class SelfUserSerializer(UserSerializer):
     email = EmailField()
-    display_mode = CharField(source='profile.display_mode', default='system')
+    profile = ProfileSerializer()
 
     class Meta:
         model = User
@@ -67,11 +79,12 @@ class SelfUserSerializer(UserSerializer):
             'comment_count',
             'recipe_count',
             'image',
-            'display_mode',
+            'profile',
         )
 
     def update(self, user, validated_data):
         user.profile.display_mode = validated_data['profile']['display_mode']
+        user.profile.show_welcome = validated_data['profile']['show_welcome']
         user.profile.save()
 
         user.email = validated_data['email']

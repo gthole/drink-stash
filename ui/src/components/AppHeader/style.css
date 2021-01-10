@@ -27,3 +27,7 @@
 .App .App-header .header-menu {
     cursor: pointer;
 }
+
+.App .App-header .WelcomeContent a {
+    text-decoration: underline;
+}

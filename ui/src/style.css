@@ -12,7 +12,7 @@ body {
     background-color: var(--content-background-panels);
     font-family: 'Roboto script=all rev=1', sans-serif;
     line-height: 1.25;
-    /*ensure bg color extends*/
+    /* ensure bg color extends to bottom of page */
     min-height: 100vh;
     padding-bottom: 5px;
 }

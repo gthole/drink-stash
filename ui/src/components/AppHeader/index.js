@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { AppContext } from 'context/AppContext';
 import { Menu } from 'components/AppHeader/Menu';
+import { WelcomeModal } from 'components/AppHeader/WelcomeModal';
 
 export function AppHeader() {
     const { currentUser, refreshUser } = useContext(AppContext);
@@ -21,6 +22,7 @@ export function AppHeader() {
             </div>
             <Link to="/" className="home-link">Drink Stash</Link>
             <Menu currentUser={ currentUser } refreshUser={ refreshUser }/>
+            <WelcomeModal />
         </header>
     );
 }

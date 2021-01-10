@@ -109,7 +109,7 @@ function CommentFilterOptions({tags, addFilter}) {
 }
 
 export function RecipeFilters({addFilter, expanded, setExpanded}) {
-    const [filterType, setFilterType] = useState('Book');
+    const [filterType, setFilterType] = useState('Cabinet');
     const [content, setContent] = useState(null);
     const nodeRef = useRef(null);
     const user_id = services.auth.getUserData().user_id;
@@ -162,7 +162,7 @@ export function RecipeFilters({addFilter, expanded, setExpanded}) {
             <div className="RecipeFilters" ref={ nodeRef }>
                 <Select
                     label={'Filter by'}
-                    choices={['Book', 'Cabinet', 'List', 'Tag', 'Comments']}
+                    choices={['Cabinet', 'Book', 'List', 'Tag', 'Comments']}
                     value={ filterType }
                     onChange={(ev) => setFilterType(ev.target.value)}
                 />

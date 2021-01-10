@@ -26,12 +26,13 @@ import { services } from 'services';
 
 function App() {
     const [user, setUser] = useState(services.auth.getUserData());
-    const [displayMode, setDisplayMode] = useState('system');
+    const [profile, setProfile] = useState({display_mode: 'system'});
     const [alerts, setAlerts] = useState([]);
     const context = {
         currentUser: user,
-        updateMode: (mode) => setDisplayMode(mode),
         refreshUser: () => setUser(services.auth.getUserData()),
+        profile: profile,
+        updateProfile: (p) => setProfile({...profile, ...p}),
         addAlert: (type, message) => {
             if (alerts.find(a => a.message === message)) return;
             alerts.push({type, message, ts: Date.now()});
@@ -43,7 +44,7 @@ function App() {
         if (!user) return;
         services.users
             .getById(user.user_id)
-            .then((u) => setDisplayMode(u.display_mode));
+            .then((u) => setProfile(u.profile));
     }, [user]);
 
     // Pre-cache some data
@@ -78,8 +79,8 @@ function App() {
         </Switch>
     );
 
-    const mode = displayMode === 'light' ? 'light-mode' :
-                 displayMode === 'dark' ? 'dark-mode' : displayMode;
+    const mode = profile?.display_mode === 'light' ? 'light-mode' :
+                 profile?.display_mode === 'dark' ? 'dark-mode' : 'system';
 
     return (
         <div className={ `App ${mode}` }>

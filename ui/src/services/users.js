@@ -12,7 +12,7 @@ class User {
         this.comment_count = payload.comment_count;
         this.recipe_count = payload.recipe_count;
         this.email = payload.email;
-        this.display_mode = payload.display_mode;
+        this.profile = payload.profile || {};
     }
 
     toPayload() {
@@ -21,7 +21,7 @@ class User {
             first_name: this.first_name,
             last_name: this.last_name,
             email: this.email,
-            display_mode: this.display_mode,
+            profile: this.profile,
         }
     }
 }
