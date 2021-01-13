@@ -7,7 +7,7 @@ import { faBars, faTimes, faCircle } from '@fortawesome/free-solid-svg-icons'
 import { useAlertedEffect } from 'hooks/useAlertedEffect';
 import { services } from 'services';
 
-export function Menu({currentUser}) {
+export function Menu({currentUser, showHelp}) {
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState(null);
     const admin = currentUser.is_staff ? <a className="bordered" href="/admin/">Site Admin</a> : '';
@@ -21,6 +21,11 @@ export function Menu({currentUser}) {
 
     function signout(ev) {
         services.auth.logout();
+    }
+
+    function clickShowHelp(ev) {
+        ev.preventDefault();
+        showHelp();
     }
 
     let badge;
@@ -61,6 +66,9 @@ export function Menu({currentUser}) {
                         </Link>
                         <Link to={`/users/${ currentUser.username }/cabinet`}>
                             Manage your liquor cabinet
+                        </Link>
+                        <Link onClick={ clickShowHelp }>
+                            Help
                         </Link>
                         { admin }
                         <a href="/" className="bordered" onClick={ signout }>

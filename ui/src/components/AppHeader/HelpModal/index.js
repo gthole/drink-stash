@@ -4,11 +4,12 @@ import { Modal } from 'components/Modal';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 
-export function WelcomeContent({ user }) {
+export function HelpContent({ user, welcome }) {
+    const lead = welcome ? <p>Thanks for joining Drink Stash!</p> : '';
 
     return (
-        <div className="WelcomeContent" style={{ padding: '0 20px' }}>
-            <p>Thanks for joining Drink Stash!</p>
+        <div className="HelpContent" style={{ padding: '0 20px' }}>
+            { lead }
             <p>Get started by <Link to={ `/users/${user.username}/edit` }>
                updating your profile</Link>and adding a profile picture.
             </p>
@@ -25,25 +26,33 @@ export function WelcomeContent({ user }) {
     );
 }
 
-export function WelcomeModal() {
+export function HelpModal({ show, setShowHelp }) {
     const { currentUser, profile, updateProfile } = useContext(AppContext);
 
-    if (!profile?.show_welcome) return '';
+    if (!show && !profile?.show_welcome) return '';
 
     async function close() {
         // Close the modal, update the context, and patch the user's profile
-        updateProfile({show_welcome: false});
-        const user = await services.users.getById(currentUser.user_id);
-        user.profile.show_welcome = false;
-        await services.users.update(user);
+        setShowHelp(false);
+        if (profile?.show_welcome) {
+            updateProfile({show_welcome: false});
+            const user = await services.users.getById(currentUser.user_id);
+            user.profile.show_welcome = false;
+            await services.users.update(user);
+        }
     }
 
     return (
         <Modal
-            show={ profile.show_welcome }
+            show={ true }
             close={ close }
-            title="Welcome to Drink Stash!"
-            body={ <WelcomeContent user={ currentUser } /> }
+            title={ profile?.show_welcome ? 'Welcome to Drink Stash!' : 'Drink Stash Help' }
+            body={
+                <HelpContent
+                    user={ currentUser }
+                    welcome={ profile?.show_welcome }
+                />
+            }
         />
     )
 }
