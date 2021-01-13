@@ -375,13 +375,26 @@ class RecipeTestCase(BaseTestCase):
         result = resp.json()['results'][0]
         self.assertEqual(result['name'], 'Toronto')
 
+    def test_comment_search(self):
+        """
+        Search by comment text
+        """
+        comment = Comment(user_id=2, recipe_id=2, text='Mediocre!')
+        comment.save()
+        resp = self.client.get(
+            '/api/v1/recipes/',
+            {'search': 'comment = mediocre'}
+        )
+        self.assertEqual(len(resp.json()['results']), 1)
+        self.assertEqual(resp.json()['results'][0]['id'], 2)
+
     def test_combined_filtering(self):
         """
         Combine search terms with an AND
         """
         resp = self.client.get(
             '/api/v1/recipes/',
-            {'search': 'rye AND directions = shake'}
+            {'search': 'ingredient = rye AND directions = shake'}
         )
         self.assertEqual(len(resp.json()['results']), 2)
         self.assertEqual(

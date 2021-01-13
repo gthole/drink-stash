@@ -52,8 +52,13 @@ export function SearchHelp({show, close, setValue}) {
                     />
                     <HelpExample
                         setValue={ setClose }
-                        description="You can filter by ingredient amounts too"
-                        examples={ ["lemon juice > 1/2 oz", "orgeat = 1/4 oz"] }
+                        description="Search by comment text"
+                        examples={ ["comment = variation"] }
+                    />
+                    <HelpExample
+                        setValue={ setClose }
+                        description="Filter by ingredient and amounts"
+                        examples={ ["ingredient = falernum", "lemon juice > 1/2 oz", "orgeat = 1/4 oz"] }
                     />
                     <SectionTitle children="Operators"/>
                     <HelpExample

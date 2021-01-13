@@ -44,6 +44,8 @@ grammar = Lark('''
         list_constraint | \
         book_constraint | \
         tags_constraint | \
+        comment_search | \
+        ingredient_search | \
         cabinet | \
         constraint | \
         search_term | \
@@ -55,6 +57,8 @@ grammar = Lark('''
     list_constraint.2: "list"i "=" SEARCH_TERM
     book_constraint.2: "book"i "=" SEARCH_TERM
     tags_constraint.2: ("tag"i | "tags"i) "=" SEARCH_TERM
+    comment_search.2: "comment"i "=" SEARCH_TERM
+    ingredient_search.2: "ingredient"i "=" SEARCH_TERM
     cabinet: "cabinet"i "=" ("true"i | "1") | "cabinet"i
     constraint: SEARCH_TERM OPERATOR NUMBER [UNIT]
     search_term: SEARCH_TERM
@@ -146,6 +150,13 @@ def parse_tree(tree, user):
 
     if tree.data == 'commenter_constraint':
         return Q(comments__user_id=int(data[0]))
+
+    if tree.data == 'comment_search':
+        return Q(comments__text__icontains=data[0])
+
+    if tree.data == 'ingredient_search':
+        rgx = '\\b%s\\b' % data[0]
+        return Q(quantity__ingredient__name__iregex=rgx)
 
     if tree.data == 'list_owner_constraint':
         return Q(userlist__user_id=int(data[0]))

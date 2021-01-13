@@ -29,6 +29,7 @@ class UserTestCase(BaseTestCase):
                 'username': 'admin',
                 'profile': {
                     'display_mode': 'system',
+                    'show_welcome': True,
                 },
             }
         )
@@ -68,6 +69,7 @@ class UserTestCase(BaseTestCase):
                 'username': 'admin',
                 'profile': {
                     'display_mode': 'light',
+                    'show_welcome': False,
                 }
             },
             format='json'
@@ -76,6 +78,7 @@ class UserTestCase(BaseTestCase):
         u = User.objects.get(pk=1)
         self.assertEqual(u.first_name, 'Dodo')
         self.assertEqual(u.profile.display_mode, 'light')
+        self.assertEqual(u.profile.show_welcome, False)
 
     def test_update_self_brief(self):
         resp = self.client.put(
@@ -86,6 +89,7 @@ class UserTestCase(BaseTestCase):
                 'email': 'dodo@example.com',
                 'profile': {
                     'display_mode': 'dark',
+                    'show_welcome': False,
                 }
             },
             format='json'
@@ -161,7 +165,8 @@ class UserTestCase(BaseTestCase):
                 'email': 'lydgate@example.com',
                 'username': 'user',
                 'profile': {
-                	'display_mode': 'dark',
+                    'display_mode': 'dark',
+                    'show_welcome': False,
                 }
             },
             format='json'
