@@ -11,14 +11,13 @@ import { User } from 'services/users';
 import { services } from 'services';
 
 export function UserEdit() {
-    const { currentUser, updateMode, addAlert } = useContext(AppContext);
+    const { currentUser, updateProfile, addAlert } = useContext(AppContext);
     const { username } = useParams();
     const history = useHistory();
     const [user, setUser] = useState(null);
 
     useAlertedEffect(async () => {
         const u = await services.users.getById(username);
-        u.display_mode = currentUser.display_mode || u.display_mode || 'system';
         setUser(u);
     }, [username]);
 
@@ -35,7 +34,10 @@ export function UserEdit() {
     }
 
     const update = (u) => {
-        updateMode(u.display_mode);
+        if (u.display_mode !== user.profile.display_mode) {
+            updateProfile({display_mode: u.display_mode});
+            u.profile.display_mode = u.display_mode;
+        }
         setUser(new User(u));
     }
 

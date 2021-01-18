@@ -5,6 +5,11 @@
     color: var(--theme-light);
 }
 
+.App header.simple {
+    justify-content: center;
+    padding-left: 14px;
+}
+
 .App .App-header {
     padding: 20px 20px;
     font-size: 1.5rem;
@@ -28,6 +33,11 @@
     cursor: pointer;
 }
 
-.App .App-header .WelcomeContent a {
+.App .App-header .HelpContent {
+    color: var(--text-primary);
+}
+
+.App .App-header .HelpContent a {
+    color: var(--links-color);
     text-decoration: underline;
 }

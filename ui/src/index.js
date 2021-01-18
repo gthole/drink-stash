@@ -4,7 +4,7 @@ import './style.css';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Alerts } from 'components/Alerts';
-import { AppHeader } from 'components/AppHeader';
+import { AppHeader, SimpleAppHeader } from 'components/AppHeader';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { ScrollMemory } from 'components/ScrollMemory';
 import { AppContext } from 'context/AppContext';
@@ -26,7 +26,7 @@ import { services } from 'services';
 
 function App() {
     const [user, setUser] = useState(services.auth.getUserData());
-    const [profile, setProfile] = useState({display_mode: 'system'});
+    const [profile, setProfile] = useState(null);
     const [alerts, setAlerts] = useState([]);
     const context = {
         currentUser: user,
@@ -56,6 +56,14 @@ function App() {
             services.uom.getPage(),
         ]);
     }, [user]);
+
+    if (user && !profile) {
+        return  (
+            <div className={ `App` }>
+                <SimpleAppHeader />
+            </div>
+        );
+    }
 
     const routes = (
         <Switch>

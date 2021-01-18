@@ -29,8 +29,6 @@ export function HelpContent({ user, welcome }) {
 export function HelpModal({ show, setShowHelp }) {
     const { currentUser, profile, updateProfile } = useContext(AppContext);
 
-    if (!show && !profile?.show_welcome) return '';
-
     async function close() {
         // Close the modal, update the context, and patch the user's profile
         setShowHelp(false);
@@ -44,7 +42,7 @@ export function HelpModal({ show, setShowHelp }) {
 
     return (
         <Modal
-            show={ true }
+            show={ show || profile.show_welcome }
             close={ close }
             title={ profile?.show_welcome ? 'Welcome to Drink Stash!' : 'Drink Stash Help' }
             body={

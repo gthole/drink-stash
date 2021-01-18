@@ -31,3 +31,11 @@ export function AppHeader() {
         </header>
     );
 }
+
+export function SimpleAppHeader() {
+    return (
+        <header className="App-header simple">
+            <a href="/" className="home-link">Drink Stash</a>
+        </header>
+    );
+}

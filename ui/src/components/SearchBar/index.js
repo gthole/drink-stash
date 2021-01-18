@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus, faQuestion } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'components/Forms';
+import { Button, ButtonRow } from 'components/Forms';
 import { Input } from 'components/Forms';
 import { RecipeFilters } from 'components/SearchBar/RecipeFilters';
 import { SearchHelp } from 'components/SearchBar/SearchHelp';
@@ -24,19 +24,23 @@ export function SearchBar({value, setValue, total, subtext}) {
 
     return (
         <div className="SearchBar">
-            <Button type="clear" className="filters" onClick={ () => setShowFilters(!showFilters) }>
-                <FontAwesomeIcon icon={ showFilters ? faMinus : faPlus }/>
-            </Button>
-            <Button type="clear" className="help" onClick={ () => setShowHelp(!showHelp) }>
-                <FontAwesomeIcon icon={ faQuestion }/>
-            </Button>
-            <Input
-                placeholder={placeholder}
-                value={value || inner}
-                onChange={(ev) => setInner(ev.target.value)}
-                onKeyDown={ keyDown }
-                subtext={ subtext }
-            />
+            <div className="search-bar">
+                <Input
+                    placeholder={placeholder}
+                    value={value || inner}
+                    onChange={(ev) => setInner(ev.target.value)}
+                    onKeyDown={ keyDown }
+                    subtext={ subtext }
+                />
+                <ButtonRow>
+                    <Button type="clear" className="filters" onClick={ () => setShowFilters(!showFilters) }>
+                        <FontAwesomeIcon icon={ showFilters ? faMinus : faPlus }/>
+                    </Button>
+                    <Button type="clear" className="help" onClick={ () => setShowHelp(!showHelp) }>
+                        <FontAwesomeIcon icon={ faQuestion }/>
+                    </Button>
+                </ButtonRow>
+            </div>
             <RecipeFilters
                 expanded={ showFilters }
                 setExpanded={ setShowFilters }

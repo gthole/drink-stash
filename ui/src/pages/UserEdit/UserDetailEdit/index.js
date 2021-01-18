@@ -35,7 +35,7 @@ export function UserDetailEdit({user, update, save}) {
             <RadioButtons
                 label="Display Mode"
                 name="display_mode"
-                value={ user.display_mode }
+                value={ user.profile?.display_mode || 'system' }
                 onChange={ (m) => update({...user, display_mode: m}) }
                 choices={[
                     {display: 'Light', value: 'light'},
