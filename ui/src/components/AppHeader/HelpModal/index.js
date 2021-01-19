@@ -4,11 +4,11 @@ import { Modal } from 'components/Modal';
 import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 
-export function HelpContent({ user, welcome }) {
+export function HelpContent({ user, welcome, onClick }) {
     const lead = welcome ? <p>Thanks for joining Drink Stash!</p> : '';
 
     return (
-        <div className="HelpContent" style={{ padding: '0 20px' }}>
+        <div className="HelpContent" style={{ padding: '0 20px' }} onClick={ onClick }>
             { lead }
             <p>Get started by <Link to={ `/users/${user.username}/edit` }>
                updating your profile</Link>and adding a profile picture.
@@ -17,7 +17,8 @@ export function HelpContent({ user, welcome }) {
                recipes to make is to put the bottles and ingredients you own
                into <Link to={ `/users/${user.username}/cabinet` }>
                your liqour cabinet</Link>and then search filter
-               with <code>cabinet = true</code>.
+               with <Link to={ `/recipes/?search=cabinet%3Dtrue` }>
+               <code>cabinet = true</code></Link>
             </p>
             <p>Please comment on the drinks you try and add your own recipes.
                It's more fun if you contribute. So – play, don't lurk!</p>
@@ -47,6 +48,7 @@ export function HelpModal({ show, setShowHelp }) {
             title={ profile?.show_welcome ? 'Welcome to Drink Stash!' : 'Drink Stash Help' }
             body={
                 <HelpContent
+                    onClick={ close }
                     user={ currentUser }
                     welcome={ profile?.show_welcome }
                 />

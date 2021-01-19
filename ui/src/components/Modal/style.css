@@ -37,6 +37,10 @@
 }
 
 .Modal .modal-header .SectionTitle {
+    font-size: 18px;
+}
+
+.Modal .modal-header .SectionTitle {
     margin-bottom: 0;
 }
 
