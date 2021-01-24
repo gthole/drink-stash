@@ -21,13 +21,11 @@
 }
 
 .RecipeCard .ul-count {
-    float: right;
     font-size: 1.5em;
     color: var(--theme-tertiary);
 }
 
 .RecipeCard .comment-count {
-    float: right;
     border-radius: 2em;
     font-size: 1em;
     margin-top: -5px;
