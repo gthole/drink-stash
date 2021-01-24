@@ -7,7 +7,7 @@ from rest_framework.exceptions import APIException
 from dateutil import parser as date_parser
 import json
 
-from drinks.models import Book, BookUser
+from drinks.models import Book, BookUser, Recipe
 
 
 class BookPermission(BasePermission):
@@ -60,7 +60,28 @@ class BookPermission(BasePermission):
 
 @ensure_csrf_cookie
 def index(request):
-    return render(request, 'index.html')
+    ctx = {
+        'title': 'Drink Stash',
+        'description': 'A cocktail recipe database for the in crowd'
+    }
+    if request.path.startswith('/recipes/'):
+        slug = request.GET.get('show')
+        if slug is None:
+            try:
+                slug = request.path.split('/')[2]
+            except IndexError:
+                pass
+        if slug:
+            try:
+                r = Recipe.objects.get(slug=slug)
+                ctx = {
+                    'title': 'Drink Stash: %s' % r.name,
+                    'description': ' • '.join([q.ingredient.name for q in r.quantity_set.iterator()])
+                }
+            except Recipe.DoesNotExist:
+                pass
+
+    return render(request, 'index.html', ctx)
 
 
 class NotModified(APIException):
