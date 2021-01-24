@@ -28,10 +28,13 @@
     border-left: 1px solid var(--separator-color);
 }
 
+.Menu .menu-inner .menu-link,
 .Menu .menu-inner a {
     padding: 10px 0;
+    cursor: pointer;
 }
 
+.Menu .menu-inner .menu-link:hover,
 .Menu .menu-inner a:hover {
     color: var(--theme-secondary);
 }

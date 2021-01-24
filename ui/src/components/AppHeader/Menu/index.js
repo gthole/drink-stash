@@ -67,9 +67,9 @@ export function Menu({currentUser, showHelp}) {
                         <Link to={`/users/${ currentUser.username }/cabinet`}>
                             Manage your liquor cabinet
                         </Link>
-                        <Link onClick={ clickShowHelp }>
+                        <div className="menu-link" onClick={ clickShowHelp }>
                             Help
-                        </Link>
+                        </div>
                         { admin }
                         <a href="/" className="bordered" onClick={ signout }>
                             Sign out
