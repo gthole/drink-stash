@@ -64,6 +64,9 @@ def index(request):
         'title': 'Drink Stash',
         'description': 'A cocktail recipe database for the in crowd'
     }
+
+    # If the request is a recipe link, we want to include some metadata so that
+    # preview link openers are able to display recipe-specific content
     if request.path.startswith('/recipes/'):
         slug = request.GET.get('show')
         if slug is None:
