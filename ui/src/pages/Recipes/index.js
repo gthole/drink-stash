@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { parseSearch, stringifySearch } from './search';
+import { stringify } from 'querystring';
+import { parseSearch, stringifySearch, cleanParams } from './search';
 import { useHistory } from 'react-router-dom';
 import { RecipeInfo } from 'components/RecipeInfo';
 import { SidePanelList } from 'components/Structure';
@@ -25,8 +26,7 @@ export function Recipes() {
         setLoading(true);
         history.replace(`/recipes/?${stringifySearch(params, slug)}`);
 
-        const qp = Object.assign({per_page: 50}, params);
-        qp.search = qp.search.map(s => s.split('[')[0]);
+        const qp = cleanParams(params);
         const newResp = await services.recipes.getPage(qp);
 
         setResp(newResp);
@@ -45,6 +45,17 @@ export function Recipes() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug, history]);
 
+    function updateRecipeList(updates) {
+        // Clear cache. NB: This might need to be more thorough
+        const qp = cleanParams(params);
+        sessionStorage.removeItem(`/api/v1/recipes/?${stringify(qp)}`);
+
+        const r = resp.results.find((r) => r.id === recipe.id);
+        if (!r) return;
+        Object.keys(updates).forEach(attr => r[attr] = updates[attr]);
+        setResp({...resp});
+    }
+
     return (
         <SidePanelList
             className="RecipeList"
@@ -61,7 +72,15 @@ export function Recipes() {
             right={
                 <RecipeInfo
                     recipe={ recipe }
-                    refresh={ () => setParams(Object.assign({}, params)) }
+                    addComment={ () => {
+                        updateRecipeList({
+                            comment_count: recipe.comment_count + 1,
+                            uc_count: 1
+                        });
+                    }}
+                    setUserList={ (ul_count) => {
+                        updateRecipeList({ul_count});
+                    }}
                 />
             }
         />

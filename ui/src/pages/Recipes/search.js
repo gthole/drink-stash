@@ -32,3 +32,9 @@ export function stringifySearch(params, slug) {
 
     return stringify(full).replace(/(^&)|(&$)/g, '');
 }
+
+export function cleanParams(params) {
+    const qp = {...params, per_page: 50};
+    qp.search = qp.search.map(s => s.split('[')[0]);
+    return qp;
+}

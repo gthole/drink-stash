@@ -632,6 +632,8 @@ class RecipeTestCase(BaseTestCase):
                 'directions': recipe.directions,
                 'description': recipe.description,
                 'tags': [],
+                'uc_count': 0,
+                'ul_count': 0,
                 'quantity_set': [
                     {
                         'amount': 1.0,

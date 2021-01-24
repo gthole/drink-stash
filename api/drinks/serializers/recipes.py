@@ -20,6 +20,8 @@ class RecipeListSerializer(ModelSerializer):
     Main GET LIST Serializer for Recipes without all the details
     """
     comment_count = IntegerField(read_only=True)
+    ul_count = IntegerField(read_only=True)
+    uc_count = IntegerField(read_only=True)
     ingredients = QuantityIngredientSerializer(
         source='quantity_set',
         many=True,
@@ -42,6 +44,8 @@ class RecipeListSerializer(ModelSerializer):
            'added_by',
            'ingredients',
            'comment_count',
+           'ul_count',
+           'uc_count',
            'tags',
        )
 

@@ -13,16 +13,17 @@ import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 import { Comment } from 'services/comments';
 
-export function RecipeInfo({recipe, refresh}) {
+export function RecipeInfo({recipe, addComment, setUserList}) {
     const { currentUser } = useContext(AppContext);
     const [content, setContent] = useState({});
     const [multiplier, setMultiplier] = useState(1);
+    const [reloadActivities, setReloadActivities] = useState(0);
 
     useAlertedEffect(async () => {
         if (!recipe) return;
         const [commentResp, listRecipeResp, listResp, bookResp] = await Promise.all([
-            services.comments.getPage({recipe: recipe.id}),
-            services.listRecipes.getPage({recipe: recipe.id}),
+            services.comments.getPage({recipe: recipe.id, user: currentUser.user_id }),
+            services.listRecipes.getPage({recipe: recipe.id, user: currentUser.user_id }),
             services.lists.getPage({user: currentUser.user_id}),
             services.books.getPage({owner: true})
         ]);
@@ -32,7 +33,6 @@ export function RecipeInfo({recipe, refresh}) {
             recipe_id: recipe.id,
             can_comment: !Boolean(c),
             can_edit: Boolean(b),
-            comments: commentResp.results,
             listRecipes: listRecipeResp.results,
             lists: listResp.results,
         });
@@ -43,11 +43,11 @@ export function RecipeInfo({recipe, refresh}) {
             recipe: {id: recipe.id},
             text: text
         });
-        const created = await services.comments.create(comment);
-        content.comments.push(created);
+        await services.comments.create(comment);
         content.can_comment = false;
         setContent({...content});
-        if (refresh) refresh();
+        if (addComment) addComment();
+        setReloadActivities(reloadActivities + 1);
     }
 
     if (!recipe) return '';
@@ -78,7 +78,10 @@ export function RecipeInfo({recipe, refresh}) {
                     recipe={ recipe }
                     listRecipes={ content.listRecipes }
                     lists={ content.lists }
-                    setContent={ (c) => setContent({...content, ...c}) }
+                    setContent={ (c) => {
+                        setContent({...content, ...c})
+                        if (setUserList) setUserList(c.listRecipes.length);
+                    }}
                 />
             </Card>
             <Card>
@@ -88,7 +91,7 @@ export function RecipeInfo({recipe, refresh}) {
                 />
                 <Activity
                     showTitle={ false }
-                    params={{ recipe: recipe.id }}
+                    params={{ recipe: recipe.id, r: reloadActivities }}
                 />
             </Card>
         </div>

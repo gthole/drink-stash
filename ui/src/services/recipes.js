@@ -10,6 +10,8 @@ export class RecipeStub {
         this.ingredients = payload.ingredients;
         this.added_by = payload.added_by;
         this.tags = payload.tags;
+        this.ul_count = payload.ul_count;
+        this.uc_count = payload.uc_count;
         this.created = payload.created;
     }
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { stringify } from 'querystring';
 import './style.css';
 import { RecipeActivity } from 'components/Activity/RecipeActivity';
 import { ListRecipeActivity } from 'components/Activity/ListRecipeActivity';
@@ -18,10 +19,14 @@ export function Activity({ params, showTitle, showPlaceholder }) {
         comment: CommentActivity,
     };
 
+    // Use a string to toggle the load calls to prevent duplicate calls just
+    // because the params object is new
+    const qp = stringify(params);
+
     useAlertedEffect(async () => {
         const resp = await services.activities.getPage({page, ...params});
         setActivities(resp.results);
-    }, [page, params]);
+    }, [page, qp]);
 
     if (!activities) return <Loading />;
 

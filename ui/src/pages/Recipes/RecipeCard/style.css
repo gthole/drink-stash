@@ -14,12 +14,30 @@
     margin-bottom: 5px;
 }
 
+.RecipeCard .badges {
+    float: right;
+    display: flex;
+    align-items: center;
+}
+
+.RecipeCard .ul-count {
+    float: right;
+    font-size: 1.5em;
+    color: var(--theme-tertiary);
+}
+
 .RecipeCard .comment-count {
     float: right;
     border-radius: 2em;
     font-size: 1em;
     margin-top: -5px;
     padding: 5px 10px;
+    margin-left: 10px;
+    border: 1px solid var(--theme-tertiary);
+    color: var(--theme-tertiary);
+}
+
+.RecipeCard .comment-count.uc {
     background-color: var(--theme-tertiary);
     color: var(--text-inverse);
 }

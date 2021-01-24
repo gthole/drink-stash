@@ -45,7 +45,11 @@ class RecipeViewSet(LazyViewSet):
 
         # Set up eager loading to avoid N+1 selects
         queryset = self.get_serializer_class().setup_eager_loading(queryset)
+
+        # Create various annotations
         queryset = queryset.annotate(comment_count=Count('comments', distinct=True))
+        queryset = queryset.annotate(ul_count=Count('userlistrecipe', filter=Q(userlistrecipe__user_list__user=self.request.user)))
+        queryset = queryset.annotate(uc_count=Count('comments', filter=Q(comments__user=self.request.user)))
         return queryset
 
     def get_serializer_class(self):
