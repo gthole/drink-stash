@@ -34,3 +34,27 @@ class BaseTestCase(TestCase):
         r = Recipe.objects.get(pk=recipe_id)
         r.book_id = book_id
         r.save()
+
+    def test_index(self):
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_recipes_index(self):
+        resp = self.client.get('/recipes/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_recipes_index_slug(self):
+        resp = self.client.get('/recipes/toronto')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_recipes_index_qp(self):
+        resp = self.client.get('/recipes/?show=toronto')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_recipes_index_qp_no_slash(self):
+        resp = self.client.get('/recipes?show=toronto')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_recipes_index_not_found(self):
+        resp = self.client.get('/recipes/?show=not-a-thing')
+        self.assertEqual(resp.status_code, 200)

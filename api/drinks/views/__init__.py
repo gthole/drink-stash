@@ -1,5 +1,5 @@
 from .activities import ActivityViewSet
-from .base import index
+from .base import index, recipe_index
 from .books import BookViewSet
 from .comments import CommentViewSet
 from .ingredients import IngredientViewSet

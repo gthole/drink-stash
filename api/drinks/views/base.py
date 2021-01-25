@@ -58,32 +58,34 @@ class BookPermission(BasePermission):
         return self.check_user_object(obj, request.user)
 
 
-@ensure_csrf_cookie
-def index(request):
-    ctx = {
-        'title': 'Drink Stash',
-        'description': 'A cocktail recipe database for the in crowd'
-    }
+DEFAULT_CONTEXT = {
+    'title': 'Drink Stash',
+    'description': 'A cocktail recipe database for the in crowd'
+}
 
-    # If the request is a recipe link, we want to include some metadata so that
-    # preview link openers are able to display recipe-specific content
-    if request.path.startswith('/recipes/'):
-        slug = request.GET.get('show')
-        if slug is None:
-            slug = request.path.split('/', 2)[2]
-        if slug:
-            try:
-                r = Recipe.objects.get(slug=slug)
-                ctx = {
-                    'title': 'Drink Stash: %s' % r.name,
-                    'description': ' • '.join([
-                        q.ingredient.name for q in r.quantity_set.iterator()
-                    ])
-                }
-            except Recipe.DoesNotExist:
-                pass
+
+@ensure_csrf_cookie
+def recipe_index(request, slug=None):
+    ctx = DEFAULT_CONTEXT
+    s = slug or request.GET.get('show')
+    if s:
+        try:
+            r = Recipe.objects.get(slug=s)
+            ctx = {
+                'title': 'Drink Stash: %s' % r.name,
+                'description': ' • '.join([
+                    q.ingredient.name for q in r.quantity_set.iterator()
+                ])
+            }
+        except Recipe.DoesNotExist:
+            pass
 
     return render(request, 'index.html', ctx)
+
+
+@ensure_csrf_cookie
+def index(request):
+    return render(request, 'index.html', DEFAULT_CONTEXT)
 
 
 class NotModified(APIException):

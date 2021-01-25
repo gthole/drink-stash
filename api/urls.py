@@ -8,7 +8,7 @@ from django.views.generic.base import RedirectView
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 
-from drinks.views import index, IngredientViewSet, RecipeViewSet, \
+from drinks.views import index, recipe_index, IngredientViewSet, RecipeViewSet, \
     UserViewSet, CommentViewSet, TagViewSet, UserListViewSet, \
     UserListRecipeViewSet, UomViewSet, BookViewSet, ActivityViewSet
 
@@ -43,6 +43,7 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
         url=settings.STATIC_URL + 'assets/apple-touch-icon.png',
         permanent=True
     )),
+    url(r'^recipes/?(?P<slug>[\w\\-]+)?', recipe_index),
     url(r'', index),  # React routing
     url(r'^$', index),  # React routing
 ]
