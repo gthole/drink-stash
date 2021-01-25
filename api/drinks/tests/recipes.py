@@ -50,6 +50,21 @@ class RecipeTestCase(BaseTestCase):
             }
         )
 
+    def test_fetch_recipes_counts(self):
+        """
+        Check that user list counts and user comment counts are sent when present
+        """
+        ul = UserList(name='My List', user_id=1)
+        ul.save()
+        UserListRecipe(recipe_id=6, user_list=ul).save()
+        Comment(user_id=1, recipe_id=6, text='Delicious!').save()
+
+        resp = self.client.get('/api/v1/recipes/', {'search': 'childcare'})
+        results = resp.json()['results']
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0]['uc_count'], 1)
+        self.assertEqual(results[0]['ul_count'], 1)
+
     def test_fetch_recipes_search(self):
         """
         Search finds a recipe by name

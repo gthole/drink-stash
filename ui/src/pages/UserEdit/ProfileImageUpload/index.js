@@ -5,7 +5,7 @@ import { AppContext } from 'context/AppContext';
 import { services } from 'services';
 
 export function ProfileImageUpload({ user, update, addAlert }) {
-    const { refreshUser } = useContext(AppContext);
+    const { updateProfile } = useContext(AppContext);
     const [disabled, setDisabled] = useState(false);
     const [editor, setEditor] = useState();
     const [scale, setScale] = useState('1');
@@ -30,7 +30,7 @@ export function ProfileImageUpload({ user, update, addAlert }) {
         const u = await services.users.getById(user.username);
         update(u);
         addAlert('success', 'Profile image saved!');
-        refreshUser();
+        updateProfile({image: u.image});
         setDisabled(false);
         setSelected(null);
     }

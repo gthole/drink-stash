@@ -22,16 +22,15 @@ export function RecipeInfo({recipe, addComment, setUserList}) {
     useAlertedEffect(async () => {
         if (!recipe) return;
         const [commentResp, listRecipeResp, listResp, bookResp] = await Promise.all([
-            services.comments.getPage({recipe: recipe.id, user: currentUser.user_id }),
-            services.listRecipes.getPage({recipe: recipe.id, user: currentUser.user_id }),
-            services.lists.getPage({user: currentUser.user_id}),
-            services.books.getPage({owner: true})
+            services.comments.getPage({recipe: recipe.id, user: currentUser.user_id}),
+            services.listRecipes.getPage({recipe: recipe.id, user: currentUser.user_id}),
+            services.lists.getPage({user: currentUser.user_id}), // Uses the cache
+            services.books.getPage({owner: true}), // Uses the cache
         ]);
-        const c = commentResp.results.find(c => c.user.id === currentUser.user_id);
         const b = bookResp.results.find(b => b.id === recipe.book.id);
         setContent({
             recipe_id: recipe.id,
-            can_comment: !Boolean(c),
+            can_comment: commentResp.count === 0,
             can_edit: Boolean(b),
             listRecipes: listRecipeResp.results,
             lists: listResp.results,

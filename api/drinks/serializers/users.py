@@ -53,12 +53,14 @@ class UserSerializer(ModelSerializer):
 class ProfileSerializer(ModelSerializer):
     display_mode = CharField(default='system')
     show_welcome = BooleanField()
+    image = CharField(read_only=True, default=None)
 
     class Meta:
         model = Profile
         fields = (
             'display_mode',
             'show_welcome',
+            'image',
         )
 
 

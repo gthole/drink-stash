@@ -40,22 +40,24 @@ function App() {
         }
     };
 
+    // Use the user id instead of the object to prevent duplicate requests
+    const user_id = user ? user.user_id : null;
     useEffect(() => {
-        if (!user) return;
+        if (!user_id) return;
         services.users
-            .getById(user.user_id)
+            .getById(user_id)
             .then((u) => setProfile(u.profile));
-    }, [user]);
+    }, [user_id]);
 
     // Pre-cache some data
     useEffect(() => {
-        if (!user) return;
+        if (!user_id) return;
         Promise.all([
             services.ingredients.getPage(),
             services.tags.getPage(),
             services.uom.getPage(),
         ]);
-    }, [user]);
+    }, [user_id]);
 
     if (user && !profile) {
         return  (

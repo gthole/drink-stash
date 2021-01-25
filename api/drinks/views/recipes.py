@@ -48,8 +48,16 @@ class RecipeViewSet(LazyViewSet):
 
         # Create various annotations
         queryset = queryset.annotate(comment_count=Count('comments', distinct=True))
-        queryset = queryset.annotate(ul_count=Count('userlistrecipe', filter=Q(userlistrecipe__user_list__user=self.request.user)))
-        queryset = queryset.annotate(uc_count=Count('comments', filter=Q(comments__user=self.request.user)))
+        queryset = queryset.annotate(ul_count=Count(
+            'userlistrecipe',
+            filter=Q(userlistrecipe__user_list__user=self.request.user),
+            distinct=True
+        ))
+        queryset = queryset.annotate(uc_count=Count(
+            'comments',
+            filter=Q(comments__user=self.request.user),
+            distinct=True
+        ))
         return queryset
 
     def get_serializer_class(self):
