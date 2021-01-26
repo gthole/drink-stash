@@ -29,6 +29,7 @@ class UserTestCase(BaseTestCase):
                 'username': 'admin',
                 'profile': {
                     'display_mode': 'system',
+                    'image': '',
                     'show_welcome': True,
                 },
             }
