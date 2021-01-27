@@ -4,20 +4,22 @@
 
 .QuantityRow {
     display: flex;
+    background-color: var(--content-background-panels);
 }
 
-.QuantityRow .amount {
-    width: 20%;
-    margin-right: 10px;
+.QuantityRow.dragging {
+    border: 1px solid var(--separator-color);
+    opacity: 0.5;
 }
 
+.QuantityRow .amount,
 .QuantityRow .unit {
     width: 20%;
     margin-right: 10px;
 }
 
 .QuantityRow .ingredient {
-    width: 60%;
+    flex-grow: 1;
     display: flex;
     justify-content: space-between;
 }
@@ -27,8 +29,24 @@
     margin-right: 10px;
 }
 
+.QuantityRow .reorder {
+    cursor: grab;
+    color: var(--text-secondary);
+    padding: 15px;
+    padding-left: 0;
+}
+
+/* Drag and drop HTML5 API doesn't work on mobile, so don't show it */
+@media (pointer:coarse) {
+    .QuantityRow .reorder {
+        display: none;
+    }
+}
+
 .QuantityRow .ingredient .remove-quantity {
     cursor: pointer;
     color: var(--text-secondary);
-    padding: 10px 5px;
+    margin-top: 10px;
+    padding: 5px;
+    padding-right: 0;
 }

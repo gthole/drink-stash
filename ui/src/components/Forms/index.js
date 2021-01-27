@@ -16,22 +16,23 @@ export function FormWrapper({label, id, subtext, children, error}) {
     );
 }
 
-export function TextArea({label, id, subtext, error, expanded, ...rest}) {
+export function TextArea({label, id, subtext, error, expanded, value, ...rest}) {
     return (
         <FormWrapper label={label} id={id} subtext={subtext} error={error}>
             <textarea
                 className={'TextArea' + (expanded ? ' textarea-large' : '')}
                 id={ id }
+                value={ value || '' }
                 {...rest}
             />
         </FormWrapper>
     );
 }
 
-export function Input({label, id, subtext, error, ...rest}) {
+export function Input({label, id, subtext, error, value, ...rest}) {
     return (
         <FormWrapper label={label} subtext={subtext} error={ error } id={ id }>
-            <input className="Input" id={ id } {...rest}/>
+            <input className="Input" id={ id } value={ value || '' } {...rest}/>
         </FormWrapper>
     );
 }

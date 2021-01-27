@@ -121,8 +121,7 @@
  * Select
  */
 
-.Select {
-    display: block;
+.Forms.FormWrapper .Select {
     width: 100%;
 }
 
