@@ -52,7 +52,7 @@ export function useAlertedEffect(func, deps) {
                 if (ph > window.innerHeight) {
                     services.cache.set(`ph_${window.location.pathname}`, `${ph}px`);
                 }
-            }, 200)
+            }, 500)
         });
 
     // eslint-disable-next-line
