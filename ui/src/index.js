@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import './themes.css';
 import './style.css';
 import ReactDOM from 'react-dom';
@@ -59,6 +59,11 @@ function App() {
         ]);
     }, [user_id]);
 
+    // Set the display mode class on the body element for backgrounds
+    const mode = profile?.display_mode === 'light' ? 'light-mode' :
+                 profile?.display_mode === 'dark' ? 'dark-mode' : 'system';
+    useLayoutEffect(() => { document.body.classList = [mode] }, [mode]);
+
     if (user && !profile) {
         return  (
             <div className={ `App` }>
@@ -89,11 +94,8 @@ function App() {
         </Switch>
     );
 
-    const mode = profile?.display_mode === 'light' ? 'light-mode' :
-                 profile?.display_mode === 'dark' ? 'dark-mode' : 'system';
-
     return (
-        <div className={ `App ${mode}` }>
+        <div className="App">
             <AppContext.Provider value={context}>
                 <Router>
                     <ScrollMemory />

@@ -7,18 +7,15 @@ body {
     outline: none;
 }
 
-.App {
-    color: var(--text-primary);
+body {
     background-color: var(--content-background-panels);
+    color: var(--text-primary);
     font-family: 'Roboto script=all rev=1', sans-serif;
     line-height: 1.25;
-    /* ensure bg color extends to bottom of page */
-    min-height: 100vh;
-    padding-bottom: 5px;
 }
 
 @media only screen and (min-width: 512px) {
-    .App {
+    body {
         background-color: var(--body-background);
     }
 }
