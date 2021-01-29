@@ -24,15 +24,14 @@ function QuantityRow({
     }
 
     return (
-        <div className={ 'QuantityRow' + (dragIndex === index ? ' dragging' : '') }
-             // TODO: Figure out how to prevent drag unless clicking on the reorder div
-             draggable="true"
-             onDragStart={ (ev) => setDragIndex(index) } // Set the dragged quantity index
-             onDragEnter={ () => reorder(index) } // Reorder the list when we hover
-             onDragEnd={ () => setDragIndex(null) } // Clear the dragged quantity index
-             onDragOver={ (ev) => ev.preventDefault()} // Prevent browser from animating the div back
-        >
-            <div className="reorder">
+        <div className={ 'QuantityRow' + (dragIndex === index ? ' dragging' : '') } id={ `quantity-${index}` }>
+            <div className="reorder"
+                 draggable="true"
+                 onDragStart={ (ev) => setDragIndex(index) } // Set the dragged quantity index
+                 onDragEnter={ () => reorder(index) } // Reorder the list when we hover
+                 onDragEnd={ () => setDragIndex(null) } // Clear the dragged quantity index
+                 onDragOver={ (ev) => ev.preventDefault()} // Prevent browser from animating the div back
+            >
                 <FontAwesomeIcon icon={ faGripVertical } />
             </div>
             <div className="amount">
