@@ -2,9 +2,6 @@
 
 {% block search %}
 <style>
-    .user-summary {
-        margin-bottom: 30px;
-    }
     .user-summary th,
     .user-summary td {
         text-align: center;
@@ -13,9 +10,13 @@
         padding: 20px;
         font-size: 24px;
     }
+    .user-summary-wrapper {
+        overflow-x: auto;
+        margin-bottom: 30px;
+    }
 </style>
-<div class="results">
-    <h2>User Summary</h2>
+<h2 class="results">User Summary</h2>
+<div class="results user-summary-wrapper">
     <table class="user-summary">
 
     <thead>
