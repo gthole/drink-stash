@@ -89,7 +89,8 @@ function CommentFilterOptions({tags, addFilter}) {
     const commentFilters = [
         {d: 'Commented on by Me', v: `Commenter = ${currentUser.user_id}`},
         {d: 'Not Commented by Me', v: `NOT Commenter = ${currentUser.user_id}`},
-        {d: 'No Comments Yet', v: 'Comments = 0'}
+        {d: 'Commented on by Anyone', v: 'Comments > 0'},
+        {d: 'No Comments Yet', v: 'Comments = 0'},
     ]
     const [value, setValue] = useState(commentFilters[0].v);
 
