@@ -180,7 +180,7 @@ class RecipeTestCase(BaseTestCase):
         comment.save()
         resp = self.client.get(
             '/api/v1/recipes/',
-            {'search': 'comments > 0'}
+            {'search': 'Comments > 0'}
         )
         self.assertEqual(len(resp.json()['results']), 1)
         self.assertEqual(resp.json()['results'][0]['id'], 2)

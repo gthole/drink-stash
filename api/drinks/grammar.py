@@ -143,7 +143,8 @@ def parse_tree(tree, user):
             Q(directions__iregex=rgx)
 
     if tree.data == 'attr_constraint':
-        [attr, op, amount] = data
+        [raw_attr, op, amount] = data
+        attr = {'comments': 'comment_count'}[raw_attr.lower()]
         kwargs = {}
         kwargs['%s__%s' % (attr, op)] = amount
         return Q(**kwargs)
