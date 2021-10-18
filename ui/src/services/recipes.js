@@ -56,7 +56,7 @@ export class Recipe extends RecipeStub {
                     [whole, num] = num.split(' ');
                 }
                 q.amount = parseInt(whole) + (parseInt(num, 10) / parseInt(den, 10));
-            } else if (!isNaN(parsed) && parsed > 0 && parsed < 100) {
+            } else if (!isNaN(parsed) && parsed > 0) {
                 q.amount = parsed
             } else {
                 throw new Error('Cannot parse amount: ' + q.amount);
