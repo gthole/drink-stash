@@ -46,7 +46,13 @@ function App() {
         if (!user_id) return;
         services.users
             .getById(user_id)
-            .then((u) => setProfile(u.profile));
+            .then((u) => setProfile(u.profile))
+            .catch((err) => {
+                // If the user token is somehow invalid, then log the user out
+                console.log(err);
+                services.auth.logout();
+                window.location.href = '' + window.location.href;
+            });
     }, [user_id]);
 
     // Pre-cache some data

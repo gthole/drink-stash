@@ -5,6 +5,7 @@ export const plurals = {
     pinch: 'pinches',
     spritz: 'spritzes',
     cup: 'cups',
+    g: 'g',
 }
 
 export function pluralize(unit: string): string {
