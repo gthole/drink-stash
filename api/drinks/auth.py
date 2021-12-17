@@ -16,7 +16,9 @@ class EmailBackend(ModelBackend):
         if username is None or password is None:
             return
         try:
-            user = UserModel._default_manager.get(Q(username=username) | Q(email=username))
+            user = UserModel._default_manager.get(
+                Q(username=username) | Q(email__iexact=username)
+            )
         except UserModel.DoesNotExist:
             # Run the default password hasher once to reduce the timing
             # difference between an existing and a nonexistent user (#20760).
