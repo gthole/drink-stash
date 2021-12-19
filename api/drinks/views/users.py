@@ -26,6 +26,8 @@ class UserPermission(BasePermission):
 
 
 class UserViewSet(ModelViewSet):
+    # Some users have "." in their usernames
+    lookup_value_regex = '[\w.]+'
     http_method_names = ['get', 'put', 'head']
     permission_classes = (IsAuthenticated, UserPermission)
     queryset = User.objects.all().order_by('id')

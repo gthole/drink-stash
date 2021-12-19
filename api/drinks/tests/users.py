@@ -59,6 +59,11 @@ class UserTestCase(BaseTestCase):
         resp = self.client.get('/api/v1/users/admin/')
         self.assertEqual(resp.status_code, 200)
 
+    def test_get_user_by_username_with_dot(self):
+        u = User.objects.create(username='foo.bar')
+        resp = self.client.get('/api/v1/users/foo.bar/')
+        self.assertEqual(resp.status_code, 200)
+
     def test_update_self(self):
         resp = self.client.put(
             '/api/v1/users/1/',
