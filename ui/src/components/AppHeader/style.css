@@ -41,3 +41,26 @@
     color: var(--links-color);
     text-decoration: underline;
 }
+
+/*
+ * On progressive web apps, use a sticky header
+ * https://gist.github.com/sconstantinides/221a9ae6bf8a1d2bc02f1e5d5d5ddf61
+ */
+@media only screen and (max-width: 512px) and (display-mode: fullscreen) {
+    .App .App-header {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 289;
+    }
+
+    /* Extra padding for iOS devices to show the status bar */
+    @supports (-webkit-overflow-scrolling: touch) {
+        .App .App-header {
+            padding-top: 28px;
+        }
+    }
+}

@@ -7,3 +7,5 @@ __pycache__
 *.pyc
 ui/node_modules
 .public/
+manage.sh
+

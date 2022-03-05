@@ -4,19 +4,28 @@
   "name": "A cocktail recipe database for the in crowd",
   "icons": [
     {
-      "src": "/static/img/favicon-96.png",
+      "src": "/static/img/maskable-icon-192.png",
       "type": "image/png",
-      "sizes": "96x96"
+      "sizes": "192x192",
+      "purpose": "any"
     },
     {
-      "src": "/static/img/icon-192.png",
+      "src": "/static/img/maskable-icon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "maskable"
     },
     {
-      "src": "/static/img/icon-512.png",
+      "src": "/static/img/maskable-icon-384.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "384x384",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/img/maskable-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "display": "fullscreen",
