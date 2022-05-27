@@ -7,3 +7,6 @@ You have to rename icons or clear your safari cache to get them to show up
 unless you change the caching strategy on static assets.
 
 Primary icon comes from [here](https://www.flaticon.com/free-icon/sazerac_3105336)
+
+Use the `application > manifest.json` tab in Chrome devtools to help confirm
+and debug your configurations there.

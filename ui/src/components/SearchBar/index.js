@@ -15,6 +15,7 @@ export function SearchBar({value, setValue, total, subtext}) {
     function keyDown(ev) {
         const key = ev.keyCode || ev.which;
         if (key === 13) {
+            ev.preventDefault();
             setValue(inner);
             setInner('');
         }
@@ -22,25 +23,33 @@ export function SearchBar({value, setValue, total, subtext}) {
 
     const placeholder = total ? `Search ${total} recipes` : '';
 
+    // Use "form" element here to ensure iOS shows the "search" button on the keyboard
     return (
         <div className="SearchBar">
-            <div className="search-bar">
+            <form action="." className="search-bar">
                 <Input
+                    type="search"
                     placeholder={placeholder}
                     value={value || inner}
-                    onChange={(ev) => setInner(ev.target.value)}
+                    onChange={ (ev) => setInner(ev.target.value) }
                     onKeyDown={ keyDown }
                     subtext={ subtext }
                 />
                 <ButtonRow>
-                    <Button type="clear" className="filters" onClick={ () => setShowFilters(!showFilters) }>
+                    <Button type="clear" className="filters" onClick={ (ev) => {
+                            ev.preventDefault();
+                            setShowFilters(!showFilters)
+                        }}>
                         <FontAwesomeIcon icon={ showFilters ? faMinus : faPlus }/>
                     </Button>
-                    <Button type="clear" className="help" onClick={ () => setShowHelp(!showHelp) }>
+                    <Button type="clear" className="help" onClick={ (ev) => {
+                            ev.preventDefault();
+                            setShowHelp(!showHelp);
+                        }}>
                         <FontAwesomeIcon icon={ faQuestion }/>
                     </Button>
                 </ButtonRow>
-            </div>
+            </form>
             <RecipeFilters
                 expanded={ showFilters }
                 setExpanded={ setShowFilters }
