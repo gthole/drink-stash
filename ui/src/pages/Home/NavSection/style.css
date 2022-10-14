@@ -20,3 +20,9 @@
     color: var(--text-secondary);
     font-size: 0.875rem;
 }
+
+@media only screen and (min-width: 512px) {
+    .NavSection:first-child {
+        margin-top: 10px;
+    }
+}
