@@ -19,11 +19,7 @@ export function CardRow({ recipe, list, user }) {
                 }
             </div>
             <div className="activity-ingredients">
-                {
-                    recipe.ingredients.map((i, k) => (
-                        <span key={'ai-' + k}>{ i }</span>
-                    ))
-                }
+                { recipe.ingredients.join('  ●  ') }
             </div>
         </div>
     );
