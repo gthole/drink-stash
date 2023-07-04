@@ -1,6 +1,9 @@
 # Notes
 [Maskable Editor](https://maskable.app/editor) is super helpful.
 
+[Progressier](https://progressier.com/pwa-icons-and-ios-splash-screen-generator) for
+the splash screen generation.
+
 Change manifest.json and index.html with any name changes.
 
 You have to rename icons or clear your safari cache to get them to show up
