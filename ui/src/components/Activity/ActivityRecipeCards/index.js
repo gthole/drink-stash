@@ -19,7 +19,7 @@ export function CardRow({ recipe, list, user }) {
                 }
             </div>
             <div className="activity-ingredients">
-                { recipe.ingredients.join('  ●  ') }
+                { recipe.ingredients.join('  •  ') }
             </div>
         </div>
     );
